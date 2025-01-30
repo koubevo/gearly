@@ -5,18 +5,23 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
-        Schema::create('filters', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('filter_category_id')->constrained('filter_categories')->onDelete('cascade');
-            $table->string('name');
+        Schema::create('languages', function (Blueprint $table) {
+            $table->string('en')->primary();
+            $table->string('cz');
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists('filters');
+        Schema::dropIfExists('translations');
     }
 };
