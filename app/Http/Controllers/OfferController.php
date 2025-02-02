@@ -25,7 +25,7 @@ class OfferController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('Offer/Create');
     }
 
     /**
