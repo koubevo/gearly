@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Offer;
 use Illuminate\Http\Request;
 
 class OfferController extends Controller
@@ -11,7 +12,12 @@ class OfferController extends Controller
      */
     public function index()
     {
-        //
+        return inertia(
+            'Offer/Index',
+            [
+                'offers' => Offer::all()
+            ]
+        );
     }
 
     /**
@@ -33,9 +39,14 @@ class OfferController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Offer $offer)
     {
-        //
+        return inertia(
+            'Offer/Show',
+            [
+                'offer' => Offer::find($offer)
+            ]
+        );
     }
 
     /**
