@@ -44,7 +44,7 @@ class OfferController extends Controller
         return inertia(
             'Offer/Show',
             [
-                'offer' => Offer::find($offer)
+                'offer' => $offer
             ]
         );
     }
