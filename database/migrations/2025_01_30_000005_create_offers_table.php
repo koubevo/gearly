@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->decimal('price', 10, 2);
             $table->text('currency');
             $table->string('condition');
+            $table->integer('sport');
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->foreignId('brand_id')->constrained('brands')->onDelete('cascade');
             $table->timestamps();
