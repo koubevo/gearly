@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             FilterCategorySeeder::class,
             FilterSeeder::class,
-            FilterFcMappingSeeder::class
+            FilterFcMappingSeeder::class,
+            OfferSeeder::class
         ]);
     }
 }
