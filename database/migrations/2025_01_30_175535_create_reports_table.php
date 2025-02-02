@@ -9,7 +9,6 @@ return new class extends Migration {
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->integer('type');
             $table->integer('id_user');
             $table->integer('id_source');
             $table->string('message');
