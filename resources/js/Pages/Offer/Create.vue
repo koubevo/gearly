@@ -42,12 +42,12 @@
             </label>
         </div>
 
-        <select name="category" v-model="form.category">
+        <select name="category" v-model="form.category_id">
             <option value="1">Bats</option>
             <option value="2">Gloves</option>
         </select>
 
-        <select name="brand" v-model="form.brand">
+        <select name="brand" v-model="form.brand_id">
             <option value="1">Nike</option>
             <option value="2">Rawlings</option>
         </select>
@@ -67,9 +67,10 @@ const form = useForm({
     currency: "CZK",
     condition: "new",
     sport: "",
-    category: "",
-    brand: "",
+    category_id: null,
+    brand_id: null,
+    user_id: 1
 });
 
-const create = () => form.post('listing/');
+const create = () => form.post('/offer');
 </script>
