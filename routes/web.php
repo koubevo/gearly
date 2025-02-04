@@ -15,8 +15,7 @@ Route::get('/', function () {
     ]);
 });
 
-Route::resource('offer', OfferController::class)
-    ->only(['index', 'show', 'create', 'store']);
+Route::resource('offer', OfferController::class);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="create">
+    <form @submit.prevent="update">
         <input type="text" placeholder="Name" name="name" v-model="form.name" />
         <div v-if="form.errors.name">{{ form.errors.name }}</div>
         <!-- TODO: pridat datove typy v-model.number atd -->
@@ -61,25 +61,29 @@
         </select>
         <div v-if="form.errors.brand_id">{{ form.errors.brand_id }}</div>
         <input type="hidden" name="user_id" value="1">
-        <input type="submit" value="Add offer" />
+        <input type="submit" value="Edit offer" />
     </form>
 </template>
 
 <script setup>
 import { useForm } from '@inertiajs/vue3' 
 
+const props = defineProps({
+    offer: Object,
+})
+
 const form = useForm({
-    name: "",
-    phone: "",
-    description: "",
-    price: null,
-    currency: "CZK",
-    condition: "new",
-    sport: "",
-    category_id: null,
-    brand_id: null,
-    user_id: 1
+    name: props.offer.name,
+    phone: props.offer.phone,
+    description: props.offer.description,
+    price: props.offer.price,
+    currency: props.offer.currency,
+    condition: props.offer.condition,
+    sport: props.offer.sport,
+    category_id: props.offer.category_id,
+    brand_id: props.offer.brand_id,
+    user_id: 1 //TODO: edit user id & add more columns
 });
 
-const create = () => form.post('/offer');
+const update = () => form.put(`/offer/${props.offer.id}`);
 </script>

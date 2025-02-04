@@ -30,6 +30,7 @@ class OfferController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * @param Request $request
      */
     public function store(Request $request)
     {
@@ -38,11 +39,12 @@ class OfferController extends Controller
             'phone' => 'required|boolean',
             'description' => 'required|string',
             'price' => 'required|integer|min:0',
-            'currency' => 'required|integer|in:0,1', //only 2 currencies now
+            'currency' => 'required|string|in:eur,czk', //only 2 currencies now
             'condition' => 'required|in:new,used|lowercase', //TODO: add more conditions
             'sport' => 'required|integer|in:1,2,3',
             'category_id' => 'required|integer|min:1',
             'brand_id' => 'required|integer|min:1',
+            'user_id' => 'required|integer'
         ]));
 
         return redirect()->route('offer.index')
@@ -51,6 +53,7 @@ class OfferController extends Controller
 
     /**
      * Display the specified resource.
+     * @param Offer $offer
      */
     public function show(Offer $offer)
     {
@@ -64,18 +67,39 @@ class OfferController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     * @param Offer $offer
      */
-    public function edit(string $id)
+    public function edit(Offer $offer)
     {
-        //
+        return inertia(
+            'Offer/Edit',
+            [
+                'offer' => $offer
+            ]
+        );
     }
 
     /**
      * Update the specified resource in storage.
+     * @param Request $request
+     * @param Offer $offer
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Offer $offer)
     {
-        //
+        $offer->update($request->validate([
+            'name' => 'required|string',
+            'phone' => 'required|boolean',
+            'description' => 'required|string',
+            'price' => 'required|integer|min:0',
+            'currency' => 'required|string|in:eur,czk', //only 2 currencies now
+            'condition' => 'required|in:new,used|lowercase', //TODO: add more conditions
+            'sport' => 'required|integer|in:1,2,3',
+            'category_id' => 'required|integer|min:1',
+            'brand_id' => 'required|integer|min:1',
+        ]));
+
+        return redirect()->route('offer.index')
+            ->with('success', 'Offer was updated.');
     }
 
     /**
