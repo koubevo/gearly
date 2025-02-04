@@ -33,7 +33,17 @@ class OfferController extends Controller
      */
     public function store(Request $request)
     {
-        Offer::create($request->all());
+        Offer::create($request->validate([
+            'name' => 'required|string',
+            'phone' => 'required|boolean',
+            'description' => 'required|string',
+            'price' => 'required|integer|min:0',
+            'currency' => 'required|integer|in:0,1', //only 2 currencies now
+            'condition' => 'required|in:new,used|lowercase', //TODO: add more conditions
+            'sport' => 'required|integer|in:1,2,3',
+            'category_id' => 'required|integer|min:1',
+            'brand_id' => 'required|integer|min:1',
+        ]));
 
         return redirect()->route('offer.index')
             ->with('success', 'Offer was created.');
