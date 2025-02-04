@@ -104,9 +104,13 @@ class OfferController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * @param Offer $offer
      */
-    public function destroy(string $id)
+    public function destroy(Offer $offer)
     {
-        //
+        $offer->delete();
+
+        return redirect()->back()
+            ->with('success', 'Offer was removed.');
     }
 }
