@@ -85,5 +85,5 @@ const form = useForm({
     user_id: 1 //TODO: edit user id & add more columns
 });
 
-const update = () => form.put(`/offer/${props.offer.id}`);
+const update = () => form.put(route('offer.update', {offer: props.offer.id}));
 </script>

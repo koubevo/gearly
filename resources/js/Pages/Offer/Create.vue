@@ -81,5 +81,5 @@ const form = useForm({
     user_id: 1
 });
 
-const create = () => form.post('/offer');
+const create = () => form.post(route('offer.store'));
 </script>

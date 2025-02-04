@@ -1,8 +1,8 @@
 <template>
     <div v-for="offer in offers" :key="offer.id">
-        <Link :href="`/offer/${offer.id}`">{{ offer.name }}</Link>
+        <Link :href="route('offer.show', {offer: offer.id})">{{ offer.name }}</Link>
         <span style="color: red;">
-            <Link :href="`/offer/${offer.id}`" method="DELETE" as="button">Delete</Link>
+            <Link :href="route('offer.destroy', {offer: offer.id})" method="DELETE" as="button">Delete</Link>
         </span>
     </div>
 </template>
