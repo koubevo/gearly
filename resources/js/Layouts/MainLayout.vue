@@ -31,10 +31,13 @@
         </div>
     </header>
 
-    <div v-if="flashSuccess" class="message-success">
-        {{ flashSuccess }}
-    </div>
-    <slot></slot>
+    <main class="container mx-auto">
+        <!-- TODO: Component and better styling -->
+        <div v-if="flashSuccess" class="mb-4 shadow-sm border-s-primary-900 border-4 border-e-0 border-y-0 p-2 bg-primary-500">
+            {{ flashSuccess }}
+        </div>
+        <slot></slot>
+    </main>   
 </template>
 
 <script setup>
