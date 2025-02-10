@@ -3,8 +3,9 @@
         <div class="bg-white p-2 shadow-gray-300 shadow-lg">
             <div class="relative">
                 <span class="absolute top-1 right-1 py-1 flex align-middle gap-2">
-                    <!-- TODO: bg depending on condition -->
-                    <span class="bg-primary-900 h-full uppercase font-medium inline-block px-2">{{ offer.condition }}</span>
+                    <span :class="['h-full uppercase font-medium inline-block px-2', conditionClass]">
+                      {{ offer.condition }}
+                    </span>
                     <!-- TODO: adding to wishlist, background -->
                     <button><HeartIcon class="w-5 h-5 mt-0.5" /></button>
                 </span>
@@ -29,8 +30,19 @@ const props = defineProps({
 });
 
 const price = computed(() => {
-    if (!props.offer || props.offer.price == null) return "0"; // Ochrana proti undefined/null
-    const numericPrice = Number(props.offer.price); // Převod na číslo
+    if (!props.offer || props.offer.price == null) return "0";
+    const numericPrice = Number(props.offer.price);
     return numericPrice % 1 === 0 ? numericPrice.toFixed(0) : numericPrice.toFixed(2);
+});
+
+const conditionClass = computed(() => {
+  switch (props.offer.condition) {
+    case 'new':
+      return 'bg-primary-900 text-white';
+    case 'used':
+      return 'bg-yellow-500 text-black';
+    case 'damaged':
+      return 'bg-red-500 text-white';
+  }
 });
 </script>
