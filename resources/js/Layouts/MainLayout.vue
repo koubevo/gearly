@@ -31,7 +31,7 @@
         </div>
     </header>
 
-    <main class="container mx-auto">
+    <main class="container mx-auto max-md:px-2">
         <!-- TODO: Component and better styling -->
         <div v-if="flashSuccess" class="mb-4 shadow-sm border-s-primary-900 border-4 border-e-0 border-y-0 p-2 bg-primary-500">
             {{ flashSuccess }}
