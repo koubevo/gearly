@@ -3,9 +3,7 @@
         <div class="bg-white p-2 shadow-gray-300 shadow-lg">
             <div class="relative">
                 <span class="absolute top-1 right-1 py-1 flex align-middle gap-2">
-                    <span :class="['h-full uppercase font-medium inline-block px-2', conditionClass]">
-                      {{ offer.condition }}
-                    </span>
+                    <Condition :condition="offer.condition"/>
                     <!-- TODO: adding to wishlist, background -->
                     <button><HeartIcon class="w-5 h-5 mt-0.5" /></button>
                 </span>
@@ -15,34 +13,20 @@
             <!-- TODO: brand -->
             <p class="text-xs text-gray-700">{{ offer.brand }}</p>
             <h3 class="font-medium mb-2">{{ offer.name }}</h3>
-            <p class="font-black uppercase">{{ price }} {{ offer.currency }}</p>
+            <Price :price="offer.price" :currency="offer.currency"/>
         </div>
     </Link>
 </template>
 
 <script setup>
-import { computed } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import { HeartIcon } from '@heroicons/vue/24/outline'
+import Price from './Price.vue';
+import Condition from './Condition.vue';
 
 const props = defineProps({
   offer: Object
 });
 
-const price = computed(() => {
-    if (!props.offer || props.offer.price == null) return "0";
-    const numericPrice = Number(props.offer.price);
-    return numericPrice % 1 === 0 ? numericPrice.toFixed(0) : numericPrice.toFixed(2);
-});
 
-const conditionClass = computed(() => {
-  switch (props.offer.condition) {
-    case 'new':
-      return 'bg-primary-900 text-white';
-    case 'used':
-      return 'bg-yellow-500 text-black';
-    case 'damaged':
-      return 'bg-red-500 text-white';
-  }
-});
 </script>
