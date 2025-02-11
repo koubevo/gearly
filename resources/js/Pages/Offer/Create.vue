@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="create">
         <!-- TODO: pridat datove typy v-model.number atd -->
-        <!-- TODO: move to components -->
+        <!-- TODO: move to component for edit form -->
         <div class="md:w-2/4 mx-auto">
             <Heading1 :text="'Add new offer'" class="mb-6 mt-6"/>
             <!-- TODO: photos -->
