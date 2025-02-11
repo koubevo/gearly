@@ -7,19 +7,19 @@
             <!-- TODO: photos -->
             <div class="grid grid-cols-12 gap-4">
                 <div class="col-span-12">
-                    <input type="text" placeholder="Name" name="name" v-model="form.name" class="bg-white border-b-2 border-black focus:outline-none px-4 py-2 focus:border-b-4 w-full focus:ring-0  focus:border-black" />
+                    <input type="text" placeholder="Name" name="name" v-model="form.name" class="input-style" />
                     <div v-if="form.errors.name">{{ form.errors.name }}</div>
                 </div>
                 <div class="col-span-12">
-                    <textarea placeholder="Description" name="description" v-model="form.description" class="bg-white border-b-2 border-black outline-none px-4 py-2 focus:border-b-4 w-full focus:ring-0 focus:border-black"></textarea>
+                    <textarea placeholder="Description" name="description" v-model="form.description" class="input-style"></textarea>
                     <div v-if="form.errors.description">{{ form.errors.description }}</div>
                 </div>
                 <div class="col-span-7 md:col-span-9">
-                    <input type="number" placeholder="Price" v-model="form.price" name="price" class="bg-white border-b-2 border-black outline-none px-4 py-2 focus:border-b-4 w-full focus:ring-0 focus:border-black"/>
+                    <input type="number" placeholder="Price" v-model="form.price" name="price" class="input-style"/>
                     <div v-if="form.errors.price">{{ form.errors.price }}</div>
                 </div>
                 <div class="col-span-5 md:col-span-3">
-                    <select name="currency" v-model="form.currency" class="bg-white border-b-2 border-black outline-none px-4 py-2 focus:border-b-4 w-full focus:border-black focus:ring-0">
+                    <select name="currency" v-model="form.currency" class="input-style">
                         <option value="czk" selected>CZK</option>
                         <option value="eur">EUR</option>
                     </select>
@@ -30,19 +30,19 @@
                     <div class="flex flex-col sm:flex-row gap-4">
                         <label class="cursor-pointer w-full sm:flex-1">
                             <input type="radio" name="sport" class="hidden peer" value="1" v-model="form.sport" />
-                            <div class="bg-white border border-b-2 border-black px-6 py-2 text-black font-medium text-center peer-checked:bg-primary-900 peer-checked:text-white uppercase">
+                            <div class="sport-selector-style">
                                 ALL
                             </div>
                         </label>
                         <label class="cursor-pointer w-full sm:flex-1">
                             <input type="radio" name="sport" class="hidden peer" value="2" v-model="form.sport" />
-                            <div class="bg-white border border-b-2 border-black px-6 py-2 text-black font-medium text-center peer-checked:bg-primary-900 peer-checked:text-white uppercase">
+                            <div class="sport-selector-style">
                                 BASEBALL
                             </div>
                         </label>
                         <label class="cursor-pointer w-full sm:flex-1">
                             <input type="radio" name="sport" class="hidden peer" value="3" v-model="form.sport" />
-                            <div class="bg-white border border-b-2 border-black px-6 py-2 text-black font-medium text-center peer-checked:bg-primary-900 peer-checked:text-white uppercase">
+                            <div class="sport-selector-style">
                                 SOFTBALL
                             </div>
                         </label>
@@ -53,7 +53,7 @@
                 <div class="col-span-12 2xl:col-span-6 flex flex-col md:flex-row gap-4 justify-between 2-xl:justify-end">
                     <div class="w-full md:flex-1">
                         <h4 class="mb-2 md:mb-0">Condition</h4>
-                        <select name="condition" v-model="form.condition" class="bg-white border-b-2 border-black outline-none px-4 py-2 focus:border-b-4 w-full focus:border-black focus:ring-0">
+                        <select name="condition" v-model="form.condition" class="input-style">
                             <option value="new" selected>NEW</option>
                             <option value="used">USED</option>
                             <option value="damaged">USED</option>
@@ -62,7 +62,7 @@
                     </div>
                     <div class="w-full md:flex-1">
                         <h4 class="mb-2 md:mb-0">Category</h4>
-                        <select name="category" v-model="form.category_id" class="bg-white border-b-2 border-black outline-none px-4 py-2 focus:border-b-4 w-full focus:border-black focus:ring-0">
+                        <select name="category" v-model="form.category_id" class="input-style">
                             <option value="1" selected>Bats</option>
                             <option value="2">Gloves</option>
                         </select>
@@ -70,7 +70,7 @@
                     </div>
                     <div class="w-full md:flex-1">
                         <h4 class="mb-2 md:mb-0">Brand</h4>
-                        <select name="brand" v-model="form.brand_id" class="bg-white border-b-2 border-black outline-none px-4 py-2 focus:border-b-4 w-full focus:border-black focus:ring-0">
+                        <select name="brand" v-model="form.brand_id" class="input-style">
                             <option value="1" selected>Nike</option>
                             <option value="2">Rawlings</option>
                         </select>
@@ -80,7 +80,7 @@
                 <!-- TODO: remove hidden user_id input -->
                 <input type="hidden" name="user_id" value="1">
                 <div class="col-span-12 text-end">
-                    <input type="submit" value="Add offer" class="bg-primary-900 border-2 border-black border-solid px-6 py-2 text-white hover:border-b-4 font-medium w-full md:w-auto text-center" />
+                    <input type="submit" value="Add offer" class="primary-button-style md:w-auto" />
                 </div>
             </div>
         </div>
