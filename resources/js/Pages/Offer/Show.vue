@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-12 gap-10">
+    <div class="grid grid-cols-12 md:gap-16 gap-0 pb-20">
         <div class="col-span-12 md:col-span-6">
             <!-- TODO: images with swiping, better link without ../  -->
             <!-- TODO: conditon, wishlist -->
@@ -15,7 +15,18 @@
                 <Price :price="offer.price" :currency="offer.currency"/>
             </section>
             <section class="grid mb-6">
-                <p>{{ offer.description }}</p>
+                <!-- TODO: filters, size, category... -->
+                <p class="mb-2 pe-2">{{ offer.description }}</p>
+                <div class="flex flex-col gap-x-2 gap-y-0.5 text-sm">
+                    <div class="flex gap-2 mb-0">
+                        <div class="font-medium">Category:</div>
+                        <div>Shoes</div>
+                    </div>
+                    <div class="flex gap-2">
+                        <div class="font-medium">Size:</div>
+                        <div>46</div>
+                    </div>
+                </div>
             </section>
             <!-- TODO: move seller to new component -->
             <Link>
@@ -23,15 +34,19 @@
                     <!-- TODO: section about seller, move to component -->
                     <Heading3 :text="'Jan Vobrovský'"/>
                     <p class="mb-1">Feedback</p>
-                    <!-- TODO: count of selled items -->
+                    <!-- TODO: count of selled items, phone if  -->
                     <TinyText :text="'Praha | Česká Republika'"/>
                 </section>
             </Link>
-            <section class="grid my-6">
+            <section class="my-6 hidden md:grid">
                 <!-- TODO: send what to do -->
                 <PrimaryButton :text="'Chat with seller'"/>
             </section>
+            <section class="grid mb-2 md:relative fixed bottom-0 left-0 w-full p-2 md:hidden">
+                <PrimaryButton :text="'Chat with seller'" class="w-full"/>
+            </section>
         </div>
+        <!-- TODO: related offers section, recently viewed  -->
     </div>
 </template>
 
