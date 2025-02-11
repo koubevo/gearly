@@ -34,7 +34,7 @@
                     <!-- TODO: section about seller, move to component -->
                     <Heading3 :text="'Jan Vobrovský'"/>
                     <p class="mb-1">Feedback</p>
-                    <!-- TODO: count of selled items, phone if  -->
+                    <!-- TODO: count of selled items, phone if (if null -> no phone)  -->
                     <TinyText :text="'Praha | Česká Republika'"/>
                 </section>
             </Link>
