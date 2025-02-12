@@ -1,6 +1,7 @@
 <template>
     <form @submit.prevent="update">
         <!-- TODO: pridat datove typy v-model.number atd -->
+        <!-- TODO: add size, add delivery option --> 
         <div class="md:w-2/4 mx-auto">
             <Heading1 :text="'Edit offer ' + form.name" class="mb-6 mt-6"/>
             <!-- TODO: photos -->
