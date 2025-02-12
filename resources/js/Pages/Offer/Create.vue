@@ -2,6 +2,7 @@
     <form @submit.prevent="create">
         <!-- TODO: pridat datove typy v-model.number atd -->
         <!-- TODO: add size, add delivery option --> 
+        <!-- TODO: error message styling --> 
         <div class="md:w-2/4 mx-auto">
             <Heading1 :text="'Add new offer'" class="mb-6 mt-6"/>
             <!-- TODO: photos -->
