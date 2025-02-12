@@ -1,5 +1,5 @@
 <template>
-    <header class="border-b-2 border-black border-solid w-full mb-2">
+    <header class="border-b-2 border-black border-solid w-full">
         <div class="container mx-auto">
             <nav class="py-3 max-md:px-2 flex items-center justify-between">
                 <div class="flex gap-3">
