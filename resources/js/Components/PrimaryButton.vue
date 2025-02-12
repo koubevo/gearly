@@ -1,5 +1,5 @@
 <template>
-    <Link class="primary-button-style">{{ text }}</Link>
+    <Link class="primary-button-style">{{ text }}<slot /></Link>
 </template>
 
 <script setup>
