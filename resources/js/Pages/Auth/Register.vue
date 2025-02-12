@@ -22,91 +22,39 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Register" />
-
+        <!-- TODO: autocomplete -->
         <form @submit.prevent="submit">
             <div>
-                <InputLabel for="name" value="Name" />
-
-                <TextInput
-                    id="name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    v-model="form.name"
-                    required
-                    autofocus
-                    autocomplete="name"
-                />
-
-                <InputError class="mt-2" :message="form.errors.name" />
+                <input type="text" placeholder="Name" name="name" v-model="form.name" class="input-style" required />
+                <div v-if="form.errors.name" class="input-error-message-style">{{ form.errors.name }}</div>
             </div>
 
             <div class="mt-4">
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
+                <input type="email" placeholder="Email" name="email" v-model="form.email" class="input-style" required />
+                <div v-if="form.errors.email" class="input-error-message-style">{{ form.errors.email }}</div>
             </div>
 
             <div class="mt-4">
-                <InputLabel for="password" value="Password" />
-
-                <TextInput
-                    id="password"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password"
-                    required
-                    autocomplete="new-password"
-                />
-
-                <InputError class="mt-2" :message="form.errors.password" />
+                <input type="password" placeholder="Password" name="password" v-model="form.password" class="input-style" required />
+                <div v-if="form.errors.password" class="input-error-message-style">{{ form.errors.password }}</div>
             </div>
 
             <div class="mt-4">
-                <InputLabel
-                    for="password_confirmation"
-                    value="Confirm Password"
-                />
-
-                <TextInput
-                    id="password_confirmation"
-                    type="password"
-                    class="mt-1 block w-full"
-                    v-model="form.password_confirmation"
-                    required
-                    autocomplete="new-password"
-                />
-
-                <InputError
-                    class="mt-2"
-                    :message="form.errors.password_confirmation"
-                />
+                <input type="password" placeholder="Password confirmation" name="password_confirmation" v-model="form.password_confirmation" class="input-style" required />
+                <div v-if="form.errors.password_confirmation" class="input-error-message-style">{{ form.errors.password_confirmation }}</div>
             </div>
 
-            <div class="mt-4 flex items-center justify-end">
-                <Link
-                    :href="route('login')"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                >
-                    Already registered?
-                </Link>
-
-                <PrimaryButton
-                    class="ms-4"
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
+            <div class="mt-4 flex">
+                <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Register
                 </PrimaryButton>
+            </div>
+
+            <div class="mt-4">
+                <Link :href="route('login')"
+                    class="rounded-md text-sm underline hover:text-black focus:outline-none">
+                    Already registered?
+                </Link>
             </div>
         </form>
     </GuestLayout>
