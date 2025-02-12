@@ -6,6 +6,10 @@
     @apply bg-white border-b-2 border-black focus:outline-none px-4 py-2 focus:border-b-4 w-full focus:ring-0  focus:border-black;
 }
 
+.input-error-message {
+    @apply text-sm text-red-600;
+}
+
 .primary-button-style {
     @apply bg-primary-900 border-2 border-black border-solid px-6 py-2 text-white hover:border-b-4 font-medium w-full text-center;
 }
