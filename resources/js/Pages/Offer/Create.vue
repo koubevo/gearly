@@ -80,7 +80,7 @@
                 <!-- TODO: remove hidden user_id input -->
                 <input type="hidden" name="user_id" value="1">
                 <div class="col-span-12 text-end">
-                    <input type="submit" value="Add offer" class="primary-button-style md:w-auto" />
+                    <PrimaryButton type="submit" :text="'Add offer'" class="md:w-auto" />
                 </div>
             </div>
         </div>
@@ -90,6 +90,7 @@
 <script setup>
 import Heading1 from '@/Components/Heading1.vue';
 import { useForm } from '@inertiajs/vue3' 
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const form = useForm({
     name: "",
