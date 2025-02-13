@@ -36,7 +36,7 @@ const form = useForm({
         </header>
 
         <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
-
+            <!-- TODO: change other profile data (phone, address, ...) -->
             <div>
                 <input type="text" placeholder="Name" name="name" v-model="form.name" class="input-style" required />
                 <div v-if="form.errors.name" class="input-error-message-style">{{ form.errors.name }}</div>
