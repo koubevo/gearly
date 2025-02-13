@@ -11,17 +11,21 @@
 }
 
 .primary-button-style {
-    @apply bg-primary-900 border-2 border-black border-solid px-3 md:px-6 py-1 md:py-2 text-white font-medium w-full text-center;
+    @apply bg-primary-900 border-2 border-black border-solid px-3 md:px-4 py-1 text-white font-medium w-full text-center;
 }
 
 .secondary-button-style {
-    @apply bg-white border-2 border-black border-solid px-3 md:px-6 py-1 md:py-2 text-black font-medium w-full text-center;
+    @apply bg-white border-2 border-black border-solid px-3 md:px-4 py-1 text-black font-medium w-full text-center;
 }
 
 .danger-button-style {
-    @apply bg-red-600 text-white border-2 border-black border-solid px-3 md:px-6 py-1 md:py-2 font-medium w-full text-center;
+    @apply bg-red-600 text-white border-2 border-black border-solid px-4 md:px-6 py-1 font-medium w-full text-center;
 }
 
 .sport-selector-style {
     @apply bg-white border border-black px-6 py-2 text-black font-medium text-center peer-checked:bg-primary-900 peer-checked:text-white uppercase;
+}
+
+.header-height-style {
+    height: 62px;
 }

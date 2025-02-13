@@ -1,8 +1,7 @@
 <template>
     <header class="border-b-2 border-black border-solid w-full">
         <div class="container mx-auto">
-            <!-- TODO: different hight when logged in -->
-            <nav class="py-3 max-md:px-2 flex items-center justify-between">
+            <nav class="py-3 max-md:px-2 flex items-center justify-between header-height-style">
                 <div class="flex gap-3">
                     <Link :href="route('landingPage')">
                         <img :src="'storage/imgs/logo.png'" alt="Logo" class="w-20 h-auto">
