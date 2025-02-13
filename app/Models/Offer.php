@@ -42,4 +42,9 @@ class Offer extends Model
     {
         return $this->hasMany(Photo::class, 'offer_id');
     }
+
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class, 'offer_id');
+    }
 }
