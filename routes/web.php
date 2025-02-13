@@ -15,7 +15,12 @@ Route::get('/', function () {
     ]);
 })->name('landingPage');
 
-Route::resource('offer', OfferController::class);
+Route::resource('offer', OfferController::class)
+    ->only(['create', 'store', 'edit', 'update', 'destroy'])
+    ->middleware('auth');
+
+Route::resource('offer', OfferController::class)
+    ->except(['create', 'store', 'edit', 'update', 'destroy']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
