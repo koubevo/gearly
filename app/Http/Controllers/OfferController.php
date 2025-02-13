@@ -34,19 +34,18 @@ class OfferController extends Controller
      */
     public function store(Request $request)
     {
-        Offer::create($request->validate([
+        $request->user()->offers()->create($request->validate([
             'name' => 'required|string',
-            'phone' => 'required|boolean',
             'description' => 'required|string',
-            'price' => 'required|integer|min:0',
+            'price' => 'required|integer|min:0|max:99999',
             'currency' => 'required|string|in:eur,czk', //only 2 currencies now
-            'condition' => 'required|in:new,used|lowercase', //TODO: add more conditions
+            'condition' => 'required|in:new,used,damaged|lowercase',
             'sport' => 'required|integer|in:1,2,3',
             'category_id' => 'required|integer|min:1',
-            'brand_id' => 'required|integer|min:1',
-            'user_id' => 'required|integer'
+            'brand_id' => 'required|integer|min:1'
         ]));
 
+        //TODO: redirect to profile page
         return redirect()->route('offer.index')
             ->with('success', 'Offer was created.');
     }
@@ -88,16 +87,16 @@ class OfferController extends Controller
     {
         $offer->update($request->validate([
             'name' => 'required|string',
-            'phone' => 'required|boolean',
             'description' => 'required|string',
-            'price' => 'required|integer|min:0',
+            'price' => 'required|integer|min:0|max:99999',
             'currency' => 'required|string|in:eur,czk', //only 2 currencies now
-            'condition' => 'required|in:new,used|lowercase', //TODO: add more conditions
+            'condition' => 'required|in:new,used,damaged|lowercase',
             'sport' => 'required|integer|in:1,2,3',
             'category_id' => 'required|integer|min:1',
             'brand_id' => 'required|integer|min:1',
         ]));
 
+        //TODO: redirect to profile page
         return redirect()->route('offer.index')
             ->with('success', 'Offer was updated.');
     }

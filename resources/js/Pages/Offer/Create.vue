@@ -77,8 +77,6 @@
                         <div v-if="form.errors.brand_id" class="input-error-message-style">{{ form.errors.brand_id }}</div>
                     </div>
                 </div>
-                <!-- TODO: remove hidden user_id input -->
-                <input type="hidden" name="user_id" value="1">
                 <div class="col-span-12 text-end">
                     <PrimaryButton type="submit" :text="'Add offer'" class="md:w-auto" />
                 </div>
