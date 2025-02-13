@@ -15,6 +15,8 @@ Route::get('/', function () {
     ]);
 })->name('landingPage');
 
+//TODO: add middlewares for other controllers
+
 Route::resource('offer', OfferController::class)
     ->only(['create', 'store', 'edit', 'update', 'destroy'])
     ->middleware('auth');
