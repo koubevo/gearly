@@ -40,10 +40,10 @@
             </Link>
             <section class="my-6 hidden md:grid">
                 <!-- TODO: send what to do -->
-                <PrimaryButton :text="'Chat with seller'"/>
+                <PrimaryLink :text="'Chat with seller'"/>
             </section>
             <section class="grid mb-2 md:relative fixed bottom-0 left-0 w-full p-2 md:hidden">
-                <PrimaryButton :text="'Chat with seller'" class="w-full"/>
+                <PrimaryLink :text="'Chat with seller'" class="w-full"/>
             </section>
         </div>
         <!-- TODO: related offers section, recently viewed  -->
@@ -55,7 +55,7 @@ import { Link } from '@inertiajs/vue3';
 import { HeartIcon } from '@heroicons/vue/24/outline'
 import Price from '@/Components/Price.vue';
 import Condition from '@/Components/Condition.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import PrimaryLink from '@/Components/PrimaryLink.vue';
 import Heading1 from '@/Components/Heading1.vue';
 import Heading3 from '@/Components/Heading3.vue';
 import TinyText from '@/Components/TinyText.vue';

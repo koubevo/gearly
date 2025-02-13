@@ -26,7 +26,7 @@
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 
-<body class="font-sans antialiased text-gray-900">
+<body class="font-sans antialiased text-gray-900" style="margin-bottom: 0 !important">
     @inertia
 </body>
 

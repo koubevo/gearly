@@ -1,11 +1,11 @@
 <template>
-    <Link class="primary-button-style">{{ text }}</Link>
+    <button class="primary-button-style" type="{{ type }}">{{ text }}<slot /></button>
 </template>
 
 <script setup>
-import { Link } from '@inertiajs/vue3';
 
 defineProps({
-    text: String
+    text: String,
+    type: String
 })
 </script>

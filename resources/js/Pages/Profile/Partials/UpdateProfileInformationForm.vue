@@ -1,8 +1,6 @@
 <script setup>
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import TinyText from '@/Components/TinyText.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 
 defineProps({
@@ -25,48 +23,26 @@ const form = useForm({
 <template>
     <section>
         <header>
+            <!-- TODO: make component for these headings -->
             <h2 class="text-lg font-medium text-gray-900">
                 Profile Information
             </h2>
 
-            <p class="mt-1 text-sm text-gray-600">
-                Update your account's profile information and email address.
-            </p>
+            <!-- TODO: text, translations -->
+            <TinyText :text="'Update your profile information and email address.'"/>
         </header>
 
-        <form
-            @submit.prevent="form.patch(route('profile.update'))"
-            class="mt-6 space-y-6"
-        >
+        <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
+            <!-- TODO: change other profile data (phone, address, ...) -->
             <div>
-                <InputLabel for="name" value="Name" />
-
-                <TextInput
-                    id="name"
-                    type="text"
-                    class="mt-1 block w-full"
-                    v-model="form.name"
-                    required
-                    autofocus
-                    autocomplete="name"
-                />
-
-                <InputError class="mt-2" :message="form.errors.name" />
+                <input type="text" placeholder="Name" name="name" v-model="form.name" class="input-style" required />
+                <div v-if="form.errors.name" class="input-error-message-style">{{ form.errors.name }}</div>
             </div>
 
-            <div>
-                <InputLabel for="email" value="Email" />
-
-                <TextInput
-                    id="email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    v-model="form.email"
-                    required
-                    autocomplete="username"
-                />
-
-                <InputError class="mt-2" :message="form.errors.email" />
+            <!-- TODO: Do we want them to change this? -->
+            <div class="mt-4">
+                <input type="email" placeholder="Email" name="email" v-model="form.email" class="input-style" required />
+                <div v-if="form.errors.email" class="input-error-message-style">{{ form.errors.email }}</div>
             </div>
 
             <div v-if="mustVerifyEmail && user.email_verified_at === null">

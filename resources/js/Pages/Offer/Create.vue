@@ -8,22 +8,22 @@
             <div class="grid grid-cols-12 gap-4">
                 <div class="col-span-12">
                     <input type="text" placeholder="Name" name="name" v-model="form.name" class="input-style" />
-                    <div v-if="form.errors.name" class="input-error-message">{{ form.errors.name }}</div>
+                    <div v-if="form.errors.name" class="input-error-message-style">{{ form.errors.name }}</div>
                 </div>
                 <div class="col-span-12">
                     <textarea placeholder="Description" name="description" v-model="form.description" class="input-style"></textarea>
-                    <div v-if="form.errors.description" class="input-error-message">{{ form.errors.description }}</div>
+                    <div v-if="form.errors.description" class="input-error-message-style">{{ form.errors.description }}</div>
                 </div>
                 <div class="col-span-7 md:col-span-9">
                     <input type="number" placeholder="Price" v-model="form.price" name="price" class="input-style"/>
-                    <div v-if="form.errors.price" class="input-error-message">{{ form.errors.price }}</div>
+                    <div v-if="form.errors.price" class="input-error-message-style">{{ form.errors.price }}</div>
                 </div>
                 <div class="col-span-5 md:col-span-3">
                     <select name="currency" v-model="form.currency" class="input-style">
                         <option value="czk" selected>CZK</option>
                         <option value="eur">EUR</option>
                     </select>
-                    <div v-if="form.errors.currency" class="input-error-message">{{ form.errors.currency }}</div>
+                    <div v-if="form.errors.currency" class="input-error-message-style">{{ form.errors.currency }}</div>
                 </div>
                 <div class="col-span-12 2xl:col-span-6 flex flex-col">
                     <h4 class="mb-2 md:mb-0">Sport</h4>
@@ -47,7 +47,7 @@
                             </div>
                         </label>
                     </div>
-                    <div v-if="form.errors.sport" class="input-error-message">{{ form.errors.sport }}</div>
+                    <div v-if="form.errors.sport" class="input-error-message-style">{{ form.errors.sport }}</div>
                 </div>
                 <!-- TODO: add delivery method -->
                 <div class="col-span-12 2xl:col-span-6 flex flex-col md:flex-row gap-4 justify-between 2-xl:justify-end">
@@ -58,7 +58,7 @@
                             <option value="used">USED</option>
                             <option value="damaged">USED</option>
                         </select>
-                        <div v-if="form.errors.condition" class="input-error-message">{{ form.errors.condition }}</div>
+                        <div v-if="form.errors.condition" class="input-error-message-style">{{ form.errors.condition }}</div>
                     </div>
                     <div class="w-full md:flex-1">
                         <h4 class="mb-2 md:mb-0">Category</h4>
@@ -66,7 +66,7 @@
                             <option value="1" selected>Bats</option>
                             <option value="2">Gloves</option>
                         </select>
-                        <div v-if="form.errors.category_id" class="input-error-message">{{ form.errors.category_id }}</div>
+                        <div v-if="form.errors.category_id" class="input-error-message-style">{{ form.errors.category_id }}</div>
                     </div>
                     <div class="w-full md:flex-1">
                         <h4 class="mb-2 md:mb-0">Brand</h4>
@@ -74,13 +74,13 @@
                             <option value="1" selected>Nike</option>
                             <option value="2">Rawlings</option>
                         </select>
-                        <div v-if="form.errors.brand_id" class="input-error-message">{{ form.errors.brand_id }}</div>
+                        <div v-if="form.errors.brand_id" class="input-error-message-style">{{ form.errors.brand_id }}</div>
                     </div>
                 </div>
                 <!-- TODO: remove hidden user_id input -->
                 <input type="hidden" name="user_id" value="1">
                 <div class="col-span-12 text-end">
-                    <input type="submit" value="Add offer" class="primary-button-style md:w-auto" />
+                    <PrimaryButton type="submit" :text="'Add offer'" class="md:w-auto" />
                 </div>
             </div>
         </div>
@@ -90,6 +90,7 @@
 <script setup>
 import Heading1 from '@/Components/Heading1.vue';
 import { useForm } from '@inertiajs/vue3' 
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const form = useForm({
     name: "",
