@@ -1,6 +1,7 @@
 <template>
     <header class="border-b-2 border-black border-solid w-full">
         <div class="container mx-auto">
+            <!-- TODO: different hight when logged in -->
             <nav class="py-3 max-md:px-2 flex items-center justify-between">
                 <div class="flex gap-3">
                     <Link :href="route('landingPage')">
@@ -10,7 +11,7 @@
                         <MagnifyingGlassIcon class="w-5 h-5 mt-0.5" />
                     </Link>
                 </div>
-                <div class="flex gap-2">
+                <div class="flex gap-2" v-if="user">
                     <Link :href="route('landingPage')">
                         <BellIcon class="w-5 h-5 mt-0.5" />
                     </Link>
@@ -21,12 +22,10 @@
                         <UserIcon class="w-5 h-5 mt-0.5" />   
                     </Link>
                 </div>
-                <!-- TODO: v-if and components - btn pripary, secondary
-                <div class="flex gap-2 mt-0.5">
-                    <Link :href="route('landingPage')">Sign in</Link>
-                    <Link :href="route('landingPage')">Sign up</Link>
+                <div class="flex gap-2 mt-0.5" v-else>
+                    <SecondaryLink :href="route('login')">Log in</SecondaryLink>
+                    <PrimaryLink :href="route('register')">Register</PrimaryLink>
                 </div>
-                 -->
             </nav>
         </div>
     </header>
@@ -44,7 +43,11 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { MagnifyingGlassIcon, BellIcon, UserIcon, HeartIcon } from '@heroicons/vue/24/outline'
+import SecondaryLink from '@/Components/SecondaryLink.vue';
+import PrimaryLink from '@/Components/PrimaryLink.vue';
 
+
+const user = computed(() => page.props.auth.user);
 const page = usePage();
 
 const flashSuccess = computed(() => page.props.flash?.success ?? '');

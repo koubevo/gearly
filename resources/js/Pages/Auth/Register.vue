@@ -41,6 +41,7 @@ const submit = () => {
                 <div v-if="form.errors.password_confirmation" class="input-error-message-style">{{ form.errors.password_confirmation }}</div>
             </div>
 
+            <!-- TODO: section with conditions, GDPR... -->
             <div class="mt-4 flex">
                 <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                     Register
