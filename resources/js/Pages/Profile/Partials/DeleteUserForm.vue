@@ -5,6 +5,7 @@ import InputLabel from '@/Components/InputLabel.vue';
 import Modal from '@/Components/Modal.vue';
 import SecondaryButton from '@/Components/SecondaryButton.vue';
 import TextInput from '@/Components/TextInput.vue';
+import TinyText from '@/Components/TinyText.vue';
 import { useForm } from '@inertiajs/vue3';
 import { nextTick, ref } from 'vue';
 
@@ -40,11 +41,13 @@ const closeModal = () => {
 
 <template>
     <section class="space-y-6">
+        <!-- TODO: hide in rollable -->
         <header>
+            <!-- TODO: component -->
             <h2 class="text-lg font-medium text-gray-900">
                 Delete Account
             </h2>
-
+            <!-- TODO: text, translations -->
             <p class="mt-1 text-sm text-gray-600">
                 Once your account is deleted, all of its resources and data will
                 be permanently deleted. Before deleting your account, please
@@ -56,38 +59,23 @@ const closeModal = () => {
 
         <Modal :show="confirmingUserDeletion" @close="closeModal">
             <div class="p-6">
+                <!-- TODO: component -->
                 <h2
                     class="text-lg font-medium text-gray-900"
                 >
                     Are you sure you want to delete your account?
                 </h2>
 
-                <p class="mt-1 text-sm text-gray-600">
-                    Once your account is deleted, all of its resources and data
-                    will be permanently deleted. Please enter your password to
-                    confirm you would like to permanently delete your account.
-                </p>
+                <!-- TODO: text, transaltion -->
+                <TinyText :text="'Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.'"/>
 
                 <div class="mt-6">
-                    <InputLabel
-                        for="password"
-                        value="Password"
-                        class="sr-only"
-                    />
-
-                    <TextInput
-                        id="password"
-                        ref="passwordInput"
-                        v-model="form.password"
-                        type="password"
-                        class="mt-1 block w-3/4"
-                        placeholder="Password"
-                        @keyup.enter="deleteUser"
-                    />
-
-                    <InputError :message="form.errors.password" class="mt-2" />
+                    <div class="mt-4">
+                        <input type="password" placeholder="Password" name="password" v-model="form.password" class="input-style" required />
+                        <div v-if="form.errors.password" class="input-error-message-style">{{ form.errors.password }}</div>
+                    </div>
                 </div>
-
+                <!-- TODO: 1st attempt wrong password, 2nd correct -> deletes -> user dont see (still logged in, kinda) -->
                 <div class="mt-6 flex justify-end">
                     <SecondaryButton @click="closeModal">
                         Cancel
