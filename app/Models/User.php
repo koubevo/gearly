@@ -61,4 +61,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Favorite::class, 'user_id');
     }
+
+    public function givenRatings(): HasMany
+    {
+        return $this->hasMany(Rating::class, 'user_id');
+    }
+
+    public function earnedRatings(): HasMany
+    {
+        return $this->hasMany(Rating::class, 'rated_user_id');
+    }
 }
