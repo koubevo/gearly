@@ -17,6 +17,8 @@ Route::get('/', function () {
 
 //TODO: add middlewares for other controllers
 
+Route::get('/offers', [OfferController::class, 'index'])->name('offer.index');
+
 Route::resource('offer', OfferController::class)
     ->only(['create', 'store', 'edit', 'update', 'destroy'])
     ->middleware('auth');
