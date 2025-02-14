@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 //TODO: add middlewares for other controllers
 
+//TODO: after new offer doesnt redirect to /offers
 Route::get('/offers', [OfferController::class, 'index'])->name('offer.index');
 
 Route::resource('offer', OfferController::class)
