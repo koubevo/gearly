@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\FilterCategory;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -9,7 +10,7 @@ return new class extends Migration {
     {
         Schema::create('filters', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('filter_category_id')->constrained('filter_categories')->onDelete('cascade');
+            $table->foreignIdFor(FilterCategory::class, 'filter_category_id')->constrained('filter_categories')->onDelete('cascade');
             $table->string('name');
             $table->timestamps();
         });

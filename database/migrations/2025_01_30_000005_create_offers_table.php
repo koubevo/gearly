@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Brand;
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -9,16 +12,15 @@ return new class extends Migration {
     {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->boolean('phone');
+            $table->foreignIdFor(User::class, 'user_id')->constrained('users')->onDelete('cascade');
             $table->string('name');
             $table->text('description');
             $table->decimal('price', 10, 2);
             $table->string('currency');
             $table->string('condition');
             $table->integer('sport');
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
-            $table->foreignId('brand_id')->constrained('brands')->onDelete('cascade');
+            $table->foreignIdFor(Category::class, 'category_id')->constrained('categories')->onDelete('cascade');
+            $table->foreignIdFor(Brand::class, 'brand_id')->constrained('brands')->onDelete('cascade');
             $table->timestamps();
         });
     }

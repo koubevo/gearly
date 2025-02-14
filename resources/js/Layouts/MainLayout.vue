@@ -2,15 +2,15 @@
     <header class="border-b-2 border-black border-solid w-full">
         <div class="container mx-auto">
             <nav class="py-3 max-md:px-2 flex items-center justify-between header-height-style">
-                <div class="flex gap-3">
+                <div class="flex gap-3 md:gap-5 align-middle items-center mt-0.5">
                     <Link :href="route('landingPage')">
-                        <img :src="'storage/imgs/logo.png'" alt="Logo" class="w-20 h-auto">
+                        <img :src="'storage/imgs/logo.png'" alt="Logo" class="w-14 md:w-20 h-auto align-middle">
                     </Link>
                     <Link :href="route('landingPage')">
-                        <MagnifyingGlassIcon class="w-5 h-5 mt-0.5" />
+                        <MagnifyingGlassIcon class="w-5 h-5  stroke-[2.5]" />
                     </Link>
                 </div>
-                <div class="flex gap-2" v-if="user">
+                <div class="flex gap-2 md:gap-5" v-if="user">
                     <Link :href="route('offer.create')">
                         <div class="relative w-6 h-6 mt-0.5">
                             <svg class="w-full h-full stroke-[3]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -50,9 +50,13 @@
     </header>
 
     <main class="container mx-auto max-md:px-2">
-        <div v-if="flashSuccess" class="mb-4 shadow-sm border-s-primary-900 border-4 border-e-0 border-y-0 p-2 bg-primary-500">
+        <!-- TODO: error message, better styling -->
+        <div v-if="flashSuccess" 
+             class="my-4 shadow-sm border-s-primary-900 border-4 border-e-0 border-y-0 p-2 
+                    bg-gradient-to-r from-primary-500 via-white to-white w-1/2">
             {{ flashSuccess }}
         </div>
+
         <slot></slot>
     </main>   
 </template>

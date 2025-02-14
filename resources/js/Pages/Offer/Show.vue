@@ -15,7 +15,7 @@
                 <Price :price="offer.price" :currency="offer.currency"/>
             </section>
             <section class="grid mb-6">
-                <!-- TODO: filters, size, category... -->
+                <!-- TODO: filters, size, category, sport... -->
                 <p class="mb-2 pe-2">{{ offer.description }}</p>
                 <div class="flex flex-col gap-x-2 gap-y-0.5 text-sm">
                     <div class="flex gap-2 mb-0">
