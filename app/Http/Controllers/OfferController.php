@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Offer;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class OfferController extends Controller
 {
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -70,6 +73,8 @@ class OfferController extends Controller
      */
     public function edit(Offer $offer)
     {
+        $this->authorize('update', $offer);
+
         return inertia(
             'Offer/Edit',
             [
@@ -85,6 +90,8 @@ class OfferController extends Controller
      */
     public function update(Request $request, Offer $offer)
     {
+        $this->authorize('update', $offer);
+
         $offer->update($request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
