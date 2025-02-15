@@ -64,16 +64,19 @@
                     <div class="w-full md:flex-1">
                         <h4 class="mb-2 md:mb-0">Category</h4>
                         <select name="category" v-model="form.category_id" class="input-style">
-                            <option value="1" selected>Bats</option>
-                            <option value="2">Gloves</option>
+                            
+                            <option v-for="category in categories" :key="category.id" :value="category.id">
+                                {{ category.name }}
+                            </option>
                         </select>
                         <div v-if="form.errors.category_id" class="input-error-message-style">{{ form.errors.category_id }}</div>
                     </div>
                     <div class="w-full md:flex-1">
                         <h4 class="mb-2 md:mb-0">Brand</h4>
                         <select name="brand" v-model="form.brand_id" class="input-style">
-                            <option value="1" selected>Nike</option>
-                            <option value="2">Rawlings</option>
+                            <option v-for="brand in brands" :key="brand.id" :value="brand.id">
+                                {{ brand.name }}
+                            </option>
                         </select>
                         <div v-if="form.errors.brand_id" class="input-error-message-style">{{ form.errors.brand_id }}</div>
                     </div>
@@ -88,7 +91,7 @@
 
 <script setup>
 import Heading1 from '@/Components/Heading1.vue';
-import { useForm } from '@inertiajs/vue3' 
+import { useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const props = defineProps({
@@ -109,6 +112,15 @@ const props = defineProps({
     isEditMode: {
         type: Boolean,
         default: false
+    },
+    brands: {
+        type: Array
+    },
+    categories: {
+        type: Array
+    },
+    deliveryOptions: {
+        type: Array
     }
 });
 

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
+use App\Models\Category;
+use App\Models\DeliveryOption;
 use App\Models\Offer;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -28,7 +31,15 @@ class OfferController extends Controller
      */
     public function create()
     {
-        return inertia('Offer/Create');
+        $brands = Brand::select('id', 'name')->orderBy('name', 'asc')->get();
+        $categories = Category::select('id', 'name')->orderBy('name', 'asc')->get();
+        $deliveryOptions = DeliveryOption::select('id', 'name')->get();
+
+        return inertia('Offer/Create', [
+            'brands' => $brands,
+            'categories' => $categories,
+            'deliveryOptions' => $deliveryOptions
+        ]);
     }
 
     /**
@@ -75,14 +86,18 @@ class OfferController extends Controller
      */
     public function edit(Offer $offer)
     {
+        $brands = Brand::select('id', 'name')->orderBy('name', 'asc')->get();
+        $categories = Category::select('id', 'name')->orderBy('name', 'asc')->get();
+        $deliveryOptions = DeliveryOption::select('id', 'name')->get();
+
         $this->authorize('update', $offer);
 
-        return inertia(
-            'Offer/Edit',
-            [
-                'offer' => $offer
-            ]
-        );
+        return inertia('Offer/Edit', [
+            'offer' => $offer,
+            'brands' => $brands,
+            'categories' => $categories,
+            'deliveryOptions' => $deliveryOptions
+        ]);
     }
 
     /**
