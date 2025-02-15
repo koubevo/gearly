@@ -8,6 +8,14 @@ use Illuminate\Auth\Access\Response;
 
 class OfferPolicy
 {
+    public function before(User $user): ?bool
+    {
+        if ($user->role === 1) {
+            return true;
+        }
+
+        return null;
+    }
     /**
      * Determine whether the user can view any models.
      */
