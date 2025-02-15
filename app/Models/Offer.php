@@ -23,7 +23,7 @@ class Offer extends Model
         'updated_at'
     ];
 
-    public function owner(): BelongsTo
+    public function seller(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }

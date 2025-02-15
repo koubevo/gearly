@@ -32,20 +32,45 @@
             <Link>
                 <section class="border-s-gray-900 border-4 border-e-0 border-y-0 p-2">
                     <!-- TODO: section about seller, move to component -->
-                    <Heading3 :text="'Jan Vobrovský'"/>
+                    <Heading3 :text="seller.name"/>
                     <p class="mb-1">Feedback</p>
-                    <!-- TODO: count of selled items, phone if (if null -> no phone)  -->
+                    <!-- TODO: count of selled items, phone if (if null -> no phone), premium badge, verified badge, team -->
                     <TinyText :text="'Praha | Česká Republika'"/>
                 </section>
             </Link>
-            <!-- if owner != user -->
-            <div v-if="true">
-                <section class="my-6 hidden md:grid">
-                <!-- TODO: send what to do -->
-                    <PrimaryLink :text="'Chat with seller'"/>
-                </section>
-                <section class="grid mb-2 md:relative fixed bottom-0 left-0 w-full p-2 md:hidden">
-                    <PrimaryLink :text="'Chat with seller'" class="w-full"/>
+            
+            <div v-if="seller.id !== user.id">
+               <section class="my-6 hidden md:grid">
+                   <PrimaryLink :text="'Chat with seller'"/>
+               </section>
+               <section class="grid mb-2 md:relative fixed bottom-0 left-0 w-full p-2 md:hidden">
+                   <PrimaryLink :text="'Chat with seller'" class="w-full"/>
+               </section>
+            </div>
+            <div v-else>
+                <section class="my-6 flex gap-2">
+                    <SecondaryLink :text="'Edit'" :href="route('offer.edit', {offer: offer.id})"/>
+                    <!-- TODO: modal -->
+                    <DangerButton @click="confirmOfferDeletion">Delete</DangerButton>
+
+                    <Modal :show="confirmingOfferDeletion" @close="closeModal">
+                        <div class="p-6">
+                            <!-- TODO: component -->
+                            <Heading3 class="text-lg text-gray-900">
+                                Are you sure you want to delete offer <span class="font-bold">{{ offer.name }}</span>?
+                            </Heading3>
+                            
+                            <div class="mt-6 flex justify-end gap-2">
+                                <SecondaryButton @click="closeModal">
+                                    Cancel
+                                </SecondaryButton>
+                            
+                                <DangerLink :href="route('offer.destroy', {offer: offer.id})" method="delete">
+                                    Delete Offer
+                                </DangerLink>
+                            </div>
+                        </div>
+                    </Modal>
                 </section>
             </div>
         </div>
@@ -54,7 +79,8 @@
 </template>
 
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import { Link, usePage } from '@inertiajs/vue3';
 import { HeartIcon } from '@heroicons/vue/24/outline'
 import Price from '@/Components/Price.vue';
 import Condition from '@/Components/Condition.vue';
@@ -62,8 +88,26 @@ import PrimaryLink from '@/Components/PrimaryLink.vue';
 import Heading1 from '@/Components/Heading1.vue';
 import Heading3 from '@/Components/Heading3.vue';
 import TinyText from '@/Components/TinyText.vue';
+import SecondaryLink from '@/Components/SecondaryLink.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import DangerButton from '@/Components/DangerButton.vue';
+import DangerLink from '@/Components/DangerLink.vue';
+import Modal from '@/Components/Modal.vue';
+
+const user = usePage().props.auth.user;
+
+const confirmingOfferDeletion = ref(false);
+
+function confirmOfferDeletion() {
+    confirmingOfferDeletion.value = true;
+}
+
+function closeModal() {
+    confirmingOfferDeletion.value = false;
+}
 
 defineProps({
-    offer: Object
-})
+    offer: Object,
+    seller: Object
+});
 </script>

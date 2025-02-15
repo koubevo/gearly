@@ -3,7 +3,7 @@
         <!-- TODO: pridat datove typy v-model.number atd -->
         <!-- TODO: add size, add delivery option --> 
         <!-- TODO: add required to inputs -->
-        <div class="md:w-2/4 mx-auto">
+        <div class="md:w-2/4 mx-auto mb-3">
             <Heading1 :text="'Edit offer ' + form.name" class="mb-6 mt-6"/>
             <!-- TODO: photos -->
             <div class="grid grid-cols-12 gap-4">
@@ -106,8 +106,7 @@ const form = useForm({
     condition: props.offer.condition,
     sport: props.offer.sport,
     category_id: props.offer.category_id,
-    brand_id: props.offer.brand_id,
-    user_id: 1 //TODO: edit user id
+    brand_id: props.offer.brand_id
 });
 
 const update = () => form.put(route('offer.update', {offer: props.offer.id}));

@@ -59,10 +59,13 @@ class OfferController extends Controller
      */
     public function show(Offer $offer)
     {
+        $offer->load('seller');
+
         return inertia(
             'Offer/Show',
             [
-                'offer' => $offer
+                'offer' => $offer,
+                'seller' => $offer->seller
             ]
         );
     }
@@ -118,7 +121,7 @@ class OfferController extends Controller
 
         $offer->delete();
 
-        return redirect()->back()
+        return redirect()->route('offer.index')
             ->with('success', 'Offer was removed.');
     }
 }

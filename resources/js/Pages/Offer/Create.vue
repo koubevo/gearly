@@ -2,7 +2,7 @@
     <form @submit.prevent="create">
         <!-- TODO: pridat datove typy v-model.number atd -->
         <!-- TODO: add size, add delivery option --> 
-        <div class="md:w-2/4 mx-auto">
+        <div class="md:w-2/4 mx-auto mb-3">
             <Heading1 :text="'Add new offer'" class="mb-6 mt-6"/>
             <!-- TODO: photos -->
             <div class="grid grid-cols-12 gap-4">
@@ -100,8 +100,7 @@ const form = useForm({
     condition: "new",
     sport: 1,
     category_id: 1,
-    brand_id: 1,
-    user_id: 1
+    brand_id: 1
 });
 
 const create = () => form.post(route('offer.store'));
