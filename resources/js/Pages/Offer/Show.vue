@@ -37,7 +37,7 @@
                         <div class="font-medium">Delivery Option:</div>
                         <div>{{ deliveryOption.name }}</div>
                     </div>
-                    <div class="flex gap-2 mb-0">
+                    <div class="flex gap-2 mb-0" v-if="offer.delivery_description">
                         <div class="font-medium">Delivery Detail:</div>
                         <div>{{ offer.delivery_description }}</div>
                     </div>
