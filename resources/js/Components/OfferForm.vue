@@ -16,7 +16,7 @@
                     <div v-if="form.errors.description" class="input-error-message-style">{{ form.errors.description }}</div>
                 </div>
                 <div class="col-span-7 md:col-span-9">
-                    <input type="number" placeholder="Price" v-model="form.price" name="price" class="input-style"/>
+                    <input type="number" placeholder="Price" v-model.number="form.price" name="price" class="input-style" step="0.01"/>
                     <div v-if="form.errors.price" class="input-error-message-style">{{ form.errors.price }}</div>
                 </div>
                 <div class="col-span-5 md:col-span-3">
@@ -28,11 +28,11 @@
                 </div>
                 <div class="col-span-12 2xl:col-span-6 flex flex-col">
                     <h4 class="mb-2 md:mb-0">Sport</h4>
-                    <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="flex flex-col sm:flex-row gap-2">
                         <label class="cursor-pointer w-full sm:flex-1">
                             <input type="radio" name="sport" class="hidden peer" value="1" v-model="form.sport" />
                             <div class="sport-selector-style">
-                                ALL
+                                BOTH
                             </div>
                         </label>
                         <label class="cursor-pointer w-full sm:flex-1">
@@ -51,7 +51,7 @@
                     <div v-if="form.errors.sport" class="input-error-message-style">{{ form.errors.sport }}</div>
                 </div>
                 <!-- TODO: add delivery method -->
-                <div class="col-span-12 2xl:col-span-6 flex flex-col md:flex-row gap-4 justify-between 2-xl:justify-end">
+                <div class="col-span-12 2xl:col-span-6 flex flex-col md:flex-row gap-2 justify-between 2-xl:justify-end">
                     <div class="w-full md:flex-1">
                         <h4 class="mb-2 md:mb-0">Condition</h4>
                         <select name="condition" v-model="form.condition" class="input-style">
