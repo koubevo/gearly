@@ -18,10 +18,12 @@ class OfferController extends Controller
      */
     public function index()
     {
+        $offers = Offer::with('brand')->get();
+
         return inertia(
             'Offer/Index',
             [
-                'offers' => Offer::all()
+                'offers' => $offers
             ]
         );
     }

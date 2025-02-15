@@ -10,11 +10,11 @@ class FilterCategory extends Model
 {
     public function categories(): BelongsToMany
     {
-        return $this->belongsToMany(Category::class, 'filter_fc_mappings');
+        return $this->belongsToMany(Category::class, 'filter_fc_mappings', 'filter_category_id', 'category_id');
     }
 
     public function filters(): HasMany
     {
-        return $this->hasMany(Offer::class, 'filter_category_id');
+        return $this->hasMany(Filter::class, 'filter_category_id');
     }
 }

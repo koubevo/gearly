@@ -10,8 +10,9 @@
                 <!-- TODO: scaled img -->
                 <img :src="'storage/imgs/nike.jpg'" :alt="offer.name" class="mb-2">
             </div>
-            <!-- TODO: brand, move to component -->
-            <p class="text-xs text-gray-700">{{ offer.brand }}</p>
+            <!-- TODO: brand, size -->
+            <TinyText :text="offer.brand.name" class="mb-0.5"/>
+            <!-- TODO: bigger name -->
             <Heading3 :text="offer.name"/>
             <Price :price="offer.price" :currency="offer.currency"/>
         </div>
@@ -24,6 +25,7 @@ import { HeartIcon } from '@heroicons/vue/24/outline'
 import Price from './Price.vue';
 import Condition from './Condition.vue';
 import Heading3 from './Heading3.vue';
+import TinyText from './TinyText.vue';
 
 const props = defineProps({
   offer: Object
