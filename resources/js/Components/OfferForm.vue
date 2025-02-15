@@ -4,7 +4,7 @@
         <!-- TODO: add size, add delivery option --> 
         <!-- TODO: add required to inputs -->
         <div class="md:w-2/4 mx-auto mb-3">
-            <Heading1 :text="isEditMode ? 'Edit offer ' + form.name : 'Add new offer'" class="mb-6 mt-6"/>
+            <Heading1 class="mb-6 mt-6" v-html="isEditMode ? 'Edit offer <span class=\'text-primary-900\'>' + form.name + '</span>' : 'Add new offer'"></Heading1>
             <!-- TODO: photos -->
             <div class="grid grid-cols-12 gap-4">
                 <div class="col-span-12">
