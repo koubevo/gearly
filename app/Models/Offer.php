@@ -47,4 +47,9 @@ class Offer extends Model
     {
         return $this->hasMany(Favorite::class, 'offer_id');
     }
+
+    public function deliveryOption(): BelongsTo
+    {
+        return $this->belongsTo(DeliveryOption::class, 'delivery_option_id');
+    }
 }
