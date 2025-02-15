@@ -37,10 +37,10 @@ class OfferController extends Controller
      */
     public function store(Request $request)
     {
-        $request->user()->offers()->create($request->validate([
+        $offer = $request->user()->offers()->create($request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
-            'price' => 'required|integer|min:0|max:99999',
+            'price' => 'required|regex:/^\d+(\.\d{1,2})?$/|min:0|max:99999',
             'currency' => 'required|string|in:eur,czk', //only 2 currencies now
             'condition' => 'required|in:new,used,damaged|lowercase',
             'sport' => 'required|integer|in:1,2,3',
@@ -48,8 +48,7 @@ class OfferController extends Controller
             'brand_id' => 'required|integer|min:1'
         ]));
 
-        //TODO: redirect to profile page
-        return redirect()->route('offer.index')
+        return redirect()->route('offer.show', $offer->id)
             ->with('success', 'Offer was created.');
     }
 
@@ -98,7 +97,7 @@ class OfferController extends Controller
         $offer->update($request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
-            'price' => 'required|integer|min:0|max:99999',
+            'price' => 'required|regex:/^\d+(\.\d{1,2})?$/|min:0|max:99999',
             'currency' => 'required|string|in:eur,czk', //only 2 currencies now
             'condition' => 'required|in:new,used,damaged|lowercase',
             'sport' => 'required|integer|in:1,2,3',
@@ -106,8 +105,7 @@ class OfferController extends Controller
             'brand_id' => 'required|integer|min:1',
         ]));
 
-        //TODO: redirect to profile page
-        return redirect()->route('offer.index')
+        return redirect()->route('offer.show', $offer)
             ->with('success', 'Offer was updated.');
     }
 
