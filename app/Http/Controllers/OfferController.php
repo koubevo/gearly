@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\DeliveryOption;
+use App\Models\FilterCategory;
 use App\Models\Offer;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -95,6 +96,8 @@ class OfferController extends Controller
         $brands = Brand::select('id', 'name')->orderBy('name', 'asc')->get();
         $categories = Category::select('id', 'name')->orderBy('name', 'asc')->get();
         $deliveryOptions = DeliveryOption::select('id', 'name')->get();
+        $categories = Category::with('filters')->get();
+
 
         $this->authorize('update', $offer);
 

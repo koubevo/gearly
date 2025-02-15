@@ -10,5 +10,5 @@ const props = defineProps({
     brands: Array,
     categories: Array,
     deliveryOptions: Array
-});
+    });
 </script>
