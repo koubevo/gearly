@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </section>
-            <!-- TODO: move seller to new component -->
+            <!-- TODO: move seller to new component, add link destination -->
             <Link>
                 <section class="border-s-gray-900 border-4 border-e-0 border-y-0 p-2">
                     <!-- TODO: section about seller, move to component -->
@@ -38,13 +38,16 @@
                     <TinyText :text="'Praha | Česká Republika'"/>
                 </section>
             </Link>
-            <section class="my-6 hidden md:grid">
+            <!-- if owner != user -->
+            <div v-if="true">
+                <section class="my-6 hidden md:grid">
                 <!-- TODO: send what to do -->
-                <PrimaryLink :text="'Chat with seller'"/>
-            </section>
-            <section class="grid mb-2 md:relative fixed bottom-0 left-0 w-full p-2 md:hidden">
-                <PrimaryLink :text="'Chat with seller'" class="w-full"/>
-            </section>
+                    <PrimaryLink :text="'Chat with seller'"/>
+                </section>
+                <section class="grid mb-2 md:relative fixed bottom-0 left-0 w-full p-2 md:hidden">
+                    <PrimaryLink :text="'Chat with seller'" class="w-full"/>
+                </section>
+            </div>
         </div>
         <!-- TODO: related offers section, recently viewed  -->
     </div>

@@ -14,6 +14,7 @@
                     <textarea placeholder="Description" name="description" v-model="form.description" class="input-style"></textarea>
                     <div v-if="form.errors.description" class="input-error-message-style">{{ form.errors.description }}</div>
                 </div>
+                <!-- TODO: price not integer, decimal -->
                 <div class="col-span-7 md:col-span-9">
                     <input type="number" placeholder="Price" v-model="form.price" name="price" class="input-style"/>
                     <div v-if="form.errors.price" class="input-error-message-style">{{ form.errors.price }}</div>
