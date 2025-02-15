@@ -45,7 +45,7 @@ class OfferPolicy
      */
     public function delete(User $user, Offer $offer): bool
     {
-        return false;
+        return $user->id === $offer->user_id;
     }
 
     /**

@@ -114,6 +114,8 @@ class OfferController extends Controller
      */
     public function destroy(Offer $offer)
     {
+        $this->authorize('delete', $offer);
+
         $offer->delete();
 
         return redirect()->back()
