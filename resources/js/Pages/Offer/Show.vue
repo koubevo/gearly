@@ -8,34 +8,49 @@
         <!-- TODO: move to middle -->
         <div class="col-span-12 md:col-span-6 md:pt-10">
             <section class="grid mb-6">
-                <!-- TODO: brand -->
-                <TinyText :text="offer.brand"/>
                 <Heading1 :text="offer.name"/>
-                <!-- TODO: bigger price maybe? -->
                 <Price :price="offer.price" :currency="offer.currency"/>
             </section>
             <section class="grid mb-6">
-                <!-- TODO: filters, size, category, sport... -->
-                <p class="mb-2 pe-2">{{ offer.description }}</p>
-                <div class="flex flex-col gap-x-2 gap-y-0.5 text-sm">
+                <!-- TODO: filters, size -->
+                <p class="mb-6 pe-2">{{ offer.description }}</p>
+                <div class="flex flex-col gap-x-2 gap-y-0.5 text-sm mb-6">
+                    <div class="flex gap-2 mb-0">
+                        <div class="font-medium">Brand:</div>
+                        <div>{{ brand.name }}</div>
+                    </div>
+                    <div class="flex gap-2 mb-0">
+                        <div class="font-medium">Sport:</div>
+                        <div>{{ offer.sport }}</div>
+                    </div>
                     <div class="flex gap-2 mb-0">
                         <div class="font-medium">Category:</div>
-                        <div>Shoes</div>
+                        <div>{{ category.name }}</div>
                     </div>
                     <div class="flex gap-2">
                         <div class="font-medium">Size:</div>
                         <div>46</div>
                     </div>
                 </div>
+                <div class="flex flex-col gap-x-2 gap-y-0.5 text-sm">
+                    <div class="flex gap-2 mb-0">
+                        <div class="font-medium">Delivery Option:</div>
+                        <div>{{ deliveryOption.name }}</div>
+                    </div>
+                    <div class="flex gap-2 mb-0">
+                        <div class="font-medium">Delivery Detail:</div>
+                        <div>{{ offer.delivery_description }}</div>
+                    </div>
+                </div>
             </section>
-            <!-- TODO: move seller to new component, add link destination -->
+            <!-- TODO: add link destination -->
             <Link>
                 <section class="border-s-gray-900 border-4 border-e-0 border-y-0 p-2">
-                    <!-- TODO: section about seller, move to component -->
-                    <Heading3 :text="seller.name"/>
+                    <Heading3>{{ seller.name }} <span v-if="seller.team">({{ seller.team }})</span></Heading3>
                     <p class="mb-1">Feedback</p>
-                    <!-- TODO: count of selled items, phone if (if null -> no phone), premium badge, verified badge, team -->
-                    <TinyText :text="'Praha | Česká Republika'"/>
+                    <!-- TODO: count of selled items, premium badge, verified badge -->
+                    <TinyText :text="'Praha | Česká Republika'" class="mb-0.5"/>
+                    <TinyText :text="seller.phone" v-if="seller.phone"/>
                 </section>
             </Link>
             
@@ -93,6 +108,7 @@ import SecondaryButton from '@/Components/SecondaryButton.vue';
 import DangerButton from '@/Components/DangerButton.vue';
 import DangerLink from '@/Components/DangerLink.vue';
 import Modal from '@/Components/Modal.vue';
+import SmallText from '@/Components/SmallText.vue';
 
 const user = usePage().props.auth.user;
 
@@ -108,6 +124,9 @@ function closeModal() {
 
 defineProps({
     offer: Object,
-    seller: Object
+    seller: Object,
+    category: Object,
+    deliveryOption: Object,
+    brand: Object
 });
 </script>

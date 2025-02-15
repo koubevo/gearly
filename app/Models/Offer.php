@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\ConditionEnum;
+use App\Enums\SportEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -51,5 +53,10 @@ class Offer extends Model
     public function deliveryOption(): BelongsTo
     {
         return $this->belongsTo(DeliveryOption::class, 'delivery_option_id');
+    }
+
+    public function getSportEnum(): ?SportEnum
+    {
+        return SportEnum::tryFrom($this->sport);
     }
 }

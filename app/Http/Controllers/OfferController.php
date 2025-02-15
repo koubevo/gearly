@@ -69,16 +69,20 @@ class OfferController extends Controller
      */
     public function show(Offer $offer)
     {
-        $offer->load('seller');
+        $offer->load('seller', 'category', 'brand', 'deliveryOption');
 
-        return inertia(
-            'Offer/Show',
-            [
-                'offer' => $offer,
-                'seller' => $offer->seller
-            ]
-        );
+        return inertia('Offer/Show', [
+            'offer' => [
+                ...$offer->toArray(),
+                'sport' => $offer->getSportEnum()?->label(),
+            ],
+            'seller' => $offer->seller,
+            'category' => $offer->category,
+            'brand' => $offer->brand,
+            'deliveryOption' => $offer->deliveryOption
+        ]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
