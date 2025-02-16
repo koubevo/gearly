@@ -48,25 +48,25 @@
                     <h4 class="mb-2 md:mb-0">Sport</h4>
                     <div class="flex flex-col sm:flex-row gap-2">
                         <label class="cursor-pointer w-full sm:flex-1">
-                            <input type="radio" name="sport" class="hidden peer" value="1" v-model="form.sport" />
+                            <input type="radio" name="sport_id" class="hidden peer" value="1" v-model.number="form.sport_id" />
                             <div class="sport-selector-style">
                                 BOTH
                             </div>
                         </label>
                         <label class="cursor-pointer w-full sm:flex-1">
-                            <input type="radio" name="sport" class="hidden peer" value="2" v-model="form.sport" />
+                            <input type="radio" name="sport_id" class="hidden peer" value="2" v-model.number="form.sport_id" />
                             <div class="sport-selector-style">
                                 BASEBALL
                             </div>
                         </label>
                         <label class="cursor-pointer w-full sm:flex-1">
-                            <input type="radio" name="sport" class="hidden peer" value="3" v-model="form.sport" />
+                            <input type="radio" name="sport_id" class="hidden peer" value="3" v-model.number="form.sport_id" />
                             <div class="sport-selector-style">
                                 SOFTBALL
                             </div>
                         </label>
                     </div>
-                    <div v-if="form.errors.sport" class="input-error-message-style">{{ form.errors.sport }}</div>
+                    <div v-if="form.errors.sport_id" class="input-error-message-style">{{ form.errors.sport_id }}</div>
                 </div>
                 <div class="col-span-12 flex flex-col md:flex-row gap-2 justify-between">
                     <div class="w-full">
@@ -100,12 +100,17 @@
                 <div class="col-span-12 flex flex-col md:flex-row gap-2 justify-between">
                     <div class="w-full" v-for="filterCategory in filteredFilterCategories" :key="filterCategory.id">
                         <h4 class="mb-2 md:mb-0">{{ filterCategory.name }}</h4>
-                        <select :name="'fc'" class="input-style">
-                            <option value="" disabled selected>Vyber možnost</option>
-                            <option v-for="option in filterCategory.options" :key="option.id" :value="option.id">
+                        <select :name="'fc' + filterCategory.id" 
+                                v-model="form[`fc${filterCategory.id}`]" 
+                                class="input-style">
+                            <option value="" disabled selected>Choose filter</option>
+                            <option v-for="option in filterCategory.options" 
+                                    :key="option.id" 
+                                    :value="option.id">
                                 {{ option.name }}
                             </option>
                         </select>
+
                         <div v-if="form.errors.category_id" class="input-error-message-style">{{ form.errors.category_id }}</div>
                     </div>
                 </div>
@@ -129,15 +134,15 @@ const props = defineProps({
         type: Object,
         default: () => ({
             name: "",
-            phone: "",
             description: "",
             price: null,
             currency: "czk",
             condition: "new",
-            sport: 1,
+            sport_id: 1,
             category_id: 12,
             brand_id: 48,
-            delivery_option_id: 1
+            delivery_option_id: 1,
+            delivery_detail: "",
         })
     },
     isEditMode: {
@@ -160,24 +165,36 @@ const props = defineProps({
 
 const form = useForm({
     name: props.offer.name,
-    phone: props.offer.phone,
     description: props.offer.description,
     price: props.offer.price,
     currency: props.offer.currency,
     condition: props.offer.condition,
-    sport: props.offer.sport,
+    sport_id: props.offer.sport_id,
     category_id: props.offer.category_id,
     brand_id: props.offer.brand_id,
-    delivery_option_id: props.offer.delivery_option_id
+    delivery_option_id: props.offer.delivery_option_id,
+    delivery_detail: props.offer.delivery_detail,
 });
 
 const handleSubmit = () => {
-    if (props.isEditMode) {
-        form.put(route('offer.update', {offer: props.offer.id}));
-    } else {
-        form.post(route('offer.store'));
-    }
+    let dataToSend = { ...form.data() }; // Načteme data
+
+    // Přidáme `fcX` ručně
+    filteredFilterCategories.value.forEach(filter => {
+        const key = `fc${filter.id}`;
+        dataToSend[key] = form[key] || null;
+    });
+
+    console.log("Odesílaná data:", dataToSend); // Debugging
+
+    form.transform(() => dataToSend).post(route('offer.store'), {
+        preserveScroll: true,
+        headers: {
+            "Content-Type": "application/json" // Explicitně nastavíme JSON
+        }
+    });
 };
+
 
 const filteredFilterCategories = ref([]);
 
@@ -207,6 +224,16 @@ watch(
     },
     { deep: true }
 );
+
+watch(filteredFilterCategories, (newFilters) => {
+    newFilters.forEach(filter => {
+        const key = `fc${filter.id}`;
+        if (!(key in form)) {
+            form[key] = null;
+        }
+    });
+}, { deep: true });
+
 
 onMounted(async () => {
     await fetchFilterOptions(form.category_id);

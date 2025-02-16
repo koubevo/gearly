@@ -12,15 +12,16 @@ class Offer extends Model
 {
     protected $fillable = [
         'user_id',
-        'phone',
         'name',
         'description',
         'price',
         'currency',
         'condition',
-        'sport',
+        'sport_id',
         'category_id',
         'brand_id',
+        'delivery_option_id',
+        'delivery_description',
         'created_at',
         'updated_at'
     ];
