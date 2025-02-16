@@ -6,7 +6,7 @@
         <div class="md:w-2/4 mx-auto mb-3">
             <Heading1 class="mb-6 mt-6" v-html="isEditMode ? 'Edit offer <span class=\'text-primary-900\'>' + form.name + '</span>' : 'Add new offer'"></Heading1>
             <!-- TODO: photos -->
-            <div class="grid grid-cols-12 gap-4">
+            <div class="grid grid-cols-12 gap-y-4 gap-x-2">
                 <div class="col-span-12">
                     <h4 class="mb-2 md:mb-0">Name</h4>
                     <input type="text" name="name" v-model="form.name" class="input-style" />
@@ -121,7 +121,7 @@
 import Heading1 from '@/Components/Heading1.vue';
 import { useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { ref, watch, computed } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import axios from 'axios';
 
 const props = defineProps({
@@ -207,4 +207,8 @@ watch(
     },
     { deep: true }
 );
+
+onMounted(async () => {
+    await fetchFilterOptions(form.category_id);
+});
 </script>
