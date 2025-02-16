@@ -12,7 +12,6 @@
                 <Price :price="offer.price" :currency="offer.currency"/>
             </section>
             <section class="grid mb-6">
-                <!-- TODO: filters, size -->
                 <p class="mb-6 pe-2">{{ offer.description }}</p>
                 <div class="flex flex-col gap-x-2 gap-y-0.5 text-sm mb-6">
                     <div class="flex gap-2 mb-0">
@@ -27,9 +26,10 @@
                         <div class="font-medium">Category:</div>
                         <div>{{ category.name }}</div>
                     </div>
-                    <div class="flex gap-2">
-                        <div class="font-medium">Size:</div>
-                        <div>46</div>
+                    <!-- TODO: filter category name without units -->
+                    <div class="flex gap-2" v-for="filter in filters">
+                        <div class="font-medium">{{ filter.filter_category_name }}:</div>
+                        <div>{{ filter.filter_name }}</div>
                     </div>
                 </div>
                 <div class="flex flex-col gap-x-2 gap-y-0.5 text-sm">
@@ -65,12 +65,10 @@
             <div v-else>
                 <section class="my-6 flex gap-2">
                     <SecondaryLink :text="'Edit'" :href="route('offer.edit', {offer: offer.id})"/>
-                    <!-- TODO: modal -->
                     <DangerButton @click="confirmOfferDeletion">Delete</DangerButton>
 
                     <Modal :show="confirmingOfferDeletion" @close="closeModal">
                         <div class="p-6">
-                            <!-- TODO: component -->
                             <Heading3 class="text-lg text-gray-900">
                                 Are you sure you want to delete offer <span class="font-bold">{{ offer.name }}</span>?
                             </Heading3>
@@ -127,6 +125,7 @@ defineProps({
     seller: Object,
     category: Object,
     deliveryOption: Object,
-    brand: Object
+    brand: Object,
+    filters: Object
 });
 </script>

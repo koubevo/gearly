@@ -17,4 +17,9 @@ class FilterCategory extends Model
     {
         return $this->hasMany(Filter::class, 'filter_category_id');
     }
+
+    public function offerFilters(): HasMany
+    {
+        return $this->hasMany(OfferFilter::class, 'filter_category_id');
+    }
 }

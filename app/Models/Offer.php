@@ -60,4 +60,9 @@ class Offer extends Model
     {
         return SportEnum::tryFrom($this->sport_id);
     }
+
+    public function offerFilters(): HasMany
+    {
+        return $this->hasMany(OfferFilter::class, 'offer_id');
+    }
 }

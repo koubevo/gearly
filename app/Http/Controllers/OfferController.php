@@ -96,7 +96,7 @@ class OfferController extends Controller
      */
     public function show(Offer $offer)
     {
-        $offer->load('seller', 'category', 'brand', 'deliveryOption');
+        $offer->load('seller', 'category', 'brand', 'deliveryOption', 'offerFilters.filterCategory', 'offerFilters.filter');
 
         return inertia('Offer/Show', [
             'offer' => [
@@ -106,7 +106,15 @@ class OfferController extends Controller
             'seller' => $offer->seller,
             'category' => $offer->category,
             'brand' => $offer->brand,
-            'deliveryOption' => $offer->deliveryOption
+            'deliveryOption' => $offer->deliveryOption,
+            'filters' => $offer->offerFilters->map(fn($filter) => [
+                'id' => $filter->id,
+                'offer_id' => $filter->offer_id,
+                'filter_id' => $filter->filter_id,
+                'filter_category_id' => $filter->filter_category_id,
+                'filter_category_name' => $filter->filterCategory->name ?? null,
+                'filter_name' => $filter->filter->name ?? null,
+            ]),
         ]);
     }
 
