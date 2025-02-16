@@ -87,6 +87,7 @@
                         </select>
                         <div v-if="form.errors.condition" class="input-error-message-style">{{ form.errors.condition }}</div>
                     </div>
+                    <!-- TODO: sort by name -->
                     <div class="w-full" v-if="!isEditMode">
                         <h4 class="mb-2 md:mb-0">Category</h4>
                         <select name="category" v-model="form.category_id" class="input-style">
@@ -210,7 +211,7 @@ const fetchFilterOptions = async (categoryId) => {
         const selectedCategory = props.categories.find(cat => cat.id === categoryId);
         if (selectedCategory) {
             const responses = await Promise.all(
-                selectedCategory.filters.map(filter => axios.get(`http://127.0.0.1:8000/filters/${filter.id}`))
+                selectedCategory.filters.map(filter => axios.get(`http://127.0.0.1:8000/api/filters/${filter.id}`))
             );
             filteredFilterCategories.value = selectedCategory.filters.map((filter, index) => ({
                 ...filter,

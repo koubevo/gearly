@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FilterController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OfferController;
 use Illuminate\Foundation\Application;
@@ -18,7 +19,9 @@ Route::get('/', function () {
 
 //TODO: add middlewares for other controllers
 
-Route::get('/filters/{categoryId}', [FilterController::class, 'getFiltersByCategory']);
+Route::get('/api/filters/{categoryId}', [FilterController::class, 'getFiltersByCategory']);
+Route::get('/api/countries', [LocationController::class, 'getCountries']);
+Route::get('/api/cities', [LocationController::class, 'getCities']);
 
 Route::resource('offer', OfferController::class)
     ->only(['create', 'store', 'edit', 'update', 'destroy'])

@@ -9,7 +9,7 @@
             </Link>
         </div>
 
-        <div class="mt-6 w-full overflow-hidden bg-white p-8 sm:max-w-lg shadow-gray-200 shadow-lg">
+        <div class="mt-6 w-full overflow-hidden bg-white p-4 md:p-8 sm:max-w-lg shadow-gray-200 shadow-lg">
             <slot />
         </div>
     </div>
