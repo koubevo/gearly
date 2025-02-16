@@ -51,3 +51,11 @@
 .vs__dropdown-option[aria-selected="true"] {
     @apply bg-primary-900 text-white;
 }
+
+.flash-message-success-style {
+    @apply bg-black text-white py-2 px-6 absolute bottom-3 right-3 md:bottom-5 md:right-5 border-s-4 border-primary-900 font-bold;
+}
+
+.flash-message-error-style {
+    @apply bg-black text-white py-2 px-6 absolute bottom-3 right-3 md:bottom-5 md:right-5 border-s-4 border-red-600 font-bold;
+}

@@ -50,13 +50,13 @@
     </header>
 
     <main class="container mx-auto max-md:px-2">
-        <!-- TODO: error message, better styling -->
-        <div v-if="flashSuccess" 
-             class="my-4 shadow-sm border-s-primary-900 border-4 border-e-0 border-y-0 p-2 
-                    bg-gradient-to-r from-primary-500 via-white to-white w-1/2">
+        <div v-if="flashSuccess" class="flash-message-success-style">
             {{ flashSuccess }}
         </div>
 
+        <div v-if="flashError" class="flash-message-error-style">
+            {{ flashError }}
+        </div>
         <slot></slot>
     </main>   
 </template>
