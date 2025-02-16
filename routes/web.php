@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FilterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OfferController;
 use Illuminate\Foundation\Application;
@@ -18,6 +19,8 @@ Route::get('/', function () {
 //TODO: add middlewares for other controllers
 
 //TODO: after new offer doesnt redirect to /offers
+Route::get('/filters/{categoryId}', [FilterController::class, 'getFiltersByCategory']);
+
 Route::get('/offers', [OfferController::class, 'index'])->name('offer.index');
 
 Route::resource('offer', OfferController::class)
@@ -30,6 +33,9 @@ Route::resource('offer', OfferController::class)
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

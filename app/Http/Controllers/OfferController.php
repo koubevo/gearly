@@ -98,7 +98,6 @@ class OfferController extends Controller
         $deliveryOptions = DeliveryOption::select('id', 'name')->get();
         $categories = Category::with('filters')->get();
 
-
         $this->authorize('update', $offer);
 
         return inertia('Offer/Edit', [

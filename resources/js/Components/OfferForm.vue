@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="handleSubmit">
         <!-- TODO: pridat datove typy v-model.number atd -->
-        <!-- TODO: add size, add delivery option --> 
+        <!-- TODO: add size, --> 
         <!-- TODO: add required to inputs -->
         <div class="md:w-2/4 mx-auto mb-3">
             <Heading1 class="mb-6 mt-6" v-html="isEditMode ? 'Edit offer <span class=\'text-primary-900\'>' + form.name + '</span>' : 'Add new offer'"></Heading1>
@@ -100,8 +100,11 @@
                 <div class="col-span-12 flex flex-col md:flex-row gap-2 justify-between">
                     <div class="w-full" v-for="filterCategory in filteredFilterCategories" :key="filterCategory.id">
                         <h4 class="mb-2 md:mb-0">{{ filterCategory.name }}</h4>
-                        <select :name="'fc' + filterCategory.id" v-model="form.category_id" class="input-style">
-                            <option>Vyber možnost</option>
+                        <select :name="'fc'" class="input-style">
+                            <option value="" disabled selected>Vyber možnost</option>
+                            <option v-for="option in filterCategory.options" :key="option.id" :value="option.id">
+                                {{ option.name }}
+                            </option>
                         </select>
                         <div v-if="form.errors.category_id" class="input-error-message-style">{{ form.errors.category_id }}</div>
                     </div>
@@ -119,6 +122,7 @@ import Heading1 from '@/Components/Heading1.vue';
 import { useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { ref, watch, computed } from 'vue';
+import axios from 'axios';
 
 const props = defineProps({
     offer: {
@@ -175,12 +179,32 @@ const handleSubmit = () => {
     }
 };
 
-const filteredFilterCategories = computed(() => {
-    // Najdeme vybranou kategorii podle ID
-    const selectedCategory = props.categories.find(cat => cat.id === form.category_id);
+const filteredFilterCategories = ref([]);
 
-    // Pokud kategorie existuje, vrátíme její filtry, jinak prázdné pole
-    return selectedCategory ? selectedCategory.filters : [];
-});
+const fetchFilterOptions = async (categoryId) => {
+    try {
+        const selectedCategory = props.categories.find(cat => cat.id === categoryId);
+        if (selectedCategory) {
+            const responses = await Promise.all(
+                selectedCategory.filters.map(filter => axios.get(`http://127.0.0.1:8000/filters/${filter.id}`))
+            );
+            filteredFilterCategories.value = selectedCategory.filters.map((filter, index) => ({
+                ...filter,
+                options: responses[index].data
+            }));
+        }
+    } catch (error) {
+        console.error("Chyba při načítání filtrů:", error);
+    }
+};
 
+watch(
+    () => form.category_id,
+    async (newCategoryId, oldCategoryId) => {
+        if (newCategoryId !== oldCategoryId) {
+            await fetchFilterOptions(newCategoryId);
+        }
+    },
+    { deep: true }
+);
 </script>
