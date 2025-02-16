@@ -63,7 +63,7 @@
 
 <script setup>
 import { Link, usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
 import { MagnifyingGlassIcon, BellIcon, UserIcon, HeartIcon } from '@heroicons/vue/24/outline';
 import SecondaryLink from '@/Components/buttons/SecondaryLink.vue';
 import PrimaryLink from '@/Components/buttons/PrimaryLink.vue';
@@ -71,4 +71,14 @@ import PrimaryLink from '@/Components/buttons/PrimaryLink.vue';
 const user = computed(() => page.props.auth.user);
 const page = usePage();
 const flashSuccess = computed(() => page.props.flash?.success ?? '');
+const flashError = computed(() => page.props.flash?.error ?? '');
+
+onMounted(() => {
+    if (flashSuccess.value || flashError.value) {
+        setTimeout(() => {
+            flashSuccess.value = '';
+            flashError.value = '';
+        }, 10000); // 10 seconds (9s delay + 1s fade-out)
+    }
+});
 </script>
