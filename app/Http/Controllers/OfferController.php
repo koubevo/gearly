@@ -63,6 +63,7 @@ class OfferController extends Controller
             'category_id' => 'required|integer|min:1',
             'brand_id' => 'required|integer|min:1',
             'delivery_option_id' => 'required|integer|min:1',
+            'delivery_detail' => 'nullable|string',
         ] + collect($request->all())
                 ->filter(fn($value, $key) => str_starts_with($key, 'fc'))
                 ->mapWithKeys(fn($value, $key) => [$key => 'nullable|integer'])
@@ -149,6 +150,7 @@ class OfferController extends Controller
             'category_id' => 'required|integer|min:1',
             'brand_id' => 'required|integer|min:1',
             'delivery_option_id' => 'required|integer|min:1',
+            'delivery_detail' => 'nullable|string',
         ]));
 
         return redirect()->route('offer.show', $offer)

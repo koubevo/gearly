@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->string('condition');
             $table->integer('sport_id');
             $table->foreignIdFor(DeliveryOption::class, 'delivery_option_id')->constrained('delivery_options');
-            $table->string('delivery_description')->nullable();
+            $table->string('delivery_detail')->nullable();
             $table->foreignIdFor(Category::class, 'category_id')->constrained('categories')->onDelete('cascade');
             $table->foreignIdFor(Brand::class, 'brand_id')->constrained('brands')->onDelete('cascade');
             $table->timestamps();

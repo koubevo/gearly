@@ -21,7 +21,7 @@ class Offer extends Model
         'category_id',
         'brand_id',
         'delivery_option_id',
-        'delivery_description',
+        'delivery_detail',
         'created_at',
         'updated_at'
     ];

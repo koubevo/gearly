@@ -179,18 +179,27 @@ const form = useForm({
 const handleSubmit = () => {
     let dataToSend = { ...form.data() }; 
 
-    filteredFilterCategories.value.forEach(filter => {
-        const key = `fc${filter.id}`;
-        dataToSend[key] = form[key] || null;
-    });
+    if (props.isEditMode) {
+        form.transform(() => dataToSend).put(route('offer.update', {offer: props.offer.id}), {
+            preserveScroll: true,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+    }
+    else {
+            filteredFilterCategories.value.forEach(filter => {
+            const key = `fc${filter.id}`;
+            dataToSend[key] = form[key] || null;
+        });
 
-
-    form.transform(() => dataToSend).post(route('offer.store'), {
-        preserveScroll: true,
-        headers: {
-            "Content-Type": "application/json"
-        }
-    });
+        form.transform(() => dataToSend).post(route('offer.store'), {
+            preserveScroll: true,
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+    }
 };
 
 
