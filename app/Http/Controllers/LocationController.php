@@ -29,19 +29,27 @@ class LocationController extends Controller
         ]);
     }
 
-
-
     public function getCities(Request $request)
     {
-        $request->validate([
-            'country_id' => 'required|integer'
+        $iso2 = $request->input('iso2');
+
+        if (!$iso2) {
+            return response()->json([
+                'success' => false,
+                'message' => 'iso2 parameter is required'
+            ], 400);
+        }
+
+        $cities = World::cities([
+            'fields' => 'name',
+            'filters' => [
+                'country_code' => $iso2
+            ]
+        ])->data;
+
+        return response()->json([
+            'success' => true,
+            'data' => $cities
         ]);
-
-        $cities = World::cities()
-            ->where('country_id', $request->country_id)
-            ->orderBy('name')
-            ->get();
-
-        return response()->json($cities);
     }
 }

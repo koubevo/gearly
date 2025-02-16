@@ -29,3 +29,23 @@
 .header-height-style {
     height: 62px;
 }
+
+.v-select {
+    @apply bg-white border-black focus:outline-none w-full focus:ring-0 focus:border-black ;
+}
+
+.v-select .vs__dropdown-toggle {
+    @apply bg-white border-black focus:outline-none w-full focus:ring-0 focus:border-black rounded-none;
+}
+
+.v-select .vs__selected-options {
+    @apply bg-white border-black focus:outline-none px-2 py-1 w-full focus:ring-0 focus:border-black;
+}
+
+.v-select .vs__open-indicator {
+    @apply text-black;
+}
+
+.v-select .vs__dropdown-menu .vs__dropdown-option--highlight {
+    @apply bg-primary-900;
+}
