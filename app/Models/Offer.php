@@ -58,6 +58,6 @@ class Offer extends Model
 
     public function getSportEnum(): ?SportEnum
     {
-        return SportEnum::tryFrom($this->sport);
+        return SportEnum::tryFrom($this->sport_id);
     }
 }
