@@ -24,8 +24,8 @@ import { Link } from '@inertiajs/vue3';
 import { HeartIcon } from '@heroicons/vue/24/outline'
 import Price from './Price.vue';
 import Condition from './Condition.vue';
-import Heading3 from './Heading3.vue';
-import TinyText from './TinyText.vue';
+import Heading3 from './text/Heading3.vue';
+import TinyText from './text/TinyText.vue';
 
 const props = defineProps({
   offer: Object

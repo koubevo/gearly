@@ -124,9 +124,9 @@
 </template>
 
 <script setup>
-import Heading1 from '@/Components/Heading1.vue';
+import Heading1 from '@/Components/text/Heading1.vue';
 import { useForm } from '@inertiajs/vue3';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import PrimaryButton from '@/Components/buttons/PrimaryButton.vue';
 import { ref, watch, onMounted } from 'vue';
 import axios from 'axios';
 

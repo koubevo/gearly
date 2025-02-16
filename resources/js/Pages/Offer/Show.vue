@@ -97,16 +97,16 @@ import { Link, usePage } from '@inertiajs/vue3';
 import { HeartIcon } from '@heroicons/vue/24/outline'
 import Price from '@/Components/Price.vue';
 import Condition from '@/Components/Condition.vue';
-import PrimaryLink from '@/Components/PrimaryLink.vue';
-import Heading1 from '@/Components/Heading1.vue';
-import Heading3 from '@/Components/Heading3.vue';
-import TinyText from '@/Components/TinyText.vue';
-import SecondaryLink from '@/Components/SecondaryLink.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
-import DangerButton from '@/Components/DangerButton.vue';
-import DangerLink from '@/Components/DangerLink.vue';
+import PrimaryLink from '@/Components/buttons/PrimaryLink.vue';
+import Heading1 from '@/Components/text/Heading1.vue';
+import Heading3 from '@/Components/text/Heading3.vue';
+import TinyText from '@/Components/text/TinyText.vue';
+import SecondaryLink from '@/Components/buttons/SecondaryLink.vue';
+import SecondaryButton from '@/Components/buttons/SecondaryButton.vue';
+import DangerButton from '@/Components/buttons/DangerButton.vue';
+import DangerLink from '@/Components/buttons/DangerLink.vue';
 import Modal from '@/Components/Modal.vue';
-import SmallText from '@/Components/SmallText.vue';
+import SmallText from '@/Components/text/SmallText.vue';
 
 const user = usePage().props.auth.user ?? {};
 

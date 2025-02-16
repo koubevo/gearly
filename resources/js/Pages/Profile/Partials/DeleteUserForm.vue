@@ -1,8 +1,8 @@
 <script setup>
-import DangerButton from '@/Components/DangerButton.vue';
+import DangerButton from '@/Components/buttons/DangerButton.vue';
 import Modal from '@/Components/Modal.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
-import TinyText from '@/Components/TinyText.vue';
+import SecondaryButton from '@/Components/buttons/SecondaryButton.vue';
+import TinyText from '@/Components/text/TinyText.vue';
 import { useForm } from '@inertiajs/vue3';
 import { nextTick, ref } from 'vue';
 

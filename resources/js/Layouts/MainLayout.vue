@@ -65,8 +65,8 @@
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { MagnifyingGlassIcon, BellIcon, UserIcon, HeartIcon } from '@heroicons/vue/24/outline';
-import SecondaryLink from '@/Components/SecondaryLink.vue';
-import PrimaryLink from '@/Components/PrimaryLink.vue';
+import SecondaryLink from '@/Components/buttons/SecondaryLink.vue';
+import PrimaryLink from '@/Components/buttons/PrimaryLink.vue';
 
 const user = computed(() => page.props.auth.user);
 const page = usePage();

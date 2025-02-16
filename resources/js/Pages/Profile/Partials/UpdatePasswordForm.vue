@@ -1,6 +1,6 @@
 <script setup>
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TinyText from '@/Components/TinyText.vue';
+import PrimaryButton from '@/Components/buttons/PrimaryButton.vue';
+import TinyText from '@/Components/text/TinyText.vue';
 import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
