@@ -108,7 +108,7 @@ import DangerLink from '@/Components/DangerLink.vue';
 import Modal from '@/Components/Modal.vue';
 import SmallText from '@/Components/SmallText.vue';
 
-const user = usePage().props.auth.user;
+const user = usePage().props.auth.user ?? {};
 
 const confirmingOfferDeletion = ref(false);
 

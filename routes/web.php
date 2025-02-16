@@ -18,24 +18,18 @@ Route::get('/', function () {
 
 //TODO: add middlewares for other controllers
 
-//TODO: after new offer doesnt redirect to /offers
 Route::get('/filters/{categoryId}', [FilterController::class, 'getFiltersByCategory']);
-
-Route::get('/offers', [OfferController::class, 'index'])->name('offer.index');
 
 Route::resource('offer', OfferController::class)
     ->only(['create', 'store', 'edit', 'update', 'destroy'])
     ->middleware('auth');
 
 Route::resource('offer', OfferController::class)
-    ->except(['create', 'store', 'edit', 'update', 'destroy']);
+    ->only(['index', 'show']);
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
-
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
