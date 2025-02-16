@@ -46,6 +46,8 @@
     @apply text-black;
 }
 
-.v-select .vs__dropdown-menu .vs__dropdown-option--highlight {
-    @apply bg-primary-900;
+.vs__dropdown-option--highlight,
+.vs__dropdown-option:focus,
+.vs__dropdown-option[aria-selected="true"] {
+    @apply bg-primary-900 text-white;
 }
