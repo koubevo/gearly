@@ -22947,6 +22947,28 @@ namespace Barryvdh\Debugbar\Facades {
             }
     }
 
+namespace Nnjeim\World {
+    /**
+     * 
+     *
+     */
+    class World {
+        /**
+         * 
+         *
+         * @param string $requestLocale
+         * @return \Nnjeim\World\WorldHelper 
+         * @static 
+         */
+        public static function setLocale($requestLocale)
+        {
+            /** @var \Nnjeim\World\WorldHelper $instance */
+            return $instance->setLocale($requestLocale);
+        }
+
+            }
+    }
+
 namespace Illuminate\Support {
     /**
      * 
@@ -27518,6 +27540,7 @@ namespace  {
     class View extends \Illuminate\Support\Facades\View {}
     class Vite extends \Illuminate\Support\Facades\Vite {}
     class Debugbar extends \Barryvdh\Debugbar\Facades\Debugbar {}
+    class Country extends \Nnjeim\World\World {}
 }
 
 
