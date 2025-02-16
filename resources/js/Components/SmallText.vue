@@ -1,6 +1,6 @@
 <template>
-    <h3 class="font-medium mb-2">{{ text }} <slot /></h3>
- </template>
+    <p class="text-sm text-gray-700">{{ text }}</p>
+</template>
  
  <script setup>
  defineProps({

@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             FilterCategorySeeder::class,
             FilterSeeder::class,
             FilterFcMappingSeeder::class,
+            DeliveryOptionSeeder::class,
             OfferSeeder::class
         ]);
     }

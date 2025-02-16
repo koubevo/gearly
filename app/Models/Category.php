@@ -10,7 +10,7 @@ class Category extends Model
 {
     public function filters(): BelongsToMany
     {
-        return $this->belongsToMany(Filter::class, 'filter_fc_mappings');
+        return $this->belongsToMany(FilterCategory::class, 'filter_fc_mappings', 'category_id', 'filter_category_id');
     }
 
     public function offers(): HasMany

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\ConditionEnum;
+use App\Enums\SportEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -10,20 +12,21 @@ class Offer extends Model
 {
     protected $fillable = [
         'user_id',
-        'phone',
         'name',
         'description',
         'price',
         'currency',
         'condition',
-        'sport',
+        'sport_id',
         'category_id',
         'brand_id',
+        'delivery_option_id',
+        'delivery_detail',
         'created_at',
         'updated_at'
     ];
 
-    public function owner(): BelongsTo
+    public function seller(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
     }
@@ -46,5 +49,20 @@ class Offer extends Model
     public function favorites(): HasMany
     {
         return $this->hasMany(Favorite::class, 'offer_id');
+    }
+
+    public function deliveryOption(): BelongsTo
+    {
+        return $this->belongsTo(DeliveryOption::class, 'delivery_option_id');
+    }
+
+    public function getSportEnum(): ?SportEnum
+    {
+        return SportEnum::tryFrom($this->sport_id);
+    }
+
+    public function offerFilters(): HasMany
+    {
+        return $this->hasMany(OfferFilter::class, 'offer_id');
     }
 }
