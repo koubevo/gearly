@@ -69,19 +69,18 @@ class OfferController extends Controller
                 ->toArray());
         $validated['user_id'] = \Illuminate\Support\Facades\Auth::user()->id;
 
-        // Uložíme nabídku
         $offer = Offer::create($validated);
 
-        // Uložíme dynamické filtry `fcX`
+        //TODO: check if filters corespond to category
         foreach ($validated as $key => $value) {
             if (str_starts_with($key, 'fc')) {
-                $filterCategoryId = str_replace('fc', '', $key); // Získáme číslo z "fcX" (např. "3")
-                $filterId = $value; // Hodnota vybraná v selectu (např. "45")
+                $filterCategoryId = str_replace('fc', '', $key);
+                $filterId = $value;
 
                 OfferFilter::create([
                     'offer_id' => $offer->id,
-                    'filter_category_id' => $filterCategoryId, // Např. 3
-                    'filter_id' => $filterId, // Např. 45
+                    'filter_category_id' => $filterCategoryId,
+                    'filter_id' => $filterId,
                 ]);
             }
         }

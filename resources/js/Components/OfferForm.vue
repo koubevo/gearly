@@ -177,20 +177,18 @@ const form = useForm({
 });
 
 const handleSubmit = () => {
-    let dataToSend = { ...form.data() }; // Načteme data
+    let dataToSend = { ...form.data() }; 
 
-    // Přidáme `fcX` ručně
     filteredFilterCategories.value.forEach(filter => {
         const key = `fc${filter.id}`;
         dataToSend[key] = form[key] || null;
     });
 
-    console.log("Odesílaná data:", dataToSend); // Debugging
 
     form.transform(() => dataToSend).post(route('offer.store'), {
         preserveScroll: true,
         headers: {
-            "Content-Type": "application/json" // Explicitně nastavíme JSON
+            "Content-Type": "application/json"
         }
     });
 };
