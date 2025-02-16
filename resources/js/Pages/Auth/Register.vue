@@ -36,19 +36,25 @@ onMounted(async () => {
 
 watch(() => form.country, async (newCountry) => {
     if (newCountry) {
-        try {
-            const response = await fetch(`/api/cities?iso2=${newCountry}`);
-            const result = await response.json();
-            if (result.success) {
-                cities.value = result.data;
-            } else {
-                console.error('Error fetching cities:', result.message);
+        const selectedCountry = countries.value.find(country => country.name === newCountry);
+        const iso2 = selectedCountry ? selectedCountry.iso2 : '';
+
+        if (iso2) {
+            try {
+                const response = await fetch(`/api/cities?iso2=${iso2}`);
+                const result = await response.json();
+                if (result.success) {
+                    cities.value = result.data;
+                } else {
+                    console.error('Error fetching cities:', result.message);
+                }
+            } catch (error) {
+                console.error('Error fetching cities:', error);
             }
-        } catch (error) {
-            console.error('Error fetching cities:', error);
         }
     }
 });
+
 
 const submit = () => {
     form.post(route('register'), {
@@ -82,10 +88,12 @@ const submit = () => {
 
             <div class="mt-4 flex md:flex-row flex-col gap-2">
                 <div class="flex-1">
-                    <v-select :options="countries" v-model="form.country" label="name" :reduce="country => country.iso2" placeholder="Select a country" />
+                    <v-select :options="countries" v-model="form.country" label="name" :reduce="country => country.name" placeholder="Select a country" append-to-body required/>
+                    <div v-if="form.errors.country" class="input-error-message-style">{{ form.errors.country }}</div>
                 </div>
                 <div class="flex-1">
-                    <v-select :options="cities" v-model="form.city" label="name" placeholder="Select a city" />
+                    <v-select :options="cities" v-model="form.city" label="name" :reduce="city => city.name" placeholder="Select a city" append-to-body required/>
+                    <div v-if="form.errors.city" class="input-error-message-style">{{ form.errors.city }}</div>
                 </div>
             </div>
             

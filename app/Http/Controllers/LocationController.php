@@ -12,20 +12,16 @@ class LocationController extends Controller
         $allowedCountries = ['CZ', 'NL', 'IT', 'DK', 'DE', 'ES', 'AT', 'BE', 'PL', 'HR', 'FR', 'SK', 'SE', 'GB'];
 
         $countries = World::countries([
-            'fields' => 'iso2,name',
-            'filters' => [
-                'region' => 'Europe'
-            ]
+            'fields' => 'iso2,name'
         ])->data;
 
         $filteredCountries = $countries->filter(fn($country) => in_array($country['iso2'], $allowedCountries));
-
         // sort by popularity
         $sortedCountries = $filteredCountries->sortBy(fn($country) => array_search($country['iso2'], $allowedCountries));
 
         return response()->json([
             'success' => true,
-            'data' => $sortedCountries->values(), // Resetuje indexy
+            'data' => $sortedCountries->values(),
         ]);
     }
 
