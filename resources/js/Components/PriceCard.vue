@@ -1,10 +1,10 @@
 <template>
-    <Heading2 class="uppercase">{{ price }} {{ currency }}</Heading2>
+    <BoldNormalText class="uppercase">{{ price }} {{ currency }}</BoldNormalText>
 </template>
 
 <script setup>
 import { computed } from 'vue';
-import Heading2 from './text/Heading2.vue';
+import BoldNormalText from './text/BoldNormalText.vue';
 
 const props = defineProps({
   price: Number,

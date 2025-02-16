@@ -9,12 +9,12 @@
                 </span>
                 <!-- TODO: scaled img -->
                 <img :src="'storage/imgs/nike.jpg'" :alt="offer.name" class="mb-2">
-            </div>
-            <!-- TODO: brand, size -->
-            <TinyText :text="offer.brand.name" class="mb-0.5"/>
-            <!-- TODO: bigger name -->
+            </div>           
+            <!-- TODO: only 1 or 2 lines! -->  
             <Heading3 :text="offer.name"/>
-            <Price :price="offer.price" :currency="offer.currency"/>
+            <SmallText :text="offer.brand.name"/>
+            <!-- TODO: size? -->
+            <PriceCard :price="offer.price" :currency="offer.currency"/>
         </div>
     </Link>
 </template>
@@ -22,10 +22,10 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
 import { HeartIcon } from '@heroicons/vue/24/outline'
-import Price from './Price.vue';
+import PriceCard from './PriceCard.vue';
 import Condition from './Condition.vue';
 import Heading3 from './text/Heading3.vue';
-import TinyText from './text/TinyText.vue';
+import SmallText from './text/SmallText.vue';
 
 const props = defineProps({
   offer: Object

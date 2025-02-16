@@ -8,46 +8,29 @@
         <!-- TODO: move to middle -->
         <div class="col-span-12 md:col-span-6 md:pt-10">
             <section class="grid mb-6">
-                <Heading1 :text="offer.name"/>
+                <Heading1 :text="offer.name" class="mb-3"/>
                 <Price :price="offer.price" :currency="offer.currency"/>
             </section>
             <section class="grid mb-6">
-                <p class="mb-6 pe-2">{{ offer.description }}</p>
+                <NormalText class="mb-4 pe-2">{{ offer.description }}</NormalText>
                 <div class="flex flex-col gap-x-2 gap-y-0.5 text-sm mb-6">
-                    <div class="flex gap-2 mb-0">
-                        <div class="font-medium">Brand:</div>
-                        <div>{{ brand.name }}</div>
-                    </div>
-                    <div class="flex gap-2 mb-0">
-                        <div class="font-medium">Sport:</div>
-                        <div>{{ offer.sport }}</div>
-                    </div>
-                    <div class="flex gap-2 mb-0">
-                        <div class="font-medium">Category:</div>
-                        <div>{{ category.name }}</div>
-                    </div>
+                    <OfferDetail :detail="'Brand'" :detailValue="brand.name"/>
+                    <OfferDetail :detail="'Sport'" :detailValue="offer.sport"/>
+                    <OfferDetail :detail="'Category'" :detailValue="category.name"/>
                     <!-- TODO: filter category name without units -->
-                    <div class="flex gap-2" v-for="filter in filters">
-                        <div class="font-medium">{{ filter.filter_category_name }}:</div>
-                        <div>{{ filter.filter_name }}</div>
-                    </div>
+                    <OfferDetail :detail="filter.filter_category_name" :detailValue="filter.filter_name" v-for="filter in filters"/>
                 </div>
                 <div class="flex flex-col gap-x-2 gap-y-0.5 text-sm">
-                    <div class="flex gap-2 mb-0">
-                        <div class="font-medium">Delivery Option:</div>
-                        <div>{{ deliveryOption.name }}</div>
-                    </div>
-                    <div class="flex gap-2 mb-0" v-if="offer.delivery_detail">
-                        <div class="font-medium">Delivery Detail:</div>
-                        <div>{{ offer.delivery_detail }}</div>
-                    </div>
+                    <OfferDetail :detail="'Delivery Option'" :detailValue="deliveryOption.name"/>
+                    <OfferDetail :detail="'Delivery Detail'" :detailValue="offer.delivery_detail" v-if="offer.delivery_detail"/>
                 </div>
             </section>
             <!-- TODO: add link destination -->
             <Link>
                 <section class="border-s-gray-900 border-4 border-e-0 border-y-0 p-2">
                     <Heading3>{{ seller.name }} <span v-if="seller.team">({{ seller.team }})</span></Heading3>
-                    <p class="mb-1">Feedback</p>
+                    <!-- TODO: feedback -->
+                    <NormalText class="mb-1">Feedback</NormalText>
                     <!-- TODO: count of selled items, premium badge, verified badge -->
                     <TinyText :text="'Praha | Česká Republika'" class="mb-0.5"/>
                     <TinyText :text="seller.phone" v-if="seller.phone"/>
@@ -107,6 +90,8 @@ import DangerButton from '@/Components/buttons/DangerButton.vue';
 import DangerLink from '@/Components/buttons/DangerLink.vue';
 import Modal from '@/Components/Modal.vue';
 import SmallText from '@/Components/text/SmallText.vue';
+import NormalText from '@/Components/text/NormalText.vue';
+import OfferDetail from '@/Components/offer/OfferDetail.vue';
 
 const user = usePage().props.auth.user ?? {};
 

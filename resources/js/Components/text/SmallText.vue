@@ -1,5 +1,5 @@
 <template>
-    <p class="text-sm text-gray-700">{{ text }}</p>
+    <p class="small-text-style">{{ text }}<slot/></p>
 </template>
  
  <script setup>

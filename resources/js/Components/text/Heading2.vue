@@ -1,5 +1,5 @@
 <template>
-   <h1 class="heading1-style">{{ text }} <slot/></h1>
+   <h2 class="heading2-style">{{ text }} <slot/></h2>
 </template>
 
 <script setup>
