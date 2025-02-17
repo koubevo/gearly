@@ -78,7 +78,7 @@ onMounted(() => {
         setTimeout(() => {
             flashSuccess.value = '';
             flashError.value = '';
-        }, 10000); // 10 seconds (9s delay + 1s fade-out)
+        }, 10000);
     }
 });
 </script>
