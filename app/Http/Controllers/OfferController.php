@@ -24,7 +24,10 @@ class OfferController extends Controller implements HasMedia
      */
     public function index()
     {
-        $offers = Offer::with('brand')->get();
+        $offers = Offer::with('brand')->get()->map(function ($offer) {
+            $offer->thumbnail_url = $offer->getThumbnailUrl();
+            return $offer;
+        });
 
         return inertia(
             'Offer/Index',
