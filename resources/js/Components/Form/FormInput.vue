@@ -1,7 +1,9 @@
 <template>
     <label :for="name" class="mb-2 md:mb-0">{{ labelName }} <span v-if="required" class="required-star-style">*</span></label>
     <input :type="type" :name="name" :value="modelValue" 
-        @input="$emit('update:modelValue', $event.target.value)" class="input-style" />
+        @input="$emit('update:modelValue', $event.target.value)" 
+        :step="inputStep"
+        class="input-style" />
     <div v-if="error" class="input-error-message-style">{{ error }}</div>
 </template>
 
@@ -16,4 +18,6 @@ defineProps({
 })
 
 defineEmits(["update:modelValue"]);
+
+const inputStep = computed(() => type === 'number' ? '0.01' : null);
 </script>
