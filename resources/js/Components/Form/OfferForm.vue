@@ -90,6 +90,9 @@
                         <div v-if="form.errors.category_id" class="input-error-message-style">{{ form.errors.category_id }}</div>
                     </div>
                 </div>
+                <div class="col-span-12" v-if="!isEditMode">
+                    <FiltersNote/>
+                </div>
                 <div class="col-span-12 flex flex-col md:flex-row gap-2 justify-between" v-if="!isEditMode">
                     <div class="w-full" v-for="filterCategory in filteredFilterCategories" :key="filterCategory.id">
                         <h4 class="mb-2 md:mb-0">{{ filterCategory.name }}</h4>
@@ -127,6 +130,7 @@ import axios from 'axios';
 import FormInput from '@/Components/Form/FormInput.vue';
 import RequiredFieldsNote from '@/Components/Form/RequiredFieldsNote.vue';
 import FormTextArea from '@/Components/Form/FormTextArea.vue';
+import FiltersNote from '@/Components/Form/FiltersNote.vue';
 
 const props = defineProps({
     offer: {
