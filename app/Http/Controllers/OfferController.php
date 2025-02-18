@@ -86,6 +86,12 @@ class OfferController extends Controller
             }
         }
 
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $offer->addMedia($image)->toMediaCollection('offers');
+            }
+        }
+
         return redirect()->route('offer.show', $offer->id)->with('success', 'Offer created successfully.');
     }
 

@@ -7,9 +7,13 @@ use App\Enums\SportEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class Offer extends Model
 {
+    use InteractsWithMedia;
+
     protected $fillable = [
         'user_id',
         'name',
@@ -64,5 +68,13 @@ class Offer extends Model
     public function offerFilters(): HasMany
     {
         return $this->hasMany(OfferFilter::class, 'offer_id');
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+            ->width(400)
+            ->height(400)
+            ->nonQueued();
     }
 }
