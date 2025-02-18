@@ -7,7 +7,7 @@
             <!-- TODO: photos -->
             <div class="grid grid-cols-12 gap-y-4 gap-x-2">
                 <div class="col-span-12">
-                    <ImageUploader v-model="form.images" />
+                    <ImageUploader @update:modelValue="updateImages" />
                 </div>
                 <div class="col-span-12">
                     <FormInput name="name" labelName="Name" type="text" v-model="form.name" :error="form.errors.name" :required="true" />
@@ -29,7 +29,7 @@
                 </div>
                 <div class="col-span-12 flex flex-col">
                     <!-- TODO: Component -->
-                    <h4 class="mb-2 md:mb-0">Sport</h4>
+                    <label class="mb-2 md:mb-0">Sport</label>
                     <div class="flex flex-col sm:flex-row gap-2">
                         <label class="cursor-pointer w-full sm:flex-1">
                             <input type="radio" name="sport_id" class="hidden peer" value="1" v-model.number="form.sport_id" />
@@ -144,37 +144,44 @@ const form = useForm({
     images: [],
 });
 
+const updateImages = (images) => {
+    form.images = images;
+};
 
 const handleSubmit = () => {
-    let dataToSend = { ...form.data() };
-
-    form.images.forEach((file, index) => {
-        dataToSend.append(`images[${index}]`, file);
+    let dataToSend = new FormData();
+    Object.keys(form).forEach(key => {
+        if (key === 'images') {
+            form.images.forEach((image, index) => {
+                dataToSend.append(`images[${index}]`, image);
+            });
+        } else {
+            dataToSend.append(key, form[key]);
+        }
     });
 
     if (props.isEditMode) {
         form.transform(() => dataToSend).put(route('offer.update', {offer: props.offer.id}), {
             preserveScroll: true,
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "multipart/form-data"
             }
         });
     }
     else {
         filteredFilterCategories.value.forEach(filter => {
             const key = `fc${filter.id}`;
-            dataToSend[key] = form[key] || null;
+            dataToSend.append(key, form[key] || null);
         });
 
         form.transform(() => dataToSend).post(route('offer.store'), {
             preserveScroll: true,
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "multipart/form-data"
             }
         });
     }
 };
-
 
 const filteredFilterCategories = ref([]);
 
@@ -213,7 +220,6 @@ watch(filteredFilterCategories, (newFilters) => {
         }
     });
 }, { deep: true });
-
 
 onMounted(async () => {
     await fetchFilterOptions(form.category_id);
