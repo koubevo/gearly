@@ -1,6 +1,6 @@
 <script setup>
 import GuestLayout from '@/Layouts/GuestLayout.vue';
-import PrimaryButton from '@/Components/buttons/PrimaryButton.vue';
+import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import { Head, useForm } from '@inertiajs/vue3';
 
 defineProps({

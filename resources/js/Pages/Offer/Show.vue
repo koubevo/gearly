@@ -78,20 +78,20 @@
 import { ref } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import { HeartIcon } from '@heroicons/vue/24/outline'
-import Price from '@/Components/Price.vue';
-import Condition from '@/Components/Condition.vue';
-import PrimaryLink from '@/Components/buttons/PrimaryLink.vue';
-import Heading1 from '@/Components/text/Heading1.vue';
-import Heading3 from '@/Components/text/Heading3.vue';
-import TinyText from '@/Components/text/TinyText.vue';
-import SecondaryLink from '@/Components/buttons/SecondaryLink.vue';
-import SecondaryButton from '@/Components/buttons/SecondaryButton.vue';
-import DangerButton from '@/Components/buttons/DangerButton.vue';
-import DangerLink from '@/Components/buttons/DangerLink.vue';
+import Price from '@/Components/Offer/Price.vue';
+import Condition from '@/Components/Offer/Condition.vue';
+import PrimaryLink from '@/Components/Buttons/PrimaryLink.vue';
+import Heading1 from '@/Components/Text/Heading1.vue';
+import Heading3 from '@/Components/Text/Heading3.vue';
+import TinyText from '@/Components/Text/TinyText.vue';
+import SecondaryLink from '@/Components/Buttons/SecondaryLink.vue';
+import SecondaryButton from '@/Components/Buttons/SecondaryButton.vue';
+import DangerButton from '@/Components/Buttons/DangerButton.vue';
+import DangerLink from '@/Components/Buttons/DangerLink.vue';
 import Modal from '@/Components/Modal.vue';
-import SmallText from '@/Components/text/SmallText.vue';
-import NormalText from '@/Components/text/NormalText.vue';
-import OfferDetail from '@/Components/offer/OfferDetail.vue';
+import SmallText from '@/Components/Text/SmallText.vue';
+import NormalText from '@/Components/Text/NormalText.vue';
+import OfferDetail from '@/Components/Offer/OfferDetail.vue';
 
 const user = usePage().props.auth.user ?? {};
 

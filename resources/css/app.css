@@ -90,6 +90,10 @@
     @apply text-xs text-gray-600;
 }
 
+.required-star-style {
+    @apply font-black text-primary-900;
+}
+
 @keyframes fadeOut {
     from {
         opacity: 1;

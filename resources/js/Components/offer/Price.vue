@@ -4,7 +4,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import Heading2 from './text/Heading2.vue';
+import Heading2 from '@/Components/Text/Heading2.vue';
 
 const props = defineProps({
   price: Number,

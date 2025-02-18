@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import Card from '@/Components/Card.vue';
+import Card from '@/Components/Offer/Card.vue';
 
 defineProps({
   offers: Array

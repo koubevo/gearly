@@ -5,7 +5,7 @@
 <script setup>
     import { Link } from '@inertiajs/vue3';
     import MainLayout from '@/Layouts/MainLayout.vue';
-    import OffersGrid from '@/Components/OffersGrid.vue';
+    import OffersGrid from '@/Components/Offer/OffersGrid.vue';
 
     defineOptions({ layout: MainLayout })
 

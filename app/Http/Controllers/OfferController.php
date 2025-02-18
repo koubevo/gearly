@@ -36,9 +36,8 @@ class OfferController extends Controller
     public function create()
     {
         $brands = Brand::select('id', 'name')->orderBy('name', 'asc')->get();
-        $categories = Category::select('id', 'name')->orderBy('name', 'asc')->get();
         $deliveryOptions = DeliveryOption::select('id', 'name')->get();
-        $categories = Category::with('filters')->get();
+        $categories = Category::with('filters')->orderBy('name', 'asc')->get();
 
         return inertia('Offer/Create', [
             'brands' => $brands,
@@ -127,7 +126,7 @@ class OfferController extends Controller
     {
         $brands = Brand::select('id', 'name')->orderBy('name', 'asc')->get();
         $deliveryOptions = DeliveryOption::select('id', 'name')->get();
-        $categories = Category::with('filters')->get();
+        $categories = Category::with('filters')->orderBy('name', 'asc')->get();
 
         $this->authorize('update', $offer);
 
