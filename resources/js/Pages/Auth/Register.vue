@@ -5,10 +5,8 @@ import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import FormInput from '@/Components/Form/FormInput.vue';
 import RequiredFieldsNote from '@/Components/Form/RequiredFieldsNote.vue';
-
-//replace icon
-import vSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
+import LocationSelect from '@/Components/Form/LocationSelect.vue';
 
 const form = useForm({
     name: '',
@@ -40,7 +38,6 @@ watch(() => form.country, async (newCountry) => {
     if (newCountry) {
         const selectedCountry = countries.value.find(country => country.name === newCountry);
         const iso2 = selectedCountry ? selectedCountry.iso2 : '';
-
         if (iso2) {
             try {
                 const response = await fetch(`/api/cities?iso2=${iso2}`);
@@ -56,7 +53,6 @@ watch(() => form.country, async (newCountry) => {
         }
     }
 });
-
 
 const submit = () => {
     form.post(route('register'), {
@@ -86,12 +82,10 @@ const submit = () => {
 
             <div class="mt-4 flex md:flex-row flex-col gap-2">
                 <div class="flex-1">
-                    <v-select :options="countries" v-model="form.country" label="name" :reduce="country => country.name" placeholder="Select a country" append-to-body required/>
-                    <div v-if="form.errors.country" class="input-error-message-style">{{ form.errors.country }}</div>
+                    <LocationSelect :options="countries" v-model="form.country" labelName="Country" name="country" :required="true" :error="form.errors.country"/>
                 </div>
                 <div class="flex-1">
-                    <v-select :options="cities" v-model="form.city" label="name" :reduce="city => city.name" placeholder="Select a city" append-to-body required/>
-                    <div v-if="form.errors.city" class="input-error-message-style">{{ form.errors.city }}</div>
+                    <LocationSelect :options="cities" v-model="form.city" labelName="City" name="city" :required="true" :error="form.errors.city"/>
                 </div>
             </div>
 
