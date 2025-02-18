@@ -78,4 +78,10 @@ class Offer extends Model implements HasMedia
             ->height(400)
             ->nonQueued();
     }
+
+    public function getThumbnailUrl()
+    {
+        $media = $this->getFirstMedia('images');
+        return $media ? $media->getUrl('thumb') : null;
+    }
 }
