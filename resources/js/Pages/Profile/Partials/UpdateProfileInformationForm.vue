@@ -1,6 +1,6 @@
 <script setup>
-import PrimaryButton from '@/Components/buttons/PrimaryButton.vue';
-import TinyText from '@/Components/text/TinyText.vue';
+import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
+import TinyText from '@/Components/Text/TinyText.vue';
 import { Link, useForm, usePage } from '@inertiajs/vue3';
 
 defineProps({

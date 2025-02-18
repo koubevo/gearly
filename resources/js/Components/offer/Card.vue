@@ -22,10 +22,10 @@
 <script setup>
 import { Link } from '@inertiajs/vue3';
 import { HeartIcon } from '@heroicons/vue/24/outline'
-import PriceCard from './PriceCard.vue';
-import Condition from './Condition.vue';
-import Heading3 from './text/Heading3.vue';
-import SmallText from './text/SmallText.vue';
+import PriceCard from '@/Components/Offer/PriceCard.vue';
+import Condition from '@/Components/Offer/Condition.vue';
+import Heading3 from '@/Components/Text/Heading3.vue';
+import SmallText from '@/Components/Text/SmallText.vue';
 
 const props = defineProps({
   offer: Object

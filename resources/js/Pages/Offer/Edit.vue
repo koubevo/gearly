@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import OfferForm from '@/Components/OfferForm.vue';
+import OfferForm from '@/Components/Form/OfferForm.vue';
 
 const props = defineProps({
     offer: Object,
