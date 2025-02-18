@@ -103,7 +103,7 @@ const props = defineProps({
             condition: "new",
             sport_id: 1,
             category_id: 12,
-            brand_id: 48,
+            brand_id: 49,
             delivery_option_id: 1,
             delivery_detail: "",
         })
