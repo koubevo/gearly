@@ -10,10 +10,14 @@ use App\Models\Offer;
 use App\Models\OfferFilter;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Storage;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\HasMedia;
 
-class OfferController extends Controller
+class OfferController extends Controller implements HasMedia
 {
-    use AuthorizesRequests;
+    use AuthorizesRequests, InteractsWithMedia;
 
     /**
      * Display a listing of the resource.
@@ -71,6 +75,7 @@ class OfferController extends Controller
 
         $offer = Offer::create($validated);
 
+        //TODO: filters can be null
         //TODO: check if filters corespond to category
         foreach ($validated as $key => $value) {
             if (str_starts_with($key, 'fc')) {
@@ -82,6 +87,11 @@ class OfferController extends Controller
                     'filter_category_id' => $filterCategoryId,
                     'filter_id' => $filterId,
                 ]);
+            }
+        }
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $offer->addMedia($image)->toMediaCollection('images');
             }
         }
 
@@ -147,8 +157,8 @@ class OfferController extends Controller
     {
         $this->authorize('update', $offer);
 
-        $offer->update($request->validate([
-            'name' => 'required|string',
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|regex:/^\d+(\.\d{1,2})?$/|min:0|max:99999',
             'currency' => 'required|string|in:eur,czk', //only 2 currencies now
@@ -158,7 +168,7 @@ class OfferController extends Controller
             'brand_id' => 'required|integer|min:1',
             'delivery_option_id' => 'required|integer|min:1',
             'delivery_detail' => 'nullable|string',
-        ]));
+        ]);
 
         return redirect()->route('offer.show', $offer)
             ->with('success', 'Offer was updated.');
@@ -177,4 +187,16 @@ class OfferController extends Controller
         return redirect()->route('offer.index')
             ->with('success', 'Offer was removed.');
     }
+
+    public function uploadTempImages(Request $request)
+    {
+        $request->validate([
+            'file' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+        ]);
+
+        $path = $request->file('file')->store('temp', 'public');
+
+        return response()->json(['path' => Storage::url($path)]);
+    }
+
 }

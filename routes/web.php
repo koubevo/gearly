@@ -23,6 +23,8 @@ Route::get('/api/filters/{categoryId}', [FilterController::class, 'getFiltersByC
 Route::get('/api/countries', [LocationController::class, 'getCountries']);
 Route::get('/api/cities', [LocationController::class, 'getCities']);
 
+Route::post('/imgs/upload-temp', [OfferController::class, 'uploadTempImages']);
+
 Route::resource('offer', OfferController::class)
     ->only(['create', 'store', 'edit', 'update', 'destroy'])
     ->middleware('auth');

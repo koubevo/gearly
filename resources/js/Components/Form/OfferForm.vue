@@ -6,6 +6,9 @@
             <Heading1 class="mb-6 mt-6" v-html="isEditMode ? 'Edit offer <span class=\'text-primary-900\'>' + form.name + '</span>' : 'Add new offer'"/>
             <!-- TODO: photos -->
             <div class="grid grid-cols-12 gap-y-4 gap-x-2">
+                <div class="col-span-12" v-if="!isEditMode">
+                    <ImageUploader @update:modelValue="updateImages" />
+                </div>
                 <div class="col-span-12">
                     <FormInput name="name" labelName="Name" type="text" v-model="form.name" :error="form.errors.name" :required="true" />
                 </div>
@@ -26,7 +29,7 @@
                 </div>
                 <div class="col-span-12 flex flex-col">
                     <!-- TODO: Component -->
-                    <h4 class="mb-2 md:mb-0">Sport</h4>
+                    <label class="mb-2 md:mb-0">Sport</label>
                     <div class="flex flex-col sm:flex-row gap-2">
                         <label class="cursor-pointer w-full sm:flex-1">
                             <input type="radio" name="sport_id" class="hidden peer" value="1" v-model.number="form.sport_id" />
@@ -91,6 +94,7 @@ import RequiredFieldsNote from '@/Components/Form/RequiredFieldsNote.vue';
 import FormTextArea from '@/Components/Form/FormTextArea.vue';
 import FiltersNote from '@/Components/Form/FiltersNote.vue';
 import FormSelect from './FormSelect.vue';
+import ImageUploader from './ImageUploader.vue';
 
 const props = defineProps({
     offer: {
@@ -137,34 +141,47 @@ const form = useForm({
     brand_id: props.offer.brand_id,
     delivery_option_id: props.offer.delivery_option_id,
     delivery_detail: props.offer.delivery_detail,
+    images: [],
 });
 
+const updateImages = (images) => {
+    form.images = images;
+};
+
 const handleSubmit = () => {
-    let dataToSend = { ...form.data() }; 
+    let dataToSend = new FormData();
+    Object.keys(form).forEach(key => {
+        if (key === 'images') {
+            form.images.forEach((image, index) => {
+                dataToSend.append(`images[${index}]`, image);
+            });
+        } else {
+            dataToSend.append(key, form[key]);
+        }
+    });
 
     if (props.isEditMode) {
         form.transform(() => dataToSend).put(route('offer.update', {offer: props.offer.id}), {
             preserveScroll: true,
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "multipart/form-data"
             }
         });
     }
     else {
-            filteredFilterCategories.value.forEach(filter => {
+        filteredFilterCategories.value.forEach(filter => {
             const key = `fc${filter.id}`;
-            dataToSend[key] = form[key] || null;
+            dataToSend.append(key, form[key] || null);
         });
 
         form.transform(() => dataToSend).post(route('offer.store'), {
             preserveScroll: true,
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "multipart/form-data"
             }
         });
     }
 };
-
 
 const filteredFilterCategories = ref([]);
 
@@ -203,7 +220,6 @@ watch(filteredFilterCategories, (newFilters) => {
         }
     });
 }, { deep: true });
-
 
 onMounted(async () => {
     await fetchFilterOptions(form.category_id);
