@@ -1,16 +1,11 @@
 <template>
-    <div>
-      <input type="file" multiple @change="handleFiles" accept="image/*" class="hidden-input" ref="fileInput" />
-      
-      <div class="upload-area" @dragover.prevent @drop="handleDrop">
-        <p v-if="!images.length">Přetáhni sem obrázky nebo klikni</p>
-        <div v-for="(image, index) in images" :key="index" class="image-preview">
-          <img :src="image.thumbnail_url || image.localUrl" class="thumb" />
-          <button @click="removeImage(index)">X</button>
-        </div>
+    <input type="file" multiple @change="handleFiles" accept="image/*" />
+   <div v-if="previewImages.length">
+      <p>Náhledy:</p>
+      <div v-for="(image, index) in previewImages" :key="index" class="image-preview">
+        <img :src="image.localUrl" class="thumb" />
+        <button @click="removeImage(index)">X</button>
       </div>
-  
-      <button @click="uploadImages" :disabled="!images.length">Nahrát</button>
     </div>
   </template>
   
@@ -20,42 +15,45 @@
   export default {
     data() {
       return {
-        images: [], // Uložené obrázky
+        form: {
+          title: '',
+          description: '',
+          price: '',
+        },
+        images: [], // Soubory pro nahrání
+        previewImages: [], // Náhledy obrázků
       };
     },
     methods: {
       handleFiles(event) {
         const files = event.target.files;
-        this.previewImages(files);
-      },
-      handleDrop(event) {
-        event.preventDefault();
-        const files = event.dataTransfer.files;
-        this.previewImages(files);
-      },
-      previewImages(files) {
         for (const file of files) {
           if (this.images.length < 10) {
             const reader = new FileReader();
             reader.onload = (e) => {
-              this.images.push({ localUrl: e.target.result, file });
+              this.previewImages.push({ localUrl: e.target.result, file });
             };
             reader.readAsDataURL(file);
+            this.images.push(file);
           }
         }
       },
       removeImage(index) {
+        this.previewImages.splice(index, 1);
         this.images.splice(index, 1);
       },
-      async uploadImages() {
+      async submitOffer() {
         const formData = new FormData();
-        this.images.forEach((image) => formData.append('images[]', image.file));
+        formData.append('title', this.form.title);
+        formData.append('description', this.form.description);
+        formData.append('price', this.form.price);
+        this.images.forEach((file) => formData.append('images[]', file));
   
         try {
-          const response = await axios.post('/offers/upload-images', formData, {
+          await axios.post('/offers', formData, {
             headers: { 'Content-Type': 'multipart/form-data' },
           });
-          this.images = response.data.images;
+          alert('Nabídka byla vytvořena!');
         } catch (error) {
           console.error('Chyba při nahrávání:', error);
         }
@@ -65,26 +63,15 @@
   </script>
   
   <style>
-  .upload-area {
-    border: 2px dashed #ccc;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-  }
-  
-  .image-preview {
-    display: inline-block;
-    position: relative;
-  }
-  
   .thumb {
     width: 100px;
     height: 100px;
     object-fit: cover;
-    margin: 5px;
-    border-radius: 5px;
   }
-  
+  .image-preview {
+    display: inline-block;
+    position: relative;
+  }
   button {
     position: absolute;
     top: 5px;
@@ -95,4 +82,3 @@
     cursor: pointer;
   }
   </style>
-  
