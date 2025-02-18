@@ -45,3 +45,4 @@ dist/
 
 /public/media/*
 !/public/media/.gitignore
+/storage/media-library/*
