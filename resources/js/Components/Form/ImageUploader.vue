@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { ref, watch } from "vue";
+import { ref, defineEmits } from "vue";
 import vueFilePond from "vue-filepond";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
@@ -31,29 +31,15 @@ const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImage
 export default {
   name: "ImageUploader",
   components: { FilePond },
-  props: {
-    modelValue: Array,
-  },
-  setup(props, { emit }) {
-    const files = ref([...props.modelValue]);
+  setup(_, { emit }) {
+    const files = ref([]);
 
     const handleFileUpdate = (fileItems) => {
       files.value = fileItems.map((fileItem) => fileItem.file);
       emit("update:modelValue", files.value);
     };
 
-    watch(
-      () => props.modelValue,
-      (newFiles) => {
-        files.value = newFiles || [];
-      }
-    );
-
-    return {
-      files,
-      handleFileUpdate,
-    };
-  },
+    return { handleFileUpdate, files };
+  }
 };
 </script>
-  
