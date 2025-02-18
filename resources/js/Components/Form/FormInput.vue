@@ -3,21 +3,24 @@
     <input :type="type" :name="name" :value="modelValue" 
         @input="$emit('update:modelValue', $event.target.value)" 
         :step="inputStep"
+        :required="required"
         class="input-style" />
     <div v-if="error" class="input-error-message-style">{{ error }}</div>
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue';
+
+const props = defineProps({
     name: String,
     labelName: String,
     type: String,
     modelValue: String,
     error: String,
     required: Boolean
-})
+});
 
 defineEmits(["update:modelValue"]);
 
-const inputStep = computed(() => type === 'number' ? '0.01' : null);
+const inputStep = computed(() => props.type === 'number' ? '0.01' : null);
 </script>

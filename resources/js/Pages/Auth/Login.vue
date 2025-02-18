@@ -3,6 +3,8 @@ import Checkbox from '@/Components/Form/Checkbox.vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import FormInput from '@/Components/Form/FormInput.vue';
+import RequiredFieldsNote from '@/Components/Form/RequiredFieldsNote.vue';
 
 defineProps({
     canResetPassword: {
@@ -36,13 +38,15 @@ const submit = () => {
         <!-- TODO: add autocomplete -->
         <form @submit.prevent="submit">
             <div>
-                <input type="email" placeholder="Email" name="email" v-model="form.email" class="input-style" required />
-                <div v-if="form.errors.email" class="input-error-message-style">{{ form.errors.email }}</div>
+                <FormInput name="email" labelName="Email" type="email" v-model="form.email" :error="form.errors.email" :required="true" />
             </div>
 
             <div class="mt-4">
-                <input type="password" placeholder="Password" name="password" v-model="form.password" class="input-style" required />
-                <div v-if="form.errors.password" class="input-error-message-style">{{ form.errors.password }}</div>
+                <FormInput name="password" labelName="Password" type="password" v-model="form.password" :error="form.errors.password" :required="true" />
+            </div>
+
+            <div class="my-1">
+                <RequiredFieldsNote />
             </div>
 
             <div class="mt-4 block">

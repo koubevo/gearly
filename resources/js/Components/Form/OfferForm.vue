@@ -1,26 +1,19 @@
 <template>
     <form @submit.prevent="handleSubmit">
         <!-- TODO: pridat datove typy v-model.number atd -->
-        <!-- TODO: add size, --> 
-        <!-- TODO: add required to inputs -->
+        <!-- TODO: labels instead of h4 -->
         <div class="md:w-2/4 mx-auto mb-3">
-            <Heading1 class="mb-6 mt-6" v-html="isEditMode ? 'Edit offer <span class=\'text-primary-900\'>' + form.name + '</span>' : 'Add new offer'"></Heading1>
+            <Heading1 class="mb-6 mt-6" v-html="isEditMode ? 'Edit offer <span class=\'text-primary-900\'>' + form.name + '</span>' : 'Add new offer'"/>
             <!-- TODO: photos -->
             <div class="grid grid-cols-12 gap-y-4 gap-x-2">
                 <div class="col-span-12">
-                    <h4 class="mb-2 md:mb-0">Name</h4>
-                    <input type="text" name="name" v-model="form.name" class="input-style" />
-                    <div v-if="form.errors.name" class="input-error-message-style">{{ form.errors.name }}</div>
+                    <FormInput name="name" labelName="Name" type="text" v-model="form.name" :error="form.errors.name" :required="true" />
                 </div>
                 <div class="col-span-12">
-                    <h4 class="mb-2 md:mb-0">Description</h4>
-                    <textarea name="description" v-model="form.description" class="input-style"></textarea>
-                    <div v-if="form.errors.description" class="input-error-message-style">{{ form.errors.description }}</div>
+                    <FormTextArea name="description" labelName="Description" v-model="form.description" :error="form.errors.description" :required="true" />
                 </div>
                 <div class="col-span-7 md:col-span-9">
-                    <h4 class="mb-2 md:mb-0">Price</h4>
-                    <input type="number" v-model.number="form.price" name="price" class="input-style" step="0.01"/>
-                    <div v-if="form.errors.price" class="input-error-message-style">{{ form.errors.price }}</div>
+                    <FormInput name="price" labelName="Price" type="number" v-model="form.price" :error="form.errors.price" :required="true" />
                 </div>
                 <div class="col-span-5 md:col-span-3">
                     <h4 class="mb-2 md:mb-0">Currency</h4>
@@ -32,19 +25,18 @@
                 </div>
                 <div class="md:col-span-5 col-span-12">
                     <h4 class="mb-2 md:mb-0">Delivery Option</h4>
-                        <select name="delivery_option" v-model="form.delivery_option_id" class="input-style">
-                            <option v-for="deliveryOption in deliveryOptions" :key="deliveryOption.id" :value="deliveryOption.id">
-                                {{ deliveryOption.name }}
-                            </option>
-                        </select>
-                        <div v-if="form.errors.delivery_option_id" class="input-error-message-style">{{ form.errors.delivery_option_id }}</div>
+                    <select name="delivery_option" v-model="form.delivery_option_id" class="input-style">
+                        <option v-for="deliveryOption in deliveryOptions" :key="deliveryOption.id" :value="deliveryOption.id">
+                            {{ deliveryOption.name }}
+                        </option>
+                    </select>
+                    <div v-if="form.errors.delivery_option_id" class="input-error-message-style">{{ form.errors.delivery_option_id }}</div>
                 </div>
                 <div class="md:col-span-7 col-span-12">
-                    <h4 class="mb-2 md:mb-0">Delivery Detail</h4>
-                    <input type="text" name="delivery_detail" v-model="form.delivery_detail" class="input-style" />
-                    <div v-if="form.errors.delivery_detail" class="input-error-message-style">{{ form.errors.delivery_detail }}</div>
+                    <FormInput name="delivery_detail" labelName="Delivery Detail" type="text" v-model="form.delivery_detail" :error="form.errors.delivery_detail" :required="false" />
                 </div>
                 <div class="col-span-12 flex flex-col">
+                    <!-- TODO: Component -->
                     <h4 class="mb-2 md:mb-0">Sport</h4>
                     <div class="flex flex-col sm:flex-row gap-2">
                         <label class="cursor-pointer w-full sm:flex-1">
@@ -115,7 +107,10 @@
                         <div v-if="form.errors.category_id" class="input-error-message-style">{{ form.errors.category_id }}</div>
                     </div>
                 </div>
-                <div class="col-span-12 text-end">
+                <div class="col-span-12">
+                    <RequiredFieldsNote/>
+                </div>
+                <div class="col-span-12">
                     <PrimaryButton type="submit" :text="isEditMode ? 'Edit offer' : 'Add offer'" class="md:w-auto" />
                 </div>
             </div>
@@ -129,6 +124,9 @@ import { useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import { ref, watch, onMounted } from 'vue';
 import axios from 'axios';
+import FormInput from '@/Components/Form/FormInput.vue';
+import RequiredFieldsNote from '@/Components/Form/RequiredFieldsNote.vue';
+import FormTextArea from '@/Components/Form/FormTextArea.vue';
 
 const props = defineProps({
     offer: {

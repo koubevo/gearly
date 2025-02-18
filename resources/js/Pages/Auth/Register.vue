@@ -3,6 +3,8 @@ import { ref, onMounted, watch } from 'vue';
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import FormInput from '@/Components/Form/FormInput.vue';
+import RequiredFieldsNote from '@/Components/Form/RequiredFieldsNote.vue';
 
 //replace icon
 import vSelect from 'vue-select';
@@ -67,23 +69,19 @@ const submit = () => {
     <GuestLayout>
         <form @submit.prevent="submit">
             <div>
-                <input type="text" placeholder="Name" name="name" v-model="form.name" class="input-style" required />
-                <div v-if="form.errors.name" class="input-error-message-style">{{ form.errors.name }}</div>
+                <FormInput name="name" labelName="Full Name" type="text" v-model="form.name" :error="form.errors.name" :required="true" />
             </div>
 
             <div class="mt-4">
-                <input type="email" placeholder="Email" name="email" v-model="form.email" class="input-style" required />
-                <div v-if="form.errors.email" class="input-error-message-style">{{ form.errors.email }}</div>
+                <FormInput name="email" labelName="Email" type="email" v-model="form.email" :error="form.errors.email" :required="true" />
             </div>
 
             <div class="mt-4">
-                <input type="password" placeholder="Password" name="password" v-model="form.password" class="input-style" required />
-                <div v-if="form.errors.password" class="input-error-message-style">{{ form.errors.password }}</div>
+                <FormInput name="password" labelName="Password" type="password" v-model="form.password" :error="form.errors.password" :required="true" />
             </div>
 
             <div class="mt-4">
-                <input type="password" placeholder="Password confirmation" name="password_confirmation" v-model="form.password_confirmation" class="input-style" required />
-                <div v-if="form.errors.password_confirmation" class="input-error-message-style">{{ form.errors.password_confirmation }}</div>
+                <FormInput name="password_confirmation" labelName="Password Confirmation" type="password" v-model="form.password_confirmation" :error="form.errors.password_confirmation" :required="true" />
             </div>
 
             <div class="mt-4 flex md:flex-row flex-col gap-2">
@@ -95,6 +93,10 @@ const submit = () => {
                     <v-select :options="cities" v-model="form.city" label="name" :reduce="city => city.name" placeholder="Select a city" append-to-body required/>
                     <div v-if="form.errors.city" class="input-error-message-style">{{ form.errors.city }}</div>
                 </div>
+            </div>
+
+            <div class="my-1">
+                <RequiredFieldsNote />
             </div>
             
             <div class="mt-4 flex">
