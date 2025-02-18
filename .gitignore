@@ -42,3 +42,6 @@ test/
 # Recommended template: Node.gitignore
 
 dist/
+
+/public/media/*
+!/public/media/.gitignore
