@@ -5,8 +5,10 @@
         <div class="md:w-2/4 mx-auto mb-3">
             <Heading1 class="mb-6 mt-6" v-html="isEditMode ? 'Edit offer <span class=\'text-primary-900\'>' + form.name + '</span>' : 'Add new offer'"/>
             <!-- TODO: photos -->
-            <ImageUploader v-if="!isEditMode" />
             <div class="grid grid-cols-12 gap-y-4 gap-x-2">
+                <div class="col-span-12">
+                    <ImageUploader v-model="form.images" />
+                </div>
                 <div class="col-span-12">
                     <FormInput name="name" labelName="Name" type="text" v-model="form.name" :error="form.errors.name" :required="true" />
                 </div>
@@ -139,10 +141,16 @@ const form = useForm({
     brand_id: props.offer.brand_id,
     delivery_option_id: props.offer.delivery_option_id,
     delivery_detail: props.offer.delivery_detail,
+    images: [],
 });
 
+
 const handleSubmit = () => {
-    let dataToSend = { ...form.data() }; 
+    let dataToSend = { ...form.data() };
+
+    form.images.forEach((file, index) => {
+        dataToSend.append(`images[${index}]`, file);
+    });
 
     if (props.isEditMode) {
         form.transform(() => dataToSend).put(route('offer.update', {offer: props.offer.id}), {
@@ -153,7 +161,7 @@ const handleSubmit = () => {
         });
     }
     else {
-            filteredFilterCategories.value.forEach(filter => {
+        filteredFilterCategories.value.forEach(filter => {
             const key = `fc${filter.id}`;
             dataToSend[key] = form[key] || null;
         });

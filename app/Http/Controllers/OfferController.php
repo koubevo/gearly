@@ -10,6 +10,7 @@ use App\Models\Offer;
 use App\Models\OfferFilter;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Storage;
 
 class OfferController extends Controller
 {
@@ -86,9 +87,12 @@ class OfferController extends Controller
             }
         }
 
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $offer->addMedia($image)->toMediaCollection('offers');
+        if ($request->has('images')) {
+            dd($request->images);
+            foreach ($request->images as $imagePath) {
+                $filePath = str_replace('/storage/', '', $imagePath);
+                $offer->addMedia(storage_path("app/public/{$filePath}"))->toMediaCollection('offers');
+                Storage::disk('public')->delete($filePath);
             }
         }
 
@@ -184,4 +188,16 @@ class OfferController extends Controller
         return redirect()->route('offer.index')
             ->with('success', 'Offer was removed.');
     }
+
+    public function uploadTempImages(Request $request)
+    {
+        $request->validate([
+            'file' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+        ]);
+
+        $path = $request->file('file')->store('temp', 'public');
+
+        return response()->json(['path' => Storage::url($path)]);
+    }
+
 }

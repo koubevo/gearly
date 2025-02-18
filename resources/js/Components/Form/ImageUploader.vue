@@ -8,16 +8,17 @@
       allow-reorder="true"
       max-files="10"
       accepted-file-types="image/jpeg, image/png, image/webp"
-      v-model="files"
       max-file-size="5MB"
       image-resize-target-width="1024"
       image-resize-target-height="1024"
       image-resize-mode="contain"
+      @updatefiles="handleFileUpdate"
     />
   </div>
 </template>
 
 <script>
+import { ref, watch } from "vue";
 import vueFilePond from "vue-filepond";
 import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
@@ -29,13 +30,30 @@ const FilePond = vueFilePond(FilePondPluginFileValidateType, FilePondPluginImage
 
 export default {
   name: "ImageUploader",
-  data() {
-    return {
-      files: [],
-    };
+  components: { FilePond },
+  props: {
+    modelValue: Array,
   },
-  components: {
-    FilePond,
+  setup(props, { emit }) {
+    const files = ref([...props.modelValue]);
+
+    const handleFileUpdate = (fileItems) => {
+      files.value = fileItems.map((fileItem) => fileItem.file);
+      emit("update:modelValue", files.value);
+    };
+
+    watch(
+      () => props.modelValue,
+      (newFiles) => {
+        files.value = newFiles || [];
+      }
+    );
+
+    return {
+      files,
+      handleFileUpdate,
+    };
   },
 };
 </script>
+  
