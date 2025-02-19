@@ -25,7 +25,7 @@ class OfferController extends Controller implements HasMedia
     public function index()
     {
         $offers = Offer::with('brand')->get()->map(function ($offer) {
-            $offer->thumbnail_url = $offer->getThumbnailUrl();
+            $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
             return $offer;
         });
 
@@ -94,7 +94,7 @@ class OfferController extends Controller implements HasMedia
         }
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $offer->addMedia($image)->toMediaCollection('images');
+                $offer->addMedia($image)->toMediaCollection('images', 'media');
             }
         }
 
