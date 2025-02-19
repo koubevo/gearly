@@ -26,7 +26,7 @@ class OfferController extends Controller implements HasMedia
     {
         $offers = Offer::with('brand')
             ->orderBy('created_at', 'desc')
-            ->paginate(10)
+            ->paginate(12)
             ->through(function ($offer) {
                 $offer->thumbnail_url = $offer->getThumbnailUrl();
                 return $offer;
