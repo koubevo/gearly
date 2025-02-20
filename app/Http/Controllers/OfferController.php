@@ -22,7 +22,8 @@ class OfferController extends Controller implements HasMedia
     /**
      * Display a listing of the resource.
      */
-    public function index()
+
+    public function index(Request $request)
     {
         $offers = Offer::with('brand')
             ->orderBy('created_at', 'desc')
@@ -32,13 +33,15 @@ class OfferController extends Controller implements HasMedia
                 return $offer;
             });
 
-        return inertia(
-            'Offer/Index',
-            [
-                'offers' => $offers
-            ]
-        );
+        if ($request->wantsJson()) {
+            return response()->json($offers);
+        }
+
+        return inertia('Offer/Index', [
+            'offers' => $offers
+        ]);
     }
+
 
     /**
      * Show the form for creating a new resource.
