@@ -25,6 +25,10 @@ Route::get('/api/cities', [LocationController::class, 'getCities']);
 
 Route::post('/imgs/upload-temp', [OfferController::class, 'uploadTempImages']);
 
+Route::get('/search', function () {
+    return Inertia::render('Search/Index');
+})->name('search');
+
 Route::resource('offer', OfferController::class)
     ->only(['create', 'store', 'edit', 'update', 'destroy'])
     ->middleware('auth');
