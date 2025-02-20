@@ -4,6 +4,7 @@ use App\Http\Controllers\FilterController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -25,9 +26,8 @@ Route::get('/api/cities', [LocationController::class, 'getCities']);
 
 Route::post('/imgs/upload-temp', [OfferController::class, 'uploadTempImages']);
 
-Route::get('/search', function () {
-    return Inertia::render('Search/Index');
-})->name('search');
+Route::resource('search', SearchController::class)
+    ->only(['index']);
 
 Route::resource('offer', OfferController::class)
     ->only(['create', 'store', 'edit', 'update', 'destroy'])
