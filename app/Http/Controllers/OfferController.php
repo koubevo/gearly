@@ -76,6 +76,7 @@ class OfferController extends Controller implements HasMedia
             'brand_id' => 'required|integer|min:1',
             'delivery_option_id' => 'required|integer|min:1',
             'delivery_detail' => 'nullable|string',
+            'images.*' => 'image|max:5120',
         ] + collect($request->all())
                 ->filter(fn($value, $key) => str_starts_with($key, 'fc'))
                 ->mapWithKeys(fn($value, $key) => [$key => 'nullable|integer'])
@@ -100,9 +101,22 @@ class OfferController extends Controller implements HasMedia
         }
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $offer->addMedia($image)->toMediaCollection('images', 'media');
+                // Vygenerování náhodného řetězce (8 písmen)
+                $randomString = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 8);
+
+                // Získání přípony souboru
+                $extension = $image->getClientOriginalExtension();
+
+                // Sestavení nového názvu souboru
+                $fileName = "gearly-{$offer->id}-{$randomString}.{$extension}";
+
+                // Uložení souboru s novým názvem
+                $offer->addMedia($image)
+                    ->usingFileName($fileName)
+                    ->toMediaCollection('images', 'media');
             }
         }
+
 
         return redirect()->route('offer.show', $offer->id)->with('success', 'Offer created successfully.');
     }
