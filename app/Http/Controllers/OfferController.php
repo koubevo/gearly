@@ -76,6 +76,7 @@ class OfferController extends Controller implements HasMedia
             'brand_id' => 'required|integer|min:1',
             'delivery_option_id' => 'required|integer|min:1',
             'delivery_detail' => 'nullable|string',
+            'images' => 'required|array|min:1',
             'images.*' => 'image|max:5120',
         ] + collect($request->all())
                 ->filter(fn($value, $key) => str_starts_with($key, 'fc'))
