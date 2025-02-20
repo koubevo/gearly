@@ -102,16 +102,12 @@ class OfferController extends Controller implements HasMedia
         }
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                // Vygenerování náhodného řetězce (8 písmen)
                 $randomString = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 8);
 
-                // Získání přípony souboru
                 $extension = $image->getClientOriginalExtension();
 
-                // Sestavení nového názvu souboru
                 $fileName = "gearly-{$offer->id}-{$randomString}.{$extension}";
 
-                // Uložení souboru s novým názvem
                 $offer->addMedia($image)
                     ->usingFileName($fileName)
                     ->toMediaCollection('images', 'media');
