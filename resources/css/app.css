@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .input-style {
-    @apply bg-white border-black focus:outline-none px-4 py-2 w-full focus:ring-0  focus:border-black;
+    @apply bg-white border-black focus:outline-none px-4 py-2 w-full focus:ring-0 focus:border-black;
 }
 
 .input-error-message-style {
@@ -110,12 +110,10 @@
     @apply rounded-none;
   }
 
-  /* Zrušení zaoblení u náhledů */
 .filepond--image-preview {
     border-radius: 0 !important;
   }
   
-  /* Zrušení zaoblení u obalového divu */
   .filepond--item {
     border-radius: 0 !important;
   }
