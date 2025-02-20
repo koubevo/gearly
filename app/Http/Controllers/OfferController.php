@@ -25,9 +25,13 @@ class OfferController extends Controller implements HasMedia
 
     public function index(Request $request)
     {
+        $filters = $request->only(['category', 'brand', 'sport', 'condition', 'price', 'search']);
+
         $offers = Offer::with('brand')
+            ->filter($filters)
             ->orderBy('created_at', 'desc')
             ->paginate(12)
+            ->withQueryString()
             ->through(function ($offer) {
                 $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
                 return $offer;

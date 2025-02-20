@@ -1,6 +1,6 @@
 <template>
     <div class="w-full my-0.5 flex flex-col justify-center">
-        <Link class="text-left w-full" :href="route('offer.index', {category_id: category.id})">
+        <Link class="text-left w-full" :href="route('offer.index', {category: category.id})">
             <div class="hover:bg-gray-300 p-3 w-full flex flex-row justify-between items-center">
                 <!-- TODO: category icon -->
                 <div class="w-10 flex-shrink-0"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Major_League_Baseball_logo.svg/172px-Major_League_Baseball_logo.svg.png" alt="" class="w-full"></div>
