@@ -1,5 +1,5 @@
 <template>
-    <div class="gallery">
+    <div class="gallery w-full mb-4">
       <div class="main-image">
         <button v-if="images.length > 1" @click="prevImage" class="nav left">‹</button>
         <img :src="currentImage" alt="Offer image" />

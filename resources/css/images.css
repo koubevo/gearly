@@ -7,7 +7,7 @@
 }
 
 .main-image {
-    @apply relative flex justify-center items-center w-[500px] h-[500px] bg-white overflow-hidden;
+    @apply relative flex justify-center items-center w-full bg-white overflow-hidden;
 }
 
 .main-image img {
