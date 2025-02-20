@@ -1,13 +1,17 @@
 <template>
     <form @submit.prevent="handleSubmit">
         <!-- TODO: pridat datove typy v-model.number atd -->
-        <!-- TODO: labels instead of h4 -->
         <div class="md:w-2/4 mx-auto mb-3">
             <Heading1 class="mb-6 mt-6" v-html="isEditMode ? 'Edit offer <span class=\'text-primary-900\'>' + form.name + '</span>' : 'Add new offer'"/>
-            <!-- TODO: photos -->
             <div class="grid grid-cols-12 gap-y-4 gap-x-2">
                 <div class="col-span-12" v-if="!isEditMode">
                     <ImageUploader @update:modelValue="updateImages" />
+                    <div v-if="form.errors.images" class="input-error-message-style">{{ form.errors.images }}</div>
+                    <div v-if="imageErrors.length" class="input-error-message-style">
+                        <ul>
+                            <li v-for="(error, index) in imageErrors" :key="index">{{ error }}</li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="col-span-12">
                     <FormInput name="name" labelName="Name" type="text" v-model="form.name" :error="form.errors.name" :required="true" />
@@ -59,7 +63,6 @@
                     <div class="w-full">
                         <FormSelect :options="[{'id': 'new', 'name': 'NEW'}, {'id': 'used', 'name': 'USED'}, {'id': 'damaged', 'name': 'DAMAGED'}]" v-model="form.condition" labelName="Condition" name="condition" :required="true" :error="form.errors.condition"/>
                     </div>
-                    <!-- TODO: sort by name -->
                     <div class="w-full" v-if="!isEditMode">
                         <FormSelect :options="categories" v-model="form.category_id" labelName="Category" name="category" :required="true" :error="form.errors.category_id"/>
                     </div>
@@ -95,6 +98,14 @@ import FormTextArea from '@/Components/Form/FormTextArea.vue';
 import FiltersNote from '@/Components/Form/FiltersNote.vue';
 import FormSelect from './FormSelect.vue';
 import ImageUploader from './ImageUploader.vue';
+import { computed } from 'vue';
+
+const imageErrors = computed(() =>
+    Object.keys(form.errors)
+        .filter(key => key.startsWith("images."))
+        .map(key => form.errors[key])
+);
+
 
 const props = defineProps({
     offer: {

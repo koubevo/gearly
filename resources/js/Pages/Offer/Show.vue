@@ -1,9 +1,8 @@
 <template>
     <div class="grid grid-cols-12 md:gap-16 gap-0 pb-20">
-        <div class="col-span-12 md:col-span-6">
-            <!-- TODO: images with swiping, better link without ../  -->
+        <div class="col-span-12 md:col-span-6 items-center justify-center flex">
             <!-- TODO: conditon, wishlist -->
-            <img :src="'../storage/imgs/nike.jpg'" :alt="offer.name" class="mb-2">
+            <ImageViewer :images="images" />
         </div>
         <!-- TODO: move to middle -->
         <div class="col-span-12 md:col-span-6 md:pt-10">
@@ -17,7 +16,6 @@
                     <OfferDetail :detail="'Brand'" :detailValue="brand.name"/>
                     <OfferDetail :detail="'Sport'" :detailValue="offer.sport"/>
                     <OfferDetail :detail="'Category'" :detailValue="category.name"/>
-                    <!-- TODO: filter category name without units -->
                     <OfferDetail :detail="filter.filter_category_name" :detailValue="filter.filter_name" v-for="filter in filters"/>
                 </div>
                 <div class="flex flex-col gap-x-2 gap-y-0.5 text-sm">
@@ -92,6 +90,7 @@ import Modal from '@/Components/Modal.vue';
 import SmallText from '@/Components/Text/SmallText.vue';
 import NormalText from '@/Components/Text/NormalText.vue';
 import OfferDetail from '@/Components/Offer/OfferDetail.vue';
+import ImageViewer from '@/Components/Offer/ImageViewer.vue';
 
 const user = usePage().props.auth.user ?? {};
 
@@ -111,6 +110,7 @@ defineProps({
     category: Object,
     deliveryOption: Object,
     brand: Object,
-    filters: Object
+    filters: Object,
+    images: Array
 });
 </script>

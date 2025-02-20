@@ -8,12 +8,11 @@
                     <button><HeartIcon class="w-5 h-5 mt-0.5" /></button>
                 </span>
                 <!-- TODO: scaled img -->
-                <img :src="offer.thumbnail_url" :alt="offer.name" class="mb-2" loading="lazy">
+                <img :src="offer.thumbnail_url" :alt="offer.name" class="mb-2 card-image" loading="lazy">
             </div>           
             <!-- TODO: only 1 or 2 lines! -->  
             <Heading3 :text="offer.name"/>
             <SmallText :text="offer.brand.name"/>
-            <!-- TODO: size? -->
             <PriceCard :price="offer.price" :currency="offer.currency"/>
         </div>
     </Link>
