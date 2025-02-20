@@ -125,6 +125,7 @@ class OfferController extends Controller implements HasMedia
             'category' => $offer->category,
             'brand' => $offer->brand,
             'deliveryOption' => $offer->deliveryOption,
+            'images' => $offer->getMedia('images')->map(fn($image) => $image->getUrl()),
             'filters' => $offer->offerFilters->map(fn($filter) => [
                 'id' => $filter->id,
                 'offer_id' => $filter->offer_id,

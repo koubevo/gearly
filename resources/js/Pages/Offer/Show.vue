@@ -3,7 +3,8 @@
         <div class="col-span-12 md:col-span-6">
             <!-- TODO: images with swiping, better link without ../  -->
             <!-- TODO: conditon, wishlist -->
-            <img :src="'../storage/imgs/nike.jpg'" :alt="offer.name" class="mb-2">
+            
+            <ImageViewer :images="images" />
         </div>
         <!-- TODO: move to middle -->
         <div class="col-span-12 md:col-span-6 md:pt-10">
@@ -92,6 +93,7 @@ import Modal from '@/Components/Modal.vue';
 import SmallText from '@/Components/Text/SmallText.vue';
 import NormalText from '@/Components/Text/NormalText.vue';
 import OfferDetail from '@/Components/Offer/OfferDetail.vue';
+import ImageViewer from '@/Components/Offer/ImageViewer.vue';
 
 const user = usePage().props.auth.user ?? {};
 
@@ -111,6 +113,7 @@ defineProps({
     category: Object,
     deliveryOption: Object,
     brand: Object,
-    filters: Object
+    filters: Object,
+    images: Array
 });
 </script>
