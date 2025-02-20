@@ -12,8 +12,12 @@
 
 .main-image img {
     @apply w-full max-h-full object-contain;
-    /*height: 100%;*/ /* TODO: */
 }
+
+.card-image {
+    @apply w-full object-cover aspect-square;
+}
+
 
 .nav {
     @apply absolute top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white border-none text-2xl cursor-pointer p-2;
