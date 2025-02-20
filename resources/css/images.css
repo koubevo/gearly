@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 .gallery {
-    @apply text-center;
+    @apply text-center grid justify-center;
 }
 
 .main-image {
-    @apply relative flex justify-center items-center w-full bg-white overflow-hidden;
+    @apply relative flex justify-center items-center w-[350px] h-[350px] sm:w-[400px] sm:h-[400px] xl:w-[500px] xl:h-[500px] 2xl:w-[700px] 2xl:h-[700px] bg-white overflow-hidden;
 }
 
 .main-image img {
