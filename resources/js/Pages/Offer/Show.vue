@@ -1,9 +1,7 @@
 <template>
     <div class="grid grid-cols-12 md:gap-16 gap-0 pb-20">
-        <div class="col-span-12 md:col-span-6">
-            <!-- TODO: images with swiping, better link without ../  -->
+        <div class="col-span-12 md:col-span-6 items-center justify-center flex">
             <!-- TODO: conditon, wishlist -->
-            
             <ImageViewer :images="images" />
         </div>
         <!-- TODO: move to middle -->
@@ -18,7 +16,6 @@
                     <OfferDetail :detail="'Brand'" :detailValue="brand.name"/>
                     <OfferDetail :detail="'Sport'" :detailValue="offer.sport"/>
                     <OfferDetail :detail="'Category'" :detailValue="category.name"/>
-                    <!-- TODO: filter category name without units -->
                     <OfferDetail :detail="filter.filter_category_name" :detailValue="filter.filter_name" v-for="filter in filters"/>
                 </div>
                 <div class="flex flex-col gap-x-2 gap-y-0.5 text-sm">
