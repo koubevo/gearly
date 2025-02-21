@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\ConditionEnum;
 use App\Enums\SportEnum;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -83,5 +84,24 @@ class Offer extends Model implements HasMedia
     {
         $media = $this->getFirstMedia('images');
         return $media ? $media->getUrl('thumb') : null;
+    }
+
+    public function scopeFilter($query, array $filters)
+    {
+        return $query->when(
+            $filters['brand'] ?? null,
+            fn($query, $brand)
+            => $query->where(
+                'brand_id',
+                $brand
+            )
+        )->when(
+                $filters['category'] ?? null,
+                fn($query, $category)
+                => $query->where(
+                    'category_id',
+                    $category
+                )
+            );
     }
 }
