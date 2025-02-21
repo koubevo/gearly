@@ -24,15 +24,8 @@
                 </div>
             </section>
             <!-- TODO: add link destination -->
-            <Link>
-                <section class="border-s-gray-900 border-4 border-e-0 border-y-0 p-2">
-                    <Heading3>{{ seller.name }} <span v-if="seller.team">({{ seller.team }})</span></Heading3>
-                    <!-- TODO: feedback -->
-                    <NormalText class="mb-1">Feedback</NormalText>
-                    <!-- TODO: count of selled items, premium badge, verified badge -->
-                    <TinyText :text="'Praha | Česká Republika'" class="mb-0.5"/>
-                    <TinyText :text="seller.phone" v-if="seller.phone"/>
-                </section>
+            <Link :href="route('user.show', {user: seller.id})">
+                <OfferUserDetail :seller="seller"/>
             </Link>
             
             <div v-if="seller.id !== user.id">
@@ -91,6 +84,7 @@ import SmallText from '@/Components/Text/SmallText.vue';
 import NormalText from '@/Components/Text/NormalText.vue';
 import OfferDetail from '@/Components/Offer/OfferDetail.vue';
 import ImageViewer from '@/Components/Offer/ImageViewer.vue';
+import OfferUserDetail from '@/Components/User/OfferUserDetail.vue';
 
 const user = usePage().props.auth.user ?? {};
 
