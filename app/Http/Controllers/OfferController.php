@@ -208,6 +208,7 @@ class OfferController extends Controller implements HasMedia
     {
         $this->authorize('delete', $offer);
 
+        $offer->status = 'deleted';
         $offer->delete();
 
         return redirect()->route('offer.index')
