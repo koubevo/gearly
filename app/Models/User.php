@@ -45,6 +45,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'premium_ends_at' => 'datetime',
         ];
     }
 
@@ -71,5 +72,10 @@ class User extends Authenticatable
     public function earnedRatings(): HasMany
     {
         return $this->hasMany(Rating::class, 'rated_user_id');
+    }
+
+    public function hasPremium()
+    {
+        return $this->premium_ends_at?->isFuture() ?? false;
     }
 }

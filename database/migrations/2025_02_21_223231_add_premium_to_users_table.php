@@ -10,9 +10,8 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('offers', function (Blueprint $table) {
-            $table->softDeletes();
-            $table->enum('status', ['active', 'sold', 'draft', 'deleted'])->default('active');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dateTime('premium_ends_at')->nullable();
         });
     }
 
@@ -21,9 +20,8 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::table('offers', function (Blueprint $table) {
-            $table->dropSoftDeletes();
-            $table->dropColumn('status');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('premium_ends_at');
         });
     }
 };
