@@ -24,7 +24,7 @@
                 </div>
             </section>
             <!-- TODO: add link destination -->
-            <Link :href="route('user.show', {user: seller.id})">
+            <Link :href="seller.id === user.id ? '/profile' : route('user.show', {user: seller.id})">
                 <OfferUserDetail :seller="seller"/>
             </Link>
             
