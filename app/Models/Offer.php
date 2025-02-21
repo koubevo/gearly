@@ -4,17 +4,18 @@ namespace App\Models;
 
 use App\Enums\ConditionEnum;
 use App\Enums\SportEnum;
-use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Offer extends Model implements HasMedia
 {
-    use InteractsWithMedia;
+    use InteractsWithMedia, SoftDeletes;
 
     protected $fillable = [
         'user_id',
@@ -103,5 +104,15 @@ class Offer extends Model implements HasMedia
                     $category
                 )
             );
+    }
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('status', 'active');
+    }
+
+    public function scopeSold(Builder $query): Builder
+    {
+        return $query->where('status', 'sold');
     }
 }

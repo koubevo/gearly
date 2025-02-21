@@ -29,6 +29,7 @@ class OfferController extends Controller implements HasMedia
 
         $offers = Offer::with('brand')
             ->filter($filters)
+            ->active()
             ->orderBy('created_at', 'desc')
             ->paginate(12)
             ->withQueryString()

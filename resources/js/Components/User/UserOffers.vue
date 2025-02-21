@@ -1,13 +1,16 @@
 <template>
     <!-- TODO: sorting -->
-    <OffersGrid :offers="offers" />
+     <Heading2>{{ heading }}</Heading2>
+    <UserOffersGrid :offers="offers" />
 </template>
 
 <script setup>
-import OffersGrid from '../Offer/OffersGrid.vue';
+import UserOffersGrid from '../Offer/UserOffersGrid.vue';
+import Heading2 from '@/Components/Text/Heading2.vue';
 
 
 defineProps({
     offers: Array,
+    heading: String,
 })
 </script>
