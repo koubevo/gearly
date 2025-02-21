@@ -70,6 +70,16 @@ class OfferController extends Controller implements HasMedia
      */
     public function store(Request $request)
     {
+        $user = \Illuminate\Support\Facades\Auth::user();
+        $maxFreeActiveOffers = 5;
+
+        $activeOffersCount = $user->offers()->where('status', 'active')->count();
+
+        if (!$user->hasPremium() && $activeOffersCount >= $maxFreeActiveOffers) {
+            return redirect()->route('offer.index')
+                ->withErrors(['error' => 'For now you can have only 5 active offers.']);
+        }
+
         $validated = $request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
@@ -87,7 +97,7 @@ class OfferController extends Controller implements HasMedia
                 ->filter(fn($value, $key) => str_starts_with($key, 'fc'))
                 ->mapWithKeys(fn($value, $key) => [$key => 'nullable|integer'])
                 ->toArray());
-        $validated['user_id'] = \Illuminate\Support\Facades\Auth::user()->id;
+        $validated['user_id'] = $user->id;
 
         $offer = Offer::create($validated);
 

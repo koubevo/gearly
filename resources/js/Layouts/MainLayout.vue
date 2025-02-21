@@ -68,10 +68,10 @@ import { MagnifyingGlassIcon, BellIcon, UserIcon, HeartIcon } from '@heroicons/v
 import SecondaryLink from '@/Components/Buttons/SecondaryLink.vue';
 import PrimaryLink from '@/Components/Buttons/PrimaryLink.vue';
 
-const user = computed(() => page.props.auth.user);
 const page = usePage();
+const user = computed(() => page.props.auth.user);
 const flashSuccess = computed(() => page.props.flash?.success ?? '');
-const flashError = computed(() => page.props.flash?.error ?? '');
+const flashError = computed(() => page.props.errors?.error ?? '');
 
 onMounted(() => {
     if (flashSuccess.value || flashError.value) {

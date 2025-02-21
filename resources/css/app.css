@@ -53,12 +53,12 @@
 }
 
 .flash-message-success-style {
-    @apply bg-black text-white py-2 px-6 absolute bottom-3 right-3 md:bottom-5 md:right-5 border-s-4 border-primary-900 font-bold;
+    @apply bg-black text-white py-2 px-6 absolute bottom-3 right-3 md:bottom-5 md:right-5 border-s-4 border-primary-900 font-bold z-50;
     animation: fadeOut 1s forwards 6s;
 }
 
 .flash-message-error-style {
-    @apply bg-black text-white py-2 px-6 absolute bottom-3 right-3 md:bottom-5 md:right-5 border-s-4 border-red-600 font-bold;
+    @apply bg-black text-white py-2 px-6 absolute bottom-3 right-3 md:bottom-5 md:right-5 border-s-4 border-red-600 font-bold z-50;
     animation: fadeOut 1s forwards 6s;
 }
 
