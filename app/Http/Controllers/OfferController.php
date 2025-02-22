@@ -220,7 +220,7 @@ class OfferController extends Controller implements HasMedia
 
         $offer->status = 'deleted';
         $offer->save();
-        $offer->delete();
+        $offer->deleteOrFail();
 
         return redirect()->route('offer.index')
             ->with('success', 'Offer was removed.');
