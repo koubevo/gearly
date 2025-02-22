@@ -115,4 +115,32 @@ class Offer extends Model implements HasMedia
     {
         return $query->where('status', 'sold');
     }
+
+    public function scopeMostRecent(Builder $query): Builder
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
+
+    public function scopeCheapest(Builder $query): Builder
+    {
+        return $query->orderBy('price', 'asc');
+    }
+
+    public function scopeMostExpensive(Builder $query): Builder
+    {
+        return $query->orderBy('price', 'desc');
+    }
+
+    public function scopeSort(Builder $query, int|null $order): Builder
+    {
+        if ($order === 0) {
+            return $query->cheapest()->orderBy('created_at', 'desc');
+        }
+
+        if ($order === 1) {
+            return $query->mostExpensive()->orderBy('created_at', 'desc');
+        }
+
+        return $query->mostRecent();
+    }
 }

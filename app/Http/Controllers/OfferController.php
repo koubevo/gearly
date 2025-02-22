@@ -21,16 +21,27 @@ class OfferController extends Controller implements HasMedia
 
     /**
      * Display a listing of the resource.
+     * Order by newest by default. 0 price asc, 1 price desc.
+     * 
+     * @param Request $request
      */
 
     public function index(Request $request)
     {
-        $filters = $request->only(['category', 'brand', 'sport', 'condition', 'price', 'search']);
+        $filters = $request->only([
+            'category',
+            'brand',
+            'sport',
+            'condition',
+            'price',
+            'search',
+            'order',
+        ]);
 
         $offers = Offer::with('brand')
             ->filter($filters)
             ->active()
-            ->orderBy('created_at', 'desc')
+            ->sort($filters['order'] ?? null)
             ->paginate(12)
             ->withQueryString()
             ->through(function ($offer) {
