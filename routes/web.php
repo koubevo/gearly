@@ -13,8 +13,6 @@ use Inertia\Inertia;
 
 Route::get('/', [LandingPageController::class, 'index'])->name('landingPage');
 
-
-
 //TODO: add middlewares for other controllers
 
 Route::get('/api/filters/{categoryId}', [FilterController::class, 'getFiltersByCategory']);
