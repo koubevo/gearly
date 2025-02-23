@@ -4,6 +4,7 @@
         <Divider class="md:w-full mt-8"/>
         <UserOffers :offers="activeOffers" class="py-4" v-if="activeOffers.length" :heading="'Active offers'"/>
         <UserOffers :offers="soldOffers" class="py-4" v-if="soldOffers.length" :heading="'Sold offers'"/>
+        <NothingHere v-if="!activeOffers.length && !soldOffers.length"/>
     </div>
 </template>
 
@@ -13,6 +14,7 @@ import { onMounted } from 'vue';
 import Divider from '@/Components/Search/Divider.vue';
 import UserOffers from '@/Components/User/UserOffers.vue';
 import UserInfo from '@/Components/User/UserInfo.vue';
+import NothingHere from '@/Components/NothingHere.vue';
 
 defineProps({
     user: Object,
