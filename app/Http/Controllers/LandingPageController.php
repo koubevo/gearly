@@ -42,6 +42,7 @@ class LandingPageController extends Controller
             ->active()
             ->where('category_id', 1)
             ->where('sport_id', 2)
+            ->orWhere('sport_id', 1)
             ->latest()
             ->limit(4)
             ->get()
@@ -54,6 +55,7 @@ class LandingPageController extends Controller
             ->active()
             ->where('category_id', 1)
             ->where('sport_id', 3)
+            ->orWhere('sport_id', 1)
             ->latest()
             ->limit(4)
             ->get()
@@ -62,12 +64,37 @@ class LandingPageController extends Controller
                 return $offer;
             });
 
+        $baseballGear = Offer::with('brand')
+            ->active()
+            ->where('sport_id', 2)
+            ->orWhere('sport_id', 1)
+            ->latest()
+            ->limit(4)
+            ->get()
+            ->map(function ($offer) {
+                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                return $offer;
+            });
+
+        $softballGear = Offer::with('brand')
+            ->active()
+            ->where('sport_id', 3)
+            ->orWhere('sport_id', 1)
+            ->latest()
+            ->limit(4)
+            ->get()
+            ->map(function ($offer) {
+                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                return $offer;
+            });
 
         return inertia('LandingPage', [
             'newArrivals' => $newArrivals,
             'brandWithMostActiveOffers' => $brandWithMostActiveOffers,
             'baseballBats' => $baseballBats,
             'softballBats' => $softballBats,
+            'baseballGear' => $baseballGear,
+            'softballGear' => $softballGear
         ]);
     }
 }

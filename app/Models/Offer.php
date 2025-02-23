@@ -103,6 +103,12 @@ class Offer extends Model implements HasMedia
                     'category_id',
                     $category
                 )
+            )->when(
+                $filters['sport'] ?? null,
+                fn($query, $sport) => $sport == 1 ? $query : $query->where(function ($query) use ($sport) {
+                    $query->where('sport_id', $sport)
+                        ->orWhere('sport_id', 1);
+                })
             );
     }
 
