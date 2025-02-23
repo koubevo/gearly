@@ -37,7 +37,7 @@
             <button class="text-gray-500 hover:text-black" @click="closeModal">&times;</button>
           </div>
           <Divider class="md:w-full my-4"/>
-          <div class="flex gap-2">
+          <div class="flex flex-col md:flex-row gap-2">
              <SecondaryLink :href="route('offer.index')">Most recent</SecondaryLink>
              <SecondaryLink :href="route('offer.index', {order: 0})">Cheapest</SecondaryLink>
              <SecondaryLink :href="route('offer.index', {order: 1})">Most expensive</SecondaryLink>

@@ -76,14 +76,13 @@ const maxWidthClass = computed(() => {
 
 <template>
     <dialog
-        class="z-50 m-0 min-h-full overflow-y-auto bg-transparent backdrop:bg-transparent w-full fixed bottom-0"
+        class="z-50 m-0 min-h-full overflow-y-auto bg-transparent backdrop:bg-transparent w-full fixed bottom-0 mx-auto"
         ref="dialog"
     >
         <div
             class="z-50 flex items-end justify-center w-full h-full sm:px-0"
             scroll-region
         >
-            <!-- Overlay -->
             <Transition
                 enter-active-class="ease-out duration-300"
                 enter-from-class="opacity-0"
@@ -99,7 +98,6 @@ const maxWidthClass = computed(() => {
                 />
             </Transition>
 
-            <!-- Modal -->
             <Transition
                 enter-active-class="ease-out duration-300"
                 enter-from-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -110,7 +108,7 @@ const maxWidthClass = computed(() => {
             >
                 <div
                     v-show="show"
-                    class="fixed bottom-0 left-0 w-full max-w-full transform overflow-hidden bg-white shadow-xl transition-all sm:max-w-2xl"
+                    class="fixed bottom-0 left-0 sm:left-auto w-full max-w-full transform overflow-hidden bg-white shadow-xl transition-all sm:max-w-2xl"
                     :class="maxWidthClass"
                 >
                     <slot v-if="showSlot" />
