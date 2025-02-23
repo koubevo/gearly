@@ -1,11 +1,11 @@
 <template>
   <div>
-    <section class="grid grid-cols-1 md:grid-cols-2 items-center">
+    <section class="grid grid-cols-2 items-center my-6">
       <div>
         <!-- TODO: most expensive, cheapest, most recent, name of category/name of brand/offers -->
         <Heading1>Offers</Heading1>
       </div>
-      <div class="flex justify-end my-6">
+      <div class="flex justify-end">
         <div>
           <SortingButton @click="openModal"/>
         </div>
