@@ -2,7 +2,8 @@
     <OffersSection :offers="newArrivals" :heading="'New Arrivals'" :link="route('offer.index')"/>
     
     <OffersSection :offers="brandWithMostActiveOffers" :heading="'New Arrivals from ' + brandWithMostActiveOffers[0].brand.name" :link="route('offer.index', {brand: brandWithMostActiveOffers[0].brand_id})"/>
-    <!-- TODO: recently viewed, in your wishlist, top in mlb merch, for loop (lazy loading), most liked, most viewed -> trendy, every category (foreach) -->
+    <!-- TODO: recently viewed, in your wishlist, top in mlb merch, for loop (lazy loading), most liked, most viewed -> trendy, every category (foreach), already using -->
+    <!-- favorite brands ... 4 velky obdelniky s napisem znacka (count) -->
 
     <OffersSection :offers="baseballBats" :heading="'Baseball Bats'" :link="route('offer.index', {category: 1, sport: 2})"/>
 
