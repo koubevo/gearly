@@ -8,10 +8,6 @@
         <!-- TODO: count of selled items  -->
         <TinyText :text="user.location" class="mb-0.5"/>
         <TinyText :text="user.phone" v-if="user.phone"/>
-        <div class="my-6">
-            <!-- TODO: add location -->
-            <PrimaryLink :text="'Chat with seller'"/>
-        </div>
     </section>
 </template>
 
@@ -19,7 +15,6 @@
 import Heading1 from '@/Components/Text/Heading1.vue'
 import TinyText from '@/Components/Text/TinyText.vue'
 import NormalText from '@/Components/Text/NormalText.vue'
-import PrimaryLink from '@/Components/Buttons/PrimaryLink.vue'
 
 defineProps({
     user: Object,
