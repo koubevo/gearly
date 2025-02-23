@@ -3,7 +3,7 @@
         <div class="container mx-auto">
             <nav class="py-3 max-md:px-2 flex items-center justify-between header-height-style">
                 <div class="flex gap-3 md:gap-5 align-middle items-center mt-0.5">
-                    <Link :href="route('offer.index')">
+                    <Link :href="route('landingPage')">
                         <img :src="'storage/imgs/logo.png'" alt="Logo" class="w-14 md:w-20 h-auto align-middle">
                     </Link>
                     <Link :href="route('search.index')">

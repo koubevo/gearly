@@ -56,7 +56,6 @@ import Divider from "@/Components/Search/Divider.vue";
 import Heading1 from "@/Components/Text/Heading1.vue";
 import SortingButton from "@/Components/Buttons/SortingButton.vue";
 import Modal from "@/Components/Modal.vue";
-import { nextTick } from 'vue';
 import Heading2 from "@/Components/Text/Heading2.vue";
 import SecondaryLink from "@/Components/Buttons/SecondaryLink.vue";
 
