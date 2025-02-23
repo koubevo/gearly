@@ -8,20 +8,7 @@
       <div class="flex justify-end my-6">
         <div>
           <SortingButton @click="openModal"/>
-          <Modal :show="modal" @close="closeModal">
-              <div class="p-6">
-                  <div class="flex justify-between items-end">
-                    <Heading2>Sort Offers</Heading2>
-                    <button class="text-gray-500 hover:text-black" @click="closeModal">&times;</button>
-                  </div>
-                  <Divider class="md:w-full my-4"/>
-                  <div class="flex gap-2">
-                     <SecondaryLink :href="route('offer.index')">Most recent</SecondaryLink>
-                     <SecondaryLink :href="route('offer.index', {order: 0})">Cheapest</SecondaryLink>
-                     <SecondaryLink :href="route('offer.index', {order: 1})">Most expensive</SecondaryLink>
-                  </div>
-              </div>
-          </Modal>
+          
         </div>
       </div>
     </section>
@@ -43,7 +30,20 @@
       </div>
     </div>
   </div>
-
+  <Modal :show="modal" @close="closeModal">
+      <div class="p-6">
+          <div class="flex justify-between items-end">
+            <Heading2>Sort Offers</Heading2>
+            <button class="text-gray-500 hover:text-black" @click="closeModal">&times;</button>
+          </div>
+          <Divider class="md:w-full my-4"/>
+          <div class="flex gap-2">
+             <SecondaryLink :href="route('offer.index')">Most recent</SecondaryLink>
+             <SecondaryLink :href="route('offer.index', {order: 0})">Cheapest</SecondaryLink>
+             <SecondaryLink :href="route('offer.index', {order: 1})">Most expensive</SecondaryLink>
+          </div>
+      </div>
+  </Modal>
 </template>
 
 <script setup>
