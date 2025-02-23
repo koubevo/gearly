@@ -38,11 +38,36 @@ class LandingPageController extends Controller
                 return $offer;
             });
 
+        $baseballBats = Offer::with('brand')
+            ->active()
+            ->where('category_id', 1)
+            ->where('sport_id', 2)
+            ->latest()
+            ->limit(4)
+            ->get()
+            ->map(function ($offer) {
+                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                return $offer;
+            });
+
+        $softballBats = Offer::with('brand')
+            ->active()
+            ->where('category_id', 1)
+            ->where('sport_id', 3)
+            ->latest()
+            ->limit(4)
+            ->get()
+            ->map(function ($offer) {
+                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                return $offer;
+            });
 
 
         return inertia('LandingPage', [
             'newArrivals' => $newArrivals,
             'brandWithMostActiveOffers' => $brandWithMostActiveOffers,
+            'baseballBats' => $baseballBats,
+            'softballBats' => $softballBats,
         ]);
     }
 }
