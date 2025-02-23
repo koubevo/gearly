@@ -8,7 +8,6 @@
       <div class="flex justify-end my-6">
         <div>
           <SortingButton @click="openModal"/>
-          
         </div>
       </div>
     </section>
@@ -16,11 +15,11 @@
     
     
     <Divider class="md:w-full mb-4"/>
-    <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-8">
+    <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-8" v-if="offersList.length">
       <Card v-for="offer in offersList" :key="offer.id" :offer="offer" />
     </section>
 
-    <div class="flex justify-center my-6">
+    <div class="flex justify-center my-6" v-if="offersList.length">
       <div>
         <PrimaryButton v-if="nextPageUrl" @click="loadMore" 
           :disabled="loading">
@@ -29,6 +28,9 @@
         </PrimaryButton>
       </div>
     </div>
+  </div>
+  <div v-if="!offersList.length">
+    <NothingHere/>
   </div>
   <Modal :show="modal" @close="closeModal">
       <div class="p-6">
@@ -58,6 +60,7 @@ import SortingButton from "@/Components/Buttons/SortingButton.vue";
 import Modal from "@/Components/Modal.vue";
 import Heading2 from "@/Components/Text/Heading2.vue";
 import SecondaryLink from "@/Components/Buttons/SecondaryLink.vue";
+import NothingHere from "@/Components/NothingHere.vue";
 
 const initialOffers = usePage().props.offers.data;
 const offersList = ref([...initialOffers]);
