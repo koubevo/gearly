@@ -5,7 +5,7 @@
     </section>
     <section class="mb-4">
         <NormalText>Feedback</NormalText>
-        <NormalText v-if="soldOffersCount > 0" class="mb-2">Already sold offers: {{ soldOffersCount }}</NormalText>
+        <NormalText v-if="soldOffersCount > 0" class="mb-2">Already sold items: {{ soldOffersCount }}</NormalText>
         <!-- TODO: count of selled items  -->
         <TinyText :text="user.location" class="mb-0.5"/>
         <TinyText :text="user.phone" v-if="user.phone"/>

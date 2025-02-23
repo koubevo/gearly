@@ -158,6 +158,7 @@ class OfferController extends Controller implements HasMedia
                 ...$offer->toArray(),
                 'sport' => $offer->getSportEnum()?->label(),
             ],
+            'soldOffersCount' => $offer->seller->offers()->sold()->count(),
             'seller' => $offer->seller,
             'category' => $offer->category,
             'brand' => $offer->brand,

@@ -25,7 +25,7 @@
             </section>
             <!-- TODO: add link destination -->
             <Link :href="seller.id === user.id ? '/profile' : route('user.show', {user: seller.id})">
-                <OfferUserDetail :seller="seller"/>
+                <OfferUserDetail :seller="seller" :soldOffersCount="soldOffersCount"/>
             </Link>
             
             <div v-if="seller.id !== user.id">
@@ -105,6 +105,7 @@ defineProps({
     deliveryOption: Object,
     brand: Object,
     filters: Object,
-    images: Array
+    images: Array,
+    soldOffersCount: Number,
 });
 </script>
