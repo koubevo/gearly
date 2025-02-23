@@ -1,9 +1,10 @@
 <template>
-    <UserInfo :user="user"/>
-    <Divider class="md:w-full my-4"/>
-    <UserOffers :offers="activeOffers" class="py-4" v-if="activeOffers.length" :heading="'Active offers'"/>
-    <Divider class="md:w-full my-4" v-if="activeOffers.length && soldOffers.length"/>
-    <UserOffers :offers="soldOffers" class="py-4" v-if="soldOffers.length" :heading="'Sold offers'"/>
+    <div class="mb-4">
+        <UserInfo :user="user" :soldOffersCount="soldOffersCount"/>
+        <Divider class="md:w-full mt-8"/>
+        <UserOffers :offers="activeOffers" class="py-4" v-if="activeOffers.length" :heading="'Active offers'"/>
+        <UserOffers :offers="soldOffers" class="py-4" v-if="soldOffers.length" :heading="'Sold offers'"/>
+    </div>
 </template>
 
 <script setup>
@@ -17,6 +18,7 @@ defineProps({
     user: Object,
     activeOffers: Array ?? [],
     soldOffers: Array ?? [],
+    soldOffersCount: Number,
 });
 
 const page = usePage();

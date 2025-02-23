@@ -33,10 +33,13 @@ class UserController extends Controller
             })
             ->items();
 
+        $soldOffersCount = $user->offers()->sold()->count();
+
         return inertia('User/Show', [
             'user' => $user,
             'activeOffers' => $activeOffers,
-            'soldOffers' => $soldOffers
+            'soldOffers' => $soldOffers,
+            'soldOffersCount' => $soldOffersCount,
         ]);
     }
 }

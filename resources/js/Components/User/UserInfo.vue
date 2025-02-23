@@ -4,7 +4,8 @@
         <Heading1>{{ user.name }}</Heading1>
     </section>
     <section class="mb-4">
-        <NormalText class="mb-1">Feedback</NormalText>
+        <NormalText>Feedback</NormalText>
+        <NormalText v-if="soldOffersCount > 0" class="mb-2">Already sold offers: {{ soldOffersCount }}</NormalText>
         <!-- TODO: count of selled items  -->
         <TinyText :text="user.location" class="mb-0.5"/>
         <TinyText :text="user.phone" v-if="user.phone"/>
@@ -18,5 +19,6 @@ import NormalText from '@/Components/Text/NormalText.vue'
 
 defineProps({
     user: Object,
+    soldOffersCount: Number,
 })
 </script>

@@ -1,7 +1,9 @@
 <template>
-    <!-- TODO: sorting, count -->
-     <Heading2>{{ heading }}</Heading2>
-    <UserOffersGrid :offers="offers" />
+    <div>
+        <!-- TODO: sorting, count -->
+        <Heading2>{{ heading }}</Heading2>
+        <UserOffersGrid :offers="offers" />
+    </div>
 </template>
 
 <script setup>
