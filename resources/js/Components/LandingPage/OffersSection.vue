@@ -1,6 +1,6 @@
 <template>
-    <section>
-        <div class="flex justify-between items-center mb-2">
+    <section class="mb-8">
+        <div class="flex justify-between items-center mb-2 gap-4">
             <Heading2>{{ heading }}</Heading2>
             <Link class="text-left" :href="link">
                 <div class="flex flex-row justify-between items-center gap-2">

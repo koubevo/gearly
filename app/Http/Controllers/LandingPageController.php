@@ -19,9 +19,30 @@ class LandingPageController extends Controller
                 return $offer;
             });
 
+        $mostActiveBrandId = Offer::select('brand_id')
+            ->active()
+            ->groupBy('brand_id')
+            ->orderByRaw('COUNT(*) DESC')
+            ->limit(1)
+            ->pluck('brand_id')
+            ->first();
+
+        $brandWithMostActiveOffers = Offer::where('brand_id', $mostActiveBrandId)
+            ->with('brand')
+            ->active()
+            ->latest()
+            ->limit(4)
+            ->get()
+            ->map(function ($offer) {
+                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                return $offer;
+            });
+
+
 
         return inertia('LandingPage', [
-            'newArrivals' => $newArrivals
+            'newArrivals' => $newArrivals,
+            'brandWithMostActiveOffers' => $brandWithMostActiveOffers,
         ]);
     }
 }

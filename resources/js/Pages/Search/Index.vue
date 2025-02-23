@@ -9,7 +9,7 @@
             <div class="w-full grid grid-cols-1 gap-1 md:grid-cols-2 mt-2"> 
                 <CategoryItem v-for="category in categories" :key="category.id" :category="category"/>
             </div>
-            <!-- TODO: mlb item -->
+            <!-- TODO: mlb item, top brands section -->
         </div>
     </div>
 </template>
