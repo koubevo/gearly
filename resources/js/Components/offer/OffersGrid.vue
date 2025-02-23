@@ -7,47 +7,26 @@
       </div>
       <div class="flex justify-end my-6">
         <div>
-          <SortingButton @click="openSortingModal">
-          </SortingButton>
-
-          <SortingModal :show="openSortingModal" @close="closeModal">
+          <SortingButton @click="openModal"/>
+          <Modal :show="modal" @close="closeModal">
               <div class="p-6">
-                  <!-- TODO: component -->
-                  <h2
-                      class="text-lg font-medium text-gray-900"
-                  >
-                      Are you sure you want to delete your account?
-                  </h2>
-
-                  <!-- TODO: text, transaltion -->
-                  <TinyText :text="'Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.'"/>
-
-                  <div class="mt-6">
-                      <div class="mt-4">
-                          <input type="password" placeholder="Password" name="password" v-model="form.password" class="input-style" required />
-                          <div v-if="form.errors.password" class="input-error-message-style">{{ form.errors.password }}</div>
-                      </div>
+                  <div class="flex justify-between items-end">
+                    <Heading2>Sort Offers</Heading2>
+                    <button class="text-gray-500 hover:text-black" @click="closeModal">&times;</button>
                   </div>
-                  <!-- TODO: 1st attempt wrong password, 2nd correct -> deletes -> user dont see (still logged in, kinda) -->
-                  <div class="mt-6 flex justify-end">
-                      <SecondaryButton @click="closeModal">
-                          Cancel
-                      </SecondaryButton>
-
-                      <DangerButton
-                          class="ms-3"
-                          :class="{ 'opacity-25': form.processing }"
-                          :disabled="form.processing"
-                          @click="deleteUser"
-                      >
-                          Delete Account
-                      </DangerButton>
+                  <Divider class="md:w-full my-4"/>
+                  <div class="flex gap-2">
+                     <SecondaryLink :href="route('offer.index')">Most recent</SecondaryLink>
+                     <SecondaryLink :href="route('offer.index', {order: 0})">Cheapest</SecondaryLink>
+                     <SecondaryLink :href="route('offer.index', {order: 1})">Most expensive</SecondaryLink>
                   </div>
               </div>
-          </SortingModal>
+          </Modal>
         </div>
       </div>
     </section>
+
+    
     
     <Divider class="md:w-full mb-4"/>
     <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-8">
@@ -76,7 +55,10 @@ import PrimaryButton from "@/Components/Buttons/PrimaryButton.vue";
 import Divider from "@/Components/Search/Divider.vue";
 import Heading1 from "@/Components/Text/Heading1.vue";
 import SortingButton from "@/Components/Buttons/SortingButton.vue";
-import SortingModal from "@/Components/Offer/SortingModal.vue";
+import Modal from "@/Components/Modal.vue";
+import { nextTick } from 'vue';
+import Heading2 from "@/Components/Text/Heading2.vue";
+import SecondaryLink from "@/Components/Buttons/SecondaryLink.vue";
 
 const initialOffers = usePage().props.offers.data;
 const offersList = ref([...initialOffers]);
@@ -97,5 +79,16 @@ const loadMore = async () => {
   } finally {
     loading.value = false;
   }
+};
+
+
+const modal = ref(false);
+
+const openModal = () => {
+    modal.value = true;
+};
+
+const closeModal = () => {
+    modal.value = false;
 };
 </script>
