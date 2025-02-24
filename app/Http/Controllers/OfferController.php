@@ -38,14 +38,18 @@ class OfferController extends Controller implements HasMedia
             'order',
         ]);
 
+        $user = \Illuminate\Support\Facades\Auth::user() ?? null;
+
         $offers = Offer::with('brand')
             ->filter($filters)
             ->active()
             ->sort($filters['order'] ?? null)
             ->paginate(12)
             ->withQueryString()
-            ->through(function ($offer) {
+            ->through(function ($offer) use ($user) {
                 $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                $offer->favorites_count = $offer->favorites()->count();
+                $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
                 return $offer;
             });
 

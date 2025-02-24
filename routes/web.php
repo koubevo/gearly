@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OfferController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WishlistController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,6 +19,12 @@ Route::get('/', [LandingPageController::class, 'index'])->name('landingPage');
 Route::get('/api/filters/{categoryId}', [FilterController::class, 'getFiltersByCategory']);
 Route::get('/api/countries', [LocationController::class, 'getCountries']);
 Route::get('/api/cities', [LocationController::class, 'getCities']);
+
+Route::middleware('auth')->group(function () {
+    Route::post('/api/wishlist/{offer}', [WishlistController::class, 'toggle']);
+});
+
+Route::get('/api/wishlist/{offer}', [WishlistController::class, 'count']);
 
 Route::post('/imgs/upload-temp', [OfferController::class, 'uploadTempImages']);
 
