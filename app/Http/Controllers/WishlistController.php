@@ -45,4 +45,26 @@ class WishlistController extends Controller
         ]);
     }
 
+    public function index()
+    {
+        $user = \Illuminate\Support\Facades\Auth::user();
+
+        $offers = Offer::whereHas('favorites', function ($query) use ($user) {
+            $query->where('user_id', $user->id);
+        })
+            ->with('brand')
+            ->active()
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($offer) use ($user) {
+                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                $offer->favorites_count = $offer->favorites()->count();
+                $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
+                return $offer;
+            });
+
+        return inertia('Wishlist/Index', [
+            'offers' => $offers
+        ]);
+    }
 }

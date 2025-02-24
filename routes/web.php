@@ -28,6 +28,8 @@ Route::get('/api/wishlist/{offer}', [WishlistController::class, 'count']);
 
 Route::post('/imgs/upload-temp', [OfferController::class, 'uploadTempImages']);
 
+Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+
 Route::resource('search', SearchController::class)
     ->only(['index']);
 

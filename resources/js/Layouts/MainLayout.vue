@@ -34,7 +34,7 @@
                     <Link :href="route('landingPage')">
                         <BellIcon class="w-6 h-6 mt-0.5" />
                     </Link>
-                    <Link :href="route('landingPage')">
+                    <Link :href="route('wishlist.index')">
                         <HeartIcon class="w-6 h-6 mt-0.5" />
                     </Link>
                     <Link :href="route('profile.edit')">
