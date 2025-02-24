@@ -155,12 +155,15 @@ class OfferController extends Controller implements HasMedia
      */
     public function show(Offer $offer)
     {
+        $user = \Illuminate\Support\Facades\Auth::user() ?? null;
         $offer->load('seller', 'category', 'brand', 'deliveryOption', 'offerFilters.filterCategory', 'offerFilters.filter');
 
         return inertia('Offer/Show', [
             'offer' => [
                 ...$offer->toArray(),
                 'sport' => $offer->getSportEnum()?->label(),
+                'favorites_count' => $offer->favorites()->count(),
+                'favorited_by_user' => $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false,
             ],
             'soldOffersCount' => $offer->seller->offers()->sold()->count(),
             'seller' => $offer->seller,

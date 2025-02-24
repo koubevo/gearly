@@ -1,15 +1,19 @@
 <template>
     <Link :href="route('offer.show', offer.id)">
         <div class="bg-white shadow-gray-300 shadow-lg">
-            <div class="relative">
-                <ConditionLike :offer="offer"/>
-                <img :src="offer.thumbnail_url" :alt="offer.name" class="mb-2 card-image" loading="lazy">
+            <div>
+                <img :src="offer.thumbnail_url" :alt="offer.name" class="card-image" loading="lazy">
             </div>  
-            <div class="p-2">
-                <!-- TODO: only 1 or 2 lines! -->  
-                <Heading3 :text="offer.name"/>
-                <SmallText :text="offer.brand.name"/>
-                <PriceCard :price="offer.price" :currency="offer.currency"/>
+            <div class="p-2 flex flex-col gap-2"> 
+                <div class="flex align-top items-start">
+                    <ConditionLike :offer="offer"/>
+                </div>
+                <!-- TODO: only 1 or 2 lines! --> 
+                <div class="flex-1">
+                    <Heading3 :text="offer.name"/>
+                    <SmallText :text="offer.brand.name"/>
+                    <PriceCard :price="offer.price" :currency="offer.currency"/>
+                </div>
             </div>         
         </div>
     </Link>

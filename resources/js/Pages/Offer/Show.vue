@@ -1,7 +1,6 @@
 <template>
     <div class="grid grid-cols-12 md:gap-16 gap-0 pb-20">
-        <div class="col-span-12 md:col-span-6 items-center justify-center flex">
-            <!-- TODO: conditon, wishlist -->
+        <div class="col-span-12 md:col-span-6 items-center justify-center flex relative">
             <ImageViewer :images="images" />
         </div>
         <!-- TODO: move to middle -->
@@ -9,6 +8,7 @@
             <section class="grid mb-6">
                 <Heading1 :text="offer.name" class="mb-3"/>
                 <Price :price="offer.price" :currency="offer.currency"/>
+                <ConditionLike :offer="offer" class="mt-2"/>
             </section>
             <section class="grid mb-6">
                 <NormalText class="mb-4 pe-2">{{ offer.description }}</NormalText>
@@ -68,23 +68,20 @@
 <script setup>
 import { ref } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
-import { HeartIcon } from '@heroicons/vue/24/outline'
 import Price from '@/Components/Offer/Price.vue';
-import Condition from '@/Components/Offer/Condition.vue';
 import PrimaryLink from '@/Components/Buttons/PrimaryLink.vue';
 import Heading1 from '@/Components/Text/Heading1.vue';
 import Heading3 from '@/Components/Text/Heading3.vue';
-import TinyText from '@/Components/Text/TinyText.vue';
 import SecondaryLink from '@/Components/Buttons/SecondaryLink.vue';
 import SecondaryButton from '@/Components/Buttons/SecondaryButton.vue';
 import DangerButton from '@/Components/Buttons/DangerButton.vue';
 import DangerLink from '@/Components/Buttons/DangerLink.vue';
 import Modal from '@/Components/Modal.vue';
-import SmallText from '@/Components/Text/SmallText.vue';
 import NormalText from '@/Components/Text/NormalText.vue';
 import OfferDetail from '@/Components/Offer/OfferDetail.vue';
 import ImageViewer from '@/Components/Offer/ImageViewer.vue';
 import OfferUserDetail from '@/Components/User/OfferUserDetail.vue';
+import ConditionLike from '@/Components/Offer/ConditionLike.vue';
 
 const user = usePage().props.auth.user ?? {};
 

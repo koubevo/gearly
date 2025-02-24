@@ -1,9 +1,9 @@
 <template>
-    <span class="absolute right-0 pt-1 px-2 pb-1 border-s-2 border-b-2 border-black border-solid flex align-middle items-center bg-white/70">
+    <span class=" flex align-middle items-center">
        <Condition :condition="offer.condition" class="me-2"/>
        <button @click.prevent="toggleFavorite" method="POST" class="hover:text-primary-900">
-           <HeartIcon class="w-7 h-7 mt-0.5" v-if="!isFavorited"/>
-           <FullHeartIcon class="w-7 h-7 mt-0.5 fill-primary-900" v-else/>
+           <HeartIcon class="w-7 h-7" v-if="!isFavorited"/>
+           <FullHeartIcon class="w-7 h-7 fill-primary-900" v-else/>
        </button>
        <NormalText v-if="favoritesCount > 0" :text="favoritesCount" class="ms-1"/>
     </span>
@@ -57,7 +57,7 @@ const toggleFavorite = async () => {
             favoritesCount.value--;
         }
     } catch (error) {
-        console.error('Chyba při změně oblíbených:', error);
+        console.error('err');
     }
 };
 </script>
