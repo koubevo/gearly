@@ -109,6 +109,13 @@ class Offer extends Model implements HasMedia
                     $query->where('sport_id', $sport)
                         ->orWhere('sport_id', 1);
                 })
+            )->when(
+                $filters['search'] ?? null,
+                fn($query, $search) => $query->where(function ($query) use ($search) {
+                    $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%')
+                        ->orWhereHas('brand', fn($query) => $query->where('name', 'like', '%' . $search . '%'));
+                })
             );
     }
 
