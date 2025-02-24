@@ -9,14 +9,18 @@ class UserController extends Controller
 {
     public function show(User $user)
     {
+        $activeUser = \Illuminate\Support\Facades\Auth::user() ?? null;
+
         $activeOffers = $user->offers()
             ->with('brand')
             ->active()
             ->orderBy('created_at', 'desc')
             ->paginate(12)
             ->withQueryString()
-            ->through(function ($offer) {
+            ->through(function ($offer) use ($activeUser) {
                 $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                $offer->favorites_count = $offer->favorites()->count();
+                $offer->favorited_by_user = $activeUser ? $offer->favorites()->where('user_id', $activeUser->id)->exists() : false;
                 return $offer;
             })
             ->items();
@@ -27,8 +31,10 @@ class UserController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(12)
             ->withQueryString()
-            ->through(function ($offer) {
+            ->through(function ($offer) use ($activeUser) {
                 $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                $offer->favorites_count = $offer->favorites()->count();
+                $offer->favorited_by_user = $activeUser ? $offer->favorites()->where('user_id', $activeUser->id)->exists() : false;
                 return $offer;
             })
             ->items();

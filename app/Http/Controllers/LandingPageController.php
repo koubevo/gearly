@@ -9,13 +9,17 @@ class LandingPageController extends Controller
 {
     public function index(Request $request)
     {
+        $user = \Illuminate\Support\Facades\Auth::user() ?? null;
+
         $newArrivals = Offer::with('brand')
             ->active()
             ->latest()
             ->limit(4)
             ->get()
-            ->map(function ($offer) {
+            ->map(function ($offer) use ($user) {
                 $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                $offer->favorites_count = $offer->favorites()->count();
+                $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
                 return $offer;
             });
 
@@ -33,8 +37,10 @@ class LandingPageController extends Controller
             ->latest()
             ->limit(4)
             ->get()
-            ->map(function ($offer) {
+            ->map(function ($offer) use ($user) {
                 $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                $offer->favorites_count = $offer->favorites()->count();
+                $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
                 return $offer;
             });
 
@@ -46,8 +52,10 @@ class LandingPageController extends Controller
             ->latest()
             ->limit(4)
             ->get()
-            ->map(function ($offer) {
+            ->map(function ($offer) use ($user) {
                 $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                $offer->favorites_count = $offer->favorites()->count();
+                $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
                 return $offer;
             });
 
@@ -59,8 +67,10 @@ class LandingPageController extends Controller
             ->latest()
             ->limit(4)
             ->get()
-            ->map(function ($offer) {
+            ->map(function ($offer) use ($user) {
                 $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                $offer->favorites_count = $offer->favorites()->count();
+                $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
                 return $offer;
             });
 
@@ -71,8 +81,10 @@ class LandingPageController extends Controller
             ->latest()
             ->limit(4)
             ->get()
-            ->map(function ($offer) {
+            ->map(function ($offer) use ($user) {
                 $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                $offer->favorites_count = $offer->favorites()->count();
+                $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
                 return $offer;
             });
 
@@ -83,8 +95,10 @@ class LandingPageController extends Controller
             ->latest()
             ->limit(4)
             ->get()
-            ->map(function ($offer) {
+            ->map(function ($offer) use ($user) {
                 $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                $offer->favorites_count = $offer->favorites()->count();
+                $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
                 return $offer;
             });
 
