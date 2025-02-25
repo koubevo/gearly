@@ -28,6 +28,10 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/api/wishlist/{offer}', [WishlistController::class, 'count']);
 
+Route::get('/api/chat/{offer}/{buyer?}', [ChatController::class, 'loadMessages'])
+    ->name('chat.load')
+    ->middleware('auth');
+
 Route::post('/imgs/upload-temp', [OfferController::class, 'uploadTempImages']);
 
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');

@@ -1,8 +1,8 @@
 <template>
     <section class="overflow-y-auto h-[80vh]">
         <div class="flex flex-col gap-2 items-start">
-            <Message v-for="message in messages" :key="message.id" :message="message"/>
-            <NormalText class="text-center self-center mt-10 text-primary-900" v-if="!messages.length">Start the conversation with a message!</NormalText>
+            <Message v-for="message in messages" :key="message.id" :message="message" v-if="messages.length"/>
+            <NormalText class="text-center self-center mt-10 text-primary-900" v-else>Start the conversation with a message!</NormalText>
         </div>
     </section>
 </template>
@@ -10,11 +10,22 @@
 <script setup>
 import Message from "@/Components/Chat/Message.vue";
 import NormalText from "@/Components/Text/NormalText.vue";
+import axios from "axios";
+import { onMounted } from "vue";
+import { ref } from "vue";
 
 const props = defineProps({
     seller: Object,
+    buyer: Object,
     offer: Object,
-    messages: Array,
 });
 
+const messages = ref([]);
+
+onMounted(() => {
+    axios.get(route('chat.load', {offer: props.offer, buyer: props.buyer}))
+        .then(response => {
+            messages.value = response.data.messages;
+        });
+})
 </script>
