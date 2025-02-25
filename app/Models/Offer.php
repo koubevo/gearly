@@ -73,6 +73,11 @@ class Offer extends Model implements HasMedia
         return $this->hasMany(OfferFilter::class, 'offer_id');
     }
 
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'offer_id');
+    }
+
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('thumb')

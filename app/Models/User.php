@@ -78,4 +78,19 @@ class User extends Authenticatable
     {
         return $this->premium_ends_at?->isFuture() ?? false;
     }
+
+    public function sellerMessages()
+    {
+        return $this->hasMany(Message::class, 'seller_id');
+    }
+
+    public function buyerMessages()
+    {
+        return $this->hasMany(Message::class, 'buyer_id');
+    }
+
+    public function authorMessages()
+    {
+        return $this->hasMany(Message::class, 'author_id');
+    }
 }
