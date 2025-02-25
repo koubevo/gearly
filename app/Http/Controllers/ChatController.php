@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use App\Models\Offer;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -86,4 +87,31 @@ class ChatController extends Controller
         ]);
     }
 
+    public function loadLatestMessages(Request $request, Offer $offer, User $buyer)
+    {
+        $user = \Illuminate\Support\Facades\Auth::user();
+
+        if (!($buyer->id === $user->id || $offer->user_id === $user->id)) {
+            abort(403, 'You are not allowed to access this page.');
+        }
+
+        $lastMessageId = $request->query('last_id', 0);
+        $timeout = 30;
+        $start = time();
+
+        while (time() - $start < $timeout) {
+            $newMessages = Message::where('id', '>', $lastMessageId)
+                ->where('buyer_id', $buyer->id)
+                ->where('offer_id', $offer->id)
+                ->orderBy('id')->get();
+
+            if ($newMessages->isNotEmpty()) {
+                return response()->json($newMessages);
+            }
+
+            usleep(500000);
+        }
+
+        return response()->json([]);
+    }
 }

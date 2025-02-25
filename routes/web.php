@@ -36,6 +36,10 @@ Route::post('/api/chat/{offer}/{buyer}', [ChatController::class, 'sendMessage'])
     ->name('chat.send')
     ->middleware('auth');
 
+Route::get('/api/chat/latest/{offer}/{buyer}', [ChatController::class, 'loadLatestMessages'])
+    ->name('chat.latest')
+    ->middleware('auth');
+
 Route::post('/imgs/upload-temp', [OfferController::class, 'uploadTempImages']);
 
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
