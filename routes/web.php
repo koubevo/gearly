@@ -32,10 +32,13 @@ Route::post('/imgs/upload-temp', [OfferController::class, 'uploadTempImages']);
 
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
 
-Route::resource('chat', ChatController::class)
-    ->only(['index', 'show'])
-    ->middleware('auth')
-    ->parameters(['chat' => 'user']);
+Route::get('/chat/{offer}/{buyer?}', [ChatController::class, 'show'])
+    ->name('chat.show')
+    ->middleware('auth');
+
+Route::get('/chat', [ChatController::class, 'index'])
+    ->name('chat.index')
+    ->middleware('auth');
 
 Route::resource('search', SearchController::class)
     ->only(['index']);

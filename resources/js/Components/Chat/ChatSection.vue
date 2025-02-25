@@ -91,10 +91,8 @@ const messages = ref([
 ]);
 
 const props = defineProps({
-    receiver: {
-        type: Object,
-        required: true,
-    }
+    seller: Object,
+    offer: Object,
 });
 
 const newMessage = ref("");
