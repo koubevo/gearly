@@ -9,7 +9,9 @@ class SearchController extends Controller
 {
     public function index(Request $request)
     {
-        $categories = Category::orderBy('name', 'asc')->get();
+        $categories = Category::withCount('offers')
+            ->orderBy('name', 'asc')
+            ->get();
         return inertia('Search/Index', [
             'categories' => $categories
         ]);
