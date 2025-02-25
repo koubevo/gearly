@@ -1,6 +1,5 @@
 <template>
     <div>
-        <!-- TODO: sorting, count -->
         <Heading2 class="mb-2">{{ heading }}</Heading2>
         <UserOffersGrid :offers="offers" />
     </div>

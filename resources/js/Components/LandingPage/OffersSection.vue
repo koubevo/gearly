@@ -4,7 +4,6 @@
             <Heading2>{{ heading }}</Heading2>
             <Link class="text-left" :href="link">
                 <div class="flex flex-row justify-between items-center gap-2">
-                    <!-- TODO: category icon -->
                     <div class="flex-1"><TinyText>Check all <span class="lowercase">{{ heading }}</span></TinyText></div>
                     <div class="flex-shrink-0 text-primary-900"><ChevronRightIcon class="w-5 h-5  stroke-[2.5]" /></div>
                 </div>    

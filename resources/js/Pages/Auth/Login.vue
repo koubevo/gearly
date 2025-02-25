@@ -61,7 +61,6 @@ const submit = () => {
                     Log in
                 </PrimaryButton>
             </div>
-            <!-- TODO: register? -->
             <div class="mt-4">
                 <Link v-if="canResetPassword" :href="route('password.request')"
                     class="rounded-md text-sm underline hover:text-black focus:outline-none">

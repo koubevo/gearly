@@ -1,6 +1,5 @@
 <template>
     <form @submit.prevent="handleSubmit">
-        <!-- TODO: pridat datove typy v-model.number atd -->
         <div class="md:w-2/4 mx-auto mb-3">
             <Heading1 class="mb-6 mt-6" v-html="isEditMode ? 'Edit offer <span class=\'text-primary-900\'>' + form.name + '</span>' : 'Add new offer'"/>
             <div class="grid grid-cols-12 gap-y-4 gap-x-2">
@@ -36,19 +35,19 @@
                     <label class="mb-2 md:mb-0">Sport</label>
                     <div class="flex flex-col sm:flex-row gap-2">
                         <label class="cursor-pointer w-full sm:flex-1">
-                            <input type="radio" name="sport_id" class="hidden peer" value="1" v-model.number="form.sport_id" />
+                            <input type="radio" name="sport_id" class="hidden peer" value="1" v-model="form.sport_id" />
                             <div class="sport-selector-style">
                                 BOTH
                             </div>
                         </label>
                         <label class="cursor-pointer w-full sm:flex-1">
-                            <input type="radio" name="sport_id" class="hidden peer" value="2" v-model.number="form.sport_id" />
+                            <input type="radio" name="sport_id" class="hidden peer" value="2" v-model="form.sport_id" />
                             <div class="sport-selector-style">
                                 BASEBALL
                             </div>
                         </label>
                         <label class="cursor-pointer w-full sm:flex-1">
-                            <input type="radio" name="sport_id" class="hidden peer" value="3" v-model.number="form.sport_id" />
+                            <input type="radio" name="sport_id" class="hidden peer" value="3" v-model="form.sport_id" />
                             <div class="sport-selector-style">
                                 SOFTBALL
                             </div>

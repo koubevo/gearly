@@ -1,6 +1,6 @@
 <template>
     <Link :href="route('offer.show', offer.id)">
-        <div class="bg-white shadow-gray-300 shadow-lg">
+        <div class="bg-white shadow-gray-300 shadow-lg h-full">
             <div>
                 <img :src="offer.thumbnail_url" :alt="offer.name" class="card-image" loading="lazy">
             </div>  
@@ -8,9 +8,8 @@
                 <div class="flex align-top items-start">
                     <ConditionLike :offer="offer"/>
                 </div>
-                <!-- TODO: only 1 or 2 lines! --> 
                 <div class="flex-1">
-                    <Heading3 :text="offer.name"/>
+                    <Heading3 :text="offer.name" class="line-clamp-2 lg:line-clamp-1"/>
                     <SmallText :text="offer.brand.name"/>
                     <PriceCard :price="offer.price" :currency="offer.currency"/>
                 </div>
