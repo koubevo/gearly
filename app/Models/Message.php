@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Message extends Model
 {
 
+    const UPDATED_AT = null;
+
     protected $fillable = [
         'offer_id',
         'seller_id',

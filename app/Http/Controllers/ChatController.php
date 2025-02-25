@@ -46,7 +46,7 @@ class ChatController extends Controller
     {
         $user = \Illuminate\Support\Facades\Auth::user();
 
-        if (!($buyer?->id === $user->id || $offer->user_id === $user->id)) {
+        if (!($buyer->id === $user->id || $offer->user_id === $user->id)) {
             abort(403, 'You are not allowed to access this page.');
         }
 
@@ -60,6 +60,30 @@ class ChatController extends Controller
             'messages' => $messages,
         ]);
 
+    }
+
+    public function sendMessage(Request $request, Offer $offer, User $buyer)
+    {
+        $user = \Illuminate\Support\Facades\Auth::user();
+
+        if (!($buyer->id === $user->id || $offer->user_id === $user->id)) {
+            abort(403, 'You are not allowed to access this page.');
+        }
+
+        $message = $offer->messages()->create([
+            'seller_id' => $offer->user_id,
+            'buyer_id' => $buyer->id,
+            'author_id' => $user->id,
+            'offer_id' => $offer->id,
+            'type_id' => $request->type_id,
+            'message' => $request->validate([
+                'message' => 'required|string|max:255',
+            ])['message'],
+        ]);
+
+        return response()->json([
+            'message' => $message,
+        ]);
     }
 
 }

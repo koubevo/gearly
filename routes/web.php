@@ -28,8 +28,12 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/api/wishlist/{offer}', [WishlistController::class, 'count']);
 
-Route::get('/api/chat/{offer}/{buyer?}', [ChatController::class, 'loadMessages'])
+Route::get('/api/chat/{offer}/{buyer}', [ChatController::class, 'loadMessages'])
     ->name('chat.load')
+    ->middleware('auth');
+
+Route::post('/api/chat/{offer}/{buyer}', [ChatController::class, 'sendMessage'])
+    ->name('chat.send')
     ->middleware('auth');
 
 Route::post('/imgs/upload-temp', [OfferController::class, 'uploadTempImages']);
