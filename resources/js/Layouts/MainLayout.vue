@@ -7,7 +7,7 @@
                         <img :src="'/storage/imgs/logo.png'" alt="Logo" class="w-16 md:w-20 h-auto align-middle">
                     </Link>
                     <Link :href="route('search.index')">
-                        <MagnifyingGlassIcon class="w-5 h-5  stroke-[2.5]" />
+                        <MagnifyingGlassIcon class="w-5 h-5 stroke-[2.5]" />
                     </Link>
                 </div>
                 <div class="flex gap-2 md:gap-5" v-if="user">
