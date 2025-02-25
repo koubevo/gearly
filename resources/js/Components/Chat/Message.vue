@@ -1,6 +1,6 @@
 <template>
-    <div class="px-3 py-2 inline-block max-w-[60%]" :class="{'bg-primary-900 text-white self-end': message.sender_id === currentUser.id, 'bg-gray-200': message.sender_id !== currentUser.id}">
-        {{ message.text }}
+    <div class="px-3 py-2 inline-block max-w-[60%]" :class="{'bg-primary-900 text-white self-end': message.author_id === currentUser.id, 'bg-gray-200': message.sender_id !== currentUser.id}">
+        {{ message.message }}
     </div>
 </template>
 

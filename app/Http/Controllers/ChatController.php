@@ -28,11 +28,18 @@ class ChatController extends Controller
 
         $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
 
+        $messages = $offer->messages()
+            ->where('seller_id', $offer->user_id)
+            ->where('buyer_id', $buyer->id)
+            ->where('offer_id', $offer->id)
+            ->get();
+
         return inertia('Chat/Show', [
             'seller' => $offer->seller,
             'buyer' => $buyer,
             'offer' => $offer,
             'thumbnail_url' => $offer->thumbnail_url,
+            'messages' => $messages,
         ]);
     }
 
