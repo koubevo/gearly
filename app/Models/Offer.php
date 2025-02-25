@@ -156,4 +156,14 @@ class Offer extends Model implements HasMedia
 
         return $query->mostRecent();
     }
+
+    public function scopeBaseball(Builder $query): Builder
+    {
+        return $query->where('sport_id', 2)->orWhere('sport_id', 1);
+    }
+
+    public function scopeSoftball(Builder $query): Builder
+    {
+        return $query->where('sport_id', 3)->orWhere('sport_id', 1);
+    }
 }
