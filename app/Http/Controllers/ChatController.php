@@ -13,7 +13,7 @@ class ChatController extends Controller
         return inertia('Chat/Index');
     }
 
-    public function show(Offer $offer, Request $request, User $buyer = null)
+    public function show(Offer $offer, User $buyer = null)
     {
         $user = \Illuminate\Support\Facades\Auth::user();
 
