@@ -1,0 +1,1 @@
+import{_ as r}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{o,d as e}from"./app-VWntmNPg.js";const c={},s={class:"w-full border-solid border-gray-500 border-b-[1px] md:w-[96%]"};function t(d,n){return o(),e("div",s)}const i=r(c,[["render",t]]);export{i as D};
