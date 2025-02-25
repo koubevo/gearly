@@ -13,7 +13,7 @@
         </Link>
         <Link :href="route('user.show', {user: seller.id})">
             <div class="flex items-center gap-2">
-                <Heading3>{{ seller.name }}</Heading3>
+                <Heading3>{{ name }}</Heading3>
                 <SmallText>Rating</SmallText>
             </div>
         </Link>
@@ -27,10 +27,22 @@ import Heading3 from '@/Components/Text/Heading3.vue';
 import SmallText from '@/Components/Text/SmallText.vue';
 import { Link } from '@inertiajs/vue3';
 import PriceCard from '@/Components/Offer/PriceCard.vue';
+import { usePage } from '@inertiajs/vue3';
+
+const page = usePage();
+const currentUser = page.props.auth?.user;
 
 const props = defineProps({
+    buyer: Object,
     seller: Object,
     offer: Object,
 });
+
+let name;
+if (currentUser.id === props.buyer.id) {
+    name = props.seller.name;
+} else {
+    name = props.buyer.name;
+}
 
 </script>
