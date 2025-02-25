@@ -227,7 +227,7 @@ watch(filteredFilterCategories, (newFilters) => {
     newFilters.forEach(filter => {
         const key = `fc${filter.id}`;
         if (!(key in form)) {
-            form[key] = null;
+            delete form[key];
         }
     });
 }, { deep: true });
