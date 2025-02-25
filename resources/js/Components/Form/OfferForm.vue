@@ -117,7 +117,7 @@ const props = defineProps({
             currency: "czk",
             condition: "new",
             sport_id: 1,
-            category_id: 12,
+            category_id: 14,
             brand_id: 49,
             delivery_option_id: 1,
             delivery_detail: "",
@@ -172,14 +172,14 @@ const handleSubmit = () => {
     });
 
     if (props.isEditMode) {
-        form.transform(() => dataToSend).put(route('offer.update', {offer: props.offer.id}), {
+        dataToSend.append('_method', 'PUT');
+        form.transform(() => dataToSend).post(route('offer.update', { offer: props.offer }), {
             preserveScroll: true,
             headers: {
                 "Content-Type": "multipart/form-data"
             }
         });
-    }
-    else {
+    } else {
         filteredFilterCategories.value.forEach(filter => {
             const key = `fc${filter.id}`;
             dataToSend.append(key, form[key] || null);
