@@ -212,7 +212,7 @@ class OfferController extends Controller implements HasMedia
     {
         $this->authorize('update', $offer);
 
-        $validatedData = $request->validate([
+        $offer->update($request->validate([
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|regex:/^\d+(\.\d{1,2})?$/|min:0|max:99999',
@@ -223,7 +223,7 @@ class OfferController extends Controller implements HasMedia
             'brand_id' => 'required|integer|min:1',
             'delivery_option_id' => 'required|integer|min:1',
             'delivery_detail' => 'nullable|string',
-        ]);
+        ]));
 
         return redirect()->route('offer.show', $offer)
             ->with('success', 'Offer was updated.');
