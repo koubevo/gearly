@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FilterController;
 use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\LocationController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\OfferController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WishlistController;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -29,6 +31,11 @@ Route::get('/api/wishlist/{offer}', [WishlistController::class, 'count']);
 Route::post('/imgs/upload-temp', [OfferController::class, 'uploadTempImages']);
 
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+
+Route::resource('chat', ChatController::class)
+    ->only(['index', 'show'])
+    ->middleware('auth')
+    ->parameters(['chat' => 'user']);
 
 Route::resource('search', SearchController::class)
     ->only(['index']);
