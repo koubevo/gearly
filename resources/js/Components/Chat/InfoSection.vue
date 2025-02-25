@@ -14,6 +14,7 @@
         <Link :href="route('user.show', {user: seller.id})">
             <div class="flex items-center gap-2">
                 <Heading3>{{ name }}</Heading3>
+                <!-- TODO: Rating -->
                 <SmallText>Rating</SmallText>
             </div>
         </Link>
