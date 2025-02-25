@@ -116,7 +116,6 @@ class OfferController extends Controller implements HasMedia
 
         $offer = Offer::create($validated);
 
-        //TODO: filters can be null
         //TODO: check if filters corespond to category
         foreach ($validated as $key => $value) {
             if (str_starts_with($key, 'fc')) {

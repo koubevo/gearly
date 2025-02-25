@@ -67,7 +67,7 @@
                         <FormSelect :options="categories" v-model="form.category_id" labelName="Category" name="category" :required="true" :error="form.errors.category_id"/>
                     </div>
                 </div>
-                <div class="col-span-12" v-if="!isEditMode">
+                <div class="col-span-12" v-if="!isEditMode && filteredFilterCategories.length">
                     <FiltersNote/>
                 </div>
                 <div class="col-span-12 flex flex-col md:flex-row gap-2 justify-between" v-if="!isEditMode">
@@ -182,7 +182,9 @@ const handleSubmit = () => {
     } else {
         filteredFilterCategories.value.forEach(filter => {
             const key = `fc${filter.id}`;
-            dataToSend.append(key, form[key] || null);
+            if (form[key]) {
+            dataToSend.append(key, form[key]);
+            }
         });
 
         form.transform(() => dataToSend).post(route('offer.store'), {
