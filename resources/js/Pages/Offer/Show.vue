@@ -23,7 +23,6 @@
                     <OfferDetail :detail="'Delivery Detail'" :detailValue="offer.delivery_detail" v-if="offer.delivery_detail"/>
                 </div>
             </section>
-            <!-- TODO: add link destination -->
             <Link :href="seller.id === user.id ? '/profile' : route('user.show', {user: seller.id})">
                 <OfferUserDetail :seller="seller" :soldOffersCount="soldOffersCount"/>
             </Link>
