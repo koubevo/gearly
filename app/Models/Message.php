@@ -6,6 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
 {
+
+    protected $fillable = [
+        'offer_id',
+        'seller_id',
+        'buyer_id',
+        'author_id',
+        'message',
+        'type_id',
+        'created_at'
+    ];
+
     public function offer()
     {
         return $this->belongsTo(Offer::class);
