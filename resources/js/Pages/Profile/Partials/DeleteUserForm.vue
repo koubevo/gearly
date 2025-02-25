@@ -38,7 +38,6 @@ const closeModal = () => {
 
 <template>
     <section class="space-y-6">
-        <!-- TODO: hide in rollable -->
         <header>
             <!-- TODO: component -->
             <h2 class="text-lg font-medium text-gray-900">
