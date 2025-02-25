@@ -17,13 +17,19 @@ class ChatController extends Controller
     {
         $user = \Illuminate\Support\Facades\Auth::user();
 
+        if (isset($buyer)) {
+            if (!($buyer?->id === $user->id || $offer->user_id === $user->id)) {
+                abort(403, 'You are not allowed to access this page.');
+            }
+        }
+
         //TODO: zkontrolovat
         if (!$buyer && $user->id !== $offer->user_id) {
             $buyer = $user;
         } else if (!$buyer) {
-            return redirect()->route('chat.index');
+            abort(403, 'You are not allowed to access this page.');
         } else if ($buyer->id === $user->id) {
-            return redirect()->route('chat.index');
+            abort(403, 'You are not allowed to access this page.');
         }
 
         $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
