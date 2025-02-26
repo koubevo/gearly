@@ -255,4 +255,24 @@ class OfferController extends Controller implements HasMedia
         return response()->json(['path' => Storage::url($path)]);
     }
 
+    public function sellOffer(Request $request, Offer $offer)
+    {
+        $user = \Illuminate\Support\Facades\Auth::user() ?? null;
+        $this->authorize('update', $offer);
+
+        $offer->status = 'sold';
+        $offer->save();
+
+        $message = $offer->messages()->create([
+            'seller_id' => $user->id,
+            'buyer_id' => $request->buyer['id'],
+            'author_id' => $user->id,
+            'offer_id' => $offer->id,
+            'type_id' => 2,
+            'message' => 'Offer was sold.',
+        ]);
+
+        broadcast(new \App\Events\MessageSent($message));
+    }
+
 }

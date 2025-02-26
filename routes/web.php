@@ -67,6 +67,10 @@ Route::resource('offer', OfferController::class)
 Route::resource('offer', OfferController::class)
     ->only(['index', 'show']);
 
+Route::post('/offers/{offer}/sell', [OfferController::class, 'sellOffer'])
+    ->middleware('auth')
+    ->name('offer.sell');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
