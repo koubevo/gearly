@@ -16,6 +16,15 @@ use Inertia\Inertia;
 
 Route::get('/', [LandingPageController::class, 'index'])->name('landingPage');
 
+Route::post('/test-auth', function () {
+    $user = \Illuminate\Support\Facades\Auth::user();
+    return response()->json([
+        'auth' => $user ? true : false,
+        'user' => $user,
+    ]);
+});
+
+
 //TODO: add middlewares for other controllers
 
 Route::get('/api/filters/{categoryId}', [FilterController::class, 'getFiltersByCategory']);
@@ -34,10 +43,6 @@ Route::get('/api/chat/{offer}/{buyer}', [ChatController::class, 'loadMessages'])
 
 Route::post('/api/chat/{offer}/{buyer}', [ChatController::class, 'sendMessage'])
     ->name('chat.send')
-    ->middleware('auth');
-
-Route::get('/api/chat/latest/{offer}/{buyer}', [ChatController::class, 'loadLatestMessages'])
-    ->name('chat.latest')
     ->middleware('auth');
 
 Route::post('/imgs/upload-temp', [OfferController::class, 'uploadTempImages']);

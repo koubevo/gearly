@@ -2,7 +2,9 @@
     <section class="overflow-y-auto h-[80vh]">
         <div class="flex flex-col gap-2 items-start">
             <Message v-for="message in messages" :key="message.id" :message="message" v-if="messages.length"/>
-            <NormalText class="text-center self-center mt-10 text-primary-900" v-else>Start the conversation with a message!</NormalText>
+            <NormalText class="text-center self-center mt-10 text-primary-900" v-else>
+                Start the conversation with a message!
+            </NormalText>
         </div>
     </section>
 </template>
@@ -11,8 +13,7 @@
 import Message from "@/Components/Chat/Message.vue";
 import NormalText from "@/Components/Text/NormalText.vue";
 import axios from "axios";
-import { onMounted } from "vue";
-import { ref } from "vue";
+import { onMounted, ref, computed } from "vue";
 
 const props = defineProps({
     seller: Object,
@@ -21,18 +22,45 @@ const props = defineProps({
 });
 
 const messages = ref([]);
-let lastMessageId = 0;
+const lastMessageId = ref(0);
 
+// ✅ Použití computed() pro správné načtení ID chatu
+const channelName = computed(() => `chat.${props.offer.id}.${props.buyer.id}`);
+
+
+// ✅ Načtení prvních zpráv
 async function loadInitialMessages() {
     try {
-        const response = await axios.get(route('chat.load', { offer: props.offer, buyer: props.buyer }));
+        const response = await axios.get(route('chat.load', { offer: props.offer.id, buyer: props.buyer.id }));
         messages.value = response.data.messages;
+
+        // ✅ Aktualizuj lastMessageId
+        if (messages.value.length > 0) {
+            lastMessageId.value = messages.value[messages.value.length - 1].id;
+        }
     } catch (error) {
-        console.error("err");
+        console.error("❌ Chyba při načítání zpráv:", error);
     }
 }
 
 onMounted(() => {
     loadInitialMessages();
+
+    // ✅ Poslech na WebSocket zprávy
+    window.Echo.private(channelName.value)
+    .listen("MessageSent", (e) => {
+        console.log("✅ NOVÁ ZPRÁVA PŘIJATA:", e);
+        console.log("📨 Původní zprávy:", messages.value);
+
+        if (!messages.value.some(msg => msg.id === e.message.id)) {
+            messages.value.push(e.message);
+            lastMessageId.value = e.message.id;
+        }
+
+        console.log("🆕 Zprávy po update:", messages.value);
+    });
+
+
+    console.log("📡 Naslouchám na kanálu:", channelName.value);
 });
 </script>
