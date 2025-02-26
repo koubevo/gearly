@@ -82,11 +82,7 @@ class ChatController extends Controller
             ])['message'],
         ]);
 
-        \Log::info("📡 Volám broadcast() pro zprávu ID: {$message->id}");
-
         broadcast(new \App\Events\MessageSent($message));
-
-        \Log::info("✅ Zpráva ID: {$message->id} byla odeslána přes broadcast.");
     }
 
 }

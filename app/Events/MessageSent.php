@@ -30,7 +30,6 @@ class MessageSent implements ShouldBroadcastNow
      */
     public function broadcastOn()
     {
-        \Log::info("📡 Broadcasting zprávu na kanál: chat.{$this->message->offer_id}.{$this->message->buyer_id}");
         return new PrivateChannel("chat.{$this->message->offer_id}.{$this->message->buyer_id}");
     }
 

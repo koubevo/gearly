@@ -23,9 +23,8 @@ const props = defineProps({
 
 const messages = ref([]);
 const lastMessageId = ref(0);
-const chatSection = ref(null); // Ref pro sekci, do které budeme scrollovat
+const chatSection = ref(null); 
 
-// ✅ Použití computed() pro správné načtení ID chatu
 const channelName = computed(() => `chat.${props.offer.id}.${props.buyer.id}`);
 
 const scrollToBottom = () => {
@@ -36,42 +35,32 @@ const scrollToBottom = () => {
     });
 };
 
-// ✅ Načtení prvních zpráv
 async function loadInitialMessages() {
     try {
         const response = await axios.get(route('chat.load', { offer: props.offer.id, buyer: props.buyer.id }));
         messages.value = response.data.messages;
 
-        // ✅ Aktualizuj lastMessageId
         if (messages.value.length > 0) {
             lastMessageId.value = messages.value[messages.value.length - 1].id;
         }
         scrollToBottom();
     } catch (error) {
-        console.error("❌ Chyba při načítání zpráv:", error);
+        console.error("err");
     }
 }
 
 onMounted(() => {
     loadInitialMessages();
 
-    // ✅ Poslech na WebSocket zprávy
     window.Echo.private(channelName.value)
     .listen("MessageSent", (e) => {
-        console.log("✅ NOVÁ ZPRÁVA PŘIJATA:", e);
-        console.log("📨 Původní zprávy:", messages.value);
 
         if (!messages.value.some(msg => msg.id === e.message.id)) {
             messages.value.push(e.message);
             lastMessageId.value = e.message.id;
         }
-
-        console.log("🆕 Zprávy po update:", messages.value);
         scrollToBottom();
     });
-
-
-    console.log("📡 Naslouchám na kanálu:", channelName.value);
 });
 watch(messages, scrollToBottom, { deep: true });
 </script>

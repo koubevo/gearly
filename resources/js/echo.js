@@ -12,7 +12,7 @@ window.Echo = new Echo({
     forceTLS: false,
     enabledTransports: ['ws', 'wss'],
     auth: {
-        withCredentials: true, // ✅ Posílání cookies pro autentizaci
+        withCredentials: true, 
         headers: {
             "X-CSRF-TOKEN": document.head.querySelector('meta[name="csrf-token"]').content,
         }
