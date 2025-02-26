@@ -10,10 +10,10 @@
 </template>
 
 <script setup>
+import { ref, computed, onMounted, watch, nextTick } from "vue";
 import Message from "@/Components/Chat/Message.vue";
 import NormalText from "@/Components/Text/NormalText.vue";
 import axios from "axios";
-import { onMounted, ref, computed, nextTick, watch } from "vue";
 
 const props = defineProps({
     seller: Object,
@@ -54,7 +54,6 @@ onMounted(() => {
 
     window.Echo.private(channelName.value)
     .listen("MessageSent", (e) => {
-
         if (!messages.value.some(msg => msg.id === e.message.id)) {
             messages.value.push(e.message);
             lastMessageId.value = e.message.id;
@@ -62,5 +61,10 @@ onMounted(() => {
         scrollToBottom();
     });
 });
+
 watch(messages, scrollToBottom, { deep: true });
+
+defineExpose({
+    messagesCount: computed(() => messages.value.length)
+});
 </script>
