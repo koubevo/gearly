@@ -1,1 +1,0 @@
-import{o as s,d as a,g as o,t as r,p as l}from"./app-VWntmNPg.js";const n={class:"small-text-style"},_={__name:"SmallText",props:{text:String},setup(t){return(e,c)=>(s(),a("p",n,[o(r(t.text),1),l(e.$slots,"default")]))}};export{_};

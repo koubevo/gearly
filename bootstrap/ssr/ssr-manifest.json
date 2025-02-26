@@ -17,7 +17,7 @@
     "/build/assets/DangerButton-B4SyKRsB.js"
   ],
   "resources/js/Components/Buttons/DangerLink.vue": [
-    "/build/assets/Show-DrhDDfYR.js"
+    "/build/assets/Show-By-CEBtJ.js"
   ],
   "resources/js/Components/Buttons/PrimaryButton.vue": [
     "/build/assets/PrimaryButton-DRqOrSj4.js"
@@ -32,7 +32,16 @@
     "/build/assets/PrimaryLink-BhP3udGA.js"
   ],
   "resources/js/Components/Buttons/SortingButton.vue": [
-    "/build/assets/Index-Dr0_Fkuj.js"
+    "/build/assets/Index-B3UFmioZ.js"
+  ],
+  "resources/js/Components/Chat/ChatSection.vue": [
+    "/build/assets/Show-Di5xMBw2.js"
+  ],
+  "resources/js/Components/Chat/InfoSection.vue": [
+    "/build/assets/Show-Di5xMBw2.js"
+  ],
+  "resources/js/Components/Chat/Message.vue": [
+    "/build/assets/Show-Di5xMBw2.js"
   ],
   "resources/js/Components/Dropdown.vue": [
     "/build/assets/Edit-DiQKhp1x.js"
@@ -85,7 +94,7 @@
     "/build/assets/ResetPassword-BE-etqj3.js"
   ],
   "resources/js/Components/LandingPage/OffersSection.vue": [
-    "/build/assets/LandingPage-DNzjgAvM.js"
+    "/build/assets/LandingPage-DCS3Svcb.js"
   ],
   "resources/js/Components/Modal.vue": [
     "/build/assets/Modal-q1Rna5Y2.js"
@@ -94,55 +103,55 @@
     "/build/assets/NothingHere-C5j-DxuH.js"
   ],
   "resources/js/Components/Offer/Card.vue": [
-    "/build/assets/Card-C0FeGnw2.js"
+    "/build/assets/Card-DceVe3xJ.js"
   ],
   "resources/js/Components/Offer/Condition.vue": [
-    "/build/assets/ConditionLike-BdJTfOv0.js"
+    "/build/assets/ConditionLike-B8gmHh2g.js"
   ],
   "resources/js/Components/Offer/ConditionLike.vue": [
-    "/build/assets/ConditionLike-BdJTfOv0.js"
+    "/build/assets/ConditionLike-B8gmHh2g.js"
   ],
   "resources/js/Components/Offer/ImageViewer.vue": [
-    "/build/assets/Show-DrhDDfYR.js"
+    "/build/assets/Show-By-CEBtJ.js"
   ],
   "resources/js/Components/Offer/OfferDetail.vue": [
-    "/build/assets/Show-DrhDDfYR.js"
+    "/build/assets/Show-By-CEBtJ.js"
   ],
   "resources/js/Components/Offer/OffersGrid.vue": [
-    "/build/assets/Index-Dr0_Fkuj.js"
+    "/build/assets/Index-B3UFmioZ.js"
   ],
   "resources/js/Components/Offer/Price.vue": [
-    "/build/assets/Show-DrhDDfYR.js"
+    "/build/assets/Show-By-CEBtJ.js"
   ],
   "resources/js/Components/Offer/PriceCard.vue": [
-    "/build/assets/Card-C0FeGnw2.js"
+    "/build/assets/PriceCard-sxzlgNGX.js"
   ],
   "resources/js/Components/Offer/UserOffersGrid.vue": [
-    "/build/assets/UserOffersGrid-CWlHY5yY.js"
+    "/build/assets/UserOffersGrid-wj8fEnAa.js"
   ],
   "resources/js/Components/ResponsiveNavLink.vue": [
     "/build/assets/Edit-DiQKhp1x.js"
   ],
   "resources/js/Components/Search/CategoryItem.vue": [
-    "/build/assets/Index-DKYtK_06.js"
+    "/build/assets/Index-Db2yHIfM.js"
   ],
   "resources/js/Components/Search/Divider.vue": [
     "/build/assets/Divider-D99dPSph.js"
   ],
   "resources/js/Components/Search/SearchInput.vue": [
-    "/build/assets/Index-DKYtK_06.js"
+    "/build/assets/Index-Db2yHIfM.js"
   ],
   "resources/js/Components/Text/BoldNormalText.vue": [
-    "/build/assets/Card-C0FeGnw2.js"
+    "/build/assets/PriceCard-sxzlgNGX.js"
   ],
   "resources/js/Components/Text/Heading1.vue": [
     "/build/assets/Heading1-B5GMPk_G.js"
   ],
   "resources/js/Components/Text/Heading2.vue": [
-    "/build/assets/ConditionLike-BdJTfOv0.js"
+    "/build/assets/ConditionLike-B8gmHh2g.js"
   ],
   "resources/js/Components/Text/Heading3.vue": [
-    "/build/assets/ConditionLike-BdJTfOv0.js"
+    "/build/assets/Heading3-q7V9h2MZ.js"
   ],
   "resources/js/Components/Text/NormalText.vue": [
     "/build/assets/NormalText-ccMf7loH.js"
@@ -157,13 +166,13 @@
     "/build/assets/ResetPassword-BE-etqj3.js"
   ],
   "resources/js/Components/User/OfferUserDetail.vue": [
-    "/build/assets/Show-DrhDDfYR.js"
+    "/build/assets/Show-By-CEBtJ.js"
   ],
   "resources/js/Components/User/UserInfo.vue": [
-    "/build/assets/Show-BPT9dlxf.js"
+    "/build/assets/Show-Ded_rm8Y.js"
   ],
   "resources/js/Components/User/UserOffers.vue": [
-    "/build/assets/UserOffers-DB1DpECR.js"
+    "/build/assets/UserOffers-Cgcx66Cc.js"
   ],
   "resources/js/Layouts/AuthenticatedLayout.vue": [
     "/build/assets/Edit-DiQKhp1x.js"
@@ -172,7 +181,7 @@
     "/build/assets/GuestLayout-B_RCzzgd.js"
   ],
   "resources/js/Layouts/MainLayout.vue": [
-    "/build/assets/Index-Dr0_Fkuj.js"
+    "/build/assets/Index-B3UFmioZ.js"
   ],
   "resources/js/Pages/Auth/ConfirmPassword.vue": [
     "/build/assets/ConfirmPassword-Dxnznig6.js"
@@ -193,8 +202,14 @@
   "resources/js/Pages/Auth/VerifyEmail.vue": [
     "/build/assets/VerifyEmail-uxRCW7AG.js"
   ],
+  "resources/js/Pages/Chat/Index.vue": [
+    "/build/assets/Index-eKNdhoKN.js"
+  ],
+  "resources/js/Pages/Chat/Show.vue": [
+    "/build/assets/Show-Di5xMBw2.js"
+  ],
   "resources/js/Pages/LandingPage.vue": [
-    "/build/assets/LandingPage-DNzjgAvM.js"
+    "/build/assets/LandingPage-DCS3Svcb.js"
   ],
   "resources/js/Pages/Offer/Create.vue": [
     "/build/assets/Create-Jru4yG8u.js",
@@ -205,10 +220,10 @@
     "/build/assets/vue-select-DA8hhM3z.css"
   ],
   "resources/js/Pages/Offer/Index.vue": [
-    "/build/assets/Index-Dr0_Fkuj.js"
+    "/build/assets/Index-B3UFmioZ.js"
   ],
   "resources/js/Pages/Offer/Show.vue": [
-    "/build/assets/Show-DrhDDfYR.js"
+    "/build/assets/Show-By-CEBtJ.js"
   ],
   "resources/js/Pages/Profile/Edit.vue": [
     "/build/assets/Edit-DiQKhp1x.js"
@@ -223,13 +238,13 @@
     "/build/assets/UpdateProfileInformationForm-xLRyulRb.js"
   ],
   "resources/js/Pages/Search/Index.vue": [
-    "/build/assets/Index-DKYtK_06.js"
+    "/build/assets/Index-Db2yHIfM.js"
   ],
   "resources/js/Pages/User/Show.vue": [
-    "/build/assets/Show-BPT9dlxf.js"
+    "/build/assets/Show-Ded_rm8Y.js"
   ],
   "resources/js/Pages/Wishlist/Index.vue": [
-    "/build/assets/Index-ic3a9lUe.js"
+    "/build/assets/Index-Cp5T7B51.js"
   ],
   "resources/js/ssr.js": [],
   "vendor/tightenco/ziggy/dist/index.js": []

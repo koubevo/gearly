@@ -1,1 +1,0 @@
-import{o as s,d as a,g as o,t as r,p as n}from"./app-VWntmNPg.js";const c={class:"heading1-style"},p={__name:"Heading1",props:{text:String},setup(e){return(t,l)=>(s(),a("h1",c,[o(r(e.text)+" ",1),n(t.$slots,"default")]))}};export{p as _};

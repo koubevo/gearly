@@ -1,0 +1,1 @@
+import{o as r,d as o,g as s,t as a,p as n}from"./app-CuUtu08i.js";const p={class:"primary-button-style",type:"{{ type }}"},l={__name:"PrimaryButton",props:{text:String,type:String},setup(t){return(e,c)=>(r(),o("button",p,[s(a(t.text),1),n(e.$slots,"default")]))}};export{l as _};
