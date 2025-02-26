@@ -1,5 +1,5 @@
 <template>
-    <section class="overflow-y-auto h-[80vh]">
+    <section class="overflow-y-auto h-[80vh]" ref="chatSection">
         <div class="flex flex-col gap-2 items-start">
             <Message v-for="message in messages" :key="message.id" :message="message" v-if="messages.length"/>
             <NormalText class="text-center self-center mt-10 text-primary-900" v-else>
@@ -13,7 +13,7 @@
 import Message from "@/Components/Chat/Message.vue";
 import NormalText from "@/Components/Text/NormalText.vue";
 import axios from "axios";
-import { onMounted, ref, computed } from "vue";
+import { onMounted, ref, computed, nextTick, watch } from "vue";
 
 const props = defineProps({
     seller: Object,
@@ -23,10 +23,18 @@ const props = defineProps({
 
 const messages = ref([]);
 const lastMessageId = ref(0);
+const chatSection = ref(null); // Ref pro sekci, do které budeme scrollovat
 
 // ✅ Použití computed() pro správné načtení ID chatu
 const channelName = computed(() => `chat.${props.offer.id}.${props.buyer.id}`);
 
+const scrollToBottom = () => {
+    nextTick(() => {
+        if (chatSection.value) {
+            chatSection.value.scrollTo({ top: chatSection.value.scrollHeight, behavior: "smooth" });
+        }
+    });
+};
 
 // ✅ Načtení prvních zpráv
 async function loadInitialMessages() {
@@ -38,6 +46,7 @@ async function loadInitialMessages() {
         if (messages.value.length > 0) {
             lastMessageId.value = messages.value[messages.value.length - 1].id;
         }
+        scrollToBottom();
     } catch (error) {
         console.error("❌ Chyba při načítání zpráv:", error);
     }
@@ -58,9 +67,11 @@ onMounted(() => {
         }
 
         console.log("🆕 Zprávy po update:", messages.value);
+        scrollToBottom();
     });
 
 
     console.log("📡 Naslouchám na kanálu:", channelName.value);
 });
+watch(messages, scrollToBottom, { deep: true });
 </script>
