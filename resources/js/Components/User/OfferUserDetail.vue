@@ -4,7 +4,7 @@
         <!-- TODO: feedback -->
         <NormalText>Feedback</NormalText>
         <NormalText v-if="soldOffersCount > 0" class="mb-2">Already sold items: {{ soldOffersCount }}</NormalText>
-        <!-- TODO: count of selled items, premium badge, verified badge -->
+        <!-- TODO: premium badge, verified badge -->
         <TinyText :text="seller.location" class="mb-0.5"/>
         <TinyText :text="seller.phone" v-if="seller.phone"/>
     </section>

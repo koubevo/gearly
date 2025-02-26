@@ -3,7 +3,6 @@
         <div class="col-span-12 md:col-span-6 items-center justify-center flex relative">
             <ImageViewer :images="images" />
         </div>
-        <!-- TODO: move to middle -->
         <div class="col-span-12 md:col-span-6 md:pt-10">
             <section class="grid mb-6">
                 <Heading1 :text="offer.name" class="mb-3"/>
