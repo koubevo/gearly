@@ -30,7 +30,7 @@
     </div>
   </div>
   <div v-if="!offersList.length">
-    <NothingHere :text="'Try searching for something else'"/>
+    <NothingHere :text="'Try searching for something else'">We found no offers</NothingHere>
   </div>
   <Modal :show="modal" @close="closeModal">
       <div class="p-6">

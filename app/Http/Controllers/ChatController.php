@@ -11,7 +11,36 @@ class ChatController extends Controller
 {
     public function index()
     {
-        return inertia('Chat/Index');
+        //TODO: sort by last message, buyer/seller name
+        $user = \Illuminate\Support\Facades\Auth::user();
+        $myOffers = Offer::with('seller')
+            ->whereHas('messages', function ($query) use ($user) {
+                $query->where('seller_id', $user->id);
+            })
+            ->distinct()
+            ->get()
+            ->map(function ($offer) use ($user) {
+                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                $offer->user_name = optional($offer->user)->name ?? 'unknown';
+                return $offer;
+            });
+
+        $otherOffers = Offer::with('seller')
+            ->whereHas('messages', function ($query) use ($user) {
+                $query->where('buyer_id', $user->id);
+            })
+            ->distinct()
+            ->get()
+            ->map(function ($offer) use ($user) {
+                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                $offer->user_name = optional($offer->user)->name ?? 'unknown';
+                return $offer;
+            });
+
+        return inertia('Chat/Index', [
+            'myOffers' => $myOffers,
+            'otherOffers' => $otherOffers
+        ]);
     }
 
     public function show(Offer $offer, User $buyer = null)
