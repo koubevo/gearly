@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Illuminate\Http\Request;
 use Nnjeim\World\World;
 
@@ -11,16 +12,12 @@ class LocationController extends Controller
     {
         $allowedCountries = ['CZ', 'NL', 'IT', 'DK', 'DE', 'ES', 'AT', 'BE', 'PL', 'HR', 'FR', 'SK', 'SE', 'GB'];
 
-        $countries = World::countries([
-            'fields' => 'iso2,name',
-            'filters' => [
-                'region' => 'Europe'
-            ]
-        ])->data;
-
-        $filteredCountries = $countries->filter(fn($country) => in_array($country['iso2'], $allowedCountries));
+        $countries = DB::table('countries')
+            ->whereIn('iso2', $allowedCountries)
+            ->select('iso2', 'name')
+            ->get();
         // sort by popularity
-        $sortedCountries = $filteredCountries->sortBy(fn($country) => array_search($country['iso2'], $allowedCountries));
+        $sortedCountries = $countries->sortBy(fn($country) => array_search($country->iso2, $allowedCountries));
 
         return response()->json([
             'success' => true,
@@ -39,12 +36,10 @@ class LocationController extends Controller
             ], 400);
         }
 
-        $cities = World::cities([
-            'fields' => 'name',
-            'filters' => [
-                'country_code' => $iso2
-            ]
-        ])->data;
+        $cities = DB::table('cities')
+            ->where('country_code', $iso2)
+            ->select('name')
+            ->get();
 
         return response()->json([
             'success' => true,
