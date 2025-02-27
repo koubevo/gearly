@@ -31,6 +31,9 @@
                             </svg>
                         </div>
                     </Link>
+                    <Link :href="route('chat.index')">
+                        <ChatBubbleLeftIcon class="w-6 h-6 mt-0.5" />
+                    </Link>
                     <Link :href="route('landingPage')">
                         <BellIcon class="w-6 h-6 mt-0.5" />
                     </Link>
@@ -64,7 +67,7 @@
 <script setup>
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed, onMounted } from 'vue';
-import { MagnifyingGlassIcon, BellIcon, UserIcon, HeartIcon } from '@heroicons/vue/24/outline';
+import { MagnifyingGlassIcon, BellIcon, UserIcon, HeartIcon, ChatBubbleLeftIcon } from '@heroicons/vue/24/outline';
 import SecondaryLink from '@/Components/Buttons/SecondaryLink.vue';
 import PrimaryLink from '@/Components/Buttons/PrimaryLink.vue';
 
