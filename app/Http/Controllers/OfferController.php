@@ -260,6 +260,7 @@ class OfferController extends Controller implements HasMedia
         $user = \Illuminate\Support\Facades\Auth::user() ?? null;
         $this->authorize('update', $offer);
 
+        $offer->buyer_id = $request->buyer['id'];
         $offer->status = 'sold';
         $offer->save();
 
@@ -270,6 +271,28 @@ class OfferController extends Controller implements HasMedia
             'offer_id' => $offer->id,
             'type_id' => 2,
             'message' => 'Offer was sold.',
+        ]);
+
+        broadcast(new \App\Events\MessageSent($message));
+    }
+
+    public function receiveOffer(Request $request, Offer $offer)
+    {
+        $user = \Illuminate\Support\Facades\Auth::user() ?? null;
+        if ($user->id !== $offer->buyer_id) {
+            abort(403, 'You are not allowed to access this page.');
+        }
+
+        $offer->status = 'received';
+        $offer->save();
+
+        $message = $offer->messages()->create([
+            'seller_id' => $offer->user_id,
+            'buyer_id' => $user->id,
+            'author_id' => $user->id,
+            'offer_id' => $offer->id,
+            'type_id' => 3,
+            'message' => 'Offer was received. Now you can rate each other.',
         ]);
 
         broadcast(new \App\Events\MessageSent($message));

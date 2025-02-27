@@ -3,12 +3,13 @@
         <InfoSection :seller="seller" :offer="offer" :buyer="buyer" class="mb-4 flex-shrink-0"/>
         <ChatSection ref="chatSectionRef" :seller="seller" :offer="offer" :buyer="buyer" class="mb-4 flex-grow overflow-auto"/>
         <section class="flex items-center justify-between gap-2 flex-shrink-0">
-            <button class="bg-primary-900 border-2 border-black border-solid px-3 md:px-4 py-2 text-white font-medium text-center flex-1" v-if="chatSectionRef?.messagesCount > 2 && offer.user_id === currentUser.id" @click="openModal">Sell</button>
+            <button class="primary-button-chat-style" v-if="chatSectionRef?.messagesCount > 2 && offer.user_id === currentUser.id && offer.status === 'active'" @click="openModal">Sell</button>
+            <button class="primary-button-chat-style" v-if="offer.buyer_id === currentUser.id && offer.status === 'sold'" @click="openModal">Receive</button>
             <input type="text" name="message" v-model="message" @keyup.enter="sendMessage" class="input-style" placeholder="Type a message...">
             <button @click="sendMessage" class="mx-2"><PaperAirplaneIcon class="w-5 h-5 stroke-[2]"/></button>
         </section>
     </section>
-    <Modal :show="modal" @close="closeModal" v-if="chatSectionRef?.messagesCount > 2 && offer.user_id === currentUser.id">
+    <Modal :show="modal" @close="closeModal" v-if="chatSectionRef?.messagesCount > 2 && offer.user_id === currentUser.id && offer.status === 'active'">
       <div class="p-6">
           <div class="flex justify-between items-end">
             <Heading2>Do you want to sell <span class="text-primary-900">{{ offer.name }}</span> to <span class="text-primary-900">{{ buyer.name }}</span>?</Heading2>
@@ -17,6 +18,19 @@
           <Divider class="md:w-full my-4"/>
           <div class="flex flex-col md:flex-row gap-2">
             <PrimaryButton class="flex-1" @click="sellOffer">Yes</PrimaryButton>
+            <SecondaryButton class="flex-1" @click="closeModal">Close</SecondaryButton>
+          </div>
+      </div>
+  </Modal>
+  <Modal :show="modal" @close="closeModal" v-if="offer.buyer_id === currentUser.id && offer.status === 'sold'">
+      <div class="p-6">
+          <div class="flex justify-between items-end">
+            <Heading2>Do you want to confirm receiving offer <span class="text-primary-900">{{ offer.name }}</span> from <span class="text-primary-900">{{ seller.name }}</span>?</Heading2>
+            <button class="text-gray-500 hover:text-black" @click="closeModal">&times;</button>
+          </div>
+          <Divider class="md:w-full my-4"/>
+          <div class="flex flex-col md:flex-row gap-2">
+            <PrimaryButton class="flex-1" @click="receiveOffer">Yes</PrimaryButton>
             <SecondaryButton class="flex-1" @click="closeModal">Close</SecondaryButton>
           </div>
       </div>
@@ -63,6 +77,15 @@ const sellOffer = () => {
     axios.post(route('offer.sell', {offer: props.offer, buyer: props.buyer}))
     .then(() => {
         closeModal();
+        props.offer.status = 'sold';
+    });
+};
+
+const receiveOffer = () => {
+    axios.post(route('offer.receive', {offer: props.offer}))
+    .then(() => {
+        closeModal();
+        props.offer.status = 'received';
     });
 };
 

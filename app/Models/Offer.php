@@ -38,6 +38,11 @@ class Offer extends Model implements HasMedia
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function buyer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'buyer_id');
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');

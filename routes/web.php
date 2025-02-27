@@ -71,6 +71,10 @@ Route::post('/offers/{offer}/sell', [OfferController::class, 'sellOffer'])
     ->middleware('auth')
     ->name('offer.sell');
 
+Route::post('/offers/{offer}/receive', [OfferController::class, 'receiveOffer'])
+    ->middleware('auth')
+    ->name('offer.receive');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
