@@ -14,6 +14,7 @@ class Message extends Model
         'seller_id',
         'buyer_id',
         'author_id',
+        'receiver_id',
         'message',
         'type_id',
         'created_at'
@@ -35,6 +36,11 @@ class Message extends Model
     }
 
     public function author()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function receiver()
     {
         return $this->belongsTo(User::class);
     }
