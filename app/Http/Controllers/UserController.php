@@ -11,6 +11,10 @@ class UserController extends Controller
     {
         $activeUser = \Illuminate\Support\Facades\Auth::user() ?? null;
 
+        if ($user->id === $activeUser->id) {
+            return redirect()->route('profile');
+        }
+
         $activeOffers = $user->offers()
             ->with('brand')
             ->active()
