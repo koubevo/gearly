@@ -49,7 +49,7 @@ Route::post('/imgs/upload-temp', [OfferController::class, 'uploadTempImages']);
 
 Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
 
-Route::get('/chat/{offer}/{buyer?}', [ChatController::class, 'show'])
+Route::get('/chat/{offer}/{buyer}', [ChatController::class, 'show'])
     ->name('chat.show')
     ->middleware('auth');
 

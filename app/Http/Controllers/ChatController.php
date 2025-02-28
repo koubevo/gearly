@@ -11,54 +11,49 @@ class ChatController extends Controller
 {
     public function index()
     {
-        //TODO: sort by last message, buyer/seller name
         $user = \Illuminate\Support\Facades\Auth::user();
-        $myOffers = Offer::with('seller')
-            ->whereHas('messages', function ($query) use ($user) {
-                $query->where('seller_id', $user->id);
-            })
-            ->distinct()
-            ->get()
-            ->map(function ($offer) use ($user) {
-                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
-                $offer->user_name = optional($offer->user)->name ?? 'unknown';
-                return $offer;
-            });
 
-        $otherOffers = Offer::with('seller')
-            ->whereHas('messages', function ($query) use ($user) {
-                $query->where('buyer_id', $user->id);
+        $latestMessages = Message::with(['offer.seller', 'buyer'])
+            ->where(function ($query) use ($user) {
+                $query->where('buyer_id', $user->id)
+                    ->orWhereHas('offer', function ($subQuery) use ($user) {
+                        $subQuery->where('user_id', $user->id);
+                    });
             })
-            ->distinct()
+            ->orderBy('created_at', 'desc')
             ->get()
-            ->map(function ($offer) use ($user) {
-                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
-                $offer->user_name = optional($offer->user)->name ?? 'unknown';
-                return $offer;
-            });
+            ->groupBy(fn($message) => $message->offer_id . '-' . $message->buyer_id)
+            ->map(fn($group) => $group->first())
+            ->values();
+
+        $chats = $latestMessages->map(function ($message) use ($user) {
+            return [
+                'offer' => [
+                    'id' => $message->offer->id,
+                    'name' => $message->offer->name,
+                    'price' => $message->offer->price,
+                    'currency' => $message->offer->currency,
+                    'thumbnail_url' => $message->offer->getFirstMediaUrl('images', 'thumb'),
+                ],
+                'buyer_name' => optional($message->buyer)->name,
+                'buyer_id' => $message->buyer->id,
+                'seller_name' => $message->offer->seller->name,
+                'seller_id' => $message->offer->seller->id,
+                'last_message' => $message->message,
+                'last_message_time' => $message->created_at->diffForHumans(),
+            ];
+        });
 
         return inertia('Chat/Index', [
-            'myOffers' => $myOffers,
-            'otherOffers' => $otherOffers
+            'chats' => $chats
         ]);
     }
 
-    public function show(Offer $offer, User $buyer = null)
+    public function show(Offer $offer, User $buyer)
     {
         $user = \Illuminate\Support\Facades\Auth::user();
 
-        if (isset($buyer)) {
-            if (!($buyer?->id === $user->id || $offer->user_id === $user->id)) {
-                abort(403, 'You are not allowed to access this page.');
-            }
-        }
-
-        //TODO: zkontrolovat
-        if (!$buyer && $user->id !== $offer->user_id) {
-            $buyer = $user;
-        } else if (!$buyer) {
-            abort(403, 'You are not allowed to access this page.');
-        } else if ($buyer->id === $user->id) {
+        if (!($buyer->id === $user->id || $offer->user_id === $user->id)) {
             abort(403, 'You are not allowed to access this page.');
         }
 

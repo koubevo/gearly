@@ -22,26 +22,26 @@ class Message extends Model
 
     public function offer()
     {
-        return $this->belongsTo(Offer::class);
+        return $this->belongsTo(Offer::class, 'offer_id');
     }
 
     public function seller()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'seller_id');
     }
 
     public function buyer()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'buyer_id');
     }
 
     public function author()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'author_id');
     }
 
     public function receiver()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'receiver_id');
     }
 }
