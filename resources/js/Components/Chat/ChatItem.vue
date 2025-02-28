@@ -3,7 +3,7 @@
         <Link class="text-left w-full" :href="route('chat.show', {offer: chat.offer.id, buyer: chat.buyer_id})">
             <div class="p-3 w-full flex flex-row justify-between items-center gap-2">
                 <div class="w-10 flex-shrink-0"><img :src="chat.offer.thumbnail_url" alt="Offer image" class="w-full object-cover object-center scale-150 card-image" ></div>
-                <!-- TODO: seller/buyer name -->
+                <!-- TODO: sold label -->
                 <div class="flex-1 ps-4">
                     <div class="grid">
                         <BoldNormalText>{{ chat.offer.name }}</BoldNormalText>

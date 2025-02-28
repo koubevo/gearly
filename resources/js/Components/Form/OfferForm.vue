@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="handleSubmit">
-        <div class="md:w-2/4 mx-auto mb-3">
-            <Heading1 class="mb-6 mt-6" v-html="isEditMode ? 'Edit offer <span class=\'text-primary-900\'>' + form.name + '</span>' : 'Add new offer'"/>
+        <div class=" max-w-5xl mx-auto mb-3">
+            <Heading1 class="mb-4" v-html="isEditMode ? 'Edit offer <span class=\'text-primary-900\'>' + form.name + '</span>' : 'Add new offer'"/>
             <div class="grid grid-cols-12 gap-y-4 gap-x-2">
                 <div class="col-span-12" v-if="!isEditMode">
                     <ImageUploader @update:modelValue="updateImages" />

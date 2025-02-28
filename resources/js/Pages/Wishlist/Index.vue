@@ -2,7 +2,7 @@
     <div class="mb-4">
         <Heading1>Wishlist</Heading1>
         <Divider class="md:w-full mt-6"/>
-        <UserOffers :offers="offers" class="py-4" v-if="offers.length"/>
+        <UserOffers :offers="offers" class="py-2" v-if="offers.length"/>
         <NothingHere v-else :text="'You have not liked any offers. Click the hearth icon to add your first favorite offer to a wishlist!'">We found no offers</NothingHere>
     </div>
 </template>

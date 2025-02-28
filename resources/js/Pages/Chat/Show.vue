@@ -1,5 +1,5 @@
 <template>
-    <section class="flex flex-col h-[calc(100vh-90px)] max-w-5xl mx-auto">
+    <section class="flex flex-col h-[calc(100vh-100px)] max-w-5xl mx-auto">
         <InfoSection :seller="seller" :offer="offer" :buyer="buyer" class="mb-4 flex-shrink-0"/>
         <ChatSection ref="chatSectionRef" :seller="seller" :offer="offer" :buyer="buyer" class="mb-4 flex-grow overflow-auto"/>
         <section class="flex items-center justify-between gap-2 flex-shrink-0">

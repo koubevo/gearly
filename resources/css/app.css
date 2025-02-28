@@ -15,7 +15,7 @@
 }
 
 .primary-button-chat-style {
-    @apply bg-primary-900 border-2 border-black border-solid px-3 md:px-4 py-2 text-white font-medium text-center flex-1;
+    @apply bg-primary-900 border-2 border-black border-solid px-3 md:px-4 py-[7.2px] text-white font-medium text-center flex-1;
 }
 
 .secondary-button-style {
