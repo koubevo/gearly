@@ -1,10 +1,11 @@
 <template>
     <section class="flex flex-col h-[calc(100vh-100px)] max-w-5xl mx-auto">
-        <InfoSection :seller="seller" :offer="offer" :buyer="buyer" :rating="rating" class="mb-4 flex-shrink-0"/>
+        <InfoSection :seller="seller" :offer="offer" :buyer="buyer" :rating="rating" :name="name" class="mb-4 flex-shrink-0"/>
         <ChatSection ref="chatSectionRef" :seller="seller" :offer="offer" :buyer="buyer" class="mb-4 flex-grow overflow-auto"/>
         <section class="flex items-center justify-between gap-2 flex-shrink-0">
             <button class="primary-button-chat-style" v-if="chatSectionRef?.messagesCount > 2 && offer.user_id === currentUser.id && offer.status === 'active'" @click="openModal">Sell</button>
             <button class="primary-button-chat-style" v-if="offer.buyer_id === currentUser.id && offer.status === 'sold'" @click="openModal">Receive</button>
+            <button class="primary-button-chat-style" v-if="offer.status === 'received'" @click="openModal">Rate</button>
             <input type="text" name="message" v-model="message" @keyup.enter="sendMessage" class="input-style" placeholder="Type a message...">
             <button @click="sendMessage" class="mx-2"><PaperAirplaneIcon class="w-5 h-5 stroke-[2]"/></button>
         </section>
@@ -17,8 +18,8 @@
           </div>
           <Divider class="md:w-full my-4"/>
           <div class="flex flex-col md:flex-row gap-2">
-            <PrimaryButton class="flex-1" @click="sellOffer">Yes</PrimaryButton>
             <SecondaryButton class="flex-1" @click="closeModal">Close</SecondaryButton>
+            <PrimaryButton class="flex-1" @click="sellOffer">Yes</PrimaryButton>
           </div>
       </div>
   </Modal>
@@ -30,8 +31,46 @@
           </div>
           <Divider class="md:w-full my-4"/>
           <div class="flex flex-col md:flex-row gap-2">
-            <PrimaryButton class="flex-1" @click="receiveOffer">Yes</PrimaryButton>
             <SecondaryButton class="flex-1" @click="closeModal">Close</SecondaryButton>
+            <PrimaryButton class="flex-1" @click="receiveOffer">Yes</PrimaryButton>
+          </div>
+      </div>
+  </Modal>
+  <Modal :show="modal" @close="closeModal" v-if="offer.status === 'received'">
+      <div class="p-6">
+          <div class="flex justify-between items-end">
+            <Heading2>Give us your opinion on <span class="text-primary-900">{{ name }}</span>.</Heading2>
+            <button class="text-gray-500 hover:text-black" @click="closeModal">&times;</button>
+          </div>
+          <Divider class="md:w-full my-4"/>
+          <div class="flex flex-col md:flex-row gap-2">
+            <div class="flex-row items-center">
+                <div class="flex items-center mt-2 mb-4">
+                    <div class="flex mx-auto" @mouseleave="resetHover">
+                      <template v-for="star in 5" :key="star">
+                        <StarIcon 
+                          v-if="star <= (hoveredRating || selectedRating)" 
+                          @mouseover="hoverRating(star)" 
+                          @click="setRating(star)" 
+                          class="text-primary-900 w-10 h-10 cursor-pointer"
+                        />
+                        <StarOutlineIcon 
+                          v-else 
+                          @mouseover="hoverRating(star)" 
+                          @click="setRating(star)" 
+                          class="text-gray-300 w-10 h-10 cursor-pointer"
+                        />
+                      </template>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <FormTextArea labelName="Verbal rating" name="verbal" />
+                </div>
+                <div class="flex flex-col md:flex-row gap-2">
+                    <SecondaryButton class="flex-1" @click="closeModal">Close</SecondaryButton>
+                    <PrimaryButton class="flex-1" @click="receiveOffer">Rate</PrimaryButton>
+                </div>
+            </div>
           </div>
       </div>
   </Modal>
@@ -48,6 +87,24 @@ import Divider from "@/Components/Search/Divider.vue";
 import { usePage } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import SecondaryButton from '@/Components/Buttons/SecondaryButton.vue';
+import { StarIcon } from '@heroicons/vue/24/solid';
+import { StarIcon as StarOutlineIcon } from '@heroicons/vue/24/outline';
+import FormTextArea from '@/Components/Form/FormTextArea.vue';
+  
+const selectedRating = ref(0);
+const hoveredRating = ref(null);
+
+const hoverRating = (star) => {
+  hoveredRating.value = star;
+};
+
+const resetHover = () => {
+  hoveredRating.value = null;
+};
+
+const setRating = (star) => {
+  selectedRating.value = star; 
+};
 
 const page = usePage();
 const currentUser = page.props.auth?.user;
@@ -99,4 +156,11 @@ const openModal = () => {
 const closeModal = () => {
     modal.value = false;
 };
+
+let name;
+if (currentUser.id === props.buyer.id) {
+    name = props.seller.name;
+} else {
+    name = props.buyer.name;
+}
 </script>

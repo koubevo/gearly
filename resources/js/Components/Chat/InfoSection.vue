@@ -27,7 +27,6 @@
 <script setup>
 import Divider from '@/Components/Search/Divider.vue';
 import Heading3 from '@/Components/Text/Heading3.vue';
-import SmallText from '@/Components/Text/SmallText.vue';
 import { Link } from '@inertiajs/vue3';
 import PriceCard from '@/Components/Offer/PriceCard.vue';
 import { usePage } from '@inertiajs/vue3';
@@ -35,20 +34,12 @@ import Condition from '@/Components/Offer/Condition.vue';
 import Rating from '../User/Rating.vue';
 
 const page = usePage();
-const currentUser = page.props.auth?.user;
 
 const props = defineProps({
     buyer: Object,
     seller: Object,
     offer: Object,
-    rating: Object
+    rating: Object,
+    name: String
 });
-
-let name;
-if (currentUser.id === props.buyer.id) {
-    name = props.seller.name;
-} else {
-    name = props.buyer.name;
-}
-
 </script>
