@@ -1,11 +1,16 @@
 <template>
     <span class=" flex align-middle items-center">
        <Condition :condition="offer.condition" class="me-2"/>
-       <button @click.prevent="toggleFavorite" method="POST" class="hover:text-primary-900" v-if="user?.id !== offer.user_id">
-           <HeartIcon class="w-7 h-7" v-if="!isFavorited"/>
-           <FullHeartIcon class="w-7 h-7 fill-primary-900" v-else/>
-       </button>
-       <NormalText v-if="favoritesCount > 0 && user?.id !== offer.user_id" :text="favoritesCount" class="ms-1"/>
+       <button 
+            :disabled="user?.id === offer.user_id"
+            @click.prevent="toggleFavorite" 
+            method="POST" 
+            :class="{'opacity-50 ': user?.id === offer.user_id}">
+            <HeartIcon class="w-7 h-7" v-if="!isFavorited"/>
+            <FullHeartIcon class="w-7 h-7 fill-primary-900" v-else/>
+        </button>
+
+       <NormalText v-if="favoritesCount > 0" :text="favoritesCount" class="ms-1"/>
     </span>
 </template>
 
