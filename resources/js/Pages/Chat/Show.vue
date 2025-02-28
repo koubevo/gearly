@@ -37,42 +37,44 @@
       </div>
   </Modal>
   <Modal :show="modal" @close="closeModal" v-if="offer.status === 'received'">
-      <div class="p-6">
-          <div class="flex justify-between items-end">
-            <Heading2>Give us your opinion on <span class="text-primary-900">{{ name }}</span>.</Heading2>
-            <button class="text-gray-500 hover:text-black" @click="closeModal">&times;</button>
-          </div>
-          <Divider class="md:w-full my-4"/>
-          <div class="flex flex-col md:flex-row gap-2">
-            <div class="flex-row items-center">
-                <div class="flex items-center mt-2 mb-4">
-                    <div class="flex mx-auto" @mouseleave="resetHover">
-                      <template v-for="star in 5" :key="star">
-                        <StarIcon 
-                          v-if="star <= (hoveredRating || selectedRating)" 
-                          @mouseover="hoverRating(star)" 
-                          @click="setRating(star)" 
-                          class="text-primary-900 w-10 h-10 cursor-pointer"
-                        />
-                        <StarOutlineIcon 
-                          v-else 
-                          @mouseover="hoverRating(star)" 
-                          @click="setRating(star)" 
-                          class="text-gray-300 w-10 h-10 cursor-pointer"
-                        />
-                      </template>
-                    </div>
-                </div>
-                <div class="mb-2">
-                    <FormTextArea labelName="Verbal rating" name="verbal" />
-                </div>
-                <div class="flex flex-col md:flex-row gap-2">
-                    <SecondaryButton class="flex-1" @click="closeModal">Close</SecondaryButton>
-                    <PrimaryButton class="flex-1" @click="receiveOffer">Rate</PrimaryButton>
-                </div>
-            </div>
-          </div>
+    <div class="p-6">
+      <div class="flex justify-between items-end">
+        <Heading2>Give us your opinion on <span class="text-primary-900">{{ name }}</span>.</Heading2>
+        <button class="text-gray-500 hover:text-black" @click="closeModal">&times;</button>
       </div>
+      <Divider class="md:w-full my-4"/>
+
+      <div class="flex flex-col items-center">
+        <!-- Hodnocení hvězdičkami -->
+        <div class="flex mx-auto mb-4" @mouseleave="resetHover">
+          <template v-for="star in 5" :key="star">
+            <StarIcon 
+              v-if="star <= (hoveredRating || selectedRating)" 
+              @mouseover="hoverRating(star)" 
+              @click="setRating(star)" 
+              class="text-primary-900 w-10 h-10 cursor-pointer"
+            />
+            <StarOutlineIcon 
+              v-else 
+              @mouseover="hoverRating(star)" 
+              @click="setRating(star)" 
+              class="text-gray-300 w-10 h-10 cursor-pointer"
+            />
+          </template>
+        </div>
+
+        <!-- Textové hodnocení -->
+        <div class="mb-4 w-full">
+          <FormTextArea v-model="comment" labelName="Verbal rating" name="verbal" />
+        </div>
+
+        <!-- Tlačítka -->
+        <div class="flex flex-col md:flex-row gap-2 w-full">
+          <SecondaryButton class="flex-1" @click="closeModal">Close</SecondaryButton>
+          <PrimaryButton class="flex-1" @click="rateUser">Rate</PrimaryButton>
+        </div>
+      </div>
+    </div>
   </Modal>
 </template>
 
@@ -111,6 +113,7 @@ const currentUser = page.props.auth?.user;
 
 const message = ref('');
 const chatSectionRef = ref(null);
+const comment = ref(''); 
 
 const props = defineProps({
     buyer: Object,
@@ -147,6 +150,18 @@ const receiveOffer = () => {
     });
 };
 
+const rateUser = () => {
+    axios.post(route('rating.store'), {
+        offer_id: props.offer.id,
+        rated_user_id: userId,
+        stars: selectedRating.value,
+        comment: comment.value ?? ''
+    })
+    .then(() => {
+        closeModal();
+    });
+};
+
 const modal = ref(false);
 
 const openModal = () => {
@@ -157,10 +172,12 @@ const closeModal = () => {
     modal.value = false;
 };
 
-let name;
+let name, userId;
 if (currentUser.id === props.buyer.id) {
+    userId = props.seller.id;
     name = props.seller.name;
 } else {
+    userId = props.buyer.id;
     name = props.buyer.name;
 }
 </script>

@@ -6,6 +6,7 @@ use App\Http\Controllers\LandingPageController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\OfferController;
+use App\Http\Controllers\RatingController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WishlistController;
@@ -45,6 +46,10 @@ Route::get('/api/chat/{offer}/{buyer}', [ChatController::class, 'loadMessages'])
 Route::post('/api/chat/{offer}/{buyer}', [ChatController::class, 'sendMessage'])
     ->name('chat.send')
     ->middleware('auth');
+
+Route::post('/api/rating', [RatingController::class, 'store'])
+    ->middleware('auth')
+    ->name('rating.store');
 
 Route::post('/imgs/upload-temp', [OfferController::class, 'uploadTempImages'])
     ->middleware('auth');

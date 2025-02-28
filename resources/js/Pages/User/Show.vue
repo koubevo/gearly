@@ -5,7 +5,6 @@
         <UserOffers :offers="activeOffers" class="py-4" v-if="activeOffers.length" :heading="'Active offers'"/>
         <UserOffers :offers="soldOffers" class="py-4" v-if="soldOffers.length" :heading="'Sold offers'"/>
         <NothingHere v-if="!activeOffers.length && !soldOffers.length" :text="'User has no active or sold offers'">We found no offers</NothingHere>
-
     </div>
 </template>
 
@@ -31,7 +30,7 @@ const currentUser = page.props.auth?.user;
 
 onMounted(() => {
     if (currentUser.id === props.user.id) {
-        Inertia.visit('/profile');
+        Inertia.visit(route('profile.edit'));
     }
 });
 </script>

@@ -14,7 +14,7 @@
 import Heading1 from '@/Components/Text/Heading1.vue'
 import TinyText from '@/Components/Text/TinyText.vue'
 import SmallText from '@/Components/Text/SmallText.vue'
-import Rating from './Rating.vue';
+import Rating from '@/Components/User/Rating.vue';
 
 defineProps({
     user: Object,

@@ -10,11 +10,17 @@
         <div class="text-center text-gray-700 w-full">{{ message.message }}</div>
         <TinyText class="text-center ">{{ formattedDate }}</TinyText>
     </div>
+    <div v-if="message.type_id === 4" class="my-6 mx-auto flex flex-col items-center">
+        <div class="text-center text-gray-700 w-full">{{ message.message }}</div>
+        <Rating :rating="rating" class="my-1"/>
+        <TinyText class="text-center ">{{ formattedDate }}</TinyText>
+    </div>
 </template>
 
 <script setup>
 import { usePage } from '@inertiajs/vue3';
-import TinyText from '../Text/TinyText.vue';
+import TinyText from '@/Components/Text/TinyText.vue';
+import Rating from '@/Components/User/Rating.vue';
 
 const page = usePage();
 const currentUser = page.props.auth?.user;
@@ -22,6 +28,10 @@ const currentUser = page.props.auth?.user;
 const props = defineProps({
     message: Object,
 });
+
+const rating = {
+    average: props.message.stars,
+}
 
 const formattedDate = new Date(props.message.created_at).toLocaleString('en-GB', {
     hour: '2-digit',

@@ -7,6 +7,17 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Rating extends Model
 {
+    const UPDATED_AT = null;
+
+    protected $fillable = [
+        'user_id',
+        'rated_user_id',
+        'offer_id',
+        'stars',
+        'comment',
+        'rating'
+    ];
+
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

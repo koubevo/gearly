@@ -17,7 +17,8 @@ class Message extends Model
         'receiver_id',
         'message',
         'type_id',
-        'created_at'
+        'created_at',
+        'stars'
     ];
 
     public function offer()
