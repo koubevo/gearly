@@ -81,7 +81,7 @@ class ChatController extends Controller
             'offer' => $offer,
             'thumbnail_url' => $offer->thumbnail_url,
             'rating' => $offer->seller->getRating(),
-            'able_to_rate' => $offer->status === 'received' && !$ratingExists,
+            'ableToRate' => $offer->status === 'received' && !$ratingExists,
         ]);
     }
 

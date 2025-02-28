@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignIdFor(User::class, 'rated_user_id')->constrained('users')->onDelete('cascade');
             $table->foreignIdFor(Offer::class, 'offer_id')->constrained('offers')->onDelete('cascade'); //TODO: null
             $table->integer('stars');
-            $table->text('comment');
+            $table->text('comment')->nullable();
             $table->timestamp('created_at')->useCurrent();
         });
     }

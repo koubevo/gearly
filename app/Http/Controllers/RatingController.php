@@ -35,7 +35,7 @@ class RatingController extends Controller
         $request->validate([
             'offer_id' => 'required|exists:offers,id',
             'stars' => 'required|integer|min:1|max:5',
-            'comment' => 'string',
+            'comment' => 'string|nullable',
         ]);
 
         if ($offer->buyer_id != $user->id) {

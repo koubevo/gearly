@@ -1,6 +1,7 @@
 <template>
     <section class="flex flex-col h-[calc(100vh-100px)] max-w-5xl mx-auto">
         <InfoSection :seller="seller" :offer="offer" :buyer="buyer" :rating="rating" :name="name" class="mb-4 flex-shrink-0"/>
+        {{ rating }}
         <ChatSection ref="chatSectionRef" :seller="seller" :offer="offer" :buyer="buyer" class="mb-4 flex-grow overflow-auto"/>
         <section class="flex items-center justify-between gap-2 flex-shrink-0">
             <button class="primary-button-chat-style" v-if="chatSectionRef?.messagesCount > 2 && offer.user_id === currentUser.id && offer.status === 'active'" @click="openModal">Sell</button>
@@ -63,12 +64,10 @@
           </template>
         </div>
 
-        <!-- Textové hodnocení -->
         <div class="mb-4 w-full">
           <FormTextArea v-model="comment" labelName="Verbal rating" name="verbal" />
         </div>
 
-        <!-- Tlačítka -->
         <div class="flex flex-col md:flex-row gap-2 w-full">
           <SecondaryButton class="flex-1" @click="closeModal">Close</SecondaryButton>
           <PrimaryButton class="flex-1" @click="rateUser">Rate</PrimaryButton>
