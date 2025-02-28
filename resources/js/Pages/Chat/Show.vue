@@ -5,7 +5,7 @@
         <section class="flex items-center justify-between gap-2 flex-shrink-0">
             <button class="primary-button-chat-style" v-if="chatSectionRef?.messagesCount > 2 && offer.user_id === currentUser.id && offer.status === 'active'" @click="openModal">Sell</button>
             <button class="primary-button-chat-style" v-if="offer.buyer_id === currentUser.id && offer.status === 'sold'" @click="openModal">Receive</button>
-            <button class="primary-button-chat-style" v-if="offer.status === 'received'" @click="openModal">Rate</button>
+            <button class="primary-button-chat-style" v-if="offer.status === 'received' && ableToRate" @click="openModal">Rate</button>
             <input type="text" name="message" v-model="message" @keyup.enter="sendMessage" class="input-style" placeholder="Type a message...">
             <button @click="sendMessage" class="mx-2"><PaperAirplaneIcon class="w-5 h-5 stroke-[2]"/></button>
         </section>
@@ -36,7 +36,7 @@
           </div>
       </div>
   </Modal>
-  <Modal :show="modal" @close="closeModal" v-if="offer.status === 'received'">
+  <Modal :show="modal" @close="closeModal" v-if="offer.status === 'received' && ableToRate">
     <div class="p-6">
       <div class="flex justify-between items-end">
         <Heading2>Give us your opinion on <span class="text-primary-900">{{ name }}</span>.</Heading2>
@@ -119,7 +119,8 @@ const props = defineProps({
     buyer: Object,
     seller: Object,
     offer: Object,
-    rating: Object
+    rating: Object,
+    ableToRate: Boolean ?? false
 });
 
 const sendMessage = () => {
@@ -147,6 +148,7 @@ const receiveOffer = () => {
     .then(() => {
         closeModal();
         props.offer.status = 'received';
+        props.ableToRate.value = true;
     });
 };
 
@@ -159,6 +161,7 @@ const rateUser = () => {
     })
     .then(() => {
         closeModal();
+        props.ableToRate.value = false;
     });
 };
 

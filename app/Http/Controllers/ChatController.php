@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use App\Models\Offer;
+use App\Models\Rating;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -70,12 +71,17 @@ class ChatController extends Controller
 
         $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
 
+        $ratingExists = Rating::where('offer_id', $offer->id)
+            ->where('user_id', $user->id)
+            ->first();
+
         return inertia('Chat/Show', [
             'seller' => $offer->seller,
             'buyer' => $buyer,
             'offer' => $offer,
             'thumbnail_url' => $offer->thumbnail_url,
             'rating' => $offer->seller->getRating(),
+            'able_to_rate' => $offer->status === 'received' && !$ratingExists,
         ]);
     }
 
