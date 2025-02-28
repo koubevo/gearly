@@ -11,6 +11,12 @@
             </div>
             <!-- TODO: mlb item, top brands section -->
         </div>
+        <div class="flex flex-col items-center py-6 w-full">
+            <label for="search-input" class="w-full">Search by brand</label>
+            <div class="w-full grid grid-cols-1 gap-1 md:grid-cols-2 mt-2"> 
+                <CategoryItem v-for="brand in brands" :key="brand.id" :category="brand"/>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -21,7 +27,8 @@ import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import { useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
-    categories: Array
+    categories: Array,
+    brands: Array
 });
 
 const searchForm = useForm({
