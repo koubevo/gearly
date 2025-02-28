@@ -81,7 +81,13 @@
                     <RequiredFieldsNote/>
                 </div>
                 <div class="col-span-12">
-                    <PrimaryButton type="submit" :text="isEditMode ? 'Edit offer' : 'Add offer'" class="md:w-auto" />
+                    <PrimaryButton 
+                        type="submit" 
+                        :text="isEditMode ? 'Edit offer' : 'Add offer'" 
+                        class="md:w-auto" 
+                        :disabled="freeLimitExceeded && !isEditMode" 
+                        :class="{'bg-gray-400 border-gray-500': freeLimitExceeded && !isEditMode}" 
+                    />
                 </div>
             </div>
         </div>
@@ -98,10 +104,10 @@ import FormInput from '@/Components/Form/FormInput.vue';
 import RequiredFieldsNote from '@/Components/Form/RequiredFieldsNote.vue';
 import FormTextArea from '@/Components/Form/FormTextArea.vue';
 import FiltersNote from '@/Components/Form/FiltersNote.vue';
-import FormSelect from './FormSelect.vue';
-import ImageUploader from './ImageUploader.vue';
+import FormSelect from '@/Components/Form/FormSelect.vue';
+import ImageUploader from '@/Components/Form/ImageUploader.vue';
 import { computed } from 'vue';
-import BoldNormalText from '../Text/BoldNormalText.vue';
+import BoldNormalText from '@/Components/Text/BoldNormalText.vue';
 
 const imageErrors = computed(() =>
     Object.keys(form.errors)
