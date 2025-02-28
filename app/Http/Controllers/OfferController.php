@@ -19,6 +19,8 @@ class OfferController extends Controller implements HasMedia
 {
     use AuthorizesRequests, InteractsWithMedia;
 
+    const MAX_FREE_ACTIVE_OFFERS = 5;
+
     /**
      * Display a listing of the resource.
      * Order by newest by default. 0 price asc, 1 price desc.
@@ -68,14 +70,18 @@ class OfferController extends Controller implements HasMedia
      */
     public function create()
     {
+        $user = \Illuminate\Support\Facades\Auth::user();
         $brands = Brand::select('id', 'name')->orderBy('name', 'asc')->get();
         $deliveryOptions = DeliveryOption::select('id', 'name')->get();
         $categories = Category::with('filters')->orderBy('name', 'asc')->get();
+        $activeOffersCount = $user->offers()->where('status', 'active')->count();
 
         return inertia('Offer/Create', [
             'brands' => $brands,
             'categories' => $categories,
-            'deliveryOptions' => $deliveryOptions
+            'deliveryOptions' => $deliveryOptions,
+            'freeLimitExceeded' => !$user->hasPremium() && $activeOffersCount >= self::MAX_FREE_ACTIVE_OFFERS,
+            'limit' => self::MAX_FREE_ACTIVE_OFFERS,
         ]);
     }
 
@@ -86,8 +92,8 @@ class OfferController extends Controller implements HasMedia
     public function store(Request $request)
     {
         $user = \Illuminate\Support\Facades\Auth::user();
-        $maxFreeActiveOffers = 5;
 
+        $maxFreeActiveOffers = self::MAX_FREE_ACTIVE_OFFERS;
         $activeOffersCount = $user->offers()->where('status', 'active')->count();
 
         if (!$user->hasPremium() && $activeOffersCount >= $maxFreeActiveOffers) {

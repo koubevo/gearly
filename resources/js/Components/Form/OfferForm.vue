@@ -1,10 +1,13 @@
 <template>
     <form @submit.prevent="handleSubmit">
-        <div class=" max-w-5xl mx-auto mb-3">
+        <div class="max-w-5xl mx-auto mb-3">
             <Heading1 class="mb-4" v-html="isEditMode ? 'Edit offer <span class=\'text-primary-900\'>' + form.name + '</span>' : 'Add new offer'"/>
+            <div v-if="freeLimitExceeded && !isEditMode" class="bg-red-600 p-3 mb-4">
+                <BoldNormalText class="text-white">You can't add more offers now. Limit ({{ limit }}) active offers was exceeded.</BoldNormalText>
+            </div>
             <div class="grid grid-cols-12 gap-y-4 gap-x-2">
                 <div class="col-span-12" v-if="!isEditMode">
-                    <ImageUploader @update:modelValue="updateImages" />
+                    <ImageUploader @update:modelValue="updateImages"/>
                     <div v-if="form.errors.images" class="input-error-message-style">{{ form.errors.images }}</div>
                     <div v-if="imageErrors.length" class="input-error-message-style">
                         <ul>
@@ -98,6 +101,7 @@ import FiltersNote from '@/Components/Form/FiltersNote.vue';
 import FormSelect from './FormSelect.vue';
 import ImageUploader from './ImageUploader.vue';
 import { computed } from 'vue';
+import BoldNormalText from '../Text/BoldNormalText.vue';
 
 const imageErrors = computed(() =>
     Object.keys(form.errors)
@@ -137,6 +141,12 @@ const props = defineProps({
     },
     filterCategories: {
         type: Array
+    },
+    freeLimitExceeded: {
+        type: Boolean
+    },
+    limit: {
+        type: Number
     }
 });
 
