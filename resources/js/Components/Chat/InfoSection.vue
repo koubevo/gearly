@@ -6,7 +6,10 @@
                     <img :src="offer.thumbnail_url" :alt="offer.name" class="h-14 card-image" loading="lazy">
                 </div>
                 <div>
-                    <Heading3>{{ offer.name }}</Heading3>
+                    <div class="flex gap-2 items-center mb-0.5">
+                        <Condition :condition="offer.status"/>
+                        <Heading3>{{ offer.name }}</Heading3>
+                    </div>
                     <PriceCard :price="offer.price" :currency="offer.currency"/>
                 </div>
             </div>
@@ -29,6 +32,7 @@ import SmallText from '@/Components/Text/SmallText.vue';
 import { Link } from '@inertiajs/vue3';
 import PriceCard from '@/Components/Offer/PriceCard.vue';
 import { usePage } from '@inertiajs/vue3';
+import Condition from '@/Components/Offer/Condition.vue';
 
 const page = usePage();
 const currentUser = page.props.auth?.user;

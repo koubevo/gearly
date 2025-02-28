@@ -45,6 +45,7 @@ class OfferPolicy
      */
     public function update(User $user, Offer $offer): bool
     {
+        //TODO: only active, not called
         return $user->id === $offer->user_id;
     }
 
@@ -53,6 +54,7 @@ class OfferPolicy
      */
     public function delete(User $user, Offer $offer): bool
     {
+        //TODO: only active
         return $user->id === $offer->user_id;
     }
 

@@ -53,7 +53,6 @@ class WishlistController extends Controller
             $query->where('user_id', $user->id);
         })
             ->with('brand')
-            ->active()
             ->orderBy('created_at', 'desc')
             ->get()
             ->map(function ($offer) use ($user) {

@@ -1,6 +1,6 @@
 <template>
-    <span :class="['h-full uppercase font-medium inline-block px-2', conditionClass]">
-      {{ condition }}
+    <span v-if="allowed.includes(condition)" :class="['h-full uppercase font-medium inline-block px-2', conditionClass]">
+      {{ condition === 'received' ? 'sold' : condition }}
     </span>
 </template>
 
@@ -11,6 +11,8 @@ const props = defineProps({
   condition: String
 });
 
+const allowed = ['new', 'used', 'damaged', 'sold', 'received'];
+
 const conditionClass = computed(() => {
   switch (props.condition) {
     case 'new':
@@ -19,6 +21,10 @@ const conditionClass = computed(() => {
       return 'bg-yellow-500 text-black';
     case 'damaged':
       return 'bg-red-500 text-white';
+    case 'sold':
+      return 'bg-gray-500 text-white';
+    case 'received':
+      return 'bg-black text-white';
   }
 });
 </script>

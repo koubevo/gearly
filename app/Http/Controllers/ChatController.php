@@ -33,6 +33,7 @@ class ChatController extends Controller
                     'name' => $message->offer->name,
                     'price' => $message->offer->price,
                     'currency' => $message->offer->currency,
+                    'status' => $message->offer->status,
                     'thumbnail_url' => $message->offer->getFirstMediaUrl('images', 'thumb'),
                 ],
                 'buyer_name' => optional($message->buyer)->name,

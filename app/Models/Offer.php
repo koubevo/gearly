@@ -136,7 +136,8 @@ class Offer extends Model implements HasMedia
 
     public function scopeSold(Builder $query): Builder
     {
-        return $query->where('status', 'sold');
+        return $query->where('status', 'sold')
+            ->orWhere('status', 'received');
     }
 
     public function scopeMostRecent(Builder $query): Builder

@@ -3,10 +3,12 @@
         <Link class="text-left w-full" :href="route('chat.show', {offer: chat.offer.id, buyer: chat.buyer_id})">
             <div class="p-3 w-full flex flex-row justify-between items-center gap-2">
                 <div class="w-10 flex-shrink-0"><img :src="chat.offer.thumbnail_url" alt="Offer image" class="w-full object-cover object-center scale-150 card-image" ></div>
-                <!-- TODO: sold label -->
                 <div class="flex-1 ps-4">
-                    <div class="grid">
-                        <BoldNormalText>{{ chat.offer.name }}</BoldNormalText>
+                    <div class="grid gap-0.5">
+                        <div class="flex gap-2 items-center">
+                            <Condition :condition="chat.offer.status"/>
+                            <BoldNormalText>{{ chat.offer.name }}</BoldNormalText>
+                        </div>
                         <SmallText v-if="chat.buyer_id !== user.id">{{ chat.buyer_name }}</SmallText>
                         <SmallText v-else>{{ chat.seller_name }}</SmallText>
                     </div>
@@ -30,6 +32,7 @@ import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import BoldNormalText from '@/Components/Text/BoldNormalText.vue';
 import PriceCard from '@/Components/Offer/PriceCard.vue';
 import SmallText from '@/Components/Text/SmallText.vue';
+import Condition from '@/Components/Offer/Condition.vue';
 
 const user = usePage().props.auth.user ?? {};
 
