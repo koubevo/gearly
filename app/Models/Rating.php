@@ -16,4 +16,9 @@ class Rating extends Model
     {
         return $this->belongsTo(User::class, 'rated_user_id');
     }
+
+    public function offer(): BelongsTo
+    {
+        return $this->belongsTo(Offer::class, 'offer_id');
+    }
 }

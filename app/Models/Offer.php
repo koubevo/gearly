@@ -177,4 +177,9 @@ class Offer extends Model implements HasMedia
     {
         return $query->where('sport_id', 3)->orWhere('sport_id', 1);
     }
+
+    public function rating(): BelongsTo
+    {
+        return $this->belongsTo(Rating::class, 'rating_id');
+    }
 }
