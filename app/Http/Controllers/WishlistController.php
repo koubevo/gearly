@@ -53,7 +53,10 @@ class WishlistController extends Controller
             $query->where('user_id', $user->id);
         })
             ->with('brand')
-            ->orderBy('created_at', 'desc')
+            ->orderBy(Favorite::select('created_at')
+                ->whereColumn('favorites.offer_id', 'offers.id')
+                ->latest()
+                ->take(1), 'desc')
             ->get()
             ->map(function ($offer) use ($user) {
                 $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
