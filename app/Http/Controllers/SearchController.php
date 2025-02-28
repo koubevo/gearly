@@ -10,11 +10,19 @@ class SearchController extends Controller
 {
     public function index(Request $request)
     {
-        $categories = Category::withCount('offers')
+        $categories = Category::withCount([
+            'offers' => function ($query) {
+                $query->active();
+            }
+        ])
             ->orderBy('name', 'asc')
             ->get();
 
-        $brands = Brand::withCount('offers')
+        $brands = Brand::withCount([
+            'offers' => function ($query) {
+                $query->active();
+            }
+        ])
             ->having('offers_count', '>', 0)
             ->orderBy('name', 'asc')
             ->get();
