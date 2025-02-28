@@ -3,7 +3,7 @@
         <Heading3>{{ seller.name }} <span v-if="seller.team">({{ seller.team }})</span></Heading3>
         <!-- TODO: feedback -->
         <NormalText>Feedback</NormalText>
-        <NormalText v-if="soldOffersCount > 0" class="mb-2">Already sold items: {{ soldOffersCount }}</NormalText>
+        <SmallText v-if="soldOffersCount > 0" class="mb-2">Already sold items: {{ soldOffersCount }}</SmallText>
         <!-- TODO: premium badge, verified badge -->
         <TinyText :text="seller.location" class="mb-0.5"/>
         <TinyText :text="seller.phone" v-if="seller.phone"/>
@@ -13,6 +13,7 @@
 <script setup>
 import Heading3 from '@/Components/Text/Heading3.vue'
 import TinyText from '@/Components/Text/TinyText.vue'
+import SmallText from '@/Components/Text/SmallText.vue'
 import NormalText from '@/Components/Text/NormalText.vue'
 defineProps({
     seller: Object,
