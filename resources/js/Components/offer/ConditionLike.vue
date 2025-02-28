@@ -35,7 +35,7 @@ watch(() => props.offer.favorites_count, (newVal) => {
 
 const toggleFavorite = async () => {
     if (!user.value) {
-        return Inertia.visit('login');
+        return Inertia.visit(route('login'));
     }
 
     try {

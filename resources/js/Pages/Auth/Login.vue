@@ -35,7 +35,6 @@ const submit = () => {
             {{ status }}
         </div>
 
-        <!-- TODO: add autocomplete -->
         <form @submit.prevent="submit">
             <div>
                 <FormInput name="email" labelName="Email" type="email" v-model="form.email" :error="form.errors.email" :required="true" />
@@ -45,15 +44,15 @@ const submit = () => {
                 <FormInput name="password" labelName="Password" type="password" v-model="form.password" :error="form.errors.password" :required="true" />
             </div>
 
-            <div class="my-1">
-                <RequiredFieldsNote />
-            </div>
-
-            <div class="mt-4 block">
+            <div class="mt-4 flex justify-between items-center">
                 <label class="flex items-center">
                     <Checkbox name="remember" v-model:checked="form.remember" />
                     <span class="ms-2 text-sm">Remember me</span>
                 </label>
+                <Link v-if="canResetPassword" :href="route('password.request')"
+                    class="rounded-md text-sm underline hover:text-black focus:outline-none">
+                    Forgot your password?
+                </Link>
             </div>
 
             <div class="mt-4 flex">
@@ -61,10 +60,11 @@ const submit = () => {
                     Log in
                 </PrimaryButton>
             </div>
-            <div class="mt-4">
-                <Link v-if="canResetPassword" :href="route('password.request')"
-                    class="rounded-md text-sm underline hover:text-black focus:outline-none">
-                    Forgot your password?
+
+            <div class="mt-4 flex gap-4">
+                <Link :href="route('register')"
+                    class="rounded-md text-sm underline hover:text-black focus:outline-none text-primary-900">
+                    Are you new in here? Start here!
                 </Link>
             </div>
         </form>

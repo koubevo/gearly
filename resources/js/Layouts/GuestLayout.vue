@@ -1,7 +1,7 @@
 <template>
     <div 
         class="flex flex-col justify-center items-center"
-        :style="{ height: `calc(100vh - ${menuHeight}px - 5px)` }"
+        :style="{ height: `calc(100vh - ${menuHeight}px - 20px)` }"
     >
         <div>
             <Link href="/">

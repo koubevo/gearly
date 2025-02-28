@@ -30,11 +30,13 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
         $request->session()->regenerate();
 
-        return redirect()->intended(route('landingPage', absolute: false));
+        $redirectUrl = $request->query('redirect', route('landingPage', absolute: false));
+
+        return redirect()->intended($redirectUrl);
     }
+
 
     /**
      * Destroy an authenticated session.

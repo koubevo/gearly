@@ -1,6 +1,6 @@
 <template>
     <div class="w-full my-0.5 flex flex-col justify-center">
-        <Link class="text-left w-full" :href="route('offer.index', {category: category.id})">
+        <Link class="text-left w-full" :href="link">
             <div class="p-3 w-full flex flex-row justify-between items-center">
                 <div class="w-10 flex-shrink-0"><img :src="'/storage/icons/' + category.logo" alt="Logo" class="w-full object-cover object-center scale-150"></div>
                 <div class="flex-1 ps-4"><NormalText>{{ category.name }} ({{ category.offers_count }})</NormalText></div>
@@ -19,6 +19,7 @@ import Divider from '@/Components/Search/Divider.vue';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 
 defineProps({
-    category: Object
+    category: Object,
+    link: String
 })
 </script>
