@@ -104,7 +104,7 @@ class OfferController extends Controller implements HasMedia
         $validated = $request->validate([
             'name' => 'required|string',
             'description' => 'required|string',
-            'price' => 'required|regex:/^\d+(\.\d{1,2})?$/|min:0|max:99999',
+            'price' => 'required|numeric|min:0|max:99999|regex:/^\d{1,5}(\.\d{1,2})?$/',
             'currency' => 'required|string|in:eur,czk', //only 2 currencies now
             'condition' => 'required|in:new,used,damaged|lowercase',
             'sport_id' => 'required|integer|in:1,2,3',
