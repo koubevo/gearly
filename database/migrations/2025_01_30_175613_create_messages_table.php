@@ -9,9 +9,14 @@ return new class extends Migration {
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('chat_id')->constrained('chats')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('offer_id')->nullable()->constrained('offers')->onDelete('set null');
+            $table->foreignId('seller_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('buyer_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('author_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('receiver_id')->nullable()->constrained('users')->onDelete('set null');
             $table->text('message');
+            $table->decimal('rating', 2, 1)->nullable();
+            $table->integer('type_id')->default(1);
             $table->timestamp('created_at')->useCurrent();
         });
     }

@@ -38,6 +38,11 @@ class Offer extends Model implements HasMedia
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function buyer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'buyer_id');
+    }
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class, 'category_id');
@@ -71,6 +76,11 @@ class Offer extends Model implements HasMedia
     public function offerFilters(): HasMany
     {
         return $this->hasMany(OfferFilter::class, 'offer_id');
+    }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class, 'offer_id');
     }
 
     public function registerMediaConversions(Media $media = null): void

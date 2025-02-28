@@ -5,7 +5,7 @@
            <HeartIcon class="w-7 h-7" v-if="!isFavorited"/>
            <FullHeartIcon class="w-7 h-7 fill-primary-900" v-else/>
        </button>
-       <NormalText v-if="favoritesCount > 0" :text="favoritesCount" class="ms-1"/>
+       <NormalText v-if="favoritesCount > 0 && user?.id !== offer.user_id" :text="favoritesCount" class="ms-1"/>
     </span>
 </template>
 

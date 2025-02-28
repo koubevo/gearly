@@ -7,7 +7,7 @@
                         <img :src="'/storage/imgs/logo.png'" alt="Logo" class="w-16 md:w-20 h-auto align-middle">
                     </Link>
                     <Link :href="route('search.index')">
-                        <MagnifyingGlassIcon class="w-5 h-5  stroke-[2.5]" />
+                        <MagnifyingGlassIcon class="w-5 h-5 stroke-[2.5]" />
                     </Link>
                 </div>
                 <div class="flex gap-2 md:gap-5" v-if="user">
@@ -30,6 +30,9 @@
                                 <path stroke="url(#animatedGradient)" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m-8-8h16"/>
                             </svg>
                         </div>
+                    </Link>
+                    <Link :href="route('chat.index')">
+                        <ChatBubbleLeftIcon class="w-6 h-6 mt-0.5" />
                     </Link>
                     <Link :href="route('landingPage')">
                         <BellIcon class="w-6 h-6 mt-0.5" />
@@ -64,7 +67,7 @@
 <script setup>
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed, onMounted } from 'vue';
-import { MagnifyingGlassIcon, BellIcon, UserIcon, HeartIcon } from '@heroicons/vue/24/outline';
+import { MagnifyingGlassIcon, BellIcon, UserIcon, HeartIcon, ChatBubbleLeftIcon } from '@heroicons/vue/24/outline';
 import SecondaryLink from '@/Components/Buttons/SecondaryLink.vue';
 import PrimaryLink from '@/Components/Buttons/PrimaryLink.vue';
 

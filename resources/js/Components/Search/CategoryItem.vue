@@ -7,7 +7,7 @@
                 <div class="flex-shrink-0 text-primary-900"><ChevronRightIcon class="w-5 h-5  stroke-[2.5]" /></div>
             </div>    
         </Link>
-        <Divider/>
+        <Divider class="md:w-full"/>
     </div>
     
 </template>

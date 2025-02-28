@@ -255,4 +255,51 @@ class OfferController extends Controller implements HasMedia
         return response()->json(['path' => Storage::url($path)]);
     }
 
+    public function sellOffer(Request $request, Offer $offer)
+    {
+        $user = \Illuminate\Support\Facades\Auth::user();
+        $this->authorize('update', $offer);
+
+        //TODO:if offer active
+        $offer->buyer_id = $request->buyer['id'];
+        $offer->status = 'sold';
+        $offer->save();
+
+        $message = $offer->messages()->create([
+            'seller_id' => $user->id,
+            'buyer_id' => $request->buyer['id'],
+            'author_id' => $user->id,
+            'receiver_id' => $request->buyer['id'],
+            'offer_id' => $offer->id,
+            'type_id' => 2,
+            'message' => 'Offer was sold.',
+        ]);
+
+        broadcast(new \App\Events\MessageSent($message));
+    }
+
+    public function receiveOffer(Request $request, Offer $offer)
+    {
+        $user = \Illuminate\Support\Facades\Auth::user();
+        if ($user->id !== $offer->buyer_id) {
+            abort(403, 'You are not allowed to access this page.');
+        }
+
+        //TODO:if offer sold
+        $offer->status = 'received';
+        $offer->save();
+
+        $message = $offer->messages()->create([
+            'seller_id' => $offer->user_id,
+            'buyer_id' => $user->id,
+            'author_id' => $user->id,
+            'receiver_id' => $offer->user_id,
+            'offer_id' => $offer->id,
+            'type_id' => 3,
+            'message' => 'Offer was received. Now you can rate each other.',
+        ]);
+
+        broadcast(new \App\Events\MessageSent($message));
+    }
+
 }

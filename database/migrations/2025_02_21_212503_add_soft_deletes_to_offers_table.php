@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::table('offers', function (Blueprint $table) {
             $table->softDeletes();
-            $table->enum('status', ['active', 'sold', 'draft', 'deleted'])->default('active');
+            $table->enum('status', ['active', 'sold', 'draft', 'deleted', 'received'])->default('active');
         });
     }
 

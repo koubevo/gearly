@@ -54,6 +54,11 @@ class User extends Authenticatable
         return $this->hasMany(Offer::class, 'user_id');
     }
 
+    public function hasBoughtOffers(): HasMany
+    {
+        return $this->hasMany(Offer::class, 'buyer_id');
+    }
+
     public function reports(): HasMany
     {
         return $this->hasMany(Report::class, 'user_id');
@@ -77,5 +82,25 @@ class User extends Authenticatable
     public function hasPremium()
     {
         return $this->premium_ends_at?->isFuture() ?? false;
+    }
+
+    public function sellerMessages()
+    {
+        return $this->hasMany(Message::class, 'seller_id');
+    }
+
+    public function buyerMessages()
+    {
+        return $this->hasMany(Message::class, 'buyer_id');
+    }
+
+    public function authorMessages()
+    {
+        return $this->hasMany(Message::class, 'author_id');
+    }
+
+    public function receiverMessages()
+    {
+        return $this->hasMany(Message::class, 'receiver_id');
     }
 }

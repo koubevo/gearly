@@ -1,0 +1,1 @@
+import{o as s,d as o,g as a,t as r,p as n}from"./app-CuUtu08i.js";const l={class:"normal-text-style"},_={__name:"NormalText",props:{text:String},setup(t){return(e,c)=>(s(),o("p",l,[a(r(t.text),1),n(e.$slots,"default")]))}};export{_};

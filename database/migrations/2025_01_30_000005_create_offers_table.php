@@ -14,6 +14,7 @@ return new class extends Migration {
         Schema::create('offers', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class, 'user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('buyer_id')->nullable()->constrained('users')->onDelete('set null');
             $table->string('name');
             $table->text('description');
             $table->decimal('price', 10, 2);

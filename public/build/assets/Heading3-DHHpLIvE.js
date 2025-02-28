@@ -1,0 +1,1 @@
+import{o as s,d as a,g as o,t as r,p as n}from"./app-CuUtu08i.js";const c={class:"heading3-style"},p={__name:"Heading3",props:{text:String},setup(e){return(t,l)=>(s(),a("h3",c,[o(r(e.text)+" ",1),n(t.$slots,"default")]))}};export{p as _};

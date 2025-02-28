@@ -28,10 +28,10 @@
             
             <div v-if="seller.id !== user.id">
                <section class="my-6 hidden md:grid">
-                   <PrimaryLink :text="'Chat with seller'"/>
+                   <PrimaryLink :text="'Chat with seller'" :href="route('chat.show', {offer: offer.id, buyer: user.id})"/>
                </section>
                <section class="grid mb-2 md:relative fixed bottom-0 left-0 w-full p-2 md:hidden">
-                   <PrimaryLink :text="'Chat with seller'" class="w-full"/>
+                   <PrimaryLink :text="'Chat with seller'" class="w-full" :href="route('chat.show', {offer: offer.id, buyer: user.id})"/>
                </section>
             </div>
             <div v-else>
