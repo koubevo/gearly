@@ -15,10 +15,9 @@
             </div>
         </Link>
         <Link :href="route('user.show', {user: seller.id})">
-            <div class="flex items-center gap-2">
+            <div class="flex flex-col md:flex-row md:items-center md:gap-2">
                 <Heading3>{{ name }}</Heading3>
-                <!-- TODO: Rating -->
-                <SmallText>Rating</SmallText>
+                <Rating :rating="rating"/>
             </div>
         </Link>
         <Divider class="md:w-full"/>
@@ -33,6 +32,7 @@ import { Link } from '@inertiajs/vue3';
 import PriceCard from '@/Components/Offer/PriceCard.vue';
 import { usePage } from '@inertiajs/vue3';
 import Condition from '@/Components/Offer/Condition.vue';
+import Rating from '../User/Rating.vue';
 
 const page = usePage();
 const currentUser = page.props.auth?.user;
@@ -41,6 +41,7 @@ const props = defineProps({
     buyer: Object,
     seller: Object,
     offer: Object,
+    rating: Object
 });
 
 let name;

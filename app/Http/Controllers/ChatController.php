@@ -75,6 +75,7 @@ class ChatController extends Controller
             'buyer' => $buyer,
             'offer' => $offer,
             'thumbnail_url' => $offer->thumbnail_url,
+            'rating' => $offer->seller->getRating(),
         ]);
     }
 

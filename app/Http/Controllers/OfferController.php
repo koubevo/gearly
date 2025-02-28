@@ -8,6 +8,7 @@ use App\Models\DeliveryOption;
 use App\Models\FilterCategory;
 use App\Models\Offer;
 use App\Models\OfferFilter;
+use App\Models\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Storage;
@@ -175,6 +176,7 @@ class OfferController extends Controller implements HasMedia
             'category' => $offer->category,
             'brand' => $offer->brand,
             'deliveryOption' => $offer->deliveryOption,
+            'rating' => $offer->seller->getRating(),
             'images' => $offer->getMedia('images')->map(fn($image) => $image->getUrl()),
             'filters' => $offer->offerFilters->map(fn($filter) => [
                 'id' => $filter->id,

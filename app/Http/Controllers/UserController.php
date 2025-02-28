@@ -50,6 +50,7 @@ class UserController extends Controller
             'activeOffers' => $activeOffers,
             'soldOffers' => $soldOffers,
             'soldOffersCount' => $soldOffersCount,
+            'rating' => $user->getRating(),
         ]);
     }
 }

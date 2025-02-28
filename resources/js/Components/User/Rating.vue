@@ -12,7 +12,7 @@
         <StarOutlineIcon v-else class="text-gray-300 w-6 h-6" />
       </template>
     </div>
-    <span class="ml-2 text-gray-600">{{ rating.toFixed(1) }} ({{ count }}x)</span>
+    <span class="ml-2 text-gray-600">{{ rating.average }} ({{ rating.count }}x)</span>
   </div>
 </template>
 
@@ -22,10 +22,9 @@ import { StarIcon } from '@heroicons/vue/24/solid';
 import { StarIcon as StarOutlineIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps({
-  rating: { type: Number, default: 0 },
-  count: { type: Number, default: 0 },
+  rating: Object
 });
 
-const roundedRating = computed(() => Math.round(props.rating * 2) / 2);
+const roundedRating = computed(() => Math.round(props.rating.average * 2) / 2);
 </script>
   

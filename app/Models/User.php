@@ -103,4 +103,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Message::class, 'receiver_id');
     }
+
+    public function getRating()
+    {
+        return Rating::where('rated_user_id', $this->id)
+            ->selectRaw('ROUND(AVG(stars), 1) as average, COUNT(id) as count')
+            ->first()
+            ->toArray();
+    }
 }
