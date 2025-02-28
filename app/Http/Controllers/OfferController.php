@@ -257,7 +257,7 @@ class OfferController extends Controller implements HasMedia
 
     public function sellOffer(Request $request, Offer $offer)
     {
-        $user = \Illuminate\Support\Facades\Auth::user() ?? null;
+        $user = \Illuminate\Support\Facades\Auth::user();
         $this->authorize('update', $offer);
 
         //TODO:if offer active
@@ -280,7 +280,7 @@ class OfferController extends Controller implements HasMedia
 
     public function receiveOffer(Request $request, Offer $offer)
     {
-        $user = \Illuminate\Support\Facades\Auth::user() ?? null;
+        $user = \Illuminate\Support\Facades\Auth::user();
         if ($user->id !== $offer->buyer_id) {
             abort(403, 'You are not allowed to access this page.');
         }

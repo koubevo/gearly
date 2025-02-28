@@ -57,6 +57,16 @@ class ChatController extends Controller
             abort(403, 'You are not allowed to access this page.');
         }
 
+        $messagesCount = $offer->messages()
+            ->where('seller_id', $offer->user_id)
+            ->where('buyer_id', $buyer->id)
+            ->where('offer_id', $offer->id)
+            ->count();
+
+        if ($messagesCount == 0 && $user->id == $offer->user_id) {
+            abort(403, 'You are not allowed to access this page.');
+        }
+
         $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
 
         return inertia('Chat/Show', [

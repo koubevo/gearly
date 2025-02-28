@@ -3,7 +3,7 @@
         <Link :href="route('offer.show', {offer: offer})">
             <div class="flex gap-2 items-center">
                 <div>
-                    <img :src="offer.thumbnail_url" :alt="offer.name" class="h-14" loading="lazy">
+                    <img :src="offer.thumbnail_url" :alt="offer.name" class="h-14 card-image" loading="lazy">
                 </div>
                 <div>
                     <Heading3>{{ offer.name }}</Heading3>
