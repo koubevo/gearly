@@ -14,7 +14,7 @@
                 </div>
             </div>
         </Link>
-        <Link :href="route('user.show', {user: seller.id})">
+        <Link :href="route('user.show', {user: userId})">
             <div class="flex flex-col md:flex-row md:items-center md:gap-2">
                 <Heading3>{{ name }}</Heading3>
                 <Rating :rating="rating"/>
@@ -40,6 +40,7 @@ const props = defineProps({
     seller: Object,
     offer: Object,
     rating: Object,
-    name: String
+    name: String,
+    userId: Number
 });
 </script>

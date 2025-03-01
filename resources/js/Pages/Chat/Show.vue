@@ -1,6 +1,6 @@
 <template>
     <section class="flex flex-col h-[calc(100vh-100px)] max-w-5xl mx-auto">
-        <InfoSection :seller="seller" :offer="offer" :buyer="buyer" :rating="rating" :name="name" class="mb-4 flex-shrink-0"/>
+        <InfoSection :seller="seller" :offer="offer" :buyer="buyer" :rating="rating" :name="name" :userId="userId" class="mb-4 flex-shrink-0"/>
         <ChatSection ref="chatSectionRef" :seller="seller" :offer="offer" :buyer="buyer" class="mb-4 flex-grow overflow-auto"/>
         <section class="flex items-center justify-between gap-2 flex-shrink-0">
             <button class="primary-button-chat-style" v-if="chatSectionRef?.messagesCount > 2 && offer.user_id === currentUser.id && offer.status === 'active'" @click="openModal">Sell</button>
