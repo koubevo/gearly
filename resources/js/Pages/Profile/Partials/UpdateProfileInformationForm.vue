@@ -1,7 +1,10 @@
 <script setup>
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
+import Heading2 from '@/Components/Text/Heading2.vue';
 import TinyText from '@/Components/Text/TinyText.vue';
-import { Link, useForm, usePage } from '@inertiajs/vue3';
+import { useForm, usePage } from '@inertiajs/vue3';
+import LocationSelect from '@/Components/Form/LocationSelect.vue';
+import { ref, watch, onMounted } from 'vue';
 
 defineProps({
     mustVerifyEmail: {
@@ -18,71 +21,62 @@ const form = useForm({
     name: user.name,
     email: user.email,
 });
+
+const countries = ref([]);
+const cities = ref([]);
+
+onMounted(async () => {
+    try {
+        const response = await fetch('/api/countries');
+        const result = await response.json();
+        if (result.success) {
+            countries.value = result.data;
+        } else {
+            console.error('Error fetching countries:', result.message);
+        }
+    } catch (error) {
+        console.error('Error fetching countries:', error);
+    }
+});
+
+watch(() => form.country, async (newCountry) => {
+    if (newCountry) {
+        const selectedCountry = countries.value.find(country => country.name === newCountry);
+        const iso2 = selectedCountry ? selectedCountry.iso2 : '';
+        if (iso2) {
+            try {
+                const response = await fetch(`/api/cities?iso2=${iso2}`);
+                const result = await response.json();
+                if (result.success) {
+                    cities.value = result.data;
+                } else {
+                    console.error('Error fetching cities:', result.message);
+                }
+            } catch (error) {
+                console.error('Error fetching cities:', error);
+            }
+        }
+    }
+});
 </script>
 
 <template>
     <section>
         <header>
-            <!-- TODO: make component for these headings -->
-            <h2 class="text-lg font-medium text-gray-900">
-                Profile Information
-            </h2>
-
-            <!-- TODO: text, translations -->
-            <TinyText :text="'Update your profile information and email address.'"/>
+            <Heading2 class="mb-2">Update Profile Information</Heading2>
+            <TinyText :text="'To change other information, please contact our support.'"/>
         </header>
 
-        <form @submit.prevent="form.patch(route('profile.update'))" class="mt-6 space-y-6">
-            <!-- TODO: change other profile data (phone, address, ...) -->
-            <div>
-                <input type="text" placeholder="Name" name="name" v-model="form.name" class="input-style" required />
-                <div v-if="form.errors.name" class="input-error-message-style">{{ form.errors.name }}</div>
-            </div>
-
-            <!-- TODO: Do we want them to change this? -->
-            <div class="mt-4">
-                <input type="email" placeholder="Email" name="email" v-model="form.email" class="input-style" required />
-                <div v-if="form.errors.email" class="input-error-message-style">{{ form.errors.email }}</div>
-            </div>
-
-            <div v-if="mustVerifyEmail && user.email_verified_at === null">
-                <p class="mt-2 text-sm text-gray-800">
-                    Your email address is unverified.
-                    <Link
-                        :href="route('verification.send')"
-                        method="post"
-                        as="button"
-                        class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >
-                        Click here to re-send the verification email.
-                    </Link>
-                </p>
-
-                <div
-                    v-show="status === 'verification-link-sent'"
-                    class="mt-2 text-sm font-medium text-green-600"
-                >
-                    A new verification link has been sent to your email address.
+        <form @submit.prevent="updatePassword" class="mt-6">
+            <div class="my-2 flex md:flex-row flex-col gap-2">
+                <div class="flex-1">
+                    <LocationSelect :options="countries" v-model="form.country" labelName="Country" name="country" :required="true" :error="form.errors.country"/>
+                </div>
+                <div class="flex-1">
+                    <LocationSelect :options="cities" v-model="form.city" labelName="City" name="city" :required="true" :error="form.errors.city"/>
                 </div>
             </div>
-
-            <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
-
-                <Transition
-                    enter-active-class="transition ease-in-out"
-                    enter-from-class="opacity-0"
-                    leave-active-class="transition ease-in-out"
-                    leave-to-class="opacity-0"
-                >
-                    <p
-                        v-if="form.recentlySuccessful"
-                        class="text-sm text-gray-600"
-                    >
-                        Saved.
-                    </p>
-                </Transition>
-            </div>
+            <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
         </form>
     </section>
 </template>

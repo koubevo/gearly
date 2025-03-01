@@ -3,6 +3,8 @@ import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import TinyText from '@/Components/Text/TinyText.vue';
 import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import Heading2 from '@/Components/Text/Heading2.vue';
+import FormInput from '@/Components/Form/FormInput.vue';
 
 const passwordInput = ref(null);
 const currentPasswordInput = ref(null);
@@ -34,47 +36,22 @@ const updatePassword = () => {
 <template>
     <section>
         <header>
-            <!-- TODO: component -->
-            <h2 class="text-lg font-medium text-gray-900">
-                Update Password
-            </h2>
-            <!-- TODO: text, translations -->
+            <Heading2 class="mb-2">Update Password</Heading2>
             <TinyText :text="'Ensure your account is using a long, random password to stay secure.'"/>
         </header>
 
-        <form @submit.prevent="updatePassword" class="mt-6 space-y-6">
-            <div class="mt-4">
-                <input type="password" placeholder="Current password" name="current_password" v-model="form.current_password" class="input-style" required />
-                <div v-if="form.errors.current_password" class="input-error-message-style">{{ form.errors.current_password }}</div>
+        <form @submit.prevent="updatePassword" class="mt-6">
+            <div class="mb-2">
+                <FormInput name="current_password" labelName="Current Password" type="password" v-model="form.current_password" :error="form.errors.current_password" :required="true"/>
+            </div>
+            <div class="mb-2">            
+                <FormInput name="password" labelName="New Password" type="password" v-model="form.password" :error="form.errors.password" :required="true" />
+            </div>
+            <div class="mb-2">
+                <FormInput name="password_confirmation" labelName="New Password Confirmation" type="password" v-model="form.password_confirmation" :error="form.errors.password_confirmation" :required="true" />
             </div>
 
-            <div class="mt-4">
-                <input type="password" placeholder="Password" name="password" v-model="form.password" class="input-style" required />
-                <div v-if="form.errors.password" class="input-error-message-style">{{ form.errors.password }}</div>
-            </div>
-
-            <div class="mt-4">
-                <input type="password" placeholder="Password confirmation" name="password_confirmation" v-model="form.password_confirmation" class="input-style" required />
-                <div v-if="form.errors.password_confirmation" class="input-error-message-style">{{ form.errors.password_confirmation }}</div>
-            </div>
-
-            <div class="flex items-center gap-4">
-                <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
-
-                <Transition
-                    enter-active-class="transition ease-in-out"
-                    enter-from-class="opacity-0"
-                    leave-active-class="transition ease-in-out"
-                    leave-to-class="opacity-0"
-                >
-                    <p
-                        v-if="form.recentlySuccessful"
-                        class="text-sm text-gray-600"
-                    >
-                        Saved.
-                    </p>
-                </Transition>
-            </div>
+            <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
         </form>
     </section>
 </template>

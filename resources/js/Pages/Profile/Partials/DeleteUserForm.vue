@@ -5,6 +5,8 @@ import SecondaryButton from '@/Components/Buttons/SecondaryButton.vue';
 import TinyText from '@/Components/Text/TinyText.vue';
 import { useForm } from '@inertiajs/vue3';
 import { nextTick, ref } from 'vue';
+import Heading2 from '@/Components/Text/Heading2.vue';
+import NormalText from '@/Components/Text/NormalText.vue';
 
 const confirmingUserDeletion = ref(false);
 const passwordInput = ref(null);
@@ -39,30 +41,20 @@ const closeModal = () => {
 <template>
     <section class="space-y-6">
         <header>
-            <!-- TODO: component -->
-            <h2 class="text-lg font-medium text-gray-900">
-                Delete Account
-            </h2>
-            <!-- TODO: text, translations -->
-            <p class="mt-1 text-sm text-gray-600">
+            <Heading2 class="mb-2">Delete Account</Heading2>
+            <NormalText>
                 Once your account is deleted, all of its resources and data will
                 be permanently deleted. Before deleting your account, please
                 download any data or information that you wish to retain.
-            </p>
+            </NormalText>
         </header>
 
         <DangerButton @click="confirmUserDeletion">Delete Account</DangerButton>
 
         <Modal :show="confirmingUserDeletion" @close="closeModal">
             <div class="p-6">
-                <!-- TODO: component -->
-                <h2
-                    class="text-lg font-medium text-gray-900"
-                >
-                    Are you sure you want to delete your account?
-                </h2>
+                <Heading2 class="mb-2">Are you sure you want to delete your account?</Heading2>
 
-                <!-- TODO: text, transaltion -->
                 <TinyText :text="'Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.'"/>
 
                 <div class="mt-6">
@@ -72,7 +64,7 @@ const closeModal = () => {
                     </div>
                 </div>
                 <!-- TODO: 1st attempt wrong password, 2nd correct -> deletes -> user dont see (still logged in, kinda) -->
-                <div class="mt-6 flex justify-end">
+                <div class="mt-2 flex justify-end">
                     <SecondaryButton @click="closeModal">
                         Cancel
                     </SecondaryButton>

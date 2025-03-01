@@ -16,9 +16,56 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): Response
+    public function show(Request $request): Response
     {
-        return Inertia::render('Profile/Edit', [
+        $user = Auth::user();
+
+        $activeOffers = $user->offers()
+            ->with('brand')
+            ->active()
+            ->orderBy('created_at', 'desc')
+            ->paginate(12)
+            ->withQueryString()
+            ->through(function ($offer) use ($user) {
+                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                $offer->favorites_count = $offer->favorites()->count();
+                $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
+                return $offer;
+            })
+            ->items();
+
+        $soldOffers = $user->offers()
+            ->with('brand')
+            ->sold()
+            ->orderBy('created_at', 'desc')
+            ->paginate(12)
+            ->withQueryString()
+            ->through(function ($offer) use ($user) {
+                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                $offer->favorites_count = $offer->favorites()->count();
+                $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
+                return $offer;
+            })
+            ->items();
+
+        $soldOffersCount = $user->offers()->sold()->count();
+
+        $receivedRatings = $user->receivedRatings()
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($rating) {
+                $rating->created_at_formatted = $rating->created_at->diffForHumans();
+                return $rating;
+            })
+            ->toArray();
+
+        return inertia('Profile/Show', [
+            'user' => $user,
+            'activeOffers' => $activeOffers,
+            'soldOffers' => $soldOffers,
+            'soldOffersCount' => $soldOffersCount,
+            'rating' => $user->getRating(),
+            'receivedRatings' => $receivedRatings,
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
         ]);
@@ -37,7 +84,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit');
+        return Redirect::route('profile.show');
     }
 
     /**

@@ -40,7 +40,7 @@
                     <Link :href="route('wishlist.index')">
                         <HeartIcon class="w-6 h-6 mt-0.5" />
                     </Link>
-                    <Link :href="route('profile.edit')">
+                    <Link :href="route('profile.show')">
                         <UserIcon class="w-6 h-6 mt-0.5" />   
                     </Link>
                 </div>

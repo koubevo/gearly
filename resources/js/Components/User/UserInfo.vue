@@ -4,13 +4,13 @@
         <Heading1>{{ user.name }}</Heading1>
     </section>
     <section class="mb-4">
-        <button @click="openModal">
+        <button @click="openModal" :disabled="receivedRatings.length === 0">
             <Rating :rating="rating" class="mb-1"/>
         </button>
         <SmallText v-if="soldOffersCount > 0" class="mb-1">Already sold items: {{ soldOffersCount }}</SmallText>
         <TinyText :text="user.location" class="mb-0.5"/>
     </section>
-    <Modal :show="modal" @close="closeModal">
+    <Modal :show="modal" @close="closeModal" v-if="receivedRatings.length > 0">
         <div class="p-6">
           <div class="flex justify-between items-end">
             <Heading2>Ratings</Heading2>
