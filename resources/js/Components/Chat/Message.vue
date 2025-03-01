@@ -30,15 +30,7 @@ const props = defineProps({
 });
 
 const rating = {
-    average: props.message.stars,
+    stars: props.message.stars,
 }
-
-const formattedDate = new Date(props.message.created_at).toLocaleString('en-GB', {
-    hour: '2-digit',
-    minute: '2-digit',
-    day: '2-digit',
-    month: '2-digit',
-    hour12: false,
-});
 
 </script>
