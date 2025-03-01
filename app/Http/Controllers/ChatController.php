@@ -75,12 +75,14 @@ class ChatController extends Controller
             ->where('user_id', $user->id)
             ->first();
 
+        $averageRating = $user->id == $offer->user_id ? $buyer->getRating() : $offer->seller->getRating();
+
         return inertia('Chat/Show', [
             'seller' => $offer->seller,
             'buyer' => $buyer,
             'offer' => $offer,
             'thumbnail_url' => $offer->thumbnail_url,
-            'rating' => $offer->seller->getRating(),
+            'rating' => $averageRating,
             'ableToRate' => $offer->status === 'received' && !$ratingExists,
         ]);
     }
