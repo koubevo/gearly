@@ -268,7 +268,10 @@ class OfferController extends Controller implements HasMedia
         $user = \Illuminate\Support\Facades\Auth::user();
         $this->authorize('update', $offer);
 
-        //TODO:if offer active
+        if ($offer->status !== 'active') {
+            abort(403, 'You are not allowed to access this page.');
+        }
+
         $offer->buyer_id = $request->buyer['id'];
         $offer->status = 'sold';
         $offer->save();
@@ -293,7 +296,10 @@ class OfferController extends Controller implements HasMedia
             abort(403, 'You are not allowed to access this page.');
         }
 
-        //TODO:if offer sold
+        if ($offer->status !== 'sold') {
+            abort(403, 'You are not allowed to access this page.');
+        }
+
         $offer->status = 'received';
         $offer->save();
 

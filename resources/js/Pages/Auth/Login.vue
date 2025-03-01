@@ -30,11 +30,6 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <!-- TODO: whats this -->
-        <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
-            {{ status }}
-        </div>
-
         <form @submit.prevent="submit">
             <div>
                 <FormInput name="email" labelName="Email" type="email" v-model="form.email" :error="form.errors.email" :required="true" />

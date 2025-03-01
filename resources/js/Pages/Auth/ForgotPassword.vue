@@ -41,7 +41,7 @@ const submit = () => {
 
             <div class="mt-4 flex items-center justify-end">
                 <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Email Password Reset Link
+                    Reset Password
                 </PrimaryButton>
             </div>
         </form>

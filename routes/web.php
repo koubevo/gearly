@@ -25,9 +25,6 @@ Route::post('/test-auth', function () {
     ]);
 });
 
-
-//TODO: add middlewares for other controllers
-
 Route::get('/api/filters/{categoryId}', [FilterController::class, 'getFiltersByCategory']);
 Route::get('/api/countries', [LocationController::class, 'getCountries']);
 Route::get('/api/cities', [LocationController::class, 'getCities']);

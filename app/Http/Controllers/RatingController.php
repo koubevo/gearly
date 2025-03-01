@@ -12,7 +12,6 @@ class RatingController extends Controller
 {
     public function store(Request $request)
     {
-        //TODO: user can rate only once, cant rate himself, rate only if offer is received
         $offer = Offer::find($request->offer_id);
         $user = Auth::user();
 
