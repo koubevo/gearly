@@ -10,7 +10,7 @@ return new class extends Migration {
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignIdFor(User::class, 'user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->integer('source_id');
             $table->string('model');
             $table->string('message');

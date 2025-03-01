@@ -11,9 +11,9 @@ return new class extends Migration {
     {
         Schema::create('ratings', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'user_id')->constrained('users')->onDelete('cascade'); //TODO: null
+            $table->foreignIdFor(User::class, 'user_id')->nullable()->constrained('users')->onDelete('set null');
             $table->foreignIdFor(User::class, 'rated_user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignIdFor(Offer::class, 'offer_id')->constrained('offers')->onDelete('cascade'); //TODO: null
+            $table->foreignIdFor(Offer::class, 'offer_id')->nullable()->constrained('offers')->onDelete('set null');
             $table->integer('stars');
             $table->text('comment')->nullable();
             $table->timestamp('created_at')->useCurrent();
