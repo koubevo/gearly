@@ -62,6 +62,7 @@ const submit = () => {
 </script>
 
 <template>
+    <Head :title="'Register'" />
     <GuestLayout>
         <form @submit.prevent="submit">
             <div>

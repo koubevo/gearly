@@ -1,4 +1,5 @@
 <template>
+    <Head :title="user.name" />
     <div class="mb-4">
         <UserInfo :user="user" :soldOffersCount="soldOffersCount" :rating="rating" :receivedRatings="receivedRatings"/>
         <Divider class="md:w-full mt-4"/>
@@ -16,6 +17,7 @@ import UserOffers from '@/Components/User/UserOffers.vue';
 import UserInfo from '@/Components/User/UserInfo.vue';
 import NothingHere from '@/Components/NothingHere.vue';
 import { Inertia } from "@inertiajs/inertia";
+import { Head } from '@inertiajs/vue3';
 
 const props = defineProps({
     user: Object,

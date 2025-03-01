@@ -1,4 +1,5 @@
 <template>
+  <Head :title="'Chat with ' + name" />
     <section class="flex flex-col h-[calc(100vh-100px)] max-w-5xl mx-auto">
         <InfoSection :seller="seller" :offer="offer" :buyer="buyer" :rating="rating" :name="name" :userId="userId" class="mb-4 flex-shrink-0"/>
         <ChatSection ref="chatSectionRef" :seller="seller" :offer="offer" :buyer="buyer" class="mb-4 flex-grow overflow-auto"/>
@@ -89,6 +90,7 @@ import SecondaryButton from '@/Components/Buttons/SecondaryButton.vue';
 import { StarIcon } from '@heroicons/vue/24/solid';
 import { StarIcon as StarOutlineIcon } from '@heroicons/vue/24/outline';
 import FormTextArea from '@/Components/Form/FormTextArea.vue';
+import { Head } from '@inertiajs/vue3';
   
 const selectedRating = ref(0);
 const hoveredRating = ref(null);

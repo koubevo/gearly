@@ -11,7 +11,7 @@ import MainLayout from '@/Layouts/MainLayout.vue'; // Import hlavního layoutu
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
+    title: (title) => `${title} | ${appName}`,
     resolve: async (name) => {
         const page = await resolvePageComponent(
             `./Pages/${name}.vue`,

@@ -2,6 +2,7 @@
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import { Head, useForm } from '@inertiajs/vue3';
+import SmallText from '@/Components/Text/SmallText.vue';
 
 defineProps({
     status: {
@@ -19,14 +20,14 @@ const submit = () => {
 </script>
 
 <template>
+    <Head title="Reset Password" />
     <GuestLayout>
-
         <!-- TODO: change text, translations -->
-        <div class="mb-4 text-sm text-gray-600">
+        <SmallText class="mb-2">
             Forgot your password? No problem. Just let us know your email
             address and we will email you a password reset link that will allow
             you to choose a new one.
-        </div>
+        </SmallText>
 
         <!-- TODO: replace with success message -->
         <div v-if="status" class="mb-4 text-sm font-medium text-primary-900">

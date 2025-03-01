@@ -29,6 +29,7 @@ const submit = () => {
 </script>
 
 <template>
+    <Head :title="'Login'" />
     <GuestLayout>
         <form @submit.prevent="submit">
             <div>

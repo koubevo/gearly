@@ -1,4 +1,5 @@
 <template>
+    <Head :title="'Search'" />
     <div class="w-full max-w-5xl mx-auto">
         <Heading1 class="mb-4">Search for your dream item</Heading1>
         <form @submit.prevent="handleSubmit" class="flex items-end w-full gap-2 mb-2">
@@ -26,9 +27,9 @@
 <script setup>
 import CategoryItem from '@/Components/Search/CategoryItem.vue';
 import SearchInput from '@/Components/Search/SearchInput.vue';
-import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import Heading1 from '@/Components/Text/Heading1.vue';
 import { useForm } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 
 const props = defineProps({
     categories: Array,

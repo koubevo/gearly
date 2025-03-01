@@ -1,4 +1,5 @@
 <template>
+    <Head :title="offer.name" />
     <div class="grid grid-cols-12 md:gap-16 gap-0 pb-20">
         <div class="col-span-12 md:col-span-6 items-center justify-center flex relative">
             <ImageViewer :images="images" />
@@ -85,6 +86,7 @@ import OfferDetail from '@/Components/Offer/OfferDetail.vue';
 import ImageViewer from '@/Components/Offer/ImageViewer.vue';
 import OfferUserDetail from '@/Components/User/OfferUserDetail.vue';
 import ConditionLike from '@/Components/Offer/ConditionLike.vue';
+import { Head } from '@inertiajs/vue3';
 
 const user = usePage().props.auth.user ?? {};
 

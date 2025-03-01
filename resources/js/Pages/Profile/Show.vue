@@ -9,9 +9,9 @@ import UserInfo from '@/Components/User/UserInfo.vue';
 import NothingHere from '@/Components/NothingHere.vue';
 import SecondaryButton from '@/Components/Buttons/SecondaryButton.vue';
 import Modal from "@/Components/Modal.vue";
-import Heading2 from "@/Components/Text/Heading2.vue";
 import { ref } from 'vue';
 import NormalText from '@/Components/Text/NormalText.vue';
+import { Head } from '@inertiajs/vue3';
 
 const props = defineProps({
     activeOffers: Array ?? [],
@@ -38,6 +38,7 @@ const closeModal = () => {
 </script>
 
 <template>
+    <Head :title="'Your Profile'" />
     <div class="mb-4">
         <UserInfo :user="user" :soldOffersCount="soldOffersCount" :rating="rating" :receivedRatings="receivedRatings"/>
         <div class="w-fit">
@@ -52,7 +53,6 @@ const closeModal = () => {
     <Modal :show="modal" @close="closeModal">
         <div class="p-6">
             <div class="flex gap-4 justify-between">
-                <!-- Navigační tlačítka s dynamickým zvýrazněním -->
                 <div class="flex gap-4">
                     <button 
                         @click="activeSection = 'profile'" 

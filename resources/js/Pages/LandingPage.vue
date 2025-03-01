@@ -1,4 +1,5 @@
 <template>
+    <Head :title="'Home'" />
     <OffersSection :offers="newArrivals" :heading="'New Arrivals'" :link="route('offer.index')"/>
     
     <OffersSection v-if="brandWithMostActiveOffers.length > 2" :offers="brandWithMostActiveOffers" :heading="'New Arrivals from ' + brandWithMostActiveOffers[0]?.brand.name" :link="route('offer.index', {brand: brandWithMostActiveOffers[0].brand_id})"/>
@@ -16,6 +17,7 @@
 
 <script setup>
 import OffersSection from '@/Components/LandingPage/OffersSection.vue';
+import { Head } from '@inertiajs/vue3';
 
 defineProps({
     newArrivals: Array,
