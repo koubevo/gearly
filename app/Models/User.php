@@ -74,7 +74,7 @@ class User extends Authenticatable
         return $this->hasMany(Rating::class, 'user_id');
     }
 
-    public function earnedRatings(): HasMany
+    public function receivedRatings(): HasMany
     {
         return $this->hasMany(Rating::class, 'rated_user_id');
     }
@@ -107,7 +107,7 @@ class User extends Authenticatable
     public function getRating()
     {
         return Rating::where('rated_user_id', $this->id)
-            ->selectRaw('ROUND(AVG(stars), 1) as average, COUNT(id) as count')
+            ->selectRaw('ROUND(AVG(stars), 1) as stars, COUNT(id) as count')
             ->first()
             ->toArray();
     }

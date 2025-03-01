@@ -45,12 +45,22 @@ class UserController extends Controller
 
         $soldOffersCount = $user->offers()->sold()->count();
 
+        $receivedRatings = $user->receivedRatings()
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($rating) {
+                $rating->created_at_formatted = $rating->created_at->diffForHumans();
+                return $rating;
+            })
+            ->toArray();
+
         return inertia('User/Show', [
             'user' => $user,
             'activeOffers' => $activeOffers,
             'soldOffers' => $soldOffers,
             'soldOffersCount' => $soldOffersCount,
             'rating' => $user->getRating(),
+            'receivedRatings' => $receivedRatings,
         ]);
     }
 }

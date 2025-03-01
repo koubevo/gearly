@@ -1,6 +1,6 @@
 <template>
     <div class="mb-4">
-        <UserInfo :user="user" :soldOffersCount="soldOffersCount" :rating="rating"/>
+        <UserInfo :user="user" :soldOffersCount="soldOffersCount" :rating="rating" :receivedRatings="receivedRatings"/>
         <Divider class="md:w-full mt-8"/>
         <UserOffers :offers="activeOffers" class="py-4" v-if="activeOffers.length" :heading="'Active offers'"/>
         <UserOffers :offers="soldOffers" class="py-4" v-if="soldOffers.length" :heading="'Sold offers'"/>
@@ -22,7 +22,8 @@ const props = defineProps({
     activeOffers: Array ?? [],
     soldOffers: Array ?? [],
     soldOffersCount: Number,
-    rating: Object
+    rating: Object,
+    receivedRatings: Array
 });
 
 const page = usePage();

@@ -12,7 +12,7 @@
         <StarOutlineIcon v-else class="text-gray-300 w-6 h-6" />
       </template>
     </div>
-    <span class="ml-2 text-gray-600" v-if="rating.count">{{ rating.average }} ({{ rating.count }}x)</span>
+    <span class="ml-2 text-gray-600" v-if="rating.count">{{ rating.stars }} ({{ rating.count }}x)</span>
   </div>
 </template>
 
@@ -25,6 +25,6 @@ const props = defineProps({
   rating: Object
 });
 
-const roundedRating = computed(() => Math.round(props.rating.average * 2) / 2);
+const roundedRating = computed(() => Math.round(props.rating.stars * 2) / 2);
 </script>
   
