@@ -99,7 +99,11 @@ class ChatController extends Controller
             ->where('seller_id', $offer->user_id)
             ->where('buyer_id', $buyer->id)
             ->where('offer_id', $offer->id)
-            ->get();
+            ->get()
+            ->map(function ($message) {
+                $message->created_at_formatted = $message->created_at->diffForHumans();
+                return $message;
+            });
 
         return response()->json([
             'messages' => $messages,
