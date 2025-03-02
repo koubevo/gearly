@@ -283,7 +283,7 @@ class OfferController extends Controller implements HasMedia
             'receiver_id' => $request->buyer['id'],
             'offer_id' => $offer->id,
             'type_id' => 2,
-            'message' => 'Offer was sold.',
+            'message' => 'Offer was sold to ' . $request->buyer['name'] . '.',
         ]);
 
         broadcast(new \App\Events\MessageSent($message));
@@ -316,4 +316,32 @@ class OfferController extends Controller implements HasMedia
         broadcast(new \App\Events\MessageSent($message));
     }
 
+    public function cancelOffer(Request $request, Offer $offer)
+    {
+        $user = \Illuminate\Support\Facades\Auth::user();
+        if ($user->id !== $offer->user_id) {
+            abort(403, 'You are not allowed to access this page.');
+        }
+
+        if ($offer->status !== 'sold') {
+            abort(403, 'You are not allowed to access this page.');
+        }
+
+        $buyerId = $offer->buyer_id;
+        $offer->buyer_id = null;
+        $offer->status = 'active';
+        $offer->save();
+
+        $message = $offer->messages()->create([
+            'seller_id' => $offer->user_id,
+            'buyer_id' => $buyerId,
+            'author_id' => $offer->user_id,
+            'receiver_id' => $buyerId,
+            'offer_id' => $offer->id,
+            'type_id' => 5,
+            'message' => 'The sale was canceled by the seller.',
+        ]);
+
+        broadcast(new \App\Events\MessageSent($message));
+    }
 }

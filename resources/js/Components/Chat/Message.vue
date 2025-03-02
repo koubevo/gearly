@@ -15,6 +15,10 @@
         <Rating :rating="rating" class="my-1"/>
         <TinyText class="text-center">{{ message.created_at_formatted }}</TinyText>
     </div>
+    <div v-if="message.type_id === 5" class="my-6 mx-auto flex flex-col items-center">
+        <div class="text-center text-red-600 w-full">{{ message.message }}</div>
+        <TinyText class="text-center">{{ message.created_at_formatted }}</TinyText>
+    </div>
 </template>
 
 <script setup>

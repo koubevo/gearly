@@ -22,7 +22,7 @@ const conditionClass = computed(() => {
     case 'damaged':
       return 'bg-red-500 text-white';
     case 'sold':
-      return 'bg-gray-500 text-white';
+      return 'bg-black text-white';
     case 'received':
       return 'bg-black text-white';
   }
