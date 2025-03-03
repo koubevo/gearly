@@ -69,6 +69,10 @@ class ChatController extends Controller
             abort(403, 'You are not allowed to access this page.');
         }
 
+        if ($messagesCount == 0 && $offer->status !== 'active') {
+            abort(403, 'You are not allowed to access this page.');
+        }
+
         $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
 
         $ratingExists = Rating::where('offer_id', $offer->id)

@@ -14,9 +14,15 @@
     </section>
     <Modal :show="modal" @close="closeModal" v-if="chatSectionRef?.messagesCount > 2 && offer.user_id === currentUser.id && offer.status === 'active'">
       <div class="p-6">
-          <div class="flex justify-between items-end">
+          <div class="flex justify-between items-end mb-2">
             <Heading2>Do you want to sell <span class="text-primary-900">{{ offer.name }}</span> to <span class="text-primary-900">{{ buyer.name }}</span>?</Heading2>
-            <button class="text-gray-500 hover:text-black" @click="closeModal">&times;</button>
+          </div>
+          <div>
+            <TinyText>
+              Once the seller marks an offer as "Sold," it confirms that they have chosen to sell the item to the buyer. This status update appears in the chat, signaling to both users that the deal is finalized.
+              <br>
+              Marking an offer as sold is also the first step towards enabling mutual ratings. After the buyer reveives the offer and confirms it in Gearly, both users will have the opportunity to rate each other.
+            </TinyText>
           </div>
           <Divider class="md:w-full my-4"/>
           <div class="flex flex-col md:flex-row gap-2">
@@ -27,9 +33,13 @@
   </Modal>
   <Modal :show="modal" @close="closeModal" v-if="offer.user_id === currentUser.id && offer.status === 'sold'">
       <div class="p-6">
-          <div class="flex justify-between items-end">
+          <div class="flex justify-between items-end mb-2">
             <Heading2>Do you want to cancel selling offer <span class="text-red-600">{{ offer.name }}</span> to <span class="text-red-600">{{ seller.name }}</span>?</Heading2>
-            <button class="text-gray-500 hover:text-black" @click="closeModal">&times;</button>
+          </div>
+          <div>
+            <TinyText>
+              If the transaction doesn’t go through, you can cancel the "Sold" status. This will reopen the offer, and the buyer will no longer be able to confirm the purchase.
+            </TinyText>
           </div>
           <Divider class="md:w-full my-4"/>
           <div class="flex flex-col md:flex-row gap-2">
@@ -40,9 +50,15 @@
   </Modal>
   <Modal :show="modal" @close="closeModal" v-if="offer.buyer_id === currentUser.id && offer.status === 'sold'">
       <div class="p-6">
-          <div class="flex justify-between items-end">
+          <div class="flex justify-between items-end mb-2">
             <Heading2>Do you want to confirm receiving offer <span class="text-primary-900">{{ offer.name }}</span> from <span class="text-primary-900">{{ seller.name }}</span>?</Heading2>
-            <button class="text-gray-500 hover:text-black" @click="closeModal">&times;</button>
+          </div>
+          <div>
+            <TinyText>
+              Once you receive the item, confirm the delivery in Gearly. This step finalizes the transaction and allows both you and the seller to rate each other.
+              <br>
+              Confirming delivery ensures transparency and helps build trust within the community.
+            </TinyText>
           </div>
           <Divider class="md:w-full my-4"/>
           <div class="flex flex-col md:flex-row gap-2">
@@ -53,10 +69,14 @@
   </Modal>
   <Modal :show="modal" @close="closeModal" v-if="offer.status === 'received' && ableToRate">
     <div class="p-6">
-      <div class="flex justify-between items-end">
+      <div class="flex justify-between items-end mb-2">
         <Heading2>Give us your opinion on <span class="text-primary-900">{{ name }}</span>.</Heading2>
-        <button class="text-gray-500 hover:text-black" @click="closeModal">&times;</button>
       </div>
+      <div>
+            <TinyText>
+              Now that the deal is complete, you can rate the other user based on your experience. Ratings help build trust and ensure a safe marketplace for everyone.
+            </TinyText>
+          </div>
       <Divider class="md:w-full my-4"/>
 
       <div class="flex flex-col items-center">
@@ -106,6 +126,7 @@ import { StarIcon as StarOutlineIcon } from '@heroicons/vue/24/outline';
 import FormTextArea from '@/Components/Form/FormTextArea.vue';
 import { Head } from '@inertiajs/vue3';
 import DangerButton from '@/Components/Buttons/DangerButton.vue';
+import TinyText from '@/Components/Text/TinyText.vue';
   
 const selectedRating = ref(0);
 const hoveredRating = ref(null);
