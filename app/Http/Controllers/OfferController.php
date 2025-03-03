@@ -177,6 +177,7 @@ class OfferController extends Controller implements HasMedia
             'category:id,' . $langColumn . ' as name',
             'deliveryOption:id,' . $langColumn . ' as name',
             'offerFilters.filterCategory:id,' . $langColumn . ' as name',
+            'offerFilters.filter:id,' . $langColumn . ' as name',
         ]);
 
         return inertia('Offer/Show', [

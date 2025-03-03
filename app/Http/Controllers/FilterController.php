@@ -12,8 +12,9 @@ class FilterController extends Controller
     public function getFiltersByCategory($filterCategoryId)
     {
         $langColumn = LanguageHelper::getLangColumn();
-        //TODO: filters translations
-        $filters = Filter::where('filter_category_id', $filterCategoryId)->get();
+        $filters = Filter::where('filter_category_id', $filterCategoryId)
+            ->select('id', "$langColumn as name", 'cs')
+            ->get();
 
         return response()->json($filters);
     }
