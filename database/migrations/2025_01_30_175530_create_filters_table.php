@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(FilterCategory::class, 'filter_category_id')->constrained('filter_categories')->onDelete('cascade');
             $table->string('name');
+            $table->string('cs');
             $table->timestamps();
         });
     }

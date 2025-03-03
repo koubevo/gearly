@@ -18,7 +18,8 @@ class Message extends Model
         'message',
         'type_id',
         'created_at',
-        'stars'
+        'stars',
+        'cs'
     ];
 
     public function offer()

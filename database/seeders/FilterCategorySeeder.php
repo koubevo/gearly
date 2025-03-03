@@ -15,7 +15,8 @@ class FilterCategorySeeder extends Seeder
 
         foreach ($categories as $category) {
             FilterCategory::firstOrCreate(
-                ['name' => $category]
+                ['name' => $category['name']],
+                ['cs' => $category['cs']]
             );
         }
     }

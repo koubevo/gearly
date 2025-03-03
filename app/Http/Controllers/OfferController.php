@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\LanguageHelper;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\DeliveryOption;
@@ -15,6 +16,7 @@ use Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\HasMedia;
+use \Illuminate\Support\Facades\Auth;
 
 class OfferController extends Controller implements HasMedia
 {
@@ -41,7 +43,7 @@ class OfferController extends Controller implements HasMedia
             'order',
         ]);
 
-        $user = \Illuminate\Support\Facades\Auth::user() ?? null;
+        $user = Auth::user() ?? null;
 
         $offers = Offer::with('brand')
             ->filter($filters)
@@ -71,10 +73,15 @@ class OfferController extends Controller implements HasMedia
      */
     public function create()
     {
-        $user = \Illuminate\Support\Facades\Auth::user();
+        $user = Auth::user();
+        $langColumn = LanguageHelper::getLangColumn();
+
         $brands = Brand::select('id', 'name')->orderBy('name', 'asc')->get();
-        $deliveryOptions = DeliveryOption::select('id', 'name')->get();
-        $categories = Category::with('filters')->orderBy('name', 'asc')->get();
+        $deliveryOptions = DeliveryOption::select('id', "$langColumn as name")->get();
+        $categories = Category::with('filters')
+            ->select('id', "$langColumn as name", 'logo', 'created_at', 'updated_at')
+            ->orderBy('name', 'asc')
+            ->get();
         $activeOffersCount = $user->offers()->where('status', 'active')->count();
 
         return inertia('Offer/Create', [
@@ -92,7 +99,7 @@ class OfferController extends Controller implements HasMedia
      */
     public function store(Request $request)
     {
-        $user = \Illuminate\Support\Facades\Auth::user();
+        $user = Auth::user();
 
         $maxFreeActiveOffers = self::MAX_FREE_ACTIVE_OFFERS;
         $activeOffersCount = $user->offers()->where('status', 'active')->count();
@@ -159,10 +166,19 @@ class OfferController extends Controller implements HasMedia
      * Display the specified resource.
      * @param Offer $offer
      */
+
     public function show(Offer $offer)
     {
-        $user = \Illuminate\Support\Facades\Auth::user() ?? null;
-        $offer->load('seller', 'category', 'brand', 'deliveryOption', 'offerFilters.filterCategory', 'offerFilters.filter');
+        $user = Auth::user();
+        $langColumn = LanguageHelper::getLangColumn();
+
+        $offer->load([
+            'seller',
+            'category:id,' . $langColumn . ' as name',
+            'deliveryOption:id,' . $langColumn . ' as name',
+            'offerFilters.filterCategory:id,' . $langColumn . ' as name',
+            'offerFilters.filter:id,' . $langColumn . ' as name',
+        ]);
 
         return inertia('Offer/Show', [
             'offer' => [
@@ -183,11 +199,12 @@ class OfferController extends Controller implements HasMedia
                 'offer_id' => $filter->offer_id,
                 'filter_id' => $filter->filter_id,
                 'filter_category_id' => $filter->filter_category_id,
-                'filter_category_name' => $filter->filterCategory->name ?? null,
-                'filter_name' => $filter->filter->name ?? null,
+                'filter_category_name' => $filter->filterCategory?->name,
+                'filter_name' => $filter->filter?->name,
             ]),
         ]);
     }
+
 
 
     /**
@@ -196,9 +213,14 @@ class OfferController extends Controller implements HasMedia
      */
     public function edit(Offer $offer)
     {
+        $langColumn = LanguageHelper::getLangColumn();
+
         $brands = Brand::select('id', 'name')->orderBy('name', 'asc')->get();
-        $deliveryOptions = DeliveryOption::select('id', 'name')->get();
-        $categories = Category::with('filters')->orderBy('name', 'asc')->get();
+        $deliveryOptions = DeliveryOption::select('id', "$langColumn as name")->get();
+        $categories = Category::with('filters')
+            ->select('id', "$langColumn as name", 'logo', 'created_at', 'updated_at')
+            ->orderBy('name', 'asc')
+            ->get();
 
         $this->authorize('update', $offer);
 
@@ -265,7 +287,7 @@ class OfferController extends Controller implements HasMedia
 
     public function sellOffer(Request $request, Offer $offer)
     {
-        $user = \Illuminate\Support\Facades\Auth::user();
+        $user = Auth::user();
         $this->authorize('update', $offer);
 
         if ($offer->status !== 'active') {
@@ -284,6 +306,7 @@ class OfferController extends Controller implements HasMedia
             'offer_id' => $offer->id,
             'type_id' => 2,
             'message' => 'Offer was sold to ' . $request->buyer['name'] . '.',
+            'cs' => 'Nabídka byla prodána uživateli ' . $request->buyer['name'] . '.',
         ]);
 
         broadcast(new \App\Events\MessageSent($message));
@@ -291,7 +314,7 @@ class OfferController extends Controller implements HasMedia
 
     public function receiveOffer(Request $request, Offer $offer)
     {
-        $user = \Illuminate\Support\Facades\Auth::user();
+        $user = Auth::user();
         if ($user->id !== $offer->buyer_id) {
             abort(403, 'You are not allowed to access this page.');
         }
@@ -311,6 +334,7 @@ class OfferController extends Controller implements HasMedia
             'offer_id' => $offer->id,
             'type_id' => 3,
             'message' => 'Offer was received. Now you can rate each other.',
+            'cs' => 'Nabídka byla přijata. Nyní si můžete navzájem udělit hodnocení.',
         ]);
 
         broadcast(new \App\Events\MessageSent($message));
@@ -318,7 +342,7 @@ class OfferController extends Controller implements HasMedia
 
     public function cancelOffer(Request $request, Offer $offer)
     {
-        $user = \Illuminate\Support\Facades\Auth::user();
+        $user = Auth::user();
         if ($user->id !== $offer->user_id) {
             abort(403, 'You are not allowed to access this page.');
         }
@@ -340,6 +364,7 @@ class OfferController extends Controller implements HasMedia
             'offer_id' => $offer->id,
             'type_id' => 5,
             'message' => 'The sale was canceled by the seller.',
+            'cs' => 'Prodej byl zrušen prodejcem.',
         ]);
 
         broadcast(new \App\Events\MessageSent($message));

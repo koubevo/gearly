@@ -16,7 +16,7 @@ class CategorySeeder extends Seeder
         foreach ($categories as $category) {
             Category::firstOrCreate(
                 ['name' => $category['name']],
-                ['logo' => $category['logo']]
+                ['cs' => $category['cs'], 'logo' => $category['logo']]
             );
         }
     }
