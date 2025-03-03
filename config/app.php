@@ -123,4 +123,13 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+
+
+    // Default language: en
+    // More languages bellow
+
+    'languages' => [
+        'cs' => 'Čeština',
+    ],
+
 ];

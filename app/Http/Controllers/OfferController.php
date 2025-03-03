@@ -15,6 +15,7 @@ use Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\HasMedia;
+use \Illuminate\Support\Facades\Auth;
 
 class OfferController extends Controller implements HasMedia
 {
@@ -41,7 +42,7 @@ class OfferController extends Controller implements HasMedia
             'order',
         ]);
 
-        $user = \Illuminate\Support\Facades\Auth::user() ?? null;
+        $user = Auth::user() ?? null;
 
         $offers = Offer::with('brand')
             ->filter($filters)
@@ -71,10 +72,13 @@ class OfferController extends Controller implements HasMedia
      */
     public function create()
     {
-        $user = \Illuminate\Support\Facades\Auth::user();
+        $user = Auth::user();
+        $languages = array_keys(config('app.languages'));
+        $langColumn = $user->lang === 'en' ? 'name' : ($user->lang ?? (in_array(app()->getLocale(), $languages) ? app()->getLocale() : 'name'));
+
         $brands = Brand::select('id', 'name')->orderBy('name', 'asc')->get();
-        $deliveryOptions = DeliveryOption::select('id', 'name')->get();
-        $categories = Category::with('filters')->orderBy('name', 'asc')->get();
+        $deliveryOptions = DeliveryOption::select('id', "$langColumn as name")->get();
+        $categories = Category::with('filters')->select("$langColumn as name")->orderBy('name', 'asc')->get();
         $activeOffersCount = $user->offers()->where('status', 'active')->count();
 
         return inertia('Offer/Create', [
@@ -92,7 +96,7 @@ class OfferController extends Controller implements HasMedia
      */
     public function store(Request $request)
     {
-        $user = \Illuminate\Support\Facades\Auth::user();
+        $user = Auth::user();
 
         $maxFreeActiveOffers = self::MAX_FREE_ACTIVE_OFFERS;
         $activeOffersCount = $user->offers()->where('status', 'active')->count();
@@ -161,7 +165,7 @@ class OfferController extends Controller implements HasMedia
      */
     public function show(Offer $offer)
     {
-        $user = \Illuminate\Support\Facades\Auth::user() ?? null;
+        $user = Auth::user() ?? null;
         $offer->load('seller', 'category', 'brand', 'deliveryOption', 'offerFilters.filterCategory', 'offerFilters.filter');
 
         return inertia('Offer/Show', [
@@ -265,7 +269,7 @@ class OfferController extends Controller implements HasMedia
 
     public function sellOffer(Request $request, Offer $offer)
     {
-        $user = \Illuminate\Support\Facades\Auth::user();
+        $user = Auth::user();
         $this->authorize('update', $offer);
 
         if ($offer->status !== 'active') {
@@ -291,7 +295,7 @@ class OfferController extends Controller implements HasMedia
 
     public function receiveOffer(Request $request, Offer $offer)
     {
-        $user = \Illuminate\Support\Facades\Auth::user();
+        $user = Auth::user();
         if ($user->id !== $offer->buyer_id) {
             abort(403, 'You are not allowed to access this page.');
         }
@@ -318,7 +322,7 @@ class OfferController extends Controller implements HasMedia
 
     public function cancelOffer(Request $request, Offer $offer)
     {
-        $user = \Illuminate\Support\Facades\Auth::user();
+        $user = Auth::user();
         if ($user->id !== $offer->user_id) {
             abort(403, 'You are not allowed to access this page.');
         }
