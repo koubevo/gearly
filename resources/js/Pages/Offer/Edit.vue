@@ -1,5 +1,5 @@
 <template>
-    <Head :title="'Edit Offer ' + offer.name" />
+    <Head :title="$t('offer.edit_offer') + ' ' + offer.name" />
     <OfferForm :offer="offer" :isEditMode="true" :brands="brands" :categories="categories" :deliveryOptions="deliveryOptions" />
 </template>
 

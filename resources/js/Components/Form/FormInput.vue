@@ -1,5 +1,5 @@
 <template>
-    <label :for="name" class="mb-2 md:mb-0">{{ labelName }} <span v-if="required" class="required-star-style">*</span></label>
+    <label :for="name" class="mb-2 md:mb-0 capitalize">{{ labelName }} <span v-if="required" class="required-star-style">*</span></label>
     <input :type="type" :name="name" :value="modelValue" 
         @input="$emit('update:modelValue', $event.target.value)" 
         :step="inputStep"
