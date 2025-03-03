@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('translations', function (Blueprint $table) {
             $table->string('en')->primary();
-            $table->string('cz');
+            $table->string('cs');
             $table->timestamps();
         });
     }
