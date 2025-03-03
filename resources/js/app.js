@@ -6,7 +6,9 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from '../../vendor/tightenco/ziggy';
-import MainLayout from '@/Layouts/MainLayout.vue'; // Import hlavního layoutu
+import MainLayout from '@/Layouts/MainLayout.vue';
+import i18n from './i18n';
+import { usePage } from '@inertiajs/vue3';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -21,10 +23,20 @@ createInertiaApp({
         return page;
     },
     setup({ el, App, props, plugin }) {
-        return createApp({ render: () => h(App, props) })
+        const app = createApp({ render: () => h(App, props) })
             .use(plugin)
             .use(ZiggyVue)
-            .mount(el);
+            .use(i18n);
+
+        setTimeout(() => {
+            const page = usePage();
+            const userLang = page.props.auth?.user?.lang;
+            const savedLanguage = userLang || localStorage.getItem("userLanguage") || "en";
+
+            i18n.global.locale.value = savedLanguage;
+        }, 0);
+
+        return app.mount(el);
     },
     progress: {
         color: '#4B5563',
