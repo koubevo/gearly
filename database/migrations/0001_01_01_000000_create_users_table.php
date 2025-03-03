@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('location');
             $table->string('team')->nullable();
             $table->integer('role')->default(0);
+            $table->string('lang')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
