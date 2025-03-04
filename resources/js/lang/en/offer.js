@@ -11,5 +11,11 @@ export default {
     new: "New",
     used: "Used",
     damaged: "Damaged",
+    sort_offers: "Sort offers",
+    most_recent: "Most recent",
+    most_expensive: "Most expensive",
+    cheapest: "Cheapest",
+    are_you_sure_delete: "Are you sure you want to delete offer",
+    delete_offer: "Delete offer",
 };
   

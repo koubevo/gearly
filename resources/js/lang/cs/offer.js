@@ -11,5 +11,11 @@ export default {
     new: "Nový",
     used: "Použitý",
     damaged: "Zničený",
+    sort_offers: "Seřadit nabídky",
+    most_recent: "Nejnovější",
+    most_expensive: "Nejdražší",
+    cheapest: "Nejlevnější",
+    are_you_sure_delete: "Opravdu chcete smazat nabídku",
+    delete_offer: "Smazat nabídku",
 };
   

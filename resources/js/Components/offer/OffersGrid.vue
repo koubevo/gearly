@@ -3,7 +3,7 @@
     <section class="grid grid-cols-2 items-center my-6">
       <div>
         <!-- TODO: most expensive, cheapest, most recent, name of category/name of brand/offers -->
-        <Heading1>Offers</Heading1>
+        <Heading1>{{ $t('common.offers') }}</Heading1>
       </div>
       <div class="flex justify-end">
         <div>
@@ -23,26 +23,26 @@
       <div>
         <PrimaryButton v-if="nextPageUrl" @click="loadMore" 
           :disabled="loading">
-          <span v-if="loading">Loading...</span>
-          <span v-else>Load More</span>
+          <span v-if="loading">{{ $t('common.loading') }}...</span>
+          <span v-else>{{ $t('common.load_more') }}</span>
         </PrimaryButton>
       </div>
     </div>
   </div>
   <div v-if="!offersList.length">
-    <NothingHere :text="'Try searching for something else'">We found no offers</NothingHere>
+    <NothingHere :text="$t('common.try_searching_for_something_else')">{{ $t('common.we_found_no_offers') }}</NothingHere>
   </div>
   <Modal :show="modal" @close="closeModal">
       <div class="p-6">
           <div class="flex justify-between items-end">
-            <Heading2>Sort Offers</Heading2>
+            <Heading2>{{ $t('offer.sort_offers') }}</Heading2>
             <button class="text-gray-500 hover:text-black" @click="closeModal">&times;</button>
           </div>
           <Divider class="md:w-full my-4"/>
           <div class="flex flex-col md:flex-row gap-2">
-             <SecondaryLink :href="route('offer.index')">Most recent</SecondaryLink>
-             <SecondaryLink :href="route('offer.index', {order: 0})">Cheapest</SecondaryLink>
-             <SecondaryLink :href="route('offer.index', {order: 1})">Most expensive</SecondaryLink>
+             <SecondaryLink :href="route('offer.index')">{{ $t('offer.most_recent') }}</SecondaryLink>
+             <SecondaryLink :href="route('offer.index', {order: 0})">{{ $t('offer.cheapest') }}</SecondaryLink>
+             <SecondaryLink :href="route('offer.index', {order: 1})">{{ $t('offer.most_expensive') }}</SecondaryLink>
           </div>
       </div>
   </Modal>
