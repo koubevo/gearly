@@ -1,10 +1,10 @@
 <template>
-    <Head :title="'Your Wishlist'" />
+    <Head :title="$t('wishlist.your_wishlist')" />
     <div class="mb-4">
-        <Heading1>Wishlist</Heading1>
+        <Heading1>{{ $t('wishlist.wishlist') }}</Heading1>
         <Divider class="md:w-full mt-6"/>
         <UserOffers :offers="offers" class="py-2" v-if="offers.length"/>
-        <NothingHere v-else :text="'You have not liked any offers. Click the hearth icon to add your first favorite offer to a wishlist!'">Wishlist is empty</NothingHere>
+        <NothingHere v-else :text="$t('wishlist.wishlist_empty_text')">{{ $t('wishlist.wishlist_empty') }}</NothingHere>
     </div>
 </template>
 
