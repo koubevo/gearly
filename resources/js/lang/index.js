@@ -8,6 +8,8 @@ import commonEn from "./en/common";
 import commonCs from "./cs/common";
 import wishlistEn from "./en/wishlist";
 import wishlistCs from "./cs/wishlist";
+import userEn from "./en/user";
+import userCs from "./cs/user";
 
 export const messages = {
   en: {
@@ -16,6 +18,7 @@ export const messages = {
     offer: offerEn,
     common: commonEn,
     wishlist: wishlistEn,
+    user: userEn,
   },
   cs: {
     landing: landingCs,
@@ -23,5 +26,6 @@ export const messages = {
     offer: offerCs,
     common: commonCs,
     wishlist: wishlistCs,
+    user: userCs,
   },
 };

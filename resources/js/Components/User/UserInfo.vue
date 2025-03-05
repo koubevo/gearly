@@ -7,13 +7,13 @@
         <button @click="openModal" :disabled="receivedRatings.length === 0">
             <Rating :rating="rating" class="mb-1"/>
         </button>
-        <SmallText v-if="soldOffersCount > 0" class="mb-1">Already sold items: {{ soldOffersCount }}</SmallText>
+        <SmallText v-if="soldOffersCount > 0" class="mb-1">{{ $t('common.already_sold_offers') }}: {{ soldOffersCount }}</SmallText>
         <TinyText :text="user.location" class="mb-0.5"/>
     </section>
     <Modal :show="modal" @close="closeModal" v-if="receivedRatings.length > 0">
         <div class="p-6">
           <div class="flex justify-between items-end">
-            <Heading2>Ratings</Heading2>
+            <Heading2>{{ $t('user.ratings') }}</Heading2>
             <button class="text-gray-500 hover:text-black" @click="closeModal">&times;</button>
           </div>
           <Divider class="md:w-full my-4"/>
