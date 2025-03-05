@@ -1,50 +1,50 @@
 <template>
-  <Head :title="'Chat with ' + name" />
+  <Head :title="$t('chat.chat_with') + name" />
     <section class="flex flex-col h-[calc(100vh-100px)] max-w-5xl mx-auto">
         <InfoSection :seller="seller" :offer="offer" :buyer="buyer" :rating="rating" :name="name" :userId="userId" class="mb-4 flex-shrink-0"/>
         <ChatSection ref="chatSectionRef" :seller="seller" :offer="offer" :buyer="buyer" class="mb-4 flex-grow overflow-auto"/>
         <section class="flex items-center justify-between gap-2 flex-shrink-0">
-            <button class="primary-button-chat-style" v-if="chatSectionRef?.messagesCount > 2 && offer.user_id === currentUser.id && offer.status === 'active'" @click="openModal">Sell</button>
-            <button class="primary-button-chat-style" v-if="offer.buyer_id === currentUser.id && offer.status === 'sold'" @click="openModal">Receive</button>
-            <button class="secondary-button-chat-style" v-if="offer.user_id === currentUser.id && offer.status === 'sold'" @click="openModal">Cancel</button>
-            <button class="primary-button-chat-style" v-if="offer.status === 'received' && ableToRate" @click="openModal">Rate</button>
-            <input type="text" name="message" v-model="message" @keyup.enter="sendMessage" class="input-style" placeholder="Type a message...">
+            <button class="primary-button-chat-style" v-if="chatSectionRef?.messagesCount > 2 && offer.user_id === currentUser.id && offer.status === 'active'" @click="openModal">{{ $t('chat.sell') }}</button>
+            <button class="primary-button-chat-style" v-if="offer.buyer_id === currentUser.id && offer.status === 'sold'" @click="openModal">{{ $t('chat.receive') }}</button>
+            <button class="secondary-button-chat-style" v-if="offer.user_id === currentUser.id && offer.status === 'sold'" @click="openModal">{{ $t('chat.cancel') }}</button>
+            <button class="primary-button-chat-style" v-if="offer.status === 'received' && ableToRate" @click="openModal">{{ $t('chat.rate') }}</button>
+            <input type="text" name="message" v-model="message" @keyup.enter="sendMessage" class="input-style" :placeholder="$t('chat.type_message')"/>
             <button @click="sendMessage" class="mx-2"><PaperAirplaneIcon class="w-5 h-5 stroke-[2]"/></button>
         </section>
     </section>
     <Modal :show="modal" @close="closeModal" v-if="chatSectionRef?.messagesCount > 2 && offer.user_id === currentUser.id && offer.status === 'active'">
       <div class="p-6">
           <div class="flex justify-between items-end mb-2">
-            <Heading2>Do you want to sell <span class="text-primary-900">{{ offer.name }}</span> to <span class="text-primary-900">{{ buyer.name }}</span>?</Heading2>
+            <Heading2>{{ $t('chat.do_you_want_to_sell') }} <span class="text-primary-900">{{ offer.name }}</span> {{ $t('chat.to_user') }} <span class="text-primary-900">{{ buyer.name }}</span>?</Heading2>
           </div>
           <div>
             <TinyText>
-              Once the seller marks an offer as "Sold," it confirms that they have chosen to sell the item to the buyer. This status update appears in the chat, signaling to both users that the deal is finalized.
+              {{ $t('chat.sell_description_one') }}
               <br>
-              Marking an offer as sold is also the first step towards enabling mutual ratings. After the buyer reveives the offer and confirms it in Gearly, both users will have the opportunity to rate each other.
+              {{ $t('chat.sell_description_two') }}
             </TinyText>
           </div>
           <Divider class="md:w-full my-4"/>
           <div class="flex flex-col md:flex-row gap-2">
-            <SecondaryButton class="flex-1" @click="closeModal">Close</SecondaryButton>
-            <PrimaryButton class="flex-1" @click="sellOffer">Yes</PrimaryButton>
+            <SecondaryButton class="flex-1" @click="closeModal">{{ $t('chat.cancel') }}</SecondaryButton>
+            <PrimaryButton class="flex-1" @click="sellOffer">{{ $t('common.yes') }}</PrimaryButton>
           </div>
       </div>
   </Modal>
   <Modal :show="modal" @close="closeModal" v-if="offer.user_id === currentUser.id && offer.status === 'sold'">
       <div class="p-6">
           <div class="flex justify-between items-end mb-2">
-            <Heading2>Do you want to cancel selling offer <span class="text-red-600">{{ offer.name }}</span> to <span class="text-red-600">{{ seller.name }}</span>?</Heading2>
+            <Heading2>{{ $t('chat.do_you_want_to_cancel') }} <span class="text-red-600">{{ offer.name }}</span> {{ $t('chat.to_user') }} <span class="text-red-600">{{ seller.name }}</span>?</Heading2>
           </div>
           <div>
             <TinyText>
-              If the transaction doesn’t go through, you can cancel the "Sold" status. This will reopen the offer, and the buyer will no longer be able to confirm the purchase.
+              {{ $t('chat.cancel_description') }}
             </TinyText>
           </div>
           <Divider class="md:w-full my-4"/>
           <div class="flex flex-col md:flex-row gap-2">
-            <SecondaryButton class="flex-1" @click="closeModal">Close</SecondaryButton>
-            <DangerButton class="flex-1" @click="cancelOffer">Yes</DangerButton>
+            <SecondaryButton class="flex-1" @click="closeModal">{{ $t('chat.cancel') }}</SecondaryButton>
+            <DangerButton class="flex-1" @click="cancelOffer">{{ $t('common.yes') }}</DangerButton>
           </div>
       </div>
   </Modal>
@@ -62,8 +62,8 @@
           </div>
           <Divider class="md:w-full my-4"/>
           <div class="flex flex-col md:flex-row gap-2">
-            <SecondaryButton class="flex-1" @click="closeModal">Close</SecondaryButton>
-            <PrimaryButton class="flex-1" @click="receiveOffer">Yes</PrimaryButton>
+            <SecondaryButton class="flex-1" @click="closeModal">{{ $t('chat.cancel') }}</SecondaryButton>
+            <PrimaryButton class="flex-1" @click="receiveOffer">{{ $t('common.yes') }}</PrimaryButton>
           </div>
       </div>
   </Modal>
@@ -102,8 +102,8 @@
         </div>
 
         <div class="flex flex-col md:flex-row gap-2 w-full">
-          <SecondaryButton class="flex-1" @click="closeModal">Close</SecondaryButton>
-          <PrimaryButton class="flex-1" @click="rateUser">Rate</PrimaryButton>
+          <SecondaryButton class="flex-1" @click="closeModal">{{ $t('chat.cancel') }}</SecondaryButton>
+          <PrimaryButton class="flex-1" @click="rateUser">{{ $t('chat.rate') }}</PrimaryButton>
         </div>
       </div>
     </div>

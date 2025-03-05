@@ -18,5 +18,7 @@ export default {
     edit: 'Upravit',
     delete: 'Smazat',
     cancel: 'Zrušit',
+    close: 'Zavřít',
+    yes: 'Ano',
   };
   

@@ -10,6 +10,8 @@ import wishlistEn from "./en/wishlist";
 import wishlistCs from "./cs/wishlist";
 import userEn from "./en/user";
 import userCs from "./cs/user";
+import chatEn from "./en/chat";
+import chatCs from "./cs/chat";
 
 export const messages = {
   en: {
@@ -19,6 +21,7 @@ export const messages = {
     common: commonEn,
     wishlist: wishlistEn,
     user: userEn,
+    chat: chatEn,
   },
   cs: {
     landing: landingCs,
@@ -27,5 +30,6 @@ export const messages = {
     common: commonCs,
     wishlist: wishlistCs,
     user: userCs,
+    chat: chatCs,
   },
 };

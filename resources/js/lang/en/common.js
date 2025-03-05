@@ -18,5 +18,7 @@ export default {
     edit: 'Edit',
     delete: 'Delete',
     cancel: 'Cancel',
+    close: 'Close',
+    yes: 'Yes',
   };
   
