@@ -1,5 +1,5 @@
 <template>
-  <Head :title="$t('chat.chat_with') + name" />
+  <Head :title="$t('chat.chat_with') + ' ' + name" />
     <section class="flex flex-col h-[calc(100vh-100px)] max-w-5xl mx-auto">
         <InfoSection :seller="seller" :offer="offer" :buyer="buyer" :rating="rating" :name="name" :userId="userId" class="mb-4 flex-shrink-0"/>
         <ChatSection ref="chatSectionRef" :seller="seller" :offer="offer" :buyer="buyer" class="mb-4 flex-grow overflow-auto"/>
@@ -51,13 +51,11 @@
   <Modal :show="modal" @close="closeModal" v-if="offer.buyer_id === currentUser.id && offer.status === 'sold'">
       <div class="p-6">
           <div class="flex justify-between items-end mb-2">
-            <Heading2>Do you want to confirm receiving offer <span class="text-primary-900">{{ offer.name }}</span> from <span class="text-primary-900">{{ seller.name }}</span>?</Heading2>
+            <Heading2>{{ $t('chat.do_you_want_to_receive') }} <span class="text-primary-900">{{ offer.name }}</span> {{ $t('chat.from') }} <span class="text-primary-900">{{ seller.name }}</span>?</Heading2>
           </div>
           <div>
             <TinyText>
-              Once you receive the item, confirm the delivery in Gearly. This step finalizes the transaction and allows both you and the seller to rate each other.
-              <br>
-              Confirming delivery ensures transparency and helps build trust within the community.
+              {{ $t('chat.receive_description') }}
             </TinyText>
           </div>
           <Divider class="md:w-full my-4"/>
@@ -70,11 +68,11 @@
   <Modal :show="modal" @close="closeModal" v-if="offer.status === 'received' && ableToRate">
     <div class="p-6">
       <div class="flex justify-between items-end mb-2">
-        <Heading2>Give us your opinion on <span class="text-primary-900">{{ name }}</span>.</Heading2>
+        <Heading2>{{ $t('chat.give_us_opinion') }} <span class="text-primary-900">{{ name }}</span>.</Heading2>
       </div>
       <div>
             <TinyText>
-              Now that the deal is complete, you can rate the other user based on your experience. Ratings help build trust and ensure a safe marketplace for everyone.
+              {{ $t('chat.ratings_description') }}
             </TinyText>
           </div>
       <Divider class="md:w-full my-4"/>
@@ -98,7 +96,7 @@
         </div>
 
         <div class="mb-4 w-full">
-          <FormTextArea v-model="comment" labelName="Verbal rating" name="verbal" />
+          <FormTextArea v-model="comment" :labelName="$t('chat.verbal_rating')" name="verbal" />
         </div>
 
         <div class="flex flex-col md:flex-row gap-2 w-full">
