@@ -234,6 +234,7 @@ class OfferController extends Controller implements HasMedia
 
         $this->authorize('update', $offer);
 
+        //TODO: success message
         return inertia('Offer/Edit', [
             'offer' => $offer,
             'brands' => $brands,
