@@ -1,5 +1,5 @@
 <template>
-    <Head :title="'Add New Offer'" />
+    <Head :title="$t('offer.add_new_offer')" />
     <OfferForm :isEditMode="false" :brands="brands" :categories="categories" :deliveryOptions="deliveryOptions" :freeLimitExceeded="freeLimitExceeded" :limit/>
 </template>
 

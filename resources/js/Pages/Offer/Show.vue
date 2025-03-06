@@ -13,14 +13,14 @@
             <section class="grid mb-6">
                 <NormalText class="mb-4 pe-2">{{ offer.description }}</NormalText>
                 <div class="flex flex-col gap-x-2 gap-y-0.5 text-sm mb-6">
-                    <OfferDetail :detail="'Brand'" :detailValue="brand.name"/>
+                    <OfferDetail :detail="$t('common.brand')" :detailValue="brand.name"/>
                     <OfferDetail :detail="'Sport'" :detailValue="offer.sport"/>
-                    <OfferDetail :detail="'Category'" :detailValue="category.name"/>
+                    <OfferDetail :detail="$t('common.category')" :detailValue="category.name"/>
                     <OfferDetail :detail="filter.filter_category_name" :detailValue="filter.filter_name" v-for="filter in filters"/>
                 </div>
                 <div class="flex flex-col gap-x-2 gap-y-0.5 text-sm">
-                    <OfferDetail :detail="'Delivery Option'" :detailValue="deliveryOption.name"/>
-                    <OfferDetail :detail="'Delivery Detail'" :detailValue="offer.delivery_detail" v-if="offer.delivery_detail"/>
+                    <OfferDetail :detail="$t('offer.delivery_option')" :detailValue="deliveryOption.name"/>
+                    <OfferDetail :detail="$t('offer.delivery_detail')" :detailValue="offer.delivery_detail" v-if="offer.delivery_detail"/>
                 </div>
             </section>
             <Link :href="seller.id === user.id ? '/profile' : route('user.show', {user: seller.id})">
@@ -30,34 +30,34 @@
             <div v-if="seller.id !== user.id && offer.status === 'active'">
                <section class="my-6 hidden md:grid">
                    <PrimaryLink 
-                       :text="'Chat with seller'" 
+                       :text="$t('common.chat_with_seller')" 
                        :href="user.id ? route('chat.show', {offer: offer.id, buyer: user.id}) : route('login', {redirect: route('offer.show', {offer: offer.id})})"
                    />
                </section>
                <section class="grid mb-2 md:relative fixed bottom-0 left-0 w-full p-2 md:hidden">
                    <PrimaryLink 
-                   :text="'Chat with seller'" class="w-full" 
+                   :text="$t('common.chat_with_seller')" class="w-full" 
                    :href="user.id ? route('chat.show', {offer: offer.id, buyer: user.id}) : route('login', {redirect: route('offer.show', {offer: offer.id})})"/>
                </section>
             </div>
             <div v-else>
                 <section class="my-6 flex gap-2" v-if="offer.status === 'active'">
-                    <SecondaryLink :text="'Edit'" :href="route('offer.edit', {offer: offer.id})"/>
-                    <DangerButton @click="confirmOfferDeletion">Delete</DangerButton>
+                    <SecondaryLink :text="$t('common.edit')" :href="route('offer.edit', {offer: offer.id})"/>
+                    <DangerButton @click="confirmOfferDeletion">{{ $t('common.delete') }}</DangerButton>
 
                     <Modal :show="confirmingOfferDeletion" @close="closeModal">
                         <div class="p-6">
                             <Heading3 class="text-lg text-gray-900">
-                                Are you sure you want to delete offer <span class="font-bold">{{ offer.name }}</span>?
+                                {{ $t('offer.are_you_sure_delete') }} <span class="font-bold">{{ offer.name }}</span>?
                             </Heading3>
                             
                             <div class="mt-6 flex justify-end gap-2">
                                 <SecondaryButton @click="closeModal">
-                                    Cancel
+                                    {{ $t('common.cancel') }}
                                 </SecondaryButton>
                             
                                 <DangerLink :href="route('offer.destroy', {offer: offer.id})" method="delete">
-                                    Delete Offer
+                                    {{ $t('offer.delete_offer') }}
                                 </DangerLink>
                             </div>
                         </div>

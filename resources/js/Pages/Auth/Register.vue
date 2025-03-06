@@ -62,31 +62,31 @@ const submit = () => {
 </script>
 
 <template>
-    <Head :title="'Register'" />
+    <Head :title="$t('auth.register')" />
     <GuestLayout>
         <form @submit.prevent="submit">
             <div>
-                <FormInput name="name" labelName="Full Name" type="text" v-model="form.name" :error="form.errors.name" :required="true" />
+                <FormInput name="name" :labelName="$t('auth.full_name')" type="text" v-model="form.name" :error="form.errors.name" :required="true" />
             </div>
 
             <div class="mt-4">
-                <FormInput name="email" labelName="Email" type="email" v-model="form.email" :error="form.errors.email" :required="true" />
+                <FormInput name="email" :labelName="$t('auth.email')" type="email" v-model="form.email" :error="form.errors.email" :required="true" />
             </div>
 
             <div class="mt-4">
-                <FormInput name="password" labelName="Password" type="password" v-model="form.password" :error="form.errors.password" :required="true" />
+                <FormInput name="password" :labelName="$t('auth.password')" type="password" v-model="form.password" :error="form.errors.password" :required="true" />
             </div>
 
             <div class="mt-4">
-                <FormInput name="password_confirmation" labelName="Password Confirmation" type="password" v-model="form.password_confirmation" :error="form.errors.password_confirmation" :required="true" />
+                <FormInput name="password_confirmation" :labelName="$t('auth.password_confirmation')" type="password" v-model="form.password_confirmation" :error="form.errors.password_confirmation" :required="true" />
             </div>
 
             <div class="mt-4 flex md:flex-row flex-col gap-2">
                 <div class="flex-1">
-                    <LocationSelect :options="countries" v-model="form.country" labelName="Country" name="country" :required="true" :error="form.errors.country"/>
+                    <LocationSelect :options="countries" v-model="form.country" :labelName="$t('auth.country')" name="country" :required="true" :error="form.errors.country"/>
                 </div>
                 <div class="flex-1">
-                    <LocationSelect :options="cities" v-model="form.city" labelName="City" name="city" :required="true" :error="form.errors.city"/>
+                    <LocationSelect :options="cities" v-model="form.city" :labelName="$t('auth.city')" name="city" :required="true" :error="form.errors.city"/>
                 </div>
             </div>
 
@@ -96,14 +96,14 @@ const submit = () => {
             
             <div class="mt-4 flex">
                 <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Register
+                    {{ $t('auth.register') }}
                 </PrimaryButton>
             </div>
 
             <div class="mt-4">
                 <Link :href="route('login')"
                     class="rounded-md text-sm underline hover:text-black focus:outline-none">
-                    Already registered?
+                    {{ $t('auth.already_have_an_account') }}
                 </Link>
             </div>
         </form>

@@ -1,7 +1,7 @@
 <template>
     <header class="border-b-2 border-black border-solid w-full mb-6">
         <div class="container mx-auto">
-            <nav class="py-3 px-2 md:px-0 max-md:px-2 flex items-center justify-between header-height-style">
+            <nav class="py-3 px-2 3xl:px-0 flex items-center justify-between header-height-style">
                 <div class="flex gap-3 md:gap-5 align-middle items-center mt-0.5">
                     <Link :href="route('landingPage')">
                         <img :src="'/storage/imgs/logo.png'" alt="Logo" class="w-16 md:w-20 h-auto align-middle">

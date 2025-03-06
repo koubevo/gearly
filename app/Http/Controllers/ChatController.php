@@ -131,6 +131,7 @@ class ChatController extends Controller
             'receiver_id' => $receiver_id,
             'offer_id' => $offer->id,
             'type_id' => $request->type_id,
+            'cs' => null,
             'message' => $request->validate([
                 'message' => 'required|string|max:255',
             ])['message'],

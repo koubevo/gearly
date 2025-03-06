@@ -3,9 +3,9 @@
     <div class="mb-4">
         <UserInfo :user="user" :soldOffersCount="soldOffersCount" :rating="rating" :receivedRatings="receivedRatings"/>
         <Divider class="md:w-full mt-4"/>
-        <UserOffers :offers="activeOffers" class="py-4" v-if="activeOffers.length" :heading="'Active offers'"/>
-        <UserOffers :offers="soldOffers" class="py-4" v-if="soldOffers.length" :heading="'Sold offers'"/>
-        <NothingHere v-if="!activeOffers.length && !soldOffers.length" :text="'User has no active or sold offers'">We found no offers</NothingHere>
+        <UserOffers :offers="activeOffers" class="py-4" v-if="activeOffers.length" :heading="$t('user.active_offers')"/>
+        <UserOffers :offers="soldOffers" class="py-4" v-if="soldOffers.length" :heading="$t('user.sold_offers')"/>
+        <NothingHere v-if="!activeOffers.length && !soldOffers.length" :text="$t('user.user_has_no_offers')">{{ $t('common.we_found_no_offers') }}</NothingHere>
     </div>
 </template>
 

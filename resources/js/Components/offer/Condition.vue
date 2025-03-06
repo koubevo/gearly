@@ -1,5 +1,6 @@
 <template>
     <span v-if="allowed.includes(condition)" :class="['h-full uppercase font-medium inline-block px-2', conditionClass]">
+      <!-- TODO: transaltions -->
       {{ condition === 'received' ? 'sold' : condition }}
     </span>
 </template>

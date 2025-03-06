@@ -1,5 +1,5 @@
 <template>
-    <Head :title="'Offers'" />
+    <Head class="capitalize" :title="$t('common.offers')" />
     <OffersGrid :offers="offers"/>
 </template>
 

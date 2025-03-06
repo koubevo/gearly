@@ -3,7 +3,7 @@
     <file-pond
       name="images"
       ref="pond"
-      label-idle="📂 Drop images here..."
+      :label-idle="'📂 ' + $t('offer.drop_images')"
       allow-multiple="true"
       allow-reorder="true"
       max-files="10"
