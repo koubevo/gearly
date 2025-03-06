@@ -6,7 +6,7 @@
                 <div class="flex-1 ps-4">
                     <div class="grid gap-0.5">
                         <div class="flex gap-2 items-center">
-                            <Condition :condition="chat.offer.status"/>
+                            <Condition :condition="chat.offer.status" :conditionNumber="chat.offer.statusNumber" :type="'status'" />
                             <BoldNormalText>{{ chat.offer.name }}</BoldNormalText>
                         </div>
                         <SmallText v-if="chat.buyer_id !== user.id">{{ chat.buyer_name }}</SmallText>

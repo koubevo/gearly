@@ -11,7 +11,7 @@ class UserController extends Controller
     {
         $activeUser = \Illuminate\Support\Facades\Auth::user() ?? null;
 
-        if ($user->id === $activeUser->id) {
+        if ($user->id === $activeUser?->id) {
             return redirect()->route('profile.show');
         }
 
@@ -21,11 +21,17 @@ class UserController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(12)
             ->withQueryString()
-            ->through(function ($offer) use ($activeUser) {
-                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
-                $offer->favorites_count = $offer->favorites()->count();
-                $offer->favorited_by_user = $activeUser ? $offer->favorites()->where('user_id', $activeUser->id)->exists() : false;
-                return $offer;
+            ->through(function ($offer) use ($user) {
+                return [
+                    ...$offer->toArray(),
+                    'thumbnail_url' => $offer->getFirstMediaUrl('images', 'thumb'),
+                    'favorites_count' => $offer->favorites()->count(),
+                    'favorited_by_user' => $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false,
+                    'condition' => $offer->getConditionEnum()?->label(),
+                    'conditionNumber' => $offer->condition,
+                    'status' => $offer->getStatusEnum()?->label(),
+                    'statusNumber' => $offer->status,
+                ];
             })
             ->items();
 
@@ -35,11 +41,17 @@ class UserController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(12)
             ->withQueryString()
-            ->through(function ($offer) use ($activeUser) {
-                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
-                $offer->favorites_count = $offer->favorites()->count();
-                $offer->favorited_by_user = $activeUser ? $offer->favorites()->where('user_id', $activeUser->id)->exists() : false;
-                return $offer;
+            ->through(function ($offer) use ($user) {
+                return [
+                    ...$offer->toArray(),
+                    'thumbnail_url' => $offer->getFirstMediaUrl('images', 'thumb'),
+                    'favorites_count' => $offer->favorites()->count(),
+                    'favorited_by_user' => $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false,
+                    'condition' => $offer->getConditionEnum()?->label(),
+                    'conditionNumber' => $offer->condition,
+                    'status' => $offer->getStatusEnum()?->label(),
+                    'statusNumber' => $offer->status,
+                ];
             })
             ->items();
 

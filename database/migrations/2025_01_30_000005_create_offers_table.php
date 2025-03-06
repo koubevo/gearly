@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->text('description');
             $table->decimal('price', 10, 2);
             $table->string('currency');
-            $table->string('condition');
+            $table->integer('condition')->default(1);
             $table->integer('sport_id');
             $table->foreignIdFor(DeliveryOption::class, 'delivery_option_id')->constrained('delivery_options');
             $table->string('delivery_detail')->nullable();

@@ -63,7 +63,7 @@
                         <FormSelect :options="brands" v-model="form.brand_id" :labelName="$t('common.brand')" name="brand" :required="true" :error="form.errors.brand_id"/>
                     </div>
                     <div class="w-full">
-                        <FormSelect :options="[{'id': 'new', 'name': $t('offer.new')}, {'id': 'used', 'name': $t('offer.used')}, {'id': 'damaged', 'name': $t('offer.damaged')}]" v-model="form.condition" :labelName="$t('common.condition')" name="condition" :required="true" :error="form.errors.condition"/>
+                        <FormSelect :options="[{'id': '1', 'name': $t('offer.new')}, {'id': '2', 'name': $t('offer.used')}, {'id': '3', 'name': $t('offer.damaged')}]" v-model="form.condition" :labelName="$t('common.condition')" name="condition" :required="true" :error="form.errors.condition"/>
                     </div>
                     <div class="w-full" v-if="!isEditMode">
                         <FormSelect :options="categories" v-model="form.category_id" :labelName="$t('common.category')" name="category" :required="true" :error="form.errors.category_id"/>
@@ -125,7 +125,7 @@ const props = defineProps({
             description: "",
             price: null,
             currency: "czk",
-            condition: "new",
+            condition: 1,
             sport_id: 1,
             category_id: 14,
             brand_id: 49,

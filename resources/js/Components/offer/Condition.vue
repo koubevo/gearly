@@ -1,7 +1,6 @@
 <template>
-    <span v-if="allowed.includes(condition)" :class="['h-full uppercase font-medium inline-block px-2', conditionClass]">
-      <!-- TODO: transaltions -->
-      {{ condition === 'received' ? 'sold' : condition }}
+    <span :class="['h-full uppercase font-medium inline-block px-2', conditionClass]" v-if="(conditionNumber !== 1 && conditionNumber !== 4 && conditionNumber !== 5 && type === 'status') || type === 'condition'">  
+      {{ condition }}
     </span>
 </template>
 
@@ -9,23 +8,31 @@
 import { computed } from 'vue';
 
 const props = defineProps({
-  condition: String
+  condition: String,
+  conditionNumber: Number,
+  type: String,
 });
 
-const allowed = ['new', 'used', 'damaged', 'sold', 'received'];
-
 const conditionClass = computed(() => {
-  switch (props.condition) {
-    case 'new':
+if (props.type === 'condition') {
+    switch (props.conditionNumber) {
+    case 1:
       return 'bg-primary-900 text-white';
-    case 'used':
+    case 2:
       return 'bg-yellow-500 text-black';
-    case 'damaged':
+    case 3:
       return 'bg-red-500 text-white';
-    case 'sold':
+  }
+}
+
+if (props.type === 'status') {
+    switch (props.conditionNumber) {
+    case 2:
       return 'bg-black text-white';
-    case 'received':
+    case 3:
       return 'bg-black text-white';
   }
+}
+  
 });
 </script>

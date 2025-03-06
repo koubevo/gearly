@@ -15,7 +15,7 @@ class RatingController extends Controller
         $offer = Offer::find($request->offer_id);
         $user = Auth::user();
 
-        if ($offer->status != 'received') {
+        if ($offer->status != 3) {
             return response()->json(['error' => 'You can rate only received offers.'], 403);
         }
 
@@ -51,6 +51,7 @@ class RatingController extends Controller
         $rating = Rating::create($request->all());
 
         $messageContent = $user->name . ' rated ' . $ratedUser->name . ' with ' . $rating->stars . ' stars.';
+        $meesageContentCs = $user->name . ' ohodnotil/a uživatele ' . $ratedUser->name . ' ' . $rating->stars . ' hvězdičkami.';
 
         $message = $offer->messages()->create([
             'seller_id' => $offer->user_id,
@@ -60,6 +61,7 @@ class RatingController extends Controller
             'offer_id' => $offer->id,
             'type_id' => 4,
             'message' => $messageContent,
+            'cs' => $meesageContentCs,
             'stars' => $rating->stars,
         ]);
 

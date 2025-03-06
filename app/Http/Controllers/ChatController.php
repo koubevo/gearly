@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\LanguageHelper;
 use App\Models\Message;
 use App\Models\Offer;
 use App\Models\Rating;
@@ -34,7 +35,8 @@ class ChatController extends Controller
                     'name' => $message->offer->name,
                     'price' => $message->offer->price,
                     'currency' => $message->offer->currency,
-                    'status' => $message->offer->status,
+                    'status' => $message->offer->getStatusEnum()?->label(),
+                    'statusNumber' => $message->offer->status,
                     'thumbnail_url' => $message->offer->getFirstMediaUrl('images', 'thumb'),
                 ],
                 'buyer_name' => optional($message->buyer)->name,
@@ -69,11 +71,14 @@ class ChatController extends Controller
             abort(403, 'You are not allowed to access this page.');
         }
 
-        if ($messagesCount == 0 && $offer->status !== 'active') {
-            abort(403, 'You are not allowed to access this page.');
+        if ($messagesCount == 0 && $offer->status !== 1) {
+            abort(403, 'You are not allowed to access this page...');
         }
 
         $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+
+        $offer->statusNumber = $offer->status;
+        $offer->status = $offer->getStatusEnum()?->label();
 
         $ratingExists = Rating::where('offer_id', $offer->id)
             ->where('user_id', $user->id)
@@ -87,13 +92,14 @@ class ChatController extends Controller
             'offer' => $offer,
             'thumbnail_url' => $offer->thumbnail_url,
             'rating' => $averageRating,
-            'ableToRate' => $offer->status === 'received' && !$ratingExists,
+            'ableToRate' => $offer->statusNumber === 3 && !$ratingExists,
         ]);
     }
 
     public function loadMessages(Offer $offer, User $buyer)
     {
         $user = \Illuminate\Support\Facades\Auth::user();
+        $langColumn = LanguageHelper::getLangColumnForMessages();
 
         if (!($buyer->id === $user->id || $offer->user_id === $user->id)) {
             abort(403, 'You are not allowed to access this page.');
@@ -104,8 +110,11 @@ class ChatController extends Controller
             ->where('buyer_id', $buyer->id)
             ->where('offer_id', $offer->id)
             ->get()
-            ->map(function ($message) {
+            ->map(function ($message) use ($langColumn) {
                 $message->created_at_formatted = $message->created_at->diffForHumans();
+                if (!empty($message->$langColumn)) {
+                    $message->message = $message->$langColumn;
+                }
                 return $message;
             });
 
@@ -131,7 +140,6 @@ class ChatController extends Controller
             'receiver_id' => $receiver_id,
             'offer_id' => $offer->id,
             'type_id' => $request->type_id,
-            'cs' => null,
             'message' => $request->validate([
                 'message' => 'required|string|max:255',
             ])['message'],

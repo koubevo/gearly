@@ -4,15 +4,15 @@
         <InfoSection :seller="seller" :offer="offer" :buyer="buyer" :rating="rating" :name="name" :userId="userId" class="mb-4 flex-shrink-0"/>
         <ChatSection ref="chatSectionRef" :seller="seller" :offer="offer" :buyer="buyer" class="mb-4 flex-grow overflow-auto"/>
         <section class="flex items-center justify-between gap-2 flex-shrink-0">
-            <button class="primary-button-chat-style" v-if="chatSectionRef?.messagesCount > 2 && offer.user_id === currentUser.id && offer.status === 'active'" @click="openModal">{{ $t('chat.sell') }}</button>
-            <button class="primary-button-chat-style" v-if="offer.buyer_id === currentUser.id && offer.status === 'sold'" @click="openModal">{{ $t('chat.receive') }}</button>
-            <button class="secondary-button-chat-style" v-if="offer.user_id === currentUser.id && offer.status === 'sold'" @click="openModal">{{ $t('chat.cancel') }}</button>
-            <button class="primary-button-chat-style" v-if="offer.status === 'received' && ableToRate" @click="openModal">{{ $t('chat.rate') }}</button>
+            <button class="primary-button-chat-style" v-if="chatSectionRef?.messagesCount > 2 && offer.user_id === currentUser.id && offer.statusNumber === 1" @click="openModal">{{ $t('chat.sell') }}</button>
+            <button class="primary-button-chat-style" v-if="offer.buyer_id === currentUser.id && offer.statusNumber === 2" @click="openModal">{{ $t('chat.receive') }}</button>
+            <button class="secondary-button-chat-style" v-if="offer.user_id === currentUser.id && offer.statusNumber === 2" @click="openModal">{{ $t('chat.cancel') }}</button>
+            <button class="primary-button-chat-style" v-if="offer.statusNumber === 3 && ableToRate" @click="openModal">{{ $t('chat.rate') }}</button>
             <input type="text" name="message" v-model="message" @keyup.enter="sendMessage" class="input-style" :placeholder="$t('chat.type_message')"/>
             <button @click="sendMessage" class="mx-2"><PaperAirplaneIcon class="w-5 h-5 stroke-[2]"/></button>
         </section>
     </section>
-    <Modal :show="modal" @close="closeModal" v-if="chatSectionRef?.messagesCount > 2 && offer.user_id === currentUser.id && offer.status === 'active'">
+    <Modal :show="modal" @close="closeModal" v-if="chatSectionRef?.messagesCount > 2 && offer.user_id === currentUser.id && offer.statusNumber === 1">
       <div class="p-6">
           <div class="flex justify-between items-end mb-2">
             <Heading2>{{ $t('chat.do_you_want_to_sell') }} <span class="text-primary-900">{{ offer.name }}</span> {{ $t('chat.to_user') }} <span class="text-primary-900">{{ buyer.name }}</span>?</Heading2>
@@ -31,7 +31,7 @@
           </div>
       </div>
   </Modal>
-  <Modal :show="modal" @close="closeModal" v-if="offer.user_id === currentUser.id && offer.status === 'sold'">
+  <Modal :show="modal" @close="closeModal" v-if="offer.user_id === currentUser.id && offer.statusNumber === 2">
       <div class="p-6">
           <div class="flex justify-between items-end mb-2">
             <Heading2>{{ $t('chat.do_you_want_to_cancel') }} <span class="text-red-600">{{ offer.name }}</span> {{ $t('chat.to_user') }} <span class="text-red-600">{{ seller.name }}</span>?</Heading2>
@@ -48,7 +48,7 @@
           </div>
       </div>
   </Modal>
-  <Modal :show="modal" @close="closeModal" v-if="offer.buyer_id === currentUser.id && offer.status === 'sold'">
+  <Modal :show="modal" @close="closeModal" v-if="offer.buyer_id === currentUser.id && offer.statusNumber === 2">
       <div class="p-6">
           <div class="flex justify-between items-end mb-2">
             <Heading2>{{ $t('chat.do_you_want_to_receive') }} <span class="text-primary-900">{{ offer.name }}</span> {{ $t('chat.from') }} <span class="text-primary-900">{{ seller.name }}</span>?</Heading2>
@@ -65,7 +65,7 @@
           </div>
       </div>
   </Modal>
-  <Modal :show="modal" @close="closeModal" v-if="offer.status === 'received' && ableToRate">
+  <Modal :show="modal" @close="closeModal" v-if="offer.statusNumber === 3 && ableToRate">
     <div class="p-6">
       <div class="flex justify-between items-end mb-2">
         <Heading2>{{ $t('chat.give_us_opinion') }} <span class="text-primary-900">{{ name }}</span>.</Heading2>
@@ -174,7 +174,7 @@ const sellOffer = () => {
     axios.post(route('offer.sell', {offer: props.offer, buyer: props.buyer}))
     .then(() => {
         closeModal();
-        props.offer.status = 'sold';
+        props.offer.statusNumber = 2;
     });
 };
 
@@ -182,7 +182,7 @@ const receiveOffer = () => {
     axios.post(route('offer.receive', {offer: props.offer}))
     .then(() => {
         closeModal();
-        props.offer.status = 'received';
+        props.offer.statusNumber = 3;
         ableToRate.value = true;
     });
 };
@@ -191,7 +191,7 @@ const cancelOffer = () => {
     axios.post(route('offer.cancel', {offer: props.offer}))
     .then(() => {
         closeModal();
-        props.offer.status = 'active';
+        props.offer.statusNumber = 1;
     });
 };
 

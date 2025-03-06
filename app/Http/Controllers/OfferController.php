@@ -52,10 +52,16 @@ class OfferController extends Controller implements HasMedia
             ->paginate(12)
             ->withQueryString()
             ->through(function ($offer) use ($user) {
-                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
-                $offer->favorites_count = $offer->favorites()->count();
-                $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
-                return $offer;
+                return [
+                    ...$offer->toArray(),
+                    'thumbnail_url' => $offer->getFirstMediaUrl('images', 'thumb'),
+                    'favorites_count' => $offer->favorites()->count(),
+                    'favorited_by_user' => $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false,
+                    'condition' => $offer->getConditionEnum()?->label(),
+                    'conditionNumber' => $offer->condition,
+                    'status' => $offer->getStatusEnum()?->label(),
+                    'statusNumber' => $offer->status,
+                ];
             });
 
         if ($request->wantsJson()) {
@@ -66,6 +72,7 @@ class OfferController extends Controller implements HasMedia
             'offers' => $offers
         ]);
     }
+
 
 
     /**
@@ -82,7 +89,7 @@ class OfferController extends Controller implements HasMedia
             ->select('id', "$langColumn as name", 'logo', 'created_at', 'updated_at')
             ->orderBy('name', 'asc')
             ->get();
-        $activeOffersCount = $user->offers()->where('status', 'active')->count();
+        $activeOffersCount = $user->offers()->where('status', 1)->count();
 
         return inertia('Offer/Create', [
             'brands' => $brands,
@@ -102,7 +109,7 @@ class OfferController extends Controller implements HasMedia
         $user = Auth::user();
 
         $maxFreeActiveOffers = self::MAX_FREE_ACTIVE_OFFERS;
-        $activeOffersCount = $user->offers()->where('status', 'active')->count();
+        $activeOffersCount = $user->offers()->where('status', 1)->count();
 
         if (!$user->hasPremium() && $activeOffersCount >= $maxFreeActiveOffers) {
             return redirect()->route('offer.index')
@@ -114,7 +121,7 @@ class OfferController extends Controller implements HasMedia
             'description' => 'required|string',
             'price' => 'required|numeric|min:0|max:99999|regex:/^\d{1,5}(\.\d{1,2})?$/',
             'currency' => 'required|string|in:eur,czk', //only 2 currencies now
-            'condition' => 'required|in:new,used,damaged|lowercase',
+            'condition' => 'required|in:1,2,3',
             'sport_id' => 'required|integer|in:1,2,3',
             'category_id' => 'required|integer|min:1',
             'brand_id' => 'required|integer|min:1',
@@ -184,6 +191,10 @@ class OfferController extends Controller implements HasMedia
             'offer' => [
                 ...$offer->toArray(),
                 'sport' => $offer->getSportEnum()?->label(),
+                'condition' => $offer->getConditionEnum()?->label(),
+                'conditionNumber' => $offer->condition,
+                'status' => $offer->getStatusEnum()?->label(),
+                'statusNumber' => $offer->status,
                 'favorites_count' => $offer->favorites()->count(),
                 'favorited_by_user' => $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false,
             ],
@@ -246,7 +257,7 @@ class OfferController extends Controller implements HasMedia
             'description' => 'required|string',
             'price' => 'required|regex:/^\d+(\.\d{1,2})?$/|min:0|max:99999',
             'currency' => 'required|string|in:eur,czk', //only 2 currencies now
-            'condition' => 'required|in:new,used,damaged|lowercase',
+            'condition' => 'required|in:1,2,3',
             'sport_id' => 'required|integer|in:1,2,3',
             'category_id' => 'required|integer|min:1',
             'brand_id' => 'required|integer|min:1',
@@ -266,7 +277,7 @@ class OfferController extends Controller implements HasMedia
     {
         $this->authorize('delete', $offer);
 
-        $offer->status = 'deleted';
+        $offer->status = 5;
         $offer->save();
         $offer->deleteOrFail();
 
@@ -290,12 +301,12 @@ class OfferController extends Controller implements HasMedia
         $user = Auth::user();
         $this->authorize('update', $offer);
 
-        if ($offer->status !== 'active') {
+        if ($offer->status !== 1) {
             abort(403, 'You are not allowed to access this page.');
         }
 
         $offer->buyer_id = $request->buyer['id'];
-        $offer->status = 'sold';
+        $offer->status = 2;
         $offer->save();
 
         $message = $offer->messages()->create([
@@ -319,11 +330,11 @@ class OfferController extends Controller implements HasMedia
             abort(403, 'You are not allowed to access this page.');
         }
 
-        if ($offer->status !== 'sold') {
+        if ($offer->status !== 2) {
             abort(403, 'You are not allowed to access this page.');
         }
 
-        $offer->status = 'received';
+        $offer->status = 3;
         $offer->save();
 
         $message = $offer->messages()->create([
@@ -347,13 +358,13 @@ class OfferController extends Controller implements HasMedia
             abort(403, 'You are not allowed to access this page.');
         }
 
-        if ($offer->status !== 'sold') {
+        if ($offer->status !== 2) {
             abort(403, 'You are not allowed to access this page.');
         }
 
         $buyerId = $offer->buyer_id;
         $offer->buyer_id = null;
-        $offer->status = 'active';
+        $offer->status = 1;
         $offer->save();
 
         $message = $offer->messages()->create([

@@ -7,7 +7,7 @@
                 </div>
                 <div>
                     <div class="flex gap-2 items-center mb-0.5">
-                        <Condition :condition="offer.status"/>
+                        <Condition :condition="offer.status" :conditionNumber="offer.statusNumber" :type="'status'"/>
                         <Heading3>{{ offer.name }}</Heading3>
                     </div>
                     <PriceCard :price="offer.price" :currency="offer.currency"/>
