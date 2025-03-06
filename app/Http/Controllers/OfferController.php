@@ -73,8 +73,6 @@ class OfferController extends Controller implements HasMedia
         ]);
     }
 
-
-
     /**
      * Show the form for creating a new resource.
      */
@@ -97,6 +95,7 @@ class OfferController extends Controller implements HasMedia
             'deliveryOptions' => $deliveryOptions,
             'freeLimitExceeded' => !$user->hasPremium() && $activeOffersCount >= self::MAX_FREE_ACTIVE_OFFERS,
             'limit' => self::MAX_FREE_ACTIVE_OFFERS,
+            'lang' => $langColumn
         ]);
     }
 

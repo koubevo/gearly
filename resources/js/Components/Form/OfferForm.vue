@@ -75,7 +75,7 @@
                 <!-- TODO: filters names translations -->
                 <div class="col-span-12 flex flex-col md:flex-row gap-2 justify-between" v-if="!isEditMode">
                     <div class="w-full" v-for="filterCategory in filteredFilterCategories" :key="filterCategory.id">
-                        <FormSelect :options="filterCategory.options" v-model="form[`fc${filterCategory.id}`]" :labelName="filterCategory.name" :name="'fc' + filterCategory.id" :required="false"/>
+                        <FormSelect :options="filterCategory.options" v-model="form[`fc${filterCategory.id}`]" :labelName="filterCategory[lang]" :name="'fc' + filterCategory.id" :required="false"/>
                     </div>
                 </div>
                 <div class="col-span-12">
@@ -154,7 +154,8 @@ const props = defineProps({
     },
     limit: {
         type: Number
-    }
+    },
+    lang: String ?? 'name'
 });
 
 const form = useForm({
