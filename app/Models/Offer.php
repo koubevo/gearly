@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\ConditionEnum;
 use App\Enums\SportEnum;
+use App\Enums\StatusEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -73,6 +74,16 @@ class Offer extends Model implements HasMedia
         return SportEnum::tryFrom($this->sport_id);
     }
 
+    public function getStatusEnum(): ?StatusEnum
+    {
+        return StatusEnum::tryFrom($this->status);
+    }
+
+    public function getConditionEnum(): ?ConditionEnum
+    {
+        return ConditionEnum::tryFrom($this->condition);
+    }
+
     public function offerFilters(): HasMany
     {
         return $this->hasMany(OfferFilter::class, 'offer_id');
@@ -131,13 +142,13 @@ class Offer extends Model implements HasMedia
 
     public function scopeActive(Builder $query): Builder
     {
-        return $query->where('status', 'active');
+        return $query->where('status', 1);
     }
 
     public function scopeSold(Builder $query): Builder
     {
-        return $query->where('status', 'sold')
-            ->orWhere('status', 'received');
+        return $query->where('status', 2)
+            ->orWhere('status', 3);
     }
 
     public function scopeMostRecent(Builder $query): Builder
@@ -181,5 +192,19 @@ class Offer extends Model implements HasMedia
     public function rating(): BelongsTo
     {
         return $this->belongsTo(Rating::class, 'rating_id');
+    }
+
+    public function transform($user = null)
+    {
+        return [
+            ...$this->toArray(),
+            'thumbnail_url' => $this->getFirstMediaUrl('images', 'thumb'),
+            'favorites_count' => $this->favorites()->count(),
+            'favorited_by_user' => $user ? $this->favorites()->where('user_id', $user->id)->exists() : false,
+            'condition' => $this->getConditionEnum()?->label(),
+            'conditionNumber' => $this->condition,
+            'status' => $this->getStatusEnum()?->label(),
+            'statusNumber' => $this->status,
+        ];
     }
 }

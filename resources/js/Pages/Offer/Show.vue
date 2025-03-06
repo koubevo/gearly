@@ -27,7 +27,7 @@
                 <OfferUserDetail :seller="seller" :soldOffersCount="soldOffersCount" :rating="rating"/>
             </Link>
 
-            <div v-if="seller.id !== user.id && offer.status === 'active'">
+            <div v-if="seller.id !== user.id && offer.statusNumber === 1">
                <section class="my-6 hidden md:grid">
                    <PrimaryLink 
                        :text="$t('common.chat_with_seller')" 
@@ -41,7 +41,7 @@
                </section>
             </div>
             <div v-else>
-                <section class="my-6 flex gap-2" v-if="offer.status === 'active'">
+                <section class="my-6 flex gap-2" v-if="offer.statusNumber === 1">
                     <SecondaryLink :text="$t('common.edit')" :href="route('offer.edit', {offer: offer.id})"/>
                     <DangerButton @click="confirmOfferDeletion">{{ $t('common.delete') }}</DangerButton>
 

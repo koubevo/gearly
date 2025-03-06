@@ -4,24 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Models\Offer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LandingPageController extends Controller
 {
     public function index(Request $request)
     {
-        $user = \Illuminate\Support\Facades\Auth::user() ?? null;
+        $user = Auth::user();
 
         $newArrivals = Offer::with('brand')
             ->active()
             ->latest()
             ->limit(4)
             ->get()
-            ->map(function ($offer) use ($user) {
-                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
-                $offer->favorites_count = $offer->favorites()->count();
-                $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
-                return $offer;
-            });
+            ->map(fn($offer) => $offer->transform($user));
 
         $mostActiveBrandId = Offer::select('brand_id')
             ->active()
@@ -37,12 +33,7 @@ class LandingPageController extends Controller
             ->latest()
             ->limit(4)
             ->get()
-            ->map(function ($offer) use ($user) {
-                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
-                $offer->favorites_count = $offer->favorites()->count();
-                $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
-                return $offer;
-            });
+            ->map(fn($offer) => $offer->transform($user));
 
         $baseballBats = Offer::with('brand')
             ->active()
@@ -51,12 +42,7 @@ class LandingPageController extends Controller
             ->latest()
             ->limit(4)
             ->get()
-            ->map(function ($offer) use ($user) {
-                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
-                $offer->favorites_count = $offer->favorites()->count();
-                $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
-                return $offer;
-            });
+            ->map(fn($offer) => $offer->transform($user));
 
         $softballBats = Offer::with('brand')
             ->active()
@@ -65,12 +51,7 @@ class LandingPageController extends Controller
             ->latest()
             ->limit(4)
             ->get()
-            ->map(function ($offer) use ($user) {
-                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
-                $offer->favorites_count = $offer->favorites()->count();
-                $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
-                return $offer;
-            });
+            ->map(fn($offer) => $offer->transform($user));
 
         $baseballGear = Offer::with('brand')
             ->active()
@@ -78,12 +59,7 @@ class LandingPageController extends Controller
             ->latest()
             ->limit(4)
             ->get()
-            ->map(function ($offer) use ($user) {
-                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
-                $offer->favorites_count = $offer->favorites()->count();
-                $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
-                return $offer;
-            });
+            ->map(fn($offer) => $offer->transform($user));
 
         $softballGear = Offer::with('brand')
             ->active()
@@ -91,12 +67,7 @@ class LandingPageController extends Controller
             ->latest()
             ->limit(4)
             ->get()
-            ->map(function ($offer) use ($user) {
-                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
-                $offer->favorites_count = $offer->favorites()->count();
-                $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
-                return $offer;
-            });
+            ->map(fn($offer) => $offer->transform($user));
 
         return inertia('LandingPage', [
             'newArrivals' => $newArrivals,

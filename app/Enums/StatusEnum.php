@@ -20,14 +20,14 @@ enum StatusEnum: int
             case 'cs':
                 $active = 'Aktivní';
                 $sold = 'Prodané';
-                $received = 'Doručené';
+                $received = 'Prodané';
                 $draft = 'Návrh';
                 $deleted = 'Smazáno';
                 break;
             default:
                 $active = 'Active';
                 $sold = 'Sold';
-                $received = 'Received';
+                $received = 'Sold';
                 $draft = 'Draft';
                 $deleted = 'Deleted';
                 break;

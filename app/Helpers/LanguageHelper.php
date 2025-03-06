@@ -12,4 +12,12 @@ class LanguageHelper
 
         return $user?->lang === 'en' ? 'name' : ($user?->lang ?? (in_array(app()->getLocale(), $languages) ? app()->getLocale() : 'name'));
     }
+
+    public static function getLangColumnForMessages(): string
+    {
+        $user = Auth::user();
+        $languages = array_keys(config('app.languages'));
+
+        return $user?->lang === 'en' ? 'name' : ($user?->lang ?? (in_array(app()->getLocale(), $languages) ? app()->getLocale() : 'en'));
+    }
 }

@@ -1,6 +1,6 @@
 <template>
     <Head :title="$t('offer.add_new_offer')" />
-    <OfferForm :isEditMode="false" :brands="brands" :categories="categories" :deliveryOptions="deliveryOptions" :freeLimitExceeded="freeLimitExceeded" :limit/>
+    <OfferForm :isEditMode="false" :brands="brands" :categories="categories" :deliveryOptions="deliveryOptions" :freeLimitExceeded="freeLimitExceeded" :limit :lang/>
 </template>
 
 <script setup>
@@ -13,5 +13,6 @@ const props = defineProps({
     deliveryOptions: Array,
     freeLimitExceeded: Boolean,
     limit: Number,
+    lang: String
 });
 </script>

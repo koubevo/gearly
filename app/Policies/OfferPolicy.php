@@ -45,7 +45,7 @@ class OfferPolicy
      */
     public function update(User $user, Offer $offer): bool
     {
-        if ($offer->status !== 'active') {
+        if ($offer->status !== 1) {
             return false;
         }
 
@@ -57,7 +57,7 @@ class OfferPolicy
      */
     public function delete(User $user, Offer $offer): bool
     {
-        if ($offer->status !== 'active') {
+        if ($offer->status !== 1) {
             return false;
         }
 
