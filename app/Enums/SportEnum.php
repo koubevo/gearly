@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use App\Helpers\LanguageHelper;
+
 enum SportEnum: int
 {
     case Both = 1;
@@ -10,8 +12,21 @@ enum SportEnum: int
 
     public function label(): string
     {
+        $langColumn = LanguageHelper::getLangColumn();
+
+        switch ($langColumn) {
+            case 'cs':
+                $message = 'Oboje';
+                break;
+            default:
+                $message = 'Both';
+                break;
+        }
+
+        $message .= ' (Baseball & Softball)';
+
         return match ($this) {
-            self::Both => 'Both (Baseball & Softball)',
+            self::Both => $message,
             self::Baseball => 'Baseball',
             self::Softball => 'Softball',
         };
