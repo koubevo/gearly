@@ -96,7 +96,8 @@ class ProfileController extends Controller
         $user->update($validatedData);
 
         return redirect()->route('profile.show')
-            ->with('success', 'Profile was updated.');
+            ->with('success', 'Profile was updated.')
+            ->with('forceRefresh', true);
     }
 
     /**

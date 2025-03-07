@@ -4,6 +4,7 @@ import Heading2 from '@/Components/Text/Heading2.vue';
 import TinyText from '@/Components/Text/TinyText.vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import { defineEmits } from 'vue';
+import { router } from '@inertiajs/vue3'
 
 defineProps({
     mustVerifyEmail: {
@@ -26,8 +27,7 @@ const updateProfile = () => {
     form.patch(route('profile.update'), {
         preserveScroll: true,
         onSuccess: () => {
-            form.reset();
-            emit('close-modal');
+            window.location.reload(true);
         },
         onError: () => {
             console.log(form.errors);

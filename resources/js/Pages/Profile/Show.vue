@@ -13,7 +13,8 @@ import { ref } from 'vue';
 import NormalText from '@/Components/Text/NormalText.vue';
 import { Head } from '@inertiajs/vue3';
 import SecondaryLink from '@/Components/Buttons/SecondaryLink.vue';
-import { Method } from '@inertiajs/inertia';
+
+const page = usePage();
 
 const props = defineProps({
     activeOffers: Array ?? [],
@@ -23,7 +24,6 @@ const props = defineProps({
     receivedRatings: Array
 });
 
-const page = usePage();
 const user = page.props.auth?.user;
 
 const modal = ref(false);
@@ -40,7 +40,7 @@ const closeModal = () => {
 </script>
 
 <template>
-    <Head :title="'Your Profile'" />
+    <Head :title="$t('user.your_profile')" />
     <div class="mb-4">
         <UserInfo :user="user" :soldOffersCount="soldOffersCount" :rating="rating" :receivedRatings="receivedRatings"/>
         <div class="grid grid-cols-2 justify-between">
@@ -82,7 +82,7 @@ const closeModal = () => {
             <Divider class="md:w-full my-4"/>
 
             <div v-show="activeSection === 'profile'">
-                <UpdateProfileInformationForm />
+                <UpdateProfileInformationForm @close-modal="closeModal" />
             </div>
 
             <div v-show="activeSection === 'password'">
