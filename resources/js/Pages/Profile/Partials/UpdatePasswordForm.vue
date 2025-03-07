@@ -2,7 +2,7 @@
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import TinyText from '@/Components/Text/TinyText.vue';
 import { useForm } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, defineEmits } from 'vue';
 import Heading2 from '@/Components/Text/Heading2.vue';
 import FormInput from '@/Components/Form/FormInput.vue';
 
@@ -15,11 +15,17 @@ const form = useForm({
     password_confirmation: '',
 });
 
+const emit = defineEmits(['close-modal']);
+
 const updatePassword = () => {
     form.put(route('password.update'), {
         preserveScroll: true,
-        onSuccess: () => form.reset(),
+        onSuccess: () => {
+            form.reset();
+            emit('close-modal');
+        },
         onError: () => {
+            console.log(form.errors);
             if (form.errors.password) {
                 form.reset('password', 'password_confirmation');
                 passwordInput.value.focus();

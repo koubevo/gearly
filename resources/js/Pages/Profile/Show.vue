@@ -12,6 +12,8 @@ import Modal from "@/Components/Modal.vue";
 import { ref } from 'vue';
 import NormalText from '@/Components/Text/NormalText.vue';
 import { Head } from '@inertiajs/vue3';
+import SecondaryLink from '@/Components/Buttons/SecondaryLink.vue';
+import { Method } from '@inertiajs/inertia';
 
 const props = defineProps({
     activeOffers: Array ?? [],
@@ -41,8 +43,9 @@ const closeModal = () => {
     <Head :title="'Your Profile'" />
     <div class="mb-4">
         <UserInfo :user="user" :soldOffersCount="soldOffersCount" :rating="rating" :receivedRatings="receivedRatings"/>
-        <div class="w-fit">
-            <SecondaryButton @click="openModal">Edit profile</SecondaryButton>
+        <div class="grid grid-cols-2 justify-between">
+            <SecondaryButton @click="openModal" class="w-fit">Edit profile</SecondaryButton>
+            <SecondaryLink :href="route('logout')" method="POST" class="w-fit justify-self-end">Logout</SecondaryLink>
         </div>
         <Divider class="md:w-full mt-4"/>
         <UserOffers :offers="activeOffers" class="py-4" v-if="activeOffers.length" :heading="'Active offers'"/>
@@ -83,7 +86,7 @@ const closeModal = () => {
             </div>
 
             <div v-show="activeSection === 'password'">
-                <UpdatePasswordForm />
+                <UpdatePasswordForm @close-modal="closeModal" />
             </div>
 
             <div v-show="activeSection === 'delete'">

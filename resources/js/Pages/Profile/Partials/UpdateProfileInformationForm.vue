@@ -3,8 +3,7 @@ import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import Heading2 from '@/Components/Text/Heading2.vue';
 import TinyText from '@/Components/Text/TinyText.vue';
 import { useForm, usePage } from '@inertiajs/vue3';
-import LocationSelect from '@/Components/Form/LocationSelect.vue';
-import { ref, watch, onMounted } from 'vue';
+import { defineEmits } from 'vue';
 
 defineProps({
     mustVerifyEmail: {
@@ -18,46 +17,23 @@ defineProps({
 const user = usePage().props.auth.user;
 
 const form = useForm({
-    name: user.name,
-    email: user.email,
+    lang: user.lang,
 });
 
-const countries = ref([]);
-const cities = ref([]);
+const emit = defineEmits(['close-modal']);
 
-onMounted(async () => {
-    try {
-        const response = await fetch('/api/countries');
-        const result = await response.json();
-        if (result.success) {
-            countries.value = result.data;
-        } else {
-            console.error('Error fetching countries:', result.message);
-        }
-    } catch (error) {
-        console.error('Error fetching countries:', error);
-    }
-});
-
-watch(() => form.country, async (newCountry) => {
-    if (newCountry) {
-        const selectedCountry = countries.value.find(country => country.name === newCountry);
-        const iso2 = selectedCountry ? selectedCountry.iso2 : '';
-        if (iso2) {
-            try {
-                const response = await fetch(`/api/cities?iso2=${iso2}`);
-                const result = await response.json();
-                if (result.success) {
-                    cities.value = result.data;
-                } else {
-                    console.error('Error fetching cities:', result.message);
-                }
-            } catch (error) {
-                console.error('Error fetching cities:', error);
-            }
-        }
-    }
-});
+const updateProfile = () => {
+    form.patch(route('profile.update'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            form.reset();
+            emit('close-modal');
+        },
+        onError: () => {
+            console.log(form.errors);
+        },
+    });
+};
 </script>
 
 <template>
@@ -67,14 +43,26 @@ watch(() => form.country, async (newCountry) => {
             <TinyText :text="'To change other information, please contact our support.'"/>
         </header>
 
-        <form @submit.prevent="updatePassword" class="mt-6">
-            <div class="my-2 flex md:flex-row flex-col gap-2">
-                <div class="flex-1">
-                    <LocationSelect :options="countries" v-model="form.country" labelName="Country" name="country" :required="true" :error="form.errors.country"/>
+        <form @submit.prevent="updateProfile" class="mt-6">
+            <div class="my-2">
+                <label class="capitalize">Language/Taal/Lingua/Jazyk/Sprache</label>
+                <div class="w-full mt-1">
+                    <div class="flex flex-col sm:flex-row gap-2">
+                    <label class="cursor-pointer w-full sm:flex-1">
+                        <input type="radio" name="sport_id" class="hidden peer" value="en" v-model="form.lang" />
+                        <div class="sport-selector-style uppercase">
+                            🇺🇸 ENGLISH
+                        </div>
+                    </label>
+                    <label class="cursor-pointer w-full sm:flex-1">
+                        <input type="radio" name="sport_id" class="hidden peer" value="cs" v-model="form.lang" />
+                        <div class="sport-selector-style uppercase">
+                            🇨🇿 ČEŠTINA
+                        </div>
+                    </label>
                 </div>
-                <div class="flex-1">
-                    <LocationSelect :options="cities" v-model="form.city" labelName="City" name="city" :required="true" :error="form.errors.city"/>
                 </div>
+                <div v-if="form.errors.sport_id" class="input-error-message-style">{{ form.errors.sport_id }}</div>
             </div>
             <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
         </form>
