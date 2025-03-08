@@ -3,8 +3,8 @@ import { messages } from "./lang/index";
 
 const i18n = createI18n({
   legacy: false,
-  locale: "en", 
-  fallbackLocale: "en",
+  locale: "cs", 
+  fallbackLocale: "cs",
   messages,
 });
 
