@@ -4,9 +4,9 @@
         <Heading2>{{ $t('offer.filter_offers') }}</Heading2>
         </div>
         <Divider class="md:w-full my-4"/>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-            <!-- TODO: text search, sport, značka, stav, kategorie, (filters) -->
-            <form @submit.prevent="handleSubmit">
+        <form @submit.prevent="handleSubmit">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <!-- TODO: text search, sport, značka, stav, kategorie, (filters) -->
                 <div class="z-50">
                     <FormSelect :options="brands" v-model="form.brand" :labelName="$t('common.brand')" name="brand" :error="form.errors.brand_id"/>
                 </div>
@@ -21,8 +21,8 @@
                     <FormSelect :options="conditions" v-model="form.condition" :labelName="$t('common.brand')" name="brand_id" :required="true" :error="form.errors.brand_id"/>
                 </div>
                 -->
-            </form>
-        </div>
+            </div>
+        </form>
     </div>    
 </template>
 

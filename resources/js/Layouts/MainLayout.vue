@@ -45,8 +45,8 @@
                     </Link>
                 </div>
                 <div class="flex gap-2 mt-0.5" v-else>
-                    <SecondaryLink :href="route('login')">Log in</SecondaryLink>
-                    <PrimaryLink :href="route('register')">Register</PrimaryLink>
+                    <SecondaryLink :href="route('login')">{{ $t('auth.login') }}</SecondaryLink>
+                    <PrimaryLink :href="route('register')">{{ $t('auth.register') }}</PrimaryLink>
                 </div>
             </nav>
         </div>
