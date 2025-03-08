@@ -7,7 +7,7 @@ import { computed } from 'vue';
 import BoldNormalText from '@/Components/Text/BoldNormalText.vue';
 
 const props = defineProps({
-  price: Number,
+  price: String,
   currency: String
 });
 
