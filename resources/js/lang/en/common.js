@@ -20,5 +20,6 @@ export default {
     cancel: 'Cancel',
     close: 'Close',
     yes: 'Yes',
+    save: 'Save',
   };
   

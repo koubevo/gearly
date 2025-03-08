@@ -44,13 +44,13 @@ const closeModal = () => {
     <div class="mb-4">
         <UserInfo :user="user" :soldOffersCount="soldOffersCount" :rating="rating" :receivedRatings="receivedRatings"/>
         <div class="grid grid-cols-2 justify-between">
-            <SecondaryButton @click="openModal" class="w-fit">Edit profile</SecondaryButton>
-            <SecondaryLink :href="route('logout')" method="POST" class="w-fit justify-self-end">Logout</SecondaryLink>
+            <SecondaryButton @click="openModal" class="w-fit">{{ $t('user.edit_profile') }}</SecondaryButton>
+            <SecondaryLink :href="route('logout')" method="POST" class="w-fit justify-self-end">{{ $t('user.logout') }}</SecondaryLink>
         </div>
         <Divider class="md:w-full mt-4"/>
-        <UserOffers :offers="activeOffers" class="py-4" v-if="activeOffers.length" :heading="'Active offers'"/>
-        <UserOffers :offers="soldOffers" class="py-4" v-if="soldOffers.length" :heading="'Sold offers'"/>
-        <NothingHere v-if="!activeOffers.length && !soldOffers.length" :text="'User has no active or sold offers'">We found no offers</NothingHere>
+        <UserOffers :offers="activeOffers" class="py-4" v-if="activeOffers.length" :heading="$t('user.active_offers')"/>
+        <UserOffers :offers="soldOffers" class="py-4" v-if="soldOffers.length" :heading="$t('user.sold_offers')"/>
+        <NothingHere v-if="!activeOffers.length && !soldOffers.length" :text="$t('user.yout_have_no_offers')">{{ $t('common.we_found_no_offers') }}</NothingHere>
     </div>
 
     <Modal :show="modal" @close="closeModal">
@@ -61,19 +61,19 @@ const closeModal = () => {
                         @click="activeSection = 'profile'" 
                         :class="{'text-green-600 font-bold border-b-2 border-green-600': activeSection === 'profile'}"
                         class="pb-1">
-                        <NormalText>Profile</NormalText>
+                        <NormalText>{{ $t('user.profile') }}</NormalText>
                     </button>
                     <button 
                         @click="activeSection = 'password'" 
                         :class="{'text-green-600 font-bold border-b-2 border-green-600': activeSection === 'password'}"
                         class="pb-1">
-                        <NormalText>Password</NormalText>
+                        <NormalText>{{ $t('user.password') }}</NormalText>
                     </button>
                     <button 
                         @click="activeSection = 'delete'" 
                         :class="{'text-green-600 font-bold border-b-2 border-green-600': activeSection === 'delete'}"
                         class="pb-1">
-                        <NormalText>Delete Account</NormalText>
+                        <NormalText>{{ $t('user.delete_account') }}</NormalText>
                     </button>
                 </div>
                 <button class="text-gray-500 hover:text-black" @click="closeModal">&times;</button>

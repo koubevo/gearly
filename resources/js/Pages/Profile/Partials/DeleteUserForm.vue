@@ -41,33 +41,26 @@ const closeModal = () => {
 <template>
     <section class="space-y-6">
         <header>
-            <Heading2 class="mb-2">Delete Account</Heading2>
-            <NormalText>
-                Once your account is deleted, all of its resources and data will
-                be permanently deleted. Before deleting your account, please
-                download any data or information that you wish to retain.
-            </NormalText>
+            <Heading2 class="mb-2">{{ $t('user.delete_account') }}</Heading2>
+            <NormalText>{{ $t('user.delete_account_info') }}</NormalText>
         </header>
 
-        <DangerButton @click="confirmUserDeletion">Delete Account</DangerButton>
+        <DangerButton @click="confirmUserDeletion">{{ $t('user.delete_account') }}</DangerButton>
 
         <Modal :show="confirmingUserDeletion" @close="closeModal">
             <div class="p-6">
-                <Heading2 class="mb-2">Are you sure you want to delete your account?</Heading2>
+                <Heading2 class="mb-2">{{ $t('user.are_you_sure') }}</Heading2>
 
-                <TinyText :text="'Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.'"/>
+                <TinyText :text="$t('user.delete_info_two')"/>
 
                 <div class="mt-6">
                     <div class="mt-4">
-                        <input type="password" placeholder="Password" name="password" v-model="form.password" class="input-style" required />
+                        <input type="password" :placeholder="$t('user.password')" name="password" v-model="form.password" class="input-style" required />
                         <div v-if="form.errors.password" class="input-error-message-style">{{ form.errors.password }}</div>
                     </div>
                 </div>
-                <!-- TODO: 1st attempt wrong password, 2nd correct -> deletes -> user dont see (still logged in, kinda) -->
                 <div class="mt-2 flex justify-end">
-                    <SecondaryButton @click="closeModal">
-                        Cancel
-                    </SecondaryButton>
+                    <SecondaryButton @click="closeModal">{{ $t('common.cancel') }}</SecondaryButton>
 
                     <DangerButton
                         class="ms-3"
@@ -75,7 +68,7 @@ const closeModal = () => {
                         :disabled="form.processing"
                         @click="deleteUser"
                     >
-                        Delete Account
+                        {{ $t('user.delete_account') }}
                     </DangerButton>
                 </div>
             </div>

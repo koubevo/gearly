@@ -20,5 +20,6 @@ export default {
     cancel: 'Zrušit',
     close: 'Zavřít',
     yes: 'Ano',
+    save: 'Uložit',
   };
   

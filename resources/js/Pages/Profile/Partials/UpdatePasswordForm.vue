@@ -42,22 +42,22 @@ const updatePassword = () => {
 <template>
     <section>
         <header>
-            <Heading2 class="mb-2">Update Password</Heading2>
-            <TinyText :text="'Ensure your account is using a long, random password to stay secure.'"/>
+            <Heading2 class="mb-2">{{ $t('user.update_password') }}</Heading2>
+            <TinyText :text="$t('user.password_info')"/>
         </header>
 
         <form @submit.prevent="updatePassword" class="mt-6">
             <div class="mb-2">
-                <FormInput name="current_password" labelName="Current Password" type="password" v-model="form.current_password" :error="form.errors.current_password" :required="true"/>
+                <FormInput name="current_password" :labelName="$t('user.current_password')" type="password" v-model="form.current_password" :error="form.errors.current_password" :required="true"/>
             </div>
             <div class="mb-2">            
-                <FormInput name="password" labelName="New Password" type="password" v-model="form.password" :error="form.errors.password" :required="true" />
+                <FormInput name="password" :labelName="$t('user.new_password')" type="password" v-model="form.password" :error="form.errors.password" :required="true" />
             </div>
             <div class="mb-2">
-                <FormInput name="password_confirmation" labelName="New Password Confirmation" type="password" v-model="form.password_confirmation" :error="form.errors.password_confirmation" :required="true" />
+                <FormInput name="password_confirmation" :labelName="$t('user.confirm_password')" type="password" v-model="form.password_confirmation" :error="form.errors.password_confirmation" :required="true" />
             </div>
 
-            <PrimaryButton :disabled="form.processing">Save</PrimaryButton>
+            <PrimaryButton :disabled="form.processing">{{ $t('common.save') }}</PrimaryButton>
         </form>
     </section>
 </template>
