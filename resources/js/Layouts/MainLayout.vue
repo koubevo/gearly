@@ -52,7 +52,7 @@
         </div>
     </header>
 
-    <main class="container mx-auto max-md:px-2">
+    <main class="container mx-auto px-2">
         <div v-if="flashSuccess" class="flash-message-success-style">
             {{ flashSuccess }}
         </div>
