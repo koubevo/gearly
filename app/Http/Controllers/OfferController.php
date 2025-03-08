@@ -33,6 +33,7 @@ class OfferController extends Controller implements HasMedia
 
     public function index(Request $request)
     {
+        $langColumn = LanguageHelper::getLangColumn();
         $filters = $request->only([
             'category',
             'brand',
@@ -69,7 +70,10 @@ class OfferController extends Controller implements HasMedia
         }
 
         return inertia('Offer/Index', [
-            'offers' => $offers
+            'offers' => $offers,
+            'categories' => Category::select('id', "$langColumn as name")->orderBy($langColumn, 'asc')->get(),
+            'brands' => Brand::select('id', 'name')->orderBy('name', 'asc')->get(),
+            'filters' => $filters,
         ]);
     }
 

@@ -17,5 +17,6 @@ export default {
     cheapest: "Cheapest",
     are_you_sure_delete: "Are you sure you want to delete offer",
     delete_offer: "Delete offer",
+    filter_offers: "Filter offers",
 };
   

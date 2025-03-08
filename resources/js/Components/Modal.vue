@@ -75,7 +75,7 @@ const maxWidthClass = computed(() => {
 </script>
 
 <template>
-    <dialog
+    <div v-if="show"
         class="z-50 m-0 min-h-full overflow-y-auto bg-transparent backdrop:bg-transparent w-full fixed bottom-0 mx-auto"
         ref="dialog"
     >
@@ -106,15 +106,15 @@ const maxWidthClass = computed(() => {
                 leave-from-class="opacity-100 translate-y-0 sm:scale-100"
                 leave-to-class="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-                <div
-                    v-show="show"
-                    class="fixed bottom-0 left-0 sm:left-auto w-full max-w-full transform overflow-hidden bg-white shadow-xl transition-all sm:max-w-2xl"
-                    :class="maxWidthClass"
-                >
+            <div
+                v-show="show"
+                class="fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-full transform bg-white shadow-xl transition-all sm:max-w-2xl"
+                :class="maxWidthClass"
+            >
                     <slot v-if="showSlot" />
                 </div>
             </Transition>
         </div>
-    </dialog>
+    </div>
 </template>
 

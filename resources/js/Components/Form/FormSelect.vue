@@ -34,7 +34,7 @@ const updateValue = (value) => {
 };
 
 watch(() => props.options, (newOptions) => {
-    if (newOptions.length > 0 && !props.modelValue) {
+    if (newOptions?.length > 0 && !props.modelValue) {
         emit("update:modelValue", newOptions[0].id); 
     }
 }, { immediate: true });

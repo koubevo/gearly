@@ -17,5 +17,6 @@ export default {
     cheapest: "Nejlevnější",
     are_you_sure_delete: "Opravdu chcete smazat nabídku",
     delete_offer: "Smazat nabídku",
+    filter_offers: "Filtrovat nabídky",
 };
   

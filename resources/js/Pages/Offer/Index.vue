@@ -1,6 +1,6 @@
 <template>
     <Head class="capitalize" :title="$t('common.offers')" />
-    <OffersGrid :offers="offers"/>
+    <OffersGrid :offers="offers" :categories :brands :sports :conditions :filters/>
 </template>
 
 <script setup>
@@ -10,7 +10,12 @@
 
     defineOptions({ layout: MainLayout })
 
-    defineProps({
+    const props = defineProps({
         offers: Object,
+        categories: Array,
+        brands: Array,
+        sports: Array,
+        conditions: Array,
+        filters: Array,
     })
 </script>

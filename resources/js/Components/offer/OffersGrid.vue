@@ -6,13 +6,12 @@
         <Heading1>{{ $t('common.offers') }}</Heading1>
       </div>
       <div class="flex justify-end">
-        <div>
+        <div class="flex gap-2">
+          <FiltersButton @click="openFiltersModal" />
           <SortingButton @click="openModal"/>
         </div>
       </div>
-    </section>
-
-    
+    </section>    
     
     <Divider class="md:w-full mb-4"/>
     <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-8" v-if="offersList.length">
@@ -46,10 +45,15 @@
           </div>
       </div>
   </Modal>
+  <Modal :show="filtersModal" @close="closeFiltersModal">
+      <div class="p-6">
+          <Filters :brands :categories :sports :conditions :filters />
+      </div>
+  </Modal>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, useAttrs } from "vue";
 import axios from "axios";
 import Card from "@/Components/Offer/Card.vue";
 import { usePage } from "@inertiajs/vue3";
@@ -61,11 +65,22 @@ import Modal from "@/Components/Modal.vue";
 import Heading2 from "@/Components/Text/Heading2.vue";
 import SecondaryLink from "@/Components/Buttons/SecondaryLink.vue";
 import NothingHere from "@/Components/NothingHere.vue";
+import FiltersButton from "@/Components/Buttons/FiltersButton.vue";
+import Filters from "@/Components/Offer/Filters.vue";
 
-const initialOffers = usePage().props.offers.data;
+const attrs = useAttrs(); 
+const initialOffers = usePage().props.offers?.data || [];
 const offersList = ref([...initialOffers]);
-const nextPageUrl = ref(usePage().props.offers.next_page_url);
+const nextPageUrl = ref(usePage().props.offers?.next_page_url || null);
 const loading = ref(false);
+
+defineProps({
+  categories: Array,
+  brands: Array,
+  sports: Array,
+  conditions: Array,
+  filters: Array
+});
 
 const loadMore = async () => {
   if (!nextPageUrl.value || loading.value) return;
@@ -83,7 +98,6 @@ const loadMore = async () => {
   }
 };
 
-
 const modal = ref(false);
 
 const openModal = () => {
@@ -92,5 +106,15 @@ const openModal = () => {
 
 const closeModal = () => {
     modal.value = false;
+};
+
+const filtersModal = ref(false);
+
+const openFiltersModal = () => {
+    filtersModal.value = true;
+};
+
+const closeFiltersModal = () => {
+    filtersModal.value = false;
 };
 </script>
