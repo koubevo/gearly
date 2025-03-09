@@ -34,7 +34,6 @@
                     <FormInput name="delivery_detail" labelName="Delivery Detail" type="text" v-model="form.delivery_detail" :error="form.errors.delivery_detail" :required="false" />
                 </div>
                 <div class="col-span-12 flex flex-col">
-                    <!-- TODO: Component -->
                     <label class="mb-2 md:mb-0 capitalize">Sport</label>
                     <div class="flex flex-col sm:flex-row gap-2">
                         <label class="cursor-pointer w-full sm:flex-1">
@@ -72,7 +71,6 @@
                 <div class="col-span-12" v-if="!isEditMode && filteredFilterCategories.length">
                     <FiltersNote/>
                 </div>
-                <!-- TODO: filters names translations -->
                 <div class="col-span-12 flex flex-col md:flex-row gap-2 justify-between" v-if="!isEditMode">
                     <div class="w-full" v-for="filterCategory in filteredFilterCategories" :key="filterCategory.id">
                         <FormSelect :options="filterCategory.options" v-model="form[`fc${filterCategory.id}`]" :labelName="filterCategory[lang]" :name="'fc' + filterCategory.id" :required="false"/>

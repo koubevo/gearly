@@ -23,15 +23,11 @@ const verificationLinkSent = computed(
 
 <template>
     <GuestLayout>
-        <!-- TODO: where is this used? -->
-        <!-- TODO: change text, transaltions -->
         <div class="mb-4 text-sm text-gray-600">
             Thanks for signing up! Before getting started, could you verify your
             email address by clicking on the link we just emailed to you? If you
             didn't receive the email, we will gladly send you another.
         </div>
-
-        <!-- TODO: change text, transaltions -->
         <div class="mb-4 text-sm font-medium text-primary-900" v-if="verificationLinkSent">
             A new verification link has been sent to the email address you
             provided during registration.

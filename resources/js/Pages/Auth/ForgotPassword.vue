@@ -22,14 +22,12 @@ const submit = () => {
 <template>
     <Head title="Reset Password" />
     <GuestLayout>
-        <!-- TODO: change text, translations -->
         <SmallText class="mb-2">
             Forgot your password? No problem. Just let us know your email
             address and we will email you a password reset link that will allow
             you to choose a new one.
         </SmallText>
 
-        <!-- TODO: replace with success message -->
         <div v-if="status" class="mb-4 text-sm font-medium text-primary-900">
             {{ status }}
         </div>

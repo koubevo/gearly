@@ -6,7 +6,6 @@
         <Divider class="md:w-full my-4"/>
         <form @submit.prevent="handleSubmit">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 md:mb-20">
-                <!-- TODO: text search, sport, značka, stav, kategorie, (filters) -->
                 <div class="z-50">
                     <FormSelect :options="brands" v-model="form.brand" :default="false" :labelName="$t('common.brand')" name="brand" :error="form.errors.brand_id"/>
                 </div>

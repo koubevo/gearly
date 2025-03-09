@@ -1,6 +1,5 @@
 <template>
     <section class="mb-2 flex gap-4 items-center">
-        <!-- TODO: premium badge, verified badge -->
         <Heading1>{{ user.name }}</Heading1>
     </section>
     <section class="mb-4">

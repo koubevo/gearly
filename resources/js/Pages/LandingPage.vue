@@ -9,7 +9,7 @@
         :link="route('offer.index', {brand: brandWithMostActiveOffers[0].brand_id})"
     />
     <!-- TODO: recently viewed, in your wishlist, top in mlb merch, for loop (lazy loading), most liked, most viewed -> trendy, every category (foreach), already using -->
-    <!-- favorite brands ... 4 velky obdelniky s napisem znacka (count) -->
+    <!-- TODO: favorite brands ... 4 velky obdelniky s napisem znacka (count) -->
 
     <OffersSection v-if="baseballBats.length > 2" :offers="baseballBats" :heading="$t('landing.baseball_bats')" :link="route('offer.index', {category: 1, sport: 2})"/>
 

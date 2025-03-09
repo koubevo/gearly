@@ -31,7 +31,7 @@ createInertiaApp({
         setTimeout(() => {
             const page = usePage();
             const userLang = page.props.auth?.user?.lang;
-            //TODO: default lang
+            //TODO: default lang, browser land
             const savedLanguage = userLang || localStorage.getItem("userLanguage") || "cs";
 
             i18n.global.locale.value = savedLanguage;

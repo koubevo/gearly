@@ -2,7 +2,6 @@
   <div>
     <section class="grid grid-cols-2 items-center my-6">
       <div>
-        <!-- TODO: most expensive, cheapest, most recent, name of category/name of brand/offers -->
         <Heading1>{{ $t('common.offers') }}</Heading1>
       </div>
       <div class="flex justify-end">

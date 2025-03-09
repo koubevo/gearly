@@ -3,7 +3,6 @@
         <Heading3 class="mb-2">{{ seller.name }} <span v-if="seller.team">({{ seller.team }})</span></Heading3>
         <Rating class="mb-1" :rating="rating"/>
         <SmallText v-if="soldOffersCount > 0" class="mb-1">{{ $t('common.already_sold_offers') }}: {{ soldOffersCount }}</SmallText>
-        <!-- TODO: premium badge, verified badge -->
         <TinyText :text="seller.location" class="mb-0.5"/>
     </section>
 </template>

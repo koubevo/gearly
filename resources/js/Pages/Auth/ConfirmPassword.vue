@@ -16,8 +16,6 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <!-- TODO: where to use this? -->
-        <!-- TODO: text edit, translations -->
         <div class="mb-4 text-sm text-gray-600">
             This is a secure area of the application. Please confirm your
             password before continuing.
