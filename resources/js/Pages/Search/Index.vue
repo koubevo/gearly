@@ -4,7 +4,7 @@
         <Heading1 class="mb-4">{{ $t('search.heading') }}</Heading1>
         <form @submit.prevent="handleSubmit" class="flex items-end w-full gap-2 mb-2">
             <div class="flex-grow">
-                <SearchInput v-model="searchForm.search" class="w-full"/>
+                <SearchInput v-model="searchForm.search" class="w-full" :required="true"/>
             </div>
             <button text="Search" class="primary-button-chat-style">{{ $t('search.search') }}</button>
         </form>

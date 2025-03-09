@@ -4,7 +4,7 @@ export default {
     remember_me: "Zapamatovat si mě",
     forgot_your_password: "Zapomněl/a jsi heslo?",
     login: "Přihlásit se",
-    are_you_new_here: "Jsi tu nový/á? Začni zde!",
+    are_you_new_here: "Jsi tu nově? Začni zde!",
     full_name: "Celé jméno",
     password_confirmation: "Potvrzení hesla",
     country: "Země pobytu",

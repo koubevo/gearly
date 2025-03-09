@@ -4,7 +4,7 @@
         <span class="absolute inset-y-0 left-3 flex items-center">
             <MagnifyingGlassIcon class="w-5 h-5 stroke-[2.5]" />
         </span>
-        <input type="text" :placeholder="$t('search.search')" class="pl-10 pr-10 input-style bg-white focus:ring-0 focus:border-black" id="search-input" name="search" v-model="search" required/>
+        <input type="text" :placeholder="$t('search.search')" class="pl-10 pr-10 input-style bg-white focus:ring-0 focus:border-black" id="search-input" name="search" v-model="search" :required="required"/>
     </div>
 </template>
 
@@ -13,7 +13,8 @@ import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
 import { defineProps, defineEmits, ref, watch } from 'vue';
 
 const props = defineProps({
-    modelValue: String
+    modelValue: String,
+    required: Boolean ?? false,
 });
 
 const emit = defineEmits(['update:modelValue']);
