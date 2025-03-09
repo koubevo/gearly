@@ -62,6 +62,10 @@ class WishlistController extends Controller
                 $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
                 $offer->favorites_count = $offer->favorites()->count();
                 $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
+                $offer->conditionNumber = $offer->condition;
+                $offer->condition = $offer->getConditionEnum()?->label();
+                $offer->statusNumber = $offer->status;
+                $offer->status = $offer->getStatusEnum()?->label();
                 return $offer;
             });
 

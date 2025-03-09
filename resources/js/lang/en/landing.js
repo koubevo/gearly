@@ -7,5 +7,7 @@ export default {
     baseball_gear: "Baseball Gear",
     softball_gear: "Softball Gear",
     check_all: "Check all",
+    favorites: "From your wishlist",
+    top_brands: "Top Brands",
   };
   

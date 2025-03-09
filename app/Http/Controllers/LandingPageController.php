@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Favorite;
 use App\Models\Offer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -69,13 +70,54 @@ class LandingPageController extends Controller
             ->get()
             ->map(fn($offer) => $offer->transform($user));
 
+        if ($user) {
+            $favorites = Offer::whereHas('favorites', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+                ->with('brand')
+                ->orderBy(Favorite::select('created_at')
+                    ->whereColumn('favorites.offer_id', 'offers.id')
+                    ->latest()
+                    ->take(1), 'desc')
+                ->limit(4)
+                ->get()
+                ->map(function ($offer) use ($user) {
+                    $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
+                    $offer->favorites_count = $offer->favorites()->count();
+                    $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
+                    $offer->conditionNumber = $offer->condition;
+                    $offer->condition = $offer->getConditionEnum()?->label();
+                    $offer->statusNumber = $offer->status;
+                    $offer->status = $offer->getStatusEnum()?->label();
+                    return $offer;
+                });
+        } else {
+            $favorites = [];
+        }
+
+        $topBrands = Offer::select('brand_id', 'brands.name')
+            ->join('brands', 'offers.brand_id', '=', 'brands.id')
+            ->active()
+            ->groupBy('brand_id', 'brands.name')
+            ->orderByRaw('COUNT(*) DESC')
+            ->limit(4)
+            ->get()
+            ->map(function ($offer) {
+                return [
+                    'brand_id' => $offer->brand_id,
+                    'brand_name' => $offer->name,
+                ];
+            });
+
         return inertia('LandingPage', [
             'newArrivals' => $newArrivals,
             'brandWithMostActiveOffers' => $brandWithMostActiveOffers,
             'baseballBats' => $baseballBats,
             'softballBats' => $softballBats,
             'baseballGear' => $baseballGear,
-            'softballGear' => $softballGear
+            'softballGear' => $softballGear,
+            'favorites' => $favorites,
+            'topBrands' => $topBrands,
         ]);
     }
 }

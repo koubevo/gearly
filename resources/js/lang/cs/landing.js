@@ -7,5 +7,7 @@ export default {
     baseball_gear: "Baseballové vybavení",
     softball_gear: "Softballové vybavení",
     check_all: "Mrkni na vše",
+    favorites: "Z tvého wishlistu",
+    top_brands: "Top značky",
   };
   
