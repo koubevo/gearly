@@ -95,7 +95,7 @@ class LandingPageController extends Controller
             $favorites = [];
         }
 
-        $topBrands = Offer::select('brand_id', 'brands.name')
+        $topBrands = Offer::select('brand_id', 'brands.name', \DB::raw('COUNT(*) as offer_count'))
             ->join('brands', 'offers.brand_id', '=', 'brands.id')
             ->active()
             ->groupBy('brand_id', 'brands.name')
@@ -106,6 +106,7 @@ class LandingPageController extends Controller
                 return [
                     'brand_id' => $offer->brand_id,
                     'brand_name' => $offer->name,
+                    'offer_count' => $offer->offer_count,
                 ];
             });
 
