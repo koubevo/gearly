@@ -13,7 +13,7 @@ class SearchController extends Controller
     {
         $langColumn = LanguageHelper::getLangColumn();
 
-        $categories = Category::select('id', "$langColumn as name")
+        $categories = Category::select('id', "$langColumn as name", "logo")
             ->withCount([
                 'offers' => function ($query) {
                     $query->active();
