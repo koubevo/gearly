@@ -8,11 +8,12 @@
       allow-reorder="true"
       max-files="10"
       accepted-file-types="image/jpeg, image/png, image/webp"
-      max-file-size="5MB"
+      max-file-size="3MB"
       image-resize-target-width="1024"
       image-resize-target-height="1024"
       image-resize-mode="contain"
       @updatefiles="handleFileUpdate"
+      @reorderfiles="handleFileUpdate"
     />
   </div>
 </template>
