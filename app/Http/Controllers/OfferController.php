@@ -291,7 +291,7 @@ class OfferController extends Controller implements HasMedia
         $offer->save();
         $offer->deleteOrFail();
 
-        return redirect()->route('offer.index')
+        return redirect()->route('profile.show')
             ->with('success', 'Offer was removed.');
     }
 

@@ -10,7 +10,6 @@
     />
         
     <BrandsSection v-if="topBrands.length" :brands="topBrands" :heading="$t('landing.top_brands')" :link="route('offer.index', {brand: 1})"/>
-    <!-- TODO: favorite brands ... 4 velky obdelniky s napisem znacka (count) -->
 
     <OffersSection v-if="baseballBats.length > 2" :offers="baseballBats" :heading="$t('landing.baseball_bats')" :link="route('offer.index', {category: 1, sport: 2})"/>
 

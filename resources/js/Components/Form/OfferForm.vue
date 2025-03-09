@@ -123,7 +123,7 @@ const props = defineProps({
             description: "",
             price: null,
             currency: "czk",
-            condition: null,
+            condition: "1",
             sport_id: 1,
             category_id: 14,
             brand_id: 49,
