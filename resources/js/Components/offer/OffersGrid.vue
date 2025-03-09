@@ -39,9 +39,9 @@
           </div>
           <Divider class="md:w-full my-4"/>
           <div class="flex flex-col md:flex-row gap-2">
-             <SecondaryLink :href="route('offer.index')">{{ $t('offer.most_recent') }}</SecondaryLink>
-             <SecondaryLink :href="route('offer.index', {order: 0})">{{ $t('offer.cheapest') }}</SecondaryLink>
-             <SecondaryLink :href="route('offer.index', {order: 1})">{{ $t('offer.most_expensive') }}</SecondaryLink>
+             <SecondaryLink :href="route('offer.index', { brand: filters?.brand, category: filters?.category, sport: filters?.sport, search: filters?.search})">{{ $t('offer.most_recent') }}</SecondaryLink>
+             <SecondaryLink :href="route('offer.index', {order: 0, brand: filters?.brand, category: filters?.category, sport: filters?.sport, search: filters?.search})">{{ $t('offer.cheapest') }}</SecondaryLink>
+             <SecondaryLink :href="route('offer.index', {order: 1, brand: filters?.brand, category: filters?.category, sport: filters?.sport, search: filters?.search})">{{ $t('offer.most_expensive') }}</SecondaryLink>
           </div>
       </div>
   </Modal>

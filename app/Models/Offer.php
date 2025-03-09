@@ -34,6 +34,12 @@ class Offer extends Model implements HasMedia
         'updated_at'
     ];
 
+    protected $hidden = [
+        'buyer_id',
+        'deleted_at',
+        'updated_at',
+    ];
+
     public function seller(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -169,11 +175,11 @@ class Offer extends Model implements HasMedia
     public function scopeSort(Builder $query, int|null $order): Builder
     {
         if ($order === 0) {
-            return $query->cheapest()->orderBy('created_at', 'desc');
+            return $query->cheapest()->mostRecent();
         }
 
         if ($order === 1) {
-            return $query->mostExpensive()->orderBy('created_at', 'desc');
+            return $query->mostExpensive()->mostRecent();
         }
 
         return $query->mostRecent();

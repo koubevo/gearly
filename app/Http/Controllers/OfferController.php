@@ -44,6 +44,8 @@ class OfferController extends Controller implements HasMedia
             'order',
         ]);
 
+        //dd($filters);
+
         $user = Auth::user() ?? null;
         $offers = Offer::with('brand')
             ->filter($filters)

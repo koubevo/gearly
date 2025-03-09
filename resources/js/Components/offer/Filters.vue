@@ -67,6 +67,7 @@ const form = useForm({
     category: props.filters?.category != null ? Number(props.filters?.category) : null,
     sport: props.filters?.sport != null ? Number(props.filters.sport) : 1,
     search: props.filters?.search ?? '',
+    order: props.filters?.order ?? null,
 });
 
 const handleSubmit = () => {
