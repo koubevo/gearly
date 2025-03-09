@@ -67,10 +67,12 @@ class ChatController extends Controller
             ->where('offer_id', $offer->id)
             ->count();
 
+        // If there are no messages and the user is the seller, he is not allowed to access the chat
         if ($messagesCount == 0 && $user->id == $offer->user_id) {
             abort(403, 'You are not allowed to access this page.');
         }
 
+        // If there are no messages and the user is the buyer, he is not allowed to access the chat if the offer is not active
         if ($messagesCount == 0 && $offer->status !== 1) {
             abort(403, 'You are not allowed to access this page...');
         }
@@ -109,6 +111,8 @@ class ChatController extends Controller
             ->where('seller_id', $offer->user_id)
             ->where('buyer_id', $buyer->id)
             ->where('offer_id', $offer->id)
+            ->where('receiver_id', $user->id)
+            ->orWhere('author_id', $user->id)
             ->get()
             ->map(function ($message) use ($langColumn) {
                 $message->created_at_formatted = $message->created_at->diffForHumans();
