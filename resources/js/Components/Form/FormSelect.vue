@@ -24,7 +24,8 @@ const props = defineProps({
     modelValue: [Number, String, Object],
     error: String,
     required: Boolean,
-    options: Array
+    options: Array,
+    default: Boolean ?? true,
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -34,13 +35,13 @@ const updateValue = (value) => {
 };
 
 watch(() => props.options, (newOptions) => {
-    if (newOptions?.length > 0 && !props.modelValue) {
+    if (props.default && newOptions?.length > 0 && !props.modelValue) {
         emit("update:modelValue", newOptions[0].id); 
     }
 }, { immediate: true });
 
 onMounted(() => {
-    if (props.options.length > 0 && !props.modelValue) {
+    if (props.default && props.options.length > 0 && !props.modelValue) {
         emit("update:modelValue", props.options[0].id);
     }
 });
