@@ -20,5 +20,6 @@ export default {
     ratings_description: "Now that the deal is complete, you can rate the other user based on your experience. Ratings help build trust and ensure a safe marketplace for everyone.",
     from: "from",   
     verbal_rating: "Verbal rating",
+    send_at_least: "There must be at least 3 messages if you want to sell the offer.",
 };
   

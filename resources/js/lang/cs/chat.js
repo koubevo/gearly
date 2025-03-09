@@ -20,5 +20,6 @@ export default {
     ratings_description: "Nyní, když je obchod dokončen, můžete ohodnotit druhého uživatele na základě své zkušenosti. Hodnocení pomáhají budovat důvěru a zajišťují bezpečné prostředí pro všechny.",
     from: "od",   
     verbal_rating: "Slovní hodnocení",
+    send_at_least: "V chatu musí být alespoň 3 zprávy, aby šlo nabídku prodat.",
 };
   
