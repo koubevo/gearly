@@ -18,6 +18,10 @@ class Rating extends Model
         'rating'
     ];
 
+    protected $hidden = [
+        'user_id'
+    ];
+
     public function owner(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
