@@ -108,8 +108,10 @@ class ChatController extends Controller
         }
 
         $messages = $offer->messages()
-            ->where('seller_id', $offer->user_id)
-            ->where('buyer_id', $buyer->id)
+            ->where(function ($query) use ($user) {
+                $query->where('seller_id', $user->id)
+                    ->orWhere('buyer_id', $user->id);
+            })
             ->where('offer_id', $offer->id)
             ->get()
             ->map(function ($message) use ($langColumn) {
