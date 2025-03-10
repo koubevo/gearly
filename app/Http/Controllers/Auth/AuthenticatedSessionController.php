@@ -34,7 +34,7 @@ class AuthenticatedSessionController extends Controller
 
         $redirectUrl = $request->query('redirect', route('landingPage', absolute: false));
 
-        return redirect()->intended($redirectUrl);
+        return redirect()->intended($redirectUrl)->with('restart', true);
     }
 
 

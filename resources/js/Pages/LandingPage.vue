@@ -28,6 +28,19 @@
 import BrandsSection from '@/Components/LandingPage/BrandsSection.vue';
 import OffersSection from '@/Components/LandingPage/OffersSection.vue';
 import { Head } from '@inertiajs/vue3';
+import { computed, onMounted } from 'vue';
+import { usePage } from '@inertiajs/vue3';
+
+const page = usePage();
+const restart = computed(() => page.props.flash?.restart ?? false);
+
+onMounted(() => {
+    if (restart.value) {
+        console.log(restart.value);
+        restart.value = false;
+        window.location.reload(true);
+    }
+});
 
 defineProps({
     newArrivals: Array,
