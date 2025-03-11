@@ -32,10 +32,12 @@
                         </div>
                     </Link>
                     <Link :href="route('chat.index')">
-                        <ChatBubbleLeftIcon class="w-6 h-6 mt-0.5" />
-                    </Link>
-                    <Link :href="route('landingPage')">
-                        <BellIcon class="w-6 h-6 mt-0.5" />
+                        <div class="relative">
+                            <div class="text-white bg-primary-900 rounded-full w-4 h-4 flex items-center justify-center absolute -top-1.5 -right-1.5 text-[11px]">
+                                {{ unreadNotificationsCount }}
+                            </div>
+                            <ChatBubbleLeftIcon class="w-6 h-6 mt-0.5" />
+                        </div>
                     </Link>
                     <Link :href="route('wishlist.index')">
                         <HeartIcon class="w-6 h-6 mt-0.5" />
@@ -78,6 +80,7 @@ const user = computed(() => page.props.auth.user);
 const flashSuccess = computed(() => page.props.flash?.success ?? '');
 const flashError = computed(() => page.props.errors?.error ?? '');
 const browserLang = navigator.language || navigator.languages[0];
+const unreadNotificationsCount = page.props.notifications?.unreadNotificationsCount;
 
 watchEffect(() => {
     i18n.global.locale.value = user.value?.lang || browserLang || "cs";
