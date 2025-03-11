@@ -362,6 +362,14 @@ class OfferController extends Controller implements HasMedia
             abort(403, 'You are not allowed to access this page.');
         }
 
+        $maxFreeActiveOffers = self::MAX_FREE_ACTIVE_OFFERS;
+        $activeOffersCount = $user->offers()->where('status', 1)->count();
+
+        if (!$user->hasPremium() && $activeOffersCount >= $maxFreeActiveOffers) {
+            return redirect()->route('offer.index')
+                ->withErrors(['error' => 'For now you can have only 5 active offers.']);
+        }
+
         $buyerId = $offer->buyer_id;
         $offer->buyer_id = null;
         $offer->status = 1;
