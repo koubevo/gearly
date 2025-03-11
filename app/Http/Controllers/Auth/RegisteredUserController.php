@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\LanguageHelper;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -43,6 +44,7 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'location' => $request->city . ' | ' . $request->country,
+            'lang' => LanguageHelper::getBrowserLang(),
         ]);
 
         event(new Registered($user));

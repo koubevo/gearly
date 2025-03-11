@@ -18,6 +18,13 @@ class LanguageHelper
         $user = Auth::user();
         $languages = array_keys(config('app.languages'));
 
-        return $user?->lang === 'en' ? 'name' : ($user?->lang ?? (in_array(app()->getLocale(), $languages) ? app()->getLocale() : 'en'));
+        return $user?->lang === 'en' ? 'message' : ($user?->lang ?? (in_array(app()->getLocale(), $languages) ? app()->getLocale() : 'message'));
+    }
+
+    public static function getBrowserLang(): string
+    {
+        $languages = array_keys(config('app.languages'));
+        $lang = in_array(app()->getLocale(), $languages) ? app()->getLocale() : 'en';
+        return $lang;
     }
 }

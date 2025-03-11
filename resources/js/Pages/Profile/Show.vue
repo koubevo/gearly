@@ -50,7 +50,7 @@ const closeModal = () => {
         <Divider class="md:w-full mt-4"/>
         <UserOffers :offers="activeOffers" class="py-4" v-if="activeOffers.length" :heading="$t('user.active_offers')"/>
         <UserOffers :offers="soldOffers" class="py-4" v-if="soldOffers.length" :heading="$t('user.sold_offers')"/>
-        <NothingHere v-if="!activeOffers.length && !soldOffers.length" :text="$t('user.yout_have_no_offers')">{{ $t('common.we_found_no_offers') }}</NothingHere>
+        <NothingHere v-if="!activeOffers.length && !soldOffers.length" :text="$t('user.you_have_no_offers')">{{ $t('common.we_found_no_offers') }}</NothingHere>
     </div>
 
     <Modal :show="modal" @close="closeModal">
