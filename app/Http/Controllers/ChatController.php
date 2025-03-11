@@ -184,4 +184,23 @@ class ChatController extends Controller
             ->where('receiver_id', $user->id)
             ->update(['read_at' => now()]);
     }
+
+    public function unreadChatsCount()
+    {
+        $user = Auth::user();
+
+        $unreadChatsCount = Message::where('receiver_id', $user->id)
+            ->whereNull('read_at')
+            ->whereHas('offer', function ($query) {
+                $query->whereIn('status', [1, 2, 3]);
+            })
+            ->selectRaw('offer_id, buyer_id')
+            ->groupBy('offer_id', 'buyer_id')
+            ->get()
+            ->count();
+
+        return response()->json([
+            'unreadChatsCount' => $unreadChatsCount,
+        ]);
+    }
 }

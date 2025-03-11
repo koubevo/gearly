@@ -68,31 +68,36 @@
 
 <script setup>
 import { Link, usePage } from '@inertiajs/vue3';
-import { computed, onMounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { MagnifyingGlassIcon, BellIcon, UserIcon, HeartIcon, ChatBubbleLeftIcon } from '@heroicons/vue/24/outline';
-import SecondaryLink from '@/Components/Buttons/SecondaryLink.vue';
 import PrimaryLink from '@/Components/Buttons/PrimaryLink.vue';
-import i18n from '../i18n';
-import { watchEffect } from 'vue';
+import SecondaryLink from '@/Components/Buttons/SecondaryLink.vue';
+import axios from 'axios';
 
 const page = usePage();
-const user = computed(() => page.props.auth.user);
+const user = computed(() => page.props.auth?.user);
 const flashSuccess = computed(() => page.props.flash?.success ?? '');
 const flashError = computed(() => page.props.errors?.error ?? '');
-const browserLang = navigator.language || navigator.languages[0];
-const unreadChatsCount = page.props.notifications?.unreadChatsCount;
+const unreadChatsCount = ref(page.props.notifications?.unreadChatsCount || 0);
+let intervalId = null;
 
-watchEffect(() => {
-    i18n.global.locale.value = user.value?.lang || browserLang || "cs";
-});
+if(user.value) {
+    const fetchUnreadChatsCount = async () => {
+    try {
+        const response = await axios.get(route('chat.unreadChatsCount'));
+        unreadChatsCount.value = response.data.unreadChatsCount;
+    } catch (error) {
+            console.error('err:');
+        }
+    };
 
-onMounted(() => {
-    i18n.global.locale.value = user?.lang ?? browserLang ?? "cs";
-    if (flashSuccess.value || flashError.value) {
-        setTimeout(() => {
-            flashSuccess.value = '';
-            flashError.value = '';
-        }, 10000);
-    }
-});
+    onMounted(() => {
+        fetchUnreadChatsCount();
+        intervalId = setInterval(fetchUnreadChatsCount, 10000);
+    });
+
+    onUnmounted(() => {
+        clearInterval(intervalId);
+    });
+}
 </script>

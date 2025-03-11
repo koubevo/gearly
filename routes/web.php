@@ -48,6 +48,10 @@ Route::post('/api/chat/{offer}/{buyer}/read', [ChatController::class, 'markAsRea
     ->name('chat.read')
     ->middleware('auth');
 
+Route::get('/api/chat/unreadChatsCount', [ChatController::class, 'unreadChatsCount'])
+    ->name('chat.unreadChatsCount')
+    ->middleware('auth');
+
 Route::post('/api/rating', [RatingController::class, 'store'])
     ->middleware('auth')
     ->name('rating.store');

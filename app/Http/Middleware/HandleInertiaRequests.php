@@ -31,15 +31,7 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $unreadChatsCount = Message::where('receiver_id', $request->user()->id)
-            ->whereNull('read_at')
-            ->whereHas('offer', function ($query) {
-                $query->whereIn('status', [1, 2, 3]);
-            })
-            ->selectRaw('offer_id, buyer_id')
-            ->groupBy('offer_id', 'buyer_id')
-            ->get()
-            ->count();
+
 
         return [
             ...parent::share($request),
@@ -53,9 +45,6 @@ class HandleInertiaRequests extends Middleware
             'flash' => [
                 'success' => $request->session()->get('success'),
                 'restart' => $request->session()->get('restart') ?? false
-            ],
-            'notifications' => [
-                'unreadChatsCount' => $unreadChatsCount,
             ]
         ];
     }
