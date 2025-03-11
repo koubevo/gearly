@@ -84,7 +84,7 @@ watchEffect(() => {
 });
 
 onMounted(() => {
-    i18n.global.locale.value = props.user.lang || browserLang || "cs";
+    i18n.global.locale.value = user?.lang ?? browserLang ?? "cs";
     if (flashSuccess.value || flashError.value) {
         setTimeout(() => {
             flashSuccess.value = '';
