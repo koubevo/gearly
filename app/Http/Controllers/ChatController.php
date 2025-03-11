@@ -7,6 +7,7 @@ use App\Models\Message;
 use App\Models\Offer;
 use App\Models\Rating;
 use App\Models\User;
+use App\Notifications\MessageSent;
 use Illuminate\Http\Request;
 
 class ChatController extends Controller
@@ -148,6 +149,10 @@ class ChatController extends Controller
                 'message' => 'required|string|max:255',
             ])['message'],
         ]);
+
+        $message->receiver->notify(
+            new MessageSent($offer, $message)
+        );
 
         broadcast(new \App\Events\MessageSent($message));
     }
