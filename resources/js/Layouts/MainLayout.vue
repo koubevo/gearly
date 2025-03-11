@@ -33,7 +33,7 @@
                     </Link>
                     <Link :href="route('chat.index')">
                         <div class="relative">
-                            <div class="text-white bg-primary-900 rounded-full w-4 h-4 flex items-center justify-center absolute -top-1.5 -right-1.5 text-[11px]">
+                            <div v-if="unreadNotificationsCount > 0" class="text-white bg-primary-900 rounded-full w-4 h-4 flex items-center justify-center absolute -top-1.5 -right-1.5 text-[11px]">
                                 {{ unreadNotificationsCount }}
                             </div>
                             <ChatBubbleLeftIcon class="w-6 h-6 mt-0.5" />
