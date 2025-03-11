@@ -70,13 +70,21 @@ import { computed, onMounted } from 'vue';
 import { MagnifyingGlassIcon, BellIcon, UserIcon, HeartIcon, ChatBubbleLeftIcon } from '@heroicons/vue/24/outline';
 import SecondaryLink from '@/Components/Buttons/SecondaryLink.vue';
 import PrimaryLink from '@/Components/Buttons/PrimaryLink.vue';
+import i18n from '../i18n';
+import { watchEffect } from 'vue';
 
 const page = usePage();
 const user = computed(() => page.props.auth.user);
 const flashSuccess = computed(() => page.props.flash?.success ?? '');
 const flashError = computed(() => page.props.errors?.error ?? '');
+const browserLang = navigator.language || navigator.languages[0];
+
+watchEffect(() => {
+    i18n.global.locale.value = user.value?.lang || browserLang || "cs";
+});
 
 onMounted(() => {
+    i18n.global.locale.value = props.user.lang || browserLang || "cs";
     if (flashSuccess.value || flashError.value) {
         setTimeout(() => {
             flashSuccess.value = '';
