@@ -150,9 +150,9 @@ class ChatController extends Controller
             ])['message'],
         ]);
 
-        $message->receiver->notify(
+        /*$message->receiver->notify(
             new MessageSent($offer, $message)
-        );
+        );*/
 
         broadcast(new \App\Events\MessageSent($message));
     }
