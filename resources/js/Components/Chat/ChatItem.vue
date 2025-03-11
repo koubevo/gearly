@@ -17,7 +17,9 @@
                 <div class="flex-shrink-0">
                     <div class="flex gap-2 items-center">
                         <PriceCard :price="chat.offer.price" :currency="chat.offer.currency" />
-                        <div class="text-primary-900"><ChevronRightIcon class="w-5 h-5  stroke-[2.5]" /></div>
+                        <div v-if="chat.unread_count > 0" class="text-white bg-primary-900 rounded-full w-4 h-4 flex items-center justify-center text-[11px]">
+                            {{ chat.unread_count }}
+                        </div>
                     </div>
                 </div>
             </div>    

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Message;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Tighten\Ziggy\Ziggy;
@@ -30,6 +31,16 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $unreadChatsCount = Message::where('receiver_id', $request->user()->id)
+            ->whereNull('read_at')
+            ->whereHas('offer', function ($query) {
+                $query->whereIn('status', [1, 2, 3]);
+            })
+            ->selectRaw('offer_id, buyer_id')
+            ->groupBy('offer_id', 'buyer_id')
+            ->get()
+            ->count();
+
         return [
             ...parent::share($request),
             'auth' => [
@@ -44,8 +55,7 @@ class HandleInertiaRequests extends Middleware
                 'restart' => $request->session()->get('restart') ?? false
             ],
             'notifications' => [
-                'unreadNotificationsCount' => $request->user()?->unreadNotifications()->count(),
-                'unreadNotifications' => $request->user()?->notifications()->limit(5)->get()
+                'unreadChatsCount' => $unreadChatsCount,
             ]
         ];
     }

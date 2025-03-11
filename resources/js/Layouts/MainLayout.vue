@@ -33,8 +33,8 @@
                     </Link>
                     <Link :href="route('chat.index')">
                         <div class="relative">
-                            <div v-if="unreadNotificationsCount > 0" class="text-white bg-primary-900 rounded-full w-4 h-4 flex items-center justify-center absolute -top-1.5 -right-1.5 text-[11px]">
-                                {{ unreadNotificationsCount }}
+                            <div v-if="unreadChatsCount > 0" class="text-white bg-primary-900 rounded-full w-4 h-4 flex items-center justify-center absolute -top-1.5 -right-1.5 text-[11px]">
+                                {{ unreadChatsCount }}
                             </div>
                             <ChatBubbleLeftIcon class="w-6 h-6 mt-0.5" />
                         </div>
@@ -80,7 +80,7 @@ const user = computed(() => page.props.auth.user);
 const flashSuccess = computed(() => page.props.flash?.success ?? '');
 const flashError = computed(() => page.props.errors?.error ?? '');
 const browserLang = navigator.language || navigator.languages[0];
-const unreadNotificationsCount = page.props.notifications?.unreadNotificationsCount;
+const unreadChatsCount = page.props.notifications?.unreadChatsCount;
 
 watchEffect(() => {
     i18n.global.locale.value = user.value?.lang || browserLang || "cs";

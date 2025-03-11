@@ -30,6 +30,12 @@ class ChatController extends Controller
             ->values();
 
         $chats = $latestMessages->map(function ($message) use ($user) {
+            $unreadCount = Message::where('offer_id', $message->offer->id)
+                ->where('buyer_id', $message->buyer->id)
+                ->where('receiver_id', $user->id)
+                ->whereNull('read_at')
+                ->count();
+
             return [
                 'offer' => [
                     'id' => $message->offer->id,
@@ -46,6 +52,7 @@ class ChatController extends Controller
                 'seller_id' => $message->offer->seller->id,
                 'last_message' => $message->message,
                 'last_message_time' => $message->created_at->diffForHumans(),
+                'unread_count' => $unreadCount,
             ];
         });
 
@@ -53,6 +60,7 @@ class ChatController extends Controller
             'chats' => $chats
         ]);
     }
+
 
     public function show(Offer $offer, User $buyer)
     {
