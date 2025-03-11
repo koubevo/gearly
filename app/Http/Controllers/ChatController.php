@@ -74,7 +74,7 @@ class ChatController extends Controller
 
         // If there are no messages and the user is the buyer, he is not allowed to access the chat if the offer is not active
         if ($messagesCount == 0 && $offer->status !== 1) {
-            abort(403, 'You are not allowed to access this page...');
+            abort(403, 'You are not allowed to access this page.');
         }
 
         $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');

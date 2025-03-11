@@ -44,8 +44,6 @@ class OfferController extends Controller implements HasMedia
             'order',
         ]);
 
-        //dd($filters);
-
         $user = Auth::user() ?? null;
         $offers = Offer::with('brand')
             ->filter($filters)
@@ -124,7 +122,7 @@ class OfferController extends Controller implements HasMedia
             'name' => 'required|string',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0|max:99999|regex:/^\d{1,5}(\.\d{1,2})?$/',
-            'currency' => 'required|string|in:eur,czk', //only 2 currencies now
+            'currency' => 'required|string|in:eur,czk',
             'condition' => 'required|in:1,2,3',
             'sport_id' => 'required|integer|in:1,2,3',
             'category_id' => 'required|integer|min:1',
@@ -168,10 +166,8 @@ class OfferController extends Controller implements HasMedia
             }
         }
 
-
         return redirect()->route('offer.show', $offer->id)->with('success', 'Offer created successfully.');
     }
-
 
     /**
      * Display the specified resource.
@@ -220,14 +216,14 @@ class OfferController extends Controller implements HasMedia
         ]);
     }
 
-
-
     /**
      * Show the form for editing the specified resource.
      * @param Offer $offer
      */
     public function edit(Offer $offer)
     {
+        $this->authorize('update', $offer);
+
         $langColumn = LanguageHelper::getLangColumn();
 
         $brands = Brand::select('id', 'name')->orderBy('name', 'asc')->get();
@@ -236,8 +232,6 @@ class OfferController extends Controller implements HasMedia
             ->select('id', "$langColumn as name", 'logo', 'created_at', 'updated_at')
             ->orderBy('name', 'asc')
             ->get();
-
-        $this->authorize('update', $offer);
 
         return inertia('Offer/Edit', [
             'offer' => $offer,
@@ -310,10 +304,6 @@ class OfferController extends Controller implements HasMedia
     {
         $user = Auth::user();
         $this->authorize('update', $offer);
-
-        if ($offer->status !== 1) {
-            abort(403, 'You are not allowed to access this page.');
-        }
 
         $offer->buyer_id = $request->buyer['id'];
         $offer->status = 2;
