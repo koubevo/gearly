@@ -44,6 +44,10 @@ Route::post('/api/chat/{offer}/{buyer}', [ChatController::class, 'sendMessage'])
     ->name('chat.send')
     ->middleware('auth');
 
+Route::post('/api/chat/{offer}/{buyer}/read', [ChatController::class, 'markAsRead'])
+    ->name('chat.read')
+    ->middleware('auth');
+
 Route::post('/api/rating', [RatingController::class, 'store'])
     ->middleware('auth')
     ->name('rating.store');

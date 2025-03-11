@@ -9,12 +9,13 @@ use App\Models\Rating;
 use App\Models\User;
 use App\Notifications\MessageSent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
     public function index()
     {
-        $user = \Illuminate\Support\Facades\Auth::user();
+        $user = Auth::user();
 
         $latestMessages = Message::with(['offer.seller', 'buyer'])
             ->where(function ($query) use ($user) {
@@ -22,6 +23,9 @@ class ChatController extends Controller
                     ->orWhereHas('offer', function ($subQuery) use ($user) {
                         $subQuery->where('user_id', $user->id);
                     });
+            })
+            ->whereHas('offer', function ($query) {
+                $query->whereIn('status', [1, 2, 3]);
             })
             ->orderBy('created_at', 'desc')
             ->get()
@@ -64,7 +68,7 @@ class ChatController extends Controller
 
     public function show(Offer $offer, User $buyer)
     {
-        $user = \Illuminate\Support\Facades\Auth::user();
+        $user = Auth::user();
 
         if (!($buyer->id === $user->id || $offer->user_id === $user->id)) {
             abort(403, 'You are not allowed to access this page.');
@@ -97,6 +101,8 @@ class ChatController extends Controller
 
         $averageRating = $user->id == $offer->user_id ? $buyer->getRating() : $offer->seller->getRating();
 
+        $this->markAsRead($offer, $buyer);
+
         return inertia('Chat/Show', [
             'seller' => $offer->seller,
             'buyer' => $buyer,
@@ -109,7 +115,7 @@ class ChatController extends Controller
 
     public function loadMessages(Offer $offer, User $buyer)
     {
-        $user = \Illuminate\Support\Facades\Auth::user();
+        $user = Auth::user();
         $langColumn = LanguageHelper::getLangColumnForMessages();
 
         if (!($buyer->id === $user->id || $offer->user_id === $user->id)) {
@@ -139,7 +145,7 @@ class ChatController extends Controller
 
     public function sendMessage(Request $request, Offer $offer, User $buyer)
     {
-        $user = \Illuminate\Support\Facades\Auth::user();
+        $user = Auth::user();
         $receiver_id = $user->id == $buyer->id ? $offer->user_id : $buyer->id;
 
         if (!($buyer->id === $user->id || $offer->user_id === $user->id)) {
@@ -165,4 +171,17 @@ class ChatController extends Controller
         broadcast(new \App\Events\MessageSent($message));
     }
 
+    public function markAsRead(Offer $offer, User $buyer)
+    {
+        $user = Auth::user();
+
+        if (!($buyer->id === $user->id || $offer->user_id === $user->id)) {
+            abort(403, 'You are not allowed to access this page.');
+        }
+
+        Message::where('offer_id', $offer->id)
+            ->where('buyer_id', $buyer->id)
+            ->where('receiver_id', $user->id)
+            ->update(['read_at' => now()]);
+    }
 }

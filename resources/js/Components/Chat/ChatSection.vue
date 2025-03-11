@@ -59,6 +59,7 @@ onMounted(() => {
             lastMessageId.value = e.message.id;
         }
         scrollToBottom();
+        axios.post(route('chat.read', { offer: props.offer.id, buyer: props.buyer.id }));
     });
 });
 

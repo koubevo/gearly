@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::table('messages', function (Blueprint $table) {
-            $table->boolean('read_at')->nullable();
+            $table->timestamp('read_at')->nullable();
         });
     }
 
