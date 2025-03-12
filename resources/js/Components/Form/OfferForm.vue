@@ -161,7 +161,7 @@ const form = useForm({
     description: props.offer.description,
     price: props.offer.price,
     currency: props.offer.currency,
-    condition: props.offer.condition,
+    condition: String(props.offer.condition),
     sport_id: props.offer.sport_id,
     category_id: props.offer.category_id,
     brand_id: props.offer.brand_id,
