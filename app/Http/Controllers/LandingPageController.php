@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use App\Models\Favorite;
 use App\Models\Offer;
 use Illuminate\Http\Request;
@@ -107,6 +108,7 @@ class LandingPageController extends Controller
                     'brand_id' => $offer->brand_id,
                     'brand_name' => $offer->name,
                     'offer_count' => $offer->offer_count,
+                    'logo' => Brand::find($offer->brand_id)->logo,
                 ];
             });
 

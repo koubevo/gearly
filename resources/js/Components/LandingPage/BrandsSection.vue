@@ -2,8 +2,8 @@
     <section class="mb-8">
         <div class="mb-2 grid grid-cols-1 bg-primary-900 p-4 md:p-8 pb-8">
             <Heading2 class="mb-4 text-white">{{ heading }}</Heading2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <Brand v-for="brand in brands" :brand="brand" />
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 items-stretch">
+                <Brand v-for="brand in brands" :brand="brand" class="h-full"/>
             </div>
         </div>
         <div>

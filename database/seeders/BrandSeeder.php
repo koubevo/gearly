@@ -15,8 +15,8 @@ class BrandSeeder extends Seeder
 
         foreach ($brands as $brand) {
             Brand::firstOrCreate(
-                ['name' => $brand],
-                ['logo' => 'default-logo.png']
+                ['name' => $brand['name']],
+                ['logo' => $brand['logo']]
             );
         }
     }

@@ -11,13 +11,13 @@
         <div class="flex flex-col items-center py-6 w-full">
             <label for="search-input" class="w-full">{{ $t('search.search_by_category') }}</label>
             <div class="w-full grid grid-cols-1 gap-x-4 gap-y-0 md:gap-y-2 md:grid-cols-2 mt-2"> 
-                <CategoryItem v-for="category in categories" :key="category.id" :category="category" :link="route('offer.index', {category: category.id})"/>
+                <CategoryItem v-for="category in categories" :key="category.id" :category="category" :link="route('offer.index', {category: category.id})" :logo="'/storage/icons/' + category.logo"/>
             </div>
         </div>
         <div class="flex flex-col items-center pt-2 pb-6 w-full">
             <label for="search-input" class="w-full">{{ $t('search.search_by_brand') }}</label>
             <div class="w-full grid grid-cols-1 gap-x-4 gap-y-2 md:grid-cols-2 mt-2"> 
-                <CategoryItem v-for="brand in brands" :key="brand.id" :category="brand" :link="route('offer.index', {brand: brand.id})"/>
+                <CategoryItem v-for="brand in brands" :key="brand.id" :category="brand" :link="route('offer.index', {brand: brand.id})" :logo="'/storage/imgs/' + brand.logo"/>
             </div>
         </div>
     </div>
