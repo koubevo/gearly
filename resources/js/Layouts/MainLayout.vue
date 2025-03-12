@@ -87,7 +87,7 @@ if(user.value) {
         const response = await axios.get(route('chat.unreadChatsCount'));
         unreadChatsCount.value = response.data.unreadChatsCount;
     } catch (error) {
-            console.error('err:');
+            console.error('err');
         }
     };
 

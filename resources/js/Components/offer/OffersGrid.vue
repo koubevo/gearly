@@ -91,7 +91,7 @@ const loadMore = async () => {
     offersList.value.push(...response.data.data);
     nextPageUrl.value = response.data.next_page_url;
   } catch (error) {
-    console.error("Error loading more offers:", error);
+    console.error("Error loading more offers");
   } finally {
     loading.value = false;
   }

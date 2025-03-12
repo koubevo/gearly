@@ -25,7 +25,6 @@ const updatePassword = () => {
             emit('close-modal');
         },
         onError: () => {
-            console.log(form.errors);
             if (form.errors.password) {
                 form.reset('password', 'password_confirmation');
                 passwordInput.value.focus();

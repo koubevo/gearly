@@ -27,10 +27,10 @@ onMounted(async () => {
         if (result.success) {
             countries.value = result.data;
         } else {
-            console.error('Error fetching countries:', result.message);
+            console.error('Error fetching countries');
         }
     } catch (error) {
-        console.error('Error fetching countries:', error);
+        console.error('Error fetching countries');
     }
 });
 
@@ -45,10 +45,10 @@ watch(() => form.country, async (newCountry) => {
                 if (result.success) {
                     cities.value = result.data;
                 } else {
-                    console.error('Error fetching cities:', result.message);
+                    console.error('Error fetching cities');
                 }
             } catch (error) {
-                console.error('Error fetching cities:', error);
+                console.error('Error fetching cities');
             }
         }
     }

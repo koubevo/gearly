@@ -34,7 +34,6 @@ createInertiaApp({
             const browserLang = navigator.language || navigator.languages[0];
             const savedLanguage = userLang || browserLang || "cs";
 
-            //TODO: this after login?
             i18n.global.locale.value = savedLanguage;
         }, 0);
 

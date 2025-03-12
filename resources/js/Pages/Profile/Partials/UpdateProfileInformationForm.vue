@@ -29,7 +29,7 @@ const updateProfile = () => {
             window.location.reload(true);
         },
         onError: () => {
-            console.log(form.errors);
+            console.log('err');
         },
     });
 };

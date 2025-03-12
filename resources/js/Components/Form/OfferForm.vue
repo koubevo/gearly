@@ -226,7 +226,7 @@ const fetchFilterOptions = async (categoryId) => {
             }));
         }
     } catch (error) {
-        console.error("Chyba při načítání filtrů:", error);
+        console.error("Error loading filters");
     }
 };
 
