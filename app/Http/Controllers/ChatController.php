@@ -94,6 +94,7 @@ class ChatController extends Controller
 
         $offer->statusNumber = $offer->status;
         $offer->status = $offer->getStatusEnum()?->label();
+        $offer->is_buyer = $buyer->id === $user->id;
 
         $ratingExists = Rating::where('offer_id', $offer->id)
             ->where('user_id', $user->id)

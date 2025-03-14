@@ -6,7 +6,7 @@
         <section class="flex items-center justify-between gap-2 flex-shrink-0">
             <button class="primary-button-chat-style-disabled" v-if="chatSectionRef?.messagesCount <= 2 && offer.user_id === currentUser.id && offer.statusNumber === 1" :title="$t('chat.send_at_least')">{{ $t('chat.sell') }}</button>
             <button class="primary-button-chat-style" v-if="chatSectionRef?.messagesCount > 2 && offer.user_id === currentUser.id && offer.statusNumber === 1" @click="openModal">{{ $t('chat.sell') }}</button>
-            <button class="primary-button-chat-style" v-if="offer.buyer_id === currentUser.id && offer.statusNumber === 2" @click="openModal">{{ $t('chat.receive') }}</button>
+            <button class="primary-button-chat-style" v-if="offer.is_buyer && offer.statusNumber === 2" @click="openModal">{{ $t('chat.receive') }}</button>
             <button class="secondary-button-chat-style" v-if="offer.user_id === currentUser.id && offer.statusNumber === 2" @click="openModal">{{ $t('chat.cancel') }}</button>
             <button class="primary-button-chat-style" v-if="offer.statusNumber === 3 && ableToRate" @click="openModal">{{ $t('chat.rate') }}</button>
             <input type="text" name="message" max="255" v-model="message" @keyup.enter="sendMessage" class="input-style" :placeholder="$t('chat.type_message')"/>
@@ -49,7 +49,7 @@
           </div>
       </div>
   </Modal>
-  <Modal :show="modal" @close="closeModal" v-if="offer.buyer_id === currentUser.id && offer.statusNumber === 2">
+  <Modal :show="modal" @close="closeModal" v-if="offer.is_buyer && offer.statusNumber === 2">
       <div class="p-6">
           <div class="flex justify-between items-end mb-2">
             <Heading2>{{ $t('chat.do_you_want_to_receive') }} <span class="text-primary-900">{{ offer.name }}</span> {{ $t('chat.from') }} <span class="text-primary-900">{{ seller.name }}</span>?</Heading2>

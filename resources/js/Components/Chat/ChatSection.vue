@@ -3,7 +3,7 @@
         <div class="flex flex-col gap-2 items-start">
             <Message v-for="message in messages" :key="message.id" :message="message" v-if="messages.length"/>
             <NormalText class="text-center self-center mt-10 text-primary-900" v-else>
-                Start the conversation with a message!
+                {{ $t('chat.start') }}
             </NormalText>
         </div>
     </section>

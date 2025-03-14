@@ -21,5 +21,6 @@ export default {
     from: "from",   
     verbal_rating: "Verbal rating",
     send_at_least: "There must be at least 3 messages if you want to sell the offer.",
+    start: "Start the chat with a message...",
 };
   
