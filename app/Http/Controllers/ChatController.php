@@ -183,6 +183,7 @@ class ChatController extends Controller
         Message::where('offer_id', $offer->id)
             ->where('buyer_id', $buyer->id)
             ->where('receiver_id', $user->id)
+            ->whereNull('read_at')
             ->update(['read_at' => now()]);
     }
 
