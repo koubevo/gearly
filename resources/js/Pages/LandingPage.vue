@@ -21,7 +21,6 @@
 
     <OffersSection v-if="softballGear.length > 2" :offers="softballGear" :heading="$t('landing.softball_gear')" :link="route('offer.index', {sport: 3})"/>
 
-    <!-- TODO: all offers with pagination loading -->
 </template>
 
 <script setup>

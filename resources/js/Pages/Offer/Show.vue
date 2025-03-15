@@ -65,7 +65,6 @@
                 </section>
             </div>
         </div>
-        <!-- TODO: related offers section, recently viewed  -->
     </div>
 </template>
 
