@@ -136,11 +136,28 @@
     border: 1px black solid !important;
 }  
 
-.fixed-bottom {
-    display: flex;
-    flex-direction: column;
-    min-height: 100dvh; /* Dynamická výška */
-}
+.thumbnails-container {
+    max-width: 100%;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  
+  .thumbnails-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .thumbnails img {
+    transition: transform 0.2s;
+  }
+  
+  .thumbnails img {
+    min-width: 70px;
+  }
+  
+  .thumbnails img:hover {
+    transform: scale(1.1);
+  }
 
 @keyframes fadeOut {
     from {
