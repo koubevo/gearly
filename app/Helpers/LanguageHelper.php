@@ -1,7 +1,6 @@
 <?php
 namespace App\Helpers;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 
 class LanguageHelper
@@ -26,7 +25,6 @@ class LanguageHelper
     {
         $languages = array_keys(config('app.languages'));
         $locale = substr(app()->getLocale(), 0, 2);
-        Log::info($locale);
         return in_array($locale, $languages) ? $locale : 'en';
     }
 }
