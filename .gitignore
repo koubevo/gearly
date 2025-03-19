@@ -49,3 +49,4 @@ dist/
 /public/build/*
 /storage/*
 /_ide_helper.php
+/bootstrap/ssr/assets/
