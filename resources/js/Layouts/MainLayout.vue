@@ -10,7 +10,7 @@
                         <MagnifyingGlassIcon class="w-5 h-5 stroke-[2.5]" />
                     </Link>
                 </div>
-                <div class="flex gap-2 md:gap-5" v-if="user">
+                <div class="flex gap-3 md:gap-5" v-if="user">
                     <Link :href="route('offer.create')">
                         <div class="relative w-6 h-6 mt-0.5">
                             <svg class="w-full h-full stroke-[3]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
