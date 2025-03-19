@@ -16,7 +16,6 @@ class LocationController extends Controller
             ->whereIn('iso2', $allowedCountries)
             ->select('iso2', 'name')
             ->get();
-        // sort by popularity
         $sortedCountries = $countries->sortBy(fn($country) => array_search($country->iso2, $allowedCountries));
 
         return response()->json([

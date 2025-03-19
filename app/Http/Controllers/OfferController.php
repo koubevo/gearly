@@ -254,7 +254,7 @@ class OfferController extends Controller implements HasMedia
             'name' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|regex:/^\d+(\.\d{1,2})?$/|min:0|max:99999',
-            'currency' => 'required|string|in:eur,czk', //only 2 currencies now
+            'currency' => 'required|string|in:eur,czk',
             'condition' => 'required|in:1,2,3',
             'sport_id' => 'required|integer|in:1,2,3',
             'category_id' => 'required|integer|min:1',
