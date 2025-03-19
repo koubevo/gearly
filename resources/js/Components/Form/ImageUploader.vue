@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-4 md:p-0">
     <file-pond
       name="images"
       ref="pond"
