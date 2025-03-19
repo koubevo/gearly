@@ -44,3 +44,8 @@ dist/
 /public/media/*
 !/public/media/.gitignore
 /storage/media-library/*
+/bootstrap/cache/*
+/bootstrap/ssr/*
+/public/build/*
+/storage/*
+/_ide_helper.php
