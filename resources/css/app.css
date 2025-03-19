@@ -136,6 +136,14 @@
     border: 1px black solid !important;
 }
 
+.fixed-bottom {
+    position: fixed;
+    bottom: 5px;
+    left: 0;
+    padding: 5px;
+    padding-bottom: env(safe-area-inset-bottom);
+    background-color: white;
+}
   
 
 @keyframes fadeOut {
