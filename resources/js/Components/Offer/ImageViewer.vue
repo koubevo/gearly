@@ -2,7 +2,17 @@
   <div class="gallery w-full mb-4">
     <div class="main-image relative flex items-center justify-center mx-auto">
       <button v-if="images.length > 1" @click="prevImage" class="nav left">‹</button>
-      <img :src="currentImage" alt="Offer image" class="max-w-full max-h-[300px] object-contain" />
+      <picture>
+        <source :srcset="currentImage.medium" type="image/webp">
+        <img
+          :src="currentImage.medium"
+          :srcset="`${currentImage.small} 800w, ${currentImage.medium} 1200w`"
+          sizes="(max-width: 800px) 800px, 1200px"
+          alt="Offer image"
+          class="max-w-full max-h-[300px] object-contain"
+          loading="lazy"
+        />
+      </picture>
       <button v-if="images.length > 1" @click="nextImage" class="nav right">›</button>
     </div>
 
@@ -11,17 +21,17 @@
         <img
           v-for="(img, index) in images"
           :key="index"
-          :src="img"
+          :src="img.thumb"
           :class="{ 'border-2 border-primary-900': index === currentIndex }"
           class="h-16 object-cover cursor-pointer"
           @click="currentIndex = index"
           alt="Thumbnail"
+          loading="lazy"
         />
       </div>
     </div>
   </div>
 </template>
-
 
 <script setup>
 import { ref, computed } from "vue";
@@ -31,7 +41,7 @@ const props = defineProps({
 });
 
 const currentIndex = ref(0);
-const currentImage = computed(() => props.images?.[currentIndex.value] || "");
+const currentImage = computed(() => props.images?.[currentIndex.value] || {});
 
 const prevImage = () => {
   currentIndex.value =

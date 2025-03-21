@@ -21,5 +21,6 @@ export default {
     close: 'Close',
     yes: 'Yes',
     save: 'Save',
+    uploading: 'Uploading...',
   };
   

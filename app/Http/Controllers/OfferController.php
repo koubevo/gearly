@@ -118,7 +118,7 @@ class OfferController extends Controller implements HasMedia
                 ->withErrors(['error' => 'For now you can have only 5 active offers.']);
         }
 
-        $validated = $request->validate([
+        $rules = [
             'name' => 'required|string',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0|max:99999|regex:/^\d{1,5}(\.\d{1,2})?$/',
@@ -131,11 +131,23 @@ class OfferController extends Controller implements HasMedia
             'delivery_detail' => 'nullable|string',
             'images' => 'required|array|min:1',
             'images.*' => 'image|max:5120',
-        ] + collect($request->all())
-                ->filter(fn($value, $key) => str_starts_with($key, 'fc'))
-                ->mapWithKeys(fn($value, $key) => [$key => 'nullable|integer'])
-                ->toArray());
-        $validated['user_id'] = $user->id;
+        ];
+
+        $filterRules = collect($request->all())
+            ->filter(fn($value, $key) => str_starts_with($key, 'fc'))
+            ->mapWithKeys(fn($value, $key) => [$key => 'nullable|integer'])
+            ->toArray();
+
+        $rules = array_merge($rules, $filterRules);
+
+        $messages = [
+            'images.*.image' => 'Každý soubor musí být obrázek.',
+            'images.*.max' => 'Maximální velikost obrázku je 5 MB.',
+            'images.required' => 'Musíš nahrát alespoň jeden obrázek.',
+        ];
+
+        $validated = $request->validate($rules, $messages);
+        $validated['user_id'] = Auth::id();
 
         $offer = Offer::create($validated);
 
@@ -152,6 +164,7 @@ class OfferController extends Controller implements HasMedia
                 ]);
             }
         }
+
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $randomString = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 8);
@@ -160,9 +173,12 @@ class OfferController extends Controller implements HasMedia
 
                 $fileName = "gearly-{$offer->id}-{$randomString}.{$extension}";
 
-                $offer->addMedia($image)
+                $media = $offer->addMedia($image)
                     ->usingFileName($fileName)
+                    ->withResponsiveImages()
                     ->toMediaCollection('images', 'media');
+
+                //TODO: main image can be deleted 
             }
         }
 
@@ -204,7 +220,11 @@ class OfferController extends Controller implements HasMedia
             'brand' => $offer->brand,
             'deliveryOption' => $offer->deliveryOption,
             'rating' => $offer->seller->getRating(),
-            'images' => $offer->getMedia('images')->map(fn($image) => $image->getUrl()),
+            'images' => $offer->getMedia('images')->map(fn($image) => [
+                'medium' => $image->getUrl('medium'),
+                'small' => $image->getUrl('small'),
+                'thumb' => $image->getUrl('small'),
+            ]),
             'filters' => $offer->offerFilters->map(fn($filter) => [
                 'id' => $filter->id,
                 'offer_id' => $filter->offer_id,

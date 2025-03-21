@@ -15,7 +15,7 @@
                 <div class="flex flex-col gap-x-2 gap-y-0.5 text-sm mb-6">
                     <OfferDetail :detail="$t('common.brand')" :detailValue="brand.name"/>
                     <OfferDetail :detail="'Sport'" :detailValue="offer.sport"/>
-                    <OfferDetail :detail="$t('common.category')" :detailValue="category.name"/>
+                    <OfferDetail :detail="$t('common.category')" :detailValue="category.name" class="mb-2"/>
                     <OfferDetail :detail="filter.filter_category_name" :detailValue="filter.filter_name" v-for="filter in filters"/>
                 </div>
                 <div class="flex flex-col gap-x-2 gap-y-0.5 text-sm">

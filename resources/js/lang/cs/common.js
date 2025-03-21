@@ -21,5 +21,6 @@ export default {
     close: 'Zavřít',
     yes: 'Ano',
     save: 'Uložit',
+    uploading: 'Nahrávání...',
   };
   

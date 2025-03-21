@@ -82,10 +82,12 @@
                 <div class="col-span-12">
                     <PrimaryButton 
                         type="submit" 
-                        :text="isEditMode ? $t('offer.edit_offer') :  $t('offer.add_offer')" 
+                        :text="isUploading ? $t('common.uploading') : (isEditMode ? $t('offer.edit_offer') :  $t('offer.add_offer'))" 
                         class="md:w-auto capitalize" 
-                        :disabled="freeLimitExceeded && !isEditMode" 
-                        :class="{'bg-gray-400 border-gray-500': freeLimitExceeded && !isEditMode}" 
+                        :disabled="isUploading || (freeLimitExceeded && !isEditMode)" 
+                        :class="{
+                            'disabled-button-style': isUploading || (freeLimitExceeded && !isEditMode)
+                        }"
                     />
                 </div>
             </div>
@@ -97,7 +99,7 @@
 import Heading1 from '@/Components/Text/Heading1.vue';
 import { useForm } from '@inertiajs/vue3';
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch, onMounted, computed } from 'vue';
 import axios from 'axios';
 import FormInput from '@/Components/Form/FormInput.vue';
 import RequiredFieldsNote from '@/Components/Form/RequiredFieldsNote.vue';
@@ -105,15 +107,7 @@ import FormTextArea from '@/Components/Form/FormTextArea.vue';
 import FiltersNote from '@/Components/Form/FiltersNote.vue';
 import FormSelect from '@/Components/Form/FormSelect.vue';
 import ImageUploader from '@/Components/Form/ImageUploader.vue';
-import { computed } from 'vue';
 import BoldNormalText from '@/Components/Text/BoldNormalText.vue';
-
-const imageErrors = computed(() =>
-    Object.keys(form.errors)
-        .filter(key => key.startsWith("images."))
-        .map(key => form.errors[key])
-);
-
 
 const props = defineProps({
     offer: {
@@ -170,11 +164,21 @@ const form = useForm({
     images: [],
 });
 
+const isUploading = ref(false);
+
+const imageErrors = computed(() =>
+    Object.keys(form.errors)
+        .filter(key => key.startsWith("images."))
+        .map(key => form.errors[key])
+);
+
 const updateImages = (images) => {
     form.images = images;
 };
 
 const handleSubmit = () => {
+    isUploading.value = true;
+    
     let dataToSend = new FormData();
     Object.keys(form).forEach(key => {
         if (key === 'images') {
@@ -192,6 +196,12 @@ const handleSubmit = () => {
             preserveScroll: true,
             headers: {
                 "Content-Type": "multipart/form-data"
+            },
+            onSuccess: () => {
+                isUploading.value = false;
+            },
+            onError: () => {
+                isUploading.value = false;
             }
         });
     } else {
@@ -206,6 +216,12 @@ const handleSubmit = () => {
             preserveScroll: true,
             headers: {
                 "Content-Type": "multipart/form-data"
+            },
+            onSuccess: () => {
+                isUploading.value = false;
+            },
+            onError: () => {
+                isUploading.value = false;
             }
         });
     }
@@ -235,6 +251,12 @@ watch(
     async (newCategoryId, oldCategoryId) => {
         if (newCategoryId !== oldCategoryId) {
             await fetchFilterOptions(newCategoryId);
+            const allowedKeys = filteredFilterCategories.value.map(fc => `fc${fc.id}`);
+            Object.keys(form).forEach((key) => {
+                if (key.startsWith('fc') && !allowedKeys.includes(key)) {
+                    delete form[key];
+                }
+            });
         }
     },
     { deep: true }
