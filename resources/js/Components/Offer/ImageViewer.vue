@@ -1,15 +1,15 @@
 <template>
   <div class="gallery w-full mb-4">
-    <div class="main-image relative flex items-center justify-center mx-auto">
+    <div class="main-image relative flex items-center justify-center mx-auto w-[500px] h-[500px]">
       <button v-if="images.length > 1" @click="prevImage" class="nav left">‹</button>
-      <picture>
+      <picture class="w-full h-full flex justify-center items-center">
         <source :srcset="currentImage.medium" type="image/webp">
         <img
           :src="currentImage.medium"
           :srcset="`${currentImage.small} 800w, ${currentImage.medium} 1200w`"
           sizes="(max-width: 800px) 800px, 1200px"
           alt="Offer image"
-          class="max-w-full max-h-[300px] object-contain"
+          class="max-w-full max-h-full object-contain"
           loading="lazy"
         />
       </picture>
