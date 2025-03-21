@@ -71,6 +71,7 @@
 <script setup>
 import { ref } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
+import { onMounted } from 'vue';
 import Price from '@/Components/Offer/Price.vue';
 import PrimaryLink from '@/Components/Buttons/PrimaryLink.vue';
 import Heading1 from '@/Components/Text/Heading1.vue';
@@ -86,6 +87,10 @@ import ImageViewer from '@/Components/Offer/ImageViewer.vue';
 import OfferUserDetail from '@/Components/User/OfferUserDetail.vue';
 import ConditionLike from '@/Components/Offer/ConditionLike.vue';
 import { Head } from '@inertiajs/vue3';
+
+onMounted(() => {
+  window.scrollTo(0, 0);
+});
 
 const user = usePage().props.auth.user ?? {};
 
