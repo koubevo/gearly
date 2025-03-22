@@ -129,6 +129,7 @@ class ChatController extends Controller
                     ->orWhere('buyer_id', $user->id);
             })
             ->where('offer_id', $offer->id)
+            ->where('buyer_id', $buyer->id)
             ->get()
             ->map(function ($message) use ($langColumn) {
                 $message->created_at_formatted = $message->created_at->diffForHumans();
