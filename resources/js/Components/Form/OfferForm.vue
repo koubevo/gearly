@@ -262,6 +262,7 @@ watch(
     { deep: true }
 );
 
+//TODO: remove duplicated code
 watch(filteredFilterCategories, (newFilters) => {
     newFilters.forEach(filter => {
         const key = `fc${filter.id}`;

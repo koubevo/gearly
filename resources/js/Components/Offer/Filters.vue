@@ -12,6 +12,7 @@
                 <div>
                     <FormSelect :options="categories" v-model="form.category" :default="false" :labelName="$t('common.category')" name="category" :error="form.errors.category_id"/>
                 </div>
+                <!-- TODO: more filters -->
                 <div class="md:col-span-2">
                     <label class="mb-2 md:mb-0 capitalize">Sport</label>
                     <div class="flex flex-col sm:flex-row gap-2">
