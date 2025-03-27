@@ -68,7 +68,7 @@
 
 <script setup>
 import { Link, usePage } from '@inertiajs/vue3';
-import { computed, ref, onMounted, onUnmounted } from 'vue';
+import { computed, ref, onMounted, onUnmounted, watch } from 'vue';
 import { MagnifyingGlassIcon, BellIcon, UserIcon, HeartIcon, ChatBubbleLeftIcon } from '@heroicons/vue/24/outline';
 import PrimaryLink from '@/Components/Buttons/PrimaryLink.vue';
 import SecondaryLink from '@/Components/Buttons/SecondaryLink.vue';
@@ -81,23 +81,29 @@ const flashError = computed(() => page.props.errors?.error ?? '');
 const unreadChatsCount = ref(page.props.notifications?.unreadChatsCount || 0);
 let intervalId = null;
 
-if(user.value) {
-    const fetchUnreadChatsCount = async () => {
+const fetchUnreadChatsCount = async () => {
     try {
         const response = await axios.get(route('chat.unreadChatsCount'));
         unreadChatsCount.value = response.data.unreadChatsCount;
     } catch (error) {
-            console.error('err');
+        console.error('err');
+    }
+};
+
+watch(
+    () => user.value,
+    (newUser) => {
+        if (newUser) {
+            fetchUnreadChatsCount();
+            intervalId = setInterval(fetchUnreadChatsCount, 10000);
+        } else {
+            clearInterval(intervalId);
         }
-    };
+    },
+    { immediate: true }
+);
 
-    onMounted(() => {
-        fetchUnreadChatsCount();
-        intervalId = setInterval(fetchUnreadChatsCount, 10000);
-    });
-
-    onUnmounted(() => {
-        clearInterval(intervalId);
-    });
-}
+onUnmounted(() => {
+    clearInterval(intervalId);
+});
 </script>

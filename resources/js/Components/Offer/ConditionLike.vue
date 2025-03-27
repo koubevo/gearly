@@ -24,6 +24,7 @@ import { HeartIcon as FullHeartIcon } from '@heroicons/vue/24/solid';
 import { HeartIcon } from '@heroicons/vue/24/outline';
 import Condition from '@/Components/Offer/Condition.vue';
 import NormalText from '@/Components/Text/NormalText.vue';
+import axios from 'axios';
 
 const props = defineProps({
     offer: Object,
@@ -46,17 +47,9 @@ const toggleFavorite = async () => {
     }
 
     try {
-        const response = await fetch(`/api/wishlist/${props.offer.id}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-            },
-        });
+        const response = await axios.post(`/api/wishlist/${props.offer.id}`);
 
-        const data = await response.json();
-
-        if (data.status === 'added') {
+        if (response.data.status === 'added') {
             isFavorited.value = true;
             favoritesCount.value++;
         } else {
