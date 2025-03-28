@@ -1,7 +1,7 @@
 <template>
     <div class="flex gap-2 mb-0">
         <div class="font-medium">{{ detail }}:</div>
-        <div class="capitalize">{{ detailValue }}</div>
+        <div>{{ detailValue }}</div>
     </div>
 </template>
  
