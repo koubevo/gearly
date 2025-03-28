@@ -6,11 +6,12 @@
                     <img :src="offer.thumbnail_url" :alt="offer.name" class="h-14 card-image" loading="lazy">
                 </div>
                 <div>
-                    <div class="flex gap-2 items-center mb-0.5">
+                    <div class="flex gap-2 items-center">
                         <Condition :condition="offer.status" :conditionNumber="offer.statusNumber" :type="'status'"/>
                         <Heading3>{{ offer.name }}</Heading3>
                     </div>
                     <PriceCard :price="offer.price" :currency="offer.currency"/>
+                    <TinyText>{{ offer.delivery_detail}}</TinyText>
                 </div>
             </div>
         </Link>
@@ -32,6 +33,7 @@ import PriceCard from '@/Components/Offer/PriceCard.vue';
 import { usePage } from '@inertiajs/vue3';
 import Condition from '@/Components/Offer/Condition.vue';
 import Rating from '../User/Rating.vue';
+import TinyText from '../Text/TinyText.vue';
 
 const page = usePage();
 
