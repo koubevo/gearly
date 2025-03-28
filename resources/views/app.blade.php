@@ -18,6 +18,25 @@
         href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
         rel="stylesheet">
 
+    <!-- SEO -->
+    <meta name="description"
+        content="Gearly je online bazar pro prodej a nákup softballového a baseballového vybavení.">
+    <meta name="keywords" content="softball, baseball, vybavení, gear, bazar, gearly">
+    <meta name="author" content="Gearly Team">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Gearly – bazar pro baseball a softball">
+    <meta property="og:description" content="Najdi nebo prodej vybavení pro baseball a softball snadno a rychle.">
+    <meta property="og:image" content="{{ asset('storage/imgs/bg_green.png') }}">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="website">
+
+    <!-- Twitter Card  -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Gearly – bazar pro baseball a softball">
+    <meta name="twitter:description" content="Najdi nebo prodej vybavení pro baseball a softball snadno a rychle.">
+    <meta name="twitter:image" content="{{ asset('storage/imgs/bg_green.png') }}">
+
     <!-- Scripts -->
     @routes
     @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
