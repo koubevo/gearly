@@ -12,7 +12,7 @@ export default {
     load_more: "Load more",
     loading: "Loading",
     we_found_no_offers: "We found no offers",
-    try_searching_for_something_else: "Try searching for something else",
+    try_searching_for_something_else: "Try removing some filters or searching for something else",
     already_sold_offers: "Already sold offers",
     chat_with_seller: "Chat with seller",
     edit: 'Edit',
