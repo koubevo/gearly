@@ -222,8 +222,7 @@ class OfferController extends Controller implements HasMedia
             'rating' => $offer->seller->getRating(),
             'images' => $offer->getMedia('images')->map(fn($image) => [
                 'medium' => $image->getUrl('medium'),
-                'small' => $image->getUrl('small'),
-                'thumb' => $image->getUrl('small'),
+                'thumb' => $image->getUrl('thumb'),
             ]),
             'filters' => $offer->offerFilters->map(fn($filter) => [
                 'id' => $filter->id,
