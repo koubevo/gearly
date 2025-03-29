@@ -109,25 +109,11 @@ class Offer extends Model implements HasMedia
             ->quality(90)
             ->nonQueued();
 
-        $this->addMediaConversion('small')
-            ->width(800)
-            ->height(800)
-            ->format('webp')
-            ->quality(85)
-            ->nonQueued();
-
         $this->addMediaConversion('medium')
             ->width(1200)
             ->height(1200)
             ->format('webp')
             ->quality(90)
-            ->nonQueued();
-
-        $this->addMediaConversion('large')
-            ->width(1600)
-            ->height(1600)
-            ->format('webp')
-            ->quality(100)
             ->nonQueued();
     }
 
