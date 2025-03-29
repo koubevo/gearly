@@ -12,6 +12,16 @@
                 <div>
                     <FormSelect :options="categories" v-model="form.category" :default="false" :labelName="$t('common.category')" name="category" :error="form.errors.category_id"/>
                 </div>
+                <div v-for="filterCategory in filteredFilterCategories"
+                    :key="filterCategory.id" class="mb-2">
+                    <FormSelect
+                        :options="filterCategory.options"
+                        v-model="form[`fc${filterCategory.id}`]"
+                        :labelName="filterCategory.name"
+                        :name="`fc${filterCategory.id}`"
+                        :required="false"
+                    />
+                </div>
                 <!-- TODO: more filters -->
                 <div class="md:col-span-2">
                     <label class="mb-2 md:mb-0 capitalize">Sport</label>
@@ -55,22 +65,99 @@ import Heading2 from "@/Components/Text/Heading2.vue";
 import Divider from "@/Components/Search/Divider.vue";
 import SearchInput from "@/Components/Search/SearchInput.vue";
 import PrimaryButton from "../Buttons/PrimaryButton.vue";
+import { ref, watch, onMounted } from 'vue';
+import axios from 'axios';
 
 const props = defineProps({
     brands: Array,
     categories: Array,
-    filters: Array ?? [],
+    filters: Object
 });
 
-const form = useForm({
+const initialForm = {
     brand: props.filters?.brand != null ? Number(props.filters?.brand) : null,
     category: props.filters?.category != null ? Number(props.filters?.category) : null,
-    sport: props.filters?.sport != null ? Number(props.filters.sport) : 1,
+    sport: props.filters?.sport != null ? Number(props.filters?.sport) : 1,
     search: props.filters?.search ?? '',
     order: props.filters?.order ?? null,
+};
+
+Object.keys(props.filters).forEach(key => {
+    if (key.startsWith('fc')) {
+        initialForm[key] = Number(props.filters[key]);
+    }
+});
+
+const form = useForm(initialForm);
+
+const filteredFilterCategories = ref([]);
+
+const fetchFilterOptions = async (categoryId) => {
+    try {
+        const selectedCategory = props.categories.find(cat => cat.id === categoryId);
+        if (selectedCategory && selectedCategory.filters?.length) {
+            const responses = await Promise.all(
+                selectedCategory.filters.map(filter =>
+                    axios.get(`/api/filters/${filter.id}`)
+                )
+            );
+
+            filteredFilterCategories.value = selectedCategory.filters.map((filter, index) => {
+                const fieldName = `fc${filter.id}`;
+
+                if (!(fieldName in form)) {
+                    form.defaults({ [fieldName]: props.filters?.[fieldName] ? Number(props.filters[fieldName]) : null });
+                    form[fieldName] = props.filters?.[fieldName] ? Number(props.filters[fieldName]) : null;
+                }
+            
+                return {
+                    ...filter,
+                    options: responses[index].data
+                };
+            });
+        } else {
+            filteredFilterCategories.value = [];
+        }
+    } catch (e) {
+        console.error("err");
+    }
+};
+
+watch(
+    () => form.category,
+    async (newCategory, oldCategory) => {
+        if (newCategory !== oldCategory) {
+            await fetchFilterOptions(newCategory);
+            const allowedKeys = filteredFilterCategories.value.map(f => `fc${f.id}`);
+            Object.keys(form.data()).forEach(key => {
+                if (key.startsWith('fc') && !allowedKeys.includes(key)) {
+                    form[key] = null;
+                }
+            });
+        }
+    }
+);
+
+onMounted(async () => {
+    await fetchFilterOptions(form.category);
 });
 
 const handleSubmit = () => {
-    form.get(route('offer.index'));
-}
+    const filtersToSend = {
+        ...form.data()
+    };
+
+    console.log('Form data on submit:', filtersToSend);
+
+    Object.keys(filtersToSend).forEach(key => {
+        if (filtersToSend[key] === null || filtersToSend[key] === '') {
+            delete filtersToSend[key];
+        }
+    });
+
+    form.get(route('offer.index'), {
+        preserveScroll: true,
+        data: filtersToSend
+    });
+};
 </script>

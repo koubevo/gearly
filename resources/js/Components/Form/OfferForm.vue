@@ -262,16 +262,6 @@ watch(
     { deep: true }
 );
 
-//TODO: remove duplicated code
-watch(filteredFilterCategories, (newFilters) => {
-    newFilters.forEach(filter => {
-        const key = `fc${filter.id}`;
-        if (!(key in form)) {
-            delete form[key];
-        }
-    });
-}, { deep: true });
-
 onMounted(async () => {
     await fetchFilterOptions(form.category_id);
 });
