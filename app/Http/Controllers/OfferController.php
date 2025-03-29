@@ -81,7 +81,9 @@ class OfferController extends Controller implements HasMedia
 
         return inertia('Offer/Index', [
             'offers' => $offers,
-            'categories' => Category::with('filters')->select('id', "$langColumn as name")->orderBy($langColumn, 'asc')->get(),
+            'categories' => Category::with([
+                'filters' => fn($q) => $q->select('filter_categories.id', "{$langColumn} as name")
+            ])->select('id', "{$langColumn} as name")->orderBy($langColumn, 'asc')->get(),
             'brands' => Brand::select('id', 'name')->orderBy('name', 'asc')->get(),
             'filters' => [
                 ...$filters,
