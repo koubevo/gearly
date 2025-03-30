@@ -12,7 +12,7 @@ export default {
     load_more: "Načíst více",
     loading: "Načítání",
     we_found_no_offers: "Nenašli jsme žádné nabídky",
-    try_searching_for_something_else: "Zkuste hledat něco jiného",
+    try_searching_for_something_else: "Zkuste odeberat filtry nebo hledat něco jiného",
     already_sold_offers: "Již prodané nabídky",
     chat_with_seller: "Chatovat s prodejcem",
     edit: 'Upravit',
