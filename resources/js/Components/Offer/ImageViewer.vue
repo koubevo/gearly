@@ -6,8 +6,6 @@
         <source :srcset="currentImage.medium" type="image/webp">
         <img
           :src="currentImage.medium"
-          :srcset="`${currentImage.small} 800w, ${currentImage.medium} 1200w`"
-          sizes="(max-width: 800px) 800px, 1200px"
           alt="Offer image"
           class="max-w-full max-h-full object-contain"
           loading="lazy"
