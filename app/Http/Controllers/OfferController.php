@@ -44,9 +44,20 @@ class OfferController extends Controller implements HasMedia
             'order',
         ]);
 
+        $dynamicFilters = collect($request->all())
+            ->filter(fn($value, $key) => str_starts_with($key, 'fc') && $value !== null);
+
+
         $user = Auth::user() ?? null;
         $offers = Offer::with('brand')
             ->filter($filters)
+            ->when($dynamicFilters->isNotEmpty(), function ($query) use ($dynamicFilters) {
+                foreach ($dynamicFilters as $key => $value) {
+                    $query->whereHas('offerFilters', function ($q) use ($value) {
+                        $q->where('filter_id', $value);
+                    });
+                }
+            })
             ->active()
             ->sort($filters['order'] ?? null)
             ->paginate(12)
@@ -70,9 +81,14 @@ class OfferController extends Controller implements HasMedia
 
         return inertia('Offer/Index', [
             'offers' => $offers,
-            'categories' => Category::select('id', "$langColumn as name")->orderBy($langColumn, 'asc')->get(),
+            'categories' => Category::with([
+                'filters' => fn($q) => $q->select('filter_categories.id', "{$langColumn} as name")
+            ])->select('id', "{$langColumn} as name")->orderBy($langColumn, 'asc')->get(),
             'brands' => Brand::select('id', 'name')->orderBy('name', 'asc')->get(),
-            'filters' => $filters,
+            'filters' => [
+                ...$filters,
+                ...$dynamicFilters->toArray(),
+            ],
         ]);
     }
 

@@ -66,12 +66,22 @@ import SecondaryLink from "@/Components/Buttons/SecondaryLink.vue";
 import NothingHere from "@/Components/NothingHere.vue";
 import FiltersButton from "@/Components/Buttons/FiltersButton.vue";
 import Filters from "@/Components/Offer/Filters.vue";
+import { watch } from "vue";
 
 const attrs = useAttrs(); 
 const initialOffers = usePage().props.offers?.data || [];
 const offersList = ref([...initialOffers]);
 const nextPageUrl = ref(usePage().props.offers?.next_page_url || null);
 const loading = ref(false);
+
+watch(
+  () => usePage().props.offers,
+  (newOffers) => {
+    offersList.value = [...newOffers.data];
+    nextPageUrl.value = newOffers.next_page_url;
+  },
+  { immediate: true }
+);
 
 defineProps({
   categories: Array,

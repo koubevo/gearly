@@ -262,15 +262,6 @@ watch(
     { deep: true }
 );
 
-watch(filteredFilterCategories, (newFilters) => {
-    newFilters.forEach(filter => {
-        const key = `fc${filter.id}`;
-        if (!(key in form)) {
-            delete form[key];
-        }
-    });
-}, { deep: true });
-
 onMounted(async () => {
     await fetchFilterOptions(form.category_id);
 });
