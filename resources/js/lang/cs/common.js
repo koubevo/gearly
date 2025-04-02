@@ -1,5 +1,6 @@
 export default {
     name: "jméno",
+    product_name: "název produktu",
     description: "popisek",
     price: "cena",
     category: "kategorie",

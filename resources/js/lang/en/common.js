@@ -1,5 +1,6 @@
 export default {
     name: "name",
+    product_name: "product name",
     description: "description",
     price: "price",
     category: "category",

@@ -1,13 +1,14 @@
 <template>
     <form @submit.prevent="handleSubmit">
         <div class="max-w-5xl mx-auto mb-3">
-            <Heading1 class="mb-4" v-html="isEditMode ? $t('offer.edit_offer') + ' <span class=\'text-primary-900\'>' + form.name + '</span>' : $t('offer.add_new_offer')"/>
+            <Heading1 class="mb-4"
+                v-html="isEditMode ? $t('offer.edit_offer') + ' <span class=\'text-primary-900\'>' + form.name + '</span>' : $t('offer.add_new_offer')" />
             <div v-if="freeLimitExceeded && !isEditMode" class="bg-red-600 p-3 mb-4">
-                <BoldNormalText class="text-white">{{ $t('offer.limit_message', {limit: limit}) }}</BoldNormalText>
+                <BoldNormalText class="text-white">{{ $t('offer.limit_message', { limit: limit }) }}</BoldNormalText>
             </div>
             <div class="grid grid-cols-12 gap-y-4 gap-x-2">
                 <div class="col-span-12" v-if="!isEditMode">
-                    <ImageUploader @update:modelValue="updateImages"/>
+                    <ImageUploader @update:modelValue="updateImages" />
                     <div v-if="form.errors.images" class="input-error-message-style">{{ form.errors.images }}</div>
                     <div v-if="imageErrors.length" class="input-error-message-style">
                         <ul>
@@ -16,25 +17,33 @@
                     </div>
                 </div>
                 <div class="col-span-12">
-                    <FormInput name="name" :labelName="$t('common.name')" type="text" v-model="form.name" :error="form.errors.name" :required="true" />
+                    <FormInput name="name" :labelName="$t('common.product_name')" type="text" v-model="form.name"
+                        :error="form.errors.name" :required="true" />
                 </div>
                 <div class="col-span-12">
-                    <FormTextArea name="description" :labelName="$t('common.description')" v-model="form.description" :error="form.errors.description" :required="true" />
+                    <FormTextArea name="description" :labelName="$t('common.description')" v-model="form.description"
+                        :error="form.errors.description" :required="true" />
                 </div>
                 <div class="col-span-7 md:col-span-9">
-                    <FormInput name="price" :labelName="$t('common.price')" type="number" v-model="form.price" :error="form.errors.price" :required="true" />
+                    <FormInput name="price" :labelName="$t('common.price')" type="number" v-model="form.price"
+                        :error="form.errors.price" :required="true" />
                 </div>
                 <div class="col-span-5 md:col-span-3">
-                    <FormSelect :options="[{'id': 'czk', 'name': 'CZK'}, {'id': 'eur', 'name': 'EUR'}]" v-model="form.currency" :labelName="$t('common.currency')" name="currency" :required="true" :error="form.errors.currency"/>
+                    <FormSelect :options="[{ 'id': 'czk', 'name': 'CZK' }, { 'id': 'eur', 'name': 'EUR' }]"
+                        v-model="form.currency" :labelName="$t('common.currency')" name="currency" :required="true"
+                        :error="form.errors.currency" />
                 </div>
                 <div class="md:col-span-5 col-span-12">
-                    <FormSelect :options="deliveryOptions" v-model="form.delivery_option_id" :labelName="$t('offer.delivery_option')" name="delivery_option_id" :required="true" :error="form.errors.delivery_option_id"/>
+                    <FormSelect :options="deliveryOptions" v-model="form.delivery_option_id"
+                        :labelName="$t('offer.delivery_option')" name="delivery_option_id" :required="true"
+                        :error="form.errors.delivery_option_id" />
                 </div>
                 <div class="md:col-span-7 col-span-12">
-                    <FormInput name="delivery_detail" labelName="Delivery Detail" type="text" v-model="form.delivery_detail" :error="form.errors.delivery_detail" :required="false" />
+                    <FormInput name="delivery_detail" labelName="Delivery Detail" type="text"
+                        v-model="form.delivery_detail" :error="form.errors.delivery_detail" :required="false" />
                 </div>
                 <div class="col-span-12 flex flex-col">
-                    <label class="mb-2 md:mb-0 capitalize">Sport</label>
+                    <label class="mb-2 md:mb-0 capitalize">Sport <span class="required-star-style">*</span></label>
                     <div class="flex flex-col sm:flex-row gap-2">
                         <label class="cursor-pointer w-full sm:flex-1">
                             <input type="radio" name="sport_id" class="hidden peer" value="1" v-model="form.sport_id" />
@@ -59,36 +68,39 @@
                 </div>
                 <div class="col-span-12 flex flex-col md:flex-row gap-2 justify-between">
                     <div class="w-full">
-                        <FormSelect :options="brands" v-model="form.brand_id" :labelName="$t('common.brand')" name="brand" :required="true" :error="form.errors.brand_id"/>
+                        <FormSelect :options="brands" v-model="form.brand_id" :labelName="$t('common.brand')"
+                            name="brand" :required="true" :error="form.errors.brand_id" />
                     </div>
                     <div class="w-full">
-                        <FormSelect :options="[{'id': '1', 'name': $t('offer.new')}, {'id': '2', 'name': $t('offer.used')}, {'id': '3', 'name': $t('offer.damaged')}]" v-model="form.condition" :labelName="$t('common.condition')" name="condition" :required="true" :error="form.errors.condition"/>
+                        <FormSelect
+                            :options="[{ 'id': '1', 'name': $t('offer.new') }, { 'id': '2', 'name': $t('offer.used') }, { 'id': '3', 'name': $t('offer.damaged') }]"
+                            v-model="form.condition" :labelName="$t('common.condition')" name="condition"
+                            :required="true" :error="form.errors.condition" />
                     </div>
                     <div class="w-full" v-if="!isEditMode">
-                        <FormSelect :options="categories" v-model="form.category_id" :labelName="$t('common.category')" name="category" :required="true" :error="form.errors.category_id"/>
+                        <FormSelect :options="categories" v-model="form.category_id" :labelName="$t('common.category')"
+                            name="category" :required="true" :error="form.errors.category_id" />
                     </div>
                 </div>
                 <div class="col-span-12" v-if="!isEditMode && filteredFilterCategories.length">
-                    <FiltersNote/>
+                    <FiltersNote />
                 </div>
                 <div class="col-span-12 flex flex-col md:flex-row gap-2 justify-between" v-if="!isEditMode">
                     <div class="w-full" v-for="filterCategory in filteredFilterCategories" :key="filterCategory.id">
-                        <FormSelect :options="filterCategory.options" v-model="form[`fc${filterCategory.id}`]" :labelName="filterCategory[lang]" :name="'fc' + filterCategory.id" :required="false"/>
+                        <FormSelect :options="filterCategory.options" v-model="form[`fc${filterCategory.id}`]"
+                            :labelName="filterCategory[lang]" :name="'fc' + filterCategory.id" :required="false" />
                     </div>
                 </div>
                 <div class="col-span-12">
-                    <RequiredFieldsNote/>
+                    <RequiredFieldsNote />
                 </div>
                 <div class="col-span-12">
-                    <PrimaryButton 
-                        type="submit" 
-                        :text="isUploading ? $t('common.uploading') : (isEditMode ? $t('offer.edit_offer') :  $t('offer.add_offer'))" 
-                        class="md:w-auto capitalize" 
-                        :disabled="isUploading || (freeLimitExceeded && !isEditMode)" 
+                    <PrimaryButton type="submit"
+                        :text="isUploading ? $t('common.uploading') : (isEditMode ? $t('offer.edit_offer') : $t('offer.add_offer'))"
+                        class="md:w-auto capitalize" :disabled="isUploading || (freeLimitExceeded && !isEditMode)"
                         :class="{
                             'disabled-button-style': isUploading || (freeLimitExceeded && !isEditMode)
-                        }"
-                    />
+                        }" />
                 </div>
             </div>
         </div>
@@ -178,7 +190,7 @@ const updateImages = (images) => {
 
 const handleSubmit = () => {
     isUploading.value = true;
-    
+
     let dataToSend = new FormData();
     Object.keys(form).forEach(key => {
         if (key === 'images') {
@@ -208,7 +220,7 @@ const handleSubmit = () => {
         filteredFilterCategories.value.forEach(filter => {
             const key = `fc${filter.id}`;
             if (form[key]) {
-            dataToSend.append(key, form[key]);
+                dataToSend.append(key, form[key]);
             }
         });
 
