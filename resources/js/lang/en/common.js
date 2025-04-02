@@ -1,5 +1,6 @@
 export default {
     name: "name",
+    product_name: "product name",
     description: "description",
     price: "price",
     category: "category",
@@ -14,7 +15,7 @@ export default {
     we_found_no_offers: "We found no offers",
     try_searching_for_something_else: "Try removing some filters or searching for something else",
     already_sold_offers: "Already sold offers",
-    chat_with_seller: "Chat with seller",
+    chat_with_seller: "Contact seller",
     edit: 'Edit',
     delete: 'Delete',
     cancel: 'Cancel',
@@ -22,5 +23,6 @@ export default {
     yes: 'Yes',
     save: 'Save',
     uploading: 'Uploading...',
+    images: 'Images',
   };
   

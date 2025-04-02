@@ -1,5 +1,6 @@
 export default {
     name: "jméno",
+    product_name: "název produktu",
     description: "popisek",
     price: "cena",
     category: "kategorie",
@@ -14,7 +15,7 @@ export default {
     we_found_no_offers: "Nenašli jsme žádné nabídky",
     try_searching_for_something_else: "Zkuste odeberat filtry nebo hledat něco jiného",
     already_sold_offers: "Již prodané nabídky",
-    chat_with_seller: "Chatovat s prodejcem",
+    chat_with_seller: "Kontaktovat prodejce",
     edit: 'Upravit',
     delete: 'Smazat',
     cancel: 'Zrušit',
@@ -22,5 +23,6 @@ export default {
     yes: 'Ano',
     save: 'Uložit',
     uploading: 'Nahrávání...',
+    images: 'Obrázky',
   };
   
