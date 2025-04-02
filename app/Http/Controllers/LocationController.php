@@ -38,6 +38,7 @@ class LocationController extends Controller
         $cities = DB::table('cities')
             ->where('country_code', $iso2)
             ->select('name')
+            ->orderBy('name', 'asc')
             ->get();
 
         return response()->json([
