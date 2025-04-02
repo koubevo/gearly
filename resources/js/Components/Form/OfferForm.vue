@@ -30,7 +30,7 @@
                         :error="form.errors.delivery_option_id" />
                 </div>
                 <div class="md:col-span-7 col-span-12">
-                    <FormInput name="delivery_detail" labelName="Delivery Detail" type="text"
+                    <FormInput name="delivery_detail" :labelName="$t('offer.delivery_detail')" type="text"
                         v-model="form.delivery_detail" :error="form.errors.delivery_detail" :required="false" />
                 </div>
                 <div class="col-span-12 flex flex-col">
