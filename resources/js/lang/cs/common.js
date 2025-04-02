@@ -23,5 +23,6 @@ export default {
     yes: 'Ano',
     save: 'Uložit',
     uploading: 'Nahrávání...',
+    images: 'Obrázky',
   };
   

@@ -23,5 +23,6 @@ export default {
     yes: 'Yes',
     save: 'Save',
     uploading: 'Uploading...',
+    images: 'Images',
   };
   

@@ -7,15 +7,6 @@
                 <BoldNormalText class="text-white">{{ $t('offer.limit_message', { limit: limit }) }}</BoldNormalText>
             </div>
             <div class="grid grid-cols-12 gap-y-4 gap-x-2">
-                <div class="col-span-12" v-if="!isEditMode">
-                    <ImageUploader @update:modelValue="updateImages" />
-                    <div v-if="form.errors.images" class="input-error-message-style">{{ form.errors.images }}</div>
-                    <div v-if="imageErrors.length" class="input-error-message-style">
-                        <ul>
-                            <li v-for="(error, index) in imageErrors" :key="index">{{ error }}</li>
-                        </ul>
-                    </div>
-                </div>
                 <div class="col-span-12">
                     <FormInput name="name" :labelName="$t('common.product_name')" type="text" v-model="form.name"
                         :error="form.errors.name" :required="true" />
@@ -89,6 +80,17 @@
                     <div class="w-full" v-for="filterCategory in filteredFilterCategories" :key="filterCategory.id">
                         <FormSelect :options="filterCategory.options" v-model="form[`fc${filterCategory.id}`]"
                             :labelName="filterCategory[lang]" :name="'fc' + filterCategory.id" :required="false" />
+                    </div>
+                </div>
+                <div class="col-span-12" v-if="!isEditMode">
+                    <label class="mb-2 md:mb-0 capitalize">{{ $t('common.images') }} <span
+                            class="required-star-style">*</span></label>
+                    <ImageUploader @update:modelValue="updateImages" />
+                    <div v-if="form.errors.images" class="input-error-message-style">{{ form.errors.images }}</div>
+                    <div v-if="imageErrors.length" class="input-error-message-style">
+                        <ul>
+                            <li v-for="(error, index) in imageErrors" :key="index">{{ error }}</li>
+                        </ul>
                     </div>
                 </div>
                 <div class="col-span-12">
