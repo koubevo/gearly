@@ -24,5 +24,6 @@ export default {
     save: 'Save',
     uploading: 'Uploading...',
     images: 'Images',
+    interest: 'Interested? Contact the seller!',
   };
   

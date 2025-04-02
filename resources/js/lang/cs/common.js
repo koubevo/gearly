@@ -24,5 +24,6 @@ export default {
     save: 'Uložit',
     uploading: 'Nahrávání...',
     images: 'Obrázky',
+    interest: 'Máš zájem? Kontaktuj prodejce!',
   };
   
