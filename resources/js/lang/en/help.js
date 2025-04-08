@@ -3,7 +3,7 @@ export default {
     how_to_buy_text_1: "<strong>Browse offers</strong> - Choose from various categories, brands, and sizes. Use filters for faster searching.",
     how_to_buy_text_2: "<strong>Click on an offer</strong> - View product details, including description, price, and condition.",
     how_to_buy_text_3_a: "<strong>Contact the seller</strong> - If you're interested, message the seller using the big green button on the offer page and ask for more information, negotiate the price, and arrange delivery. Never share your credit card details or other personal information that is not needed for product delivery!",
-    how_to_buy_text_4: "<strong>Get the product</strong> - After agreeing with the seller, pick up the product or have it shipped to you. After receiving the product, don't forget to confirm in the chat that you received it.",
+    how_to_buy_text_4: "<strong>Get the product</strong> - After agreeing with the seller, pick up the product or have it shipped. At this point, the seller should confirm the sale in the chat. After receiving the product, don't forget to confirm to the seller in the chat that you received it.",
     how_to_buy_text_5: "<strong>Rate the seller</strong> - After a successful purchase, you can rate the seller and leave them a review in the chat.",
     how_to_buy_text_6: "<strong>Enjoy your new product!</strong>",
     how_to_buy_text_7: "We recommend cash on delivery or personal pickup. Never send money in advance if you don't know the seller.",

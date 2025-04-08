@@ -3,7 +3,7 @@ export default {
     how_to_buy_text_1: "<strong>Projdi inzeráty</strong> - Vyber si z různých kategorií, značek a velikostí. Pro rychlejší vyhledávání použij filtry.",
     how_to_buy_text_2: "<strong>Klikni na inzerát</strong> - Prohlédni si podrobnosti o produktu, včetně popisu, ceny a stavu.",
     how_to_buy_text_3_a: "<strong>Kontaktuj prodejce</strong> - Pokud máš zájem, napiš prodejci pomocí velkého zeleného tlačítka na stránce nabídky a zeptej se na další informace, dohodni cenu a způsob dopravy. Nikdy nesděluj údaje o své platební kartě či jiné osobní údaje, které nejsou potřeba k doručení produktu!",
-    how_to_buy_text_4: "<strong>Získej produkt</strong> - Po dohodě s prodejcem si produkt vyzvedni nebo si ho nech poslat. Po převzetí produktu nezapomeň prodejci v chatu potvrdit, že jsi ho dostal.",
+    how_to_buy_text_4: "<strong>Získej produkt</strong> - Po dohodě s prodejcem si produkt vyzvedni nebo si ho nech poslat, v tu chvíli by měl prodejce v chatu potvrdit prodání předmětu. Po převzetí produktu nezapomeň prodejci v chatu potvrdit, že jsi ho dostal.",
     how_to_buy_text_5: "<strong>Ohodnoť prodejce</strong> - Po úspěšném nákupu můžeš prodejce ohodnotit a napsat mu recenzi přímo v chatu.",
     how_to_buy_text_6: "<strong>Užij si svůj nový produkt!",
     how_to_buy_text_7: "Doporučujeme platbu při převzetí (na dobírku) nebo osobní předání. Nikdy neposílej peníze předem, pokud neznáš prodejce.",
