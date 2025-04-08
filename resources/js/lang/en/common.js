@@ -25,5 +25,6 @@ export default {
     uploading: 'Uploading...',
     images: 'Images',
     interest: 'Interested? Contact the seller!',
+    help: 'Help',
   };
   

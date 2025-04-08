@@ -25,5 +25,6 @@ export default {
     uploading: 'Nahrávání...',
     images: 'Obrázky',
     interest: 'Máš zájem? Kontaktuj prodejce!',
+    help: 'Nápověda',
   };
   
