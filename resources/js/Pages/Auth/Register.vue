@@ -95,7 +95,7 @@ const submit = () => {
             </div>
 
             <div class="mt-4">
-                <Link :href="route('conditions')"
+                <Link :href="route('privacy')"
                     class="rounded-md text-sm underline hover:text-black focus:outline-none">
                     {{ $t('auth.accept') }}
                 </Link>

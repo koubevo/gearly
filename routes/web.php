@@ -17,9 +17,13 @@ use Inertia\Inertia;
 
 Route::get('/', [LandingPageController::class, 'index'])->name('landingPage');
 
-Route::get('/conditions', function () {
-    return Inertia::render('Conditions/Index');
-})->name('conditions');
+Route::get('/privacy', function () {
+    return Inertia::render('Conditions/Privacy');
+})->name('privacy');
+
+Route::get('/help', function () {
+    return Inertia::render('Help/Index');
+})->name('help');
 
 Route::get('/api/filters/{categoryId}', [FilterController::class, 'getFiltersByCategory']);
 Route::get('/api/countries', [LocationController::class, 'getCountries']);
