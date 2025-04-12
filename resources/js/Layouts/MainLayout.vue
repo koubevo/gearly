@@ -66,8 +66,9 @@
     <main class="container mx-auto px-2 mt-6">
         <Modal :show="helpModal" @close="closeModal">
           <div class="p-6 overflow-y-auto max-h-[90vh]">
-            <div class="flex justify-between items-end mb-6">
+            <div class="flex justify-between items-center mb-6">
               <Heading2>{{ $t('common.help') }}</Heading2>
+              <Link :href="route('help')" @click="closeModal"><TinyText class="underline">{{ $t('help.full_help') }}</TinyText></Link>
             </div>        
             <HelpContent />
           </div>
@@ -93,6 +94,7 @@ import axios from 'axios';
 import Modal from '@/Components/Modal.vue';
 import Heading2 from '@/Components/Text/Heading2.vue';
 import HelpContent from '@/Components/Help/HelpContent.vue';
+import TinyText from '@/Components/Text/TinyText.vue';
 
 const page = usePage();
 const user = computed(() => page.props.auth?.user);

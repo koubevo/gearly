@@ -72,6 +72,21 @@
                 </ol>
               </div>
             </div>
+            <Divider class="my-4 md:w-full" />        
+            <div class="mb-4">
+                <div class="flex items-center justify-between cursor-pointer select-none"
+                      @click="showGearly = !showGearly">
+                    <Heading3 class="cursor-pointer" @click="showGearly = !showGearly">
+                      {{ $t('help.what_is_gearly') }}
+                    </Heading3>
+                    <ChevronDownIcon
+                        class="w-5 h-5"
+                        :class="{ 'rotate-180': showGearly }" />
+                </div>
+              <div v-if="showGearly">
+                <NormalText class="mt-2">{{ $t('help.what_is_gearly_text_1') }}</NormalText>
+              </div>
+            </div>
 </template>
 
 <script setup>
@@ -89,4 +104,5 @@ const user = computed(() => page.props.auth?.user);
 const showBuy = ref(false)
 const showSell = ref(false)
 const showChat = ref(false)
+const showGearly = ref(false)
 </script>
