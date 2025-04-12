@@ -29,9 +29,8 @@ Route::get('/api/filters/{categoryId}', [FilterController::class, 'getFiltersByC
 Route::get('/api/countries', [LocationController::class, 'getCountries']);
 Route::get('/api/cities', [LocationController::class, 'getCities']);
 
-Route::middleware('auth')->group(function () {
-    Route::post('/api/wishlist/{offer}', [WishlistController::class, 'toggle']);
-});
+Route::post('/api/wishlist/{offer}', [WishlistController::class, 'toggle'])
+    ->middleware('auth');
 
 Route::get('/api/wishlist/{offer}', [WishlistController::class, 'count'])
     ->middleware('auth');
