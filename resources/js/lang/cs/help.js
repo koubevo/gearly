@@ -24,5 +24,8 @@ export default {
     how_to_chat_text_5: "<strong>Pokud prodejce neodpovídá</strong> - Zkus napsat znovu nebo se podívej na jinou nabídku.",
     login_first: "<strong>Nejříve se musíš přihlásit, nebo si založit účet.<strong>",
     do_you_need_help: "Potřebuješ nápovědu?",
+    full_help: "Celá nápověda",
+    what_is_gearly: "Co je to Gearly?",
+    what_is_gearly_text_1: "Gearly je první baseballový a softballový bazar v Evropě. Můžeš zde prodávat a nakupovat jakékoliv vybavení, jako jsou pálky, rukavice, míče, helmy a další. Gearly je zcela zdarma. Projekt vznikl v rámci bakalářské práce Vojtěcha Koubka na Vysoké škole ekonomické v Praze.",
 };
   

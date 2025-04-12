@@ -24,5 +24,8 @@ export default {
     how_to_chat_text_5: "<strong>If the seller doesn't respond</strong> - Try messaging again or check out another offer.",
     login_first: "<strong>You need to be log in or create an account first.<strong>",
     do_you_need_help: "Do you need help?",
+    full_help: "Full help",
+    what_is_gearly: "What is Gearly?",
+    what_is_gearly_text_1: "Gearly is the first baseball and softball marketplace in Europe. You can sell and buy any equipment, such as bats, gloves, balls, helmets, and more. Gearly is completely free. The project was created as part of Vojtěch Koubek's bachelor's thesis at the University of Economics in Prague.",
 };
   
