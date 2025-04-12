@@ -75,19 +75,16 @@
 </template>
 
 <script setup>
+import { usePage } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
 import Divider from '@/Components/Search/Divider.vue';
 import Heading3 from '@/Components/Text/Heading3.vue';
 import NormalText from '@/Components/Text/NormalText.vue';
 import BoldNormalText from '@/Components/Text/BoldNormalText.vue';
 import { ChevronDownIcon } from '@heroicons/vue/24/outline';
-import { ref } from 'vue';
 
-defineProps({
-    user: {
-        type: Object,
-        required: true,
-    },
-})
+const page = usePage();
+const user = computed(() => page.props.auth?.user);
 
 const showBuy = ref(false)
 const showSell = ref(false)

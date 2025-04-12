@@ -69,7 +69,7 @@
             <div class="flex justify-between items-end mb-6">
               <Heading2>{{ $t('common.help') }}</Heading2>
             </div>        
-            <HelpContent :user="user" />
+            <HelpContent />
           </div>
         </Modal>
         <div v-if="flashSuccess" class="flash-message-success-style">
@@ -93,10 +93,6 @@ import axios from 'axios';
 import Modal from '@/Components/Modal.vue';
 import Heading2 from '@/Components/Text/Heading2.vue';
 import HelpContent from '@/Components/Help/HelpContent.vue';
-
-const showBuy = ref(false)
-const showSell = ref(false)
-const showChat = ref(false)
 
 const page = usePage();
 const user = computed(() => page.props.auth?.user);
