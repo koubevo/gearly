@@ -44,10 +44,6 @@ const submit = () => {
                     <Checkbox name="remember" v-model:checked="form.remember" />
                     <span class="ms-2 text-sm">{{ $t('auth.remember_me') }}</span>
                 </label>
-                <Link v-if="canResetPassword" :href="route('password.request')"
-                    class="rounded-md text-sm underline hover:text-black focus:outline-none">
-                    {{ $t('auth.forgot_your_password') }}
-                </Link>
             </div>
 
             <div class="mt-4 flex">

@@ -17,13 +17,9 @@ use Inertia\Inertia;
 
 Route::get('/', [LandingPageController::class, 'index'])->name('landingPage');
 
-Route::post('/test-auth', function () {
-    $user = \Illuminate\Support\Facades\Auth::user();
-    return response()->json([
-        'auth' => $user ? true : false,
-        'user' => $user,
-    ]);
-});
+Route::get('/conditions', function () {
+    return Inertia::render('Conditions/Index');
+})->name('conditions');
 
 Route::get('/api/filters/{categoryId}', [FilterController::class, 'getFiltersByCategory']);
 Route::get('/api/countries', [LocationController::class, 'getCountries']);

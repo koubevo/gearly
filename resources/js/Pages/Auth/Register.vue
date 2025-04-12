@@ -93,6 +93,13 @@ const submit = () => {
             <div class="my-1">
                 <RequiredFieldsNote />
             </div>
+
+            <div class="mt-4">
+                <Link :href="route('conditions')"
+                    class="rounded-md text-sm underline hover:text-black focus:outline-none">
+                    {{ $t('auth.accept') }}
+                </Link>
+            </div>
             
             <div class="mt-4 flex">
                 <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
@@ -102,7 +109,7 @@ const submit = () => {
 
             <div class="mt-4">
                 <Link :href="route('login')"
-                    class="rounded-md text-sm underline hover:text-black focus:outline-none">
+                    class="rounded-md text-sm  hover:text-black focus:outline-none text-primary-900 font-bold">
                     {{ $t('auth.already_have_an_account') }}
                 </Link>
             </div>
