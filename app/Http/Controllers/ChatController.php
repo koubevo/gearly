@@ -69,6 +69,7 @@ class ChatController extends Controller
     public function show(Offer $offer, User $buyer)
     {
         $user = Auth::user();
+        $langColumn = LanguageHelper::getLangColumnForMessages();
 
         if (!($buyer->id === $user->id || $offer->user_id === $user->id)) {
             abort(403, 'You are not allowed to access this page.');
@@ -103,6 +104,10 @@ class ChatController extends Controller
         $averageRating = $user->id == $offer->user_id ? $buyer->getRating() : $offer->seller->getRating();
 
         $this->markAsRead($offer, $buyer);
+
+        $deliveryOptionLangColumn = LanguageHelper::getLangColumn();
+        $deliveryOption = \App\Models\DeliveryOption::find($offer->delivery_option_id);
+        $offer->delivery_option = $deliveryOption->$deliveryOptionLangColumn;
 
         return inertia('Chat/Show', [
             'seller' => $offer->seller,

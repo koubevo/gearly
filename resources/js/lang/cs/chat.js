@@ -21,6 +21,6 @@ export default {
     from: "od",   
     verbal_rating: "Slovní hodnocení",
     send_at_least: "V chatu musí být alespoň 3 zprávy, aby šlo nabídku prodat.",
-    start: "Začni chat zprávou...",
+    start: "Začni chat zprávou... Pokud potřebuješ nápovědu, klikni na ikonu otazníku v horním menu.",
 };
   

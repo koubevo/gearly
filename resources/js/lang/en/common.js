@@ -1,12 +1,12 @@
 export default {
-    name: "name",
-    product_name: "product name",
-    description: "description",
-    price: "price",
-    category: "category",
-    brand: "brand",
-    currency: "currency",
-    condition: "condition",
+    name: "Name",
+    product_name: "Product name",
+    description: "Description",
+    price: "Price",
+    category: "Category",
+    brand: "Brand",
+    currency: "Currency",
+    condition: "Condition",
     required_fields: "Required fields",
     both: "Both",
     offers: "Offers",
@@ -24,5 +24,7 @@ export default {
     save: 'Save',
     uploading: 'Uploading...',
     images: 'Images',
+    interest: 'Interested? Contact the seller!',
+    help: 'Help',
   };
   

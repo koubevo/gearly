@@ -1,6 +1,13 @@
 <template>
     <Head :title="$t('landing.home')" />
+
     <OffersSection :offers="newArrivals" :heading="$t('landing.new_arrivals')" :link="route('offer.index')"/>
+
+    <div class="bg-white border-black border-2 p-1 mb-4 sm:hidden" v-if="!user">
+      <Link class="flex items-center justify-center w-full" :href="route('help')">
+        <TinyText class="text-center font-bold">{{ $t('help.do_you_need_help') }}</TinyText>
+      </Link>
+    </div>
     
     <OffersSection 
         v-if="brandWithMostActiveOffers.length > 2" 
@@ -26,7 +33,7 @@
 <script setup>
 import BrandsSection from '@/Components/LandingPage/BrandsSection.vue';
 import OffersSection from '@/Components/LandingPage/OffersSection.vue';
-import { Head } from '@inertiajs/vue3';
+import { Head, Link } from '@inertiajs/vue3';
 
 defineProps({
     newArrivals: Array,

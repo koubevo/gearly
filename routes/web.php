@@ -17,21 +17,20 @@ use Inertia\Inertia;
 
 Route::get('/', [LandingPageController::class, 'index'])->name('landingPage');
 
-Route::post('/test-auth', function () {
-    $user = \Illuminate\Support\Facades\Auth::user();
-    return response()->json([
-        'auth' => $user ? true : false,
-        'user' => $user,
-    ]);
-});
+Route::get('/privacy', function () {
+    return Inertia::render('Conditions/Privacy');
+})->name('privacy');
+
+Route::get('/help', function () {
+    return Inertia::render('Help/Index');
+})->name('help');
 
 Route::get('/api/filters/{categoryId}', [FilterController::class, 'getFiltersByCategory']);
 Route::get('/api/countries', [LocationController::class, 'getCountries']);
 Route::get('/api/cities', [LocationController::class, 'getCities']);
 
-Route::middleware('auth')->group(function () {
-    Route::post('/api/wishlist/{offer}', [WishlistController::class, 'toggle']);
-});
+Route::post('/api/wishlist/{offer}', [WishlistController::class, 'toggle'])
+    ->middleware('auth');
 
 Route::get('/api/wishlist/{offer}', [WishlistController::class, 'count'])
     ->middleware('auth');

@@ -3,13 +3,13 @@
         class="flex flex-col justify-center items-center"
         :style="{ height: `calc(100vh - ${menuHeight}px - 20px)` }"
     >
-        <div>
+        <div class="mb-6">
             <Link href="/">
                 <img :src="'storage/imgs/logo.png'" alt="Logo" class="w-40 h-auto">
             </Link>
         </div>
 
-        <div class="mt-6 w-full overflow-hidden bg-white p-4 md:p-8 sm:max-w-lg shadow-gray-200 shadow-lg">
+        <div class="w-full overflow-hidden bg-white px-4 pb-4 md:p-8 sm:max-w-lg shadow-gray-200 shadow-lg">
             <slot />
         </div>
     </div>

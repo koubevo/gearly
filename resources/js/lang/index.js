@@ -14,6 +14,8 @@ import chatEn from "./en/chat";
 import chatCs from "./cs/chat";
 import authEn from "./en/auth";
 import authCs from "./cs/auth";
+import helpCs from "./cs/help";
+import helpEn from "./en/help";
 
 export const messages = {
   en: {
@@ -25,6 +27,7 @@ export const messages = {
     user: userEn,
     chat: chatEn,
     auth: authEn,
+    help: helpEn
   },
   cs: {
     landing: landingCs,
@@ -34,6 +37,7 @@ export const messages = {
     wishlist: wishlistCs,
     user: userCs,
     chat: chatCs,
-    auth: authCs
+    auth: authCs,
+    help: helpCs
   },
 };
