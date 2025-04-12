@@ -64,7 +64,7 @@
     </header>
     <div class="bg-primary-900 py-1 sm:hidden">
       <button @click="openModal" class="flex items-center justify-center w-full">
-        <TinyText class="text-white text-center font-bold">Potřebuješ nápovědu?</TinyText>
+        <TinyText class="text-white text-center font-bold">{{ $t('help.do_you_need_help') }}</TinyText>
       </button>
     </div>
 

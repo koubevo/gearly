@@ -23,5 +23,6 @@ export default {
     how_to_chat_text_4: "<strong>Reply to the message</strong> - You can access the chat again by clicking on the chat icon in the top menu or through the offer page.",
     how_to_chat_text_5: "<strong>If the seller doesn't respond</strong> - Try messaging again or check out another offer.",
     login_first: "<strong>You need to be log in or create an account first.<strong>",
+    do_you_need_help: "Do you need help?",
 };
   

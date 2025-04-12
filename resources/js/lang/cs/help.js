@@ -23,5 +23,6 @@ export default {
     how_to_chat_text_4: "<strong>Odpověz na zprávu</strong> - Do chatu se zpátky dostaneš kliknutím na ikonku chatu v horním menu nebo opět přes stránku nabídky.",
     how_to_chat_text_5: "<strong>Pokud prodejce neodpovídá</strong> - Zkus napsat znovu nebo se podívej na jinou nabídku.",
     login_first: "<strong>Nejříve se musíš přihlásit, nebo si založit účet.<strong>",
+    do_you_need_help: "Potřebuješ nápovědu?",
 };
   
