@@ -1,5 +1,5 @@
 <template>
-    <header class="border-b-2 border-black border-solid w-full mb-6">
+    <header class="border-b-2 border-black border-solid w-full">
         <div class="container mx-auto">
             <nav class="py-3 px-2 3xl:px-0 flex items-center justify-between header-height-style">
                 <div class="flex gap-3 md:gap-5 align-middle items-center mt-0.5">
@@ -9,8 +9,8 @@
                     <Link :href="route('search.index')">
                         <MagnifyingGlassIcon class="w-5 h-5 stroke-[2.5]" />
                     </Link>
-                    <Button v-if="user" @click="openModal">
-                        <QuestionMarkCircleIcon class="w-5 h-5" />
+                    <Button @click="openModal" :class="user ? '' : 'hidden sm:block'">
+                      <QuestionMarkCircleIcon class="w-5 h-5" />
                     </Button>
                 </div>
                 <div class="flex gap-3 md:gap-5" v-if="user">
@@ -62,8 +62,13 @@
             </nav>
         </div>
     </header>
+    <div class="bg-primary-900 py-1 sm:hidden">
+      <button @click="openModal" class="flex items-center justify-center w-full">
+        <TinyText class="text-white text-center font-bold">Potřebuješ nápovědu?</TinyText>
+      </button>
+    </div>
 
-    <main class="container mx-auto px-2">
+    <main class="container mx-auto px-2 mt-6">
         <Modal :show="helpModal" @close="closeModal">
           <div class="p-6 overflow-y-auto max-h-[90vh]">
             <div class="flex justify-between items-end mb-6">
@@ -81,6 +86,7 @@
               </div>
               <div v-if="showBuy" class="mt-2">
                 <ol class="list-decimal ml-5 my-2">
+                  <li v-if="!user"><NormalText v-html="$t('help.login_first')" /></li>
                   <li><NormalText v-html="$t('help.how_to_buy_text_1')" /></li>
                   <li><NormalText v-html="$t('help.how_to_buy_text_2')" /></li>
                   <li><NormalText v-html="$t('help.how_to_buy_text_3_a')" /></li>
@@ -93,7 +99,7 @@
                 </BoldNormalText>
               </div>
             </div>
-            <Divider class="my-4 w-full" />
+            <Divider class="my-4 md:w-full" />
             <div class="mb-4">
                 <div class="flex items-center justify-between cursor-pointer select-none"
                       @click="showSell = !showSell">
@@ -107,6 +113,7 @@
                 </div>
               <div v-if="showSell">
                 <ol class="list-decimal ml-5 my-2">
+                  <li v-if="!user"><NormalText v-html="$t('help.login_first')" /></li>
                   <li><NormalText v-html="$t('help.how_to_sell_text_1')" /></li>
                   <li><NormalText v-html="$t('help.how_to_sell_text_2')" /></li>
                   <li><NormalText v-html="$t('help.how_to_sell_text_3')" /></li>
@@ -118,7 +125,7 @@
                 <BoldNormalText class="text-primary-900">{{ $t('help.how_to_sell_text_8') }}</BoldNormalText>
               </div>
             </div>
-            <Divider class="my-4 w-full" />        
+            <Divider class="my-4 md:w-full" />        
             <div class="mb-4">
                 <div class="flex items-center justify-between cursor-pointer select-none"
                       @click="showChat = !showChat">
@@ -131,6 +138,7 @@
                 </div>
               <div v-if="showChat">
                 <ol class="list-decimal ml-5 my-2">
+                  <li v-if="!user"><NormalText v-html="$t('help.login_first')" /></li>
                   <li><NormalText v-html="$t('help.how_to_chat_text_1')" /></li>
                   <li><NormalText v-html="$t('help.how_to_chat_text_2')" /></li>
                   <li><NormalText v-html="$t('help.how_to_chat_text_3')" /></li>
@@ -165,6 +173,7 @@ import Divider from '@/Components/Search/Divider.vue';
 import Heading3 from '@/Components/Text/Heading3.vue';
 import NormalText from '@/Components/Text/NormalText.vue';
 import BoldNormalText from '@/Components/Text/BoldNormalText.vue';
+import TinyText from '@/Components/Text/TinyText.vue';
 
 const showBuy = ref(false)
 const showSell = ref(false)
