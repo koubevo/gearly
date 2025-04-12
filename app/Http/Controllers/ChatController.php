@@ -105,8 +105,9 @@ class ChatController extends Controller
 
         $this->markAsRead($offer, $buyer);
 
+        $deliveryOptionLangColumn = LanguageHelper::getLangColumn();
         $deliveryOption = \App\Models\DeliveryOption::find($offer->delivery_option_id);
-        $offer->delivery_option = $deliveryOption->$langColumn;
+        $offer->delivery_option = $deliveryOption->$deliveryOptionLangColumn;
 
         return inertia('Chat/Show', [
             'seller' => $offer->seller,
