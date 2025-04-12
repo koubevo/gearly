@@ -34,6 +34,11 @@
 import BrandsSection from '@/Components/LandingPage/BrandsSection.vue';
 import OffersSection from '@/Components/LandingPage/OffersSection.vue';
 import { Head, Link } from '@inertiajs/vue3';
+import { usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
+
+const page = usePage();
+const user = computed(() => page.props.auth?.user);
 
 defineProps({
     newArrivals: Array,
