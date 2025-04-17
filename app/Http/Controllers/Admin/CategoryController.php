@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -12,7 +13,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return inertia('Admin/Category/Index', [
+            'categories' => Category::orderBy('name')->get(),
+        ]);
     }
 
     /**
@@ -28,7 +31,19 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'cs' => 'required|string|max:255',
+        ]);
+
+        Category::create([
+            'name' => $request->name,
+            'cs' => $request->cs,
+            'logo' => "default.png",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
     }
 
     /**
@@ -58,8 +73,10 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return redirect()->back()->with('success', 'Kategorie byla smazána.');
     }
 }
