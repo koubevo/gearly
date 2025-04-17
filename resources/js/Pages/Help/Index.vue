@@ -1,7 +1,9 @@
-<template>    
+<template> 
     <Head :title="$t('common.help')" />
-    <Heading1 class="mb-6">{{ $t('common.help') }}</Heading1>
-    <HelpContent/>
+    <section class="mb-8 max-w-5xl mx-auto">
+        <Heading1 class="mb-6">{{ $t('common.help') }}</Heading1>
+        <HelpContent/>
+    </section>    
 </template>
 
 <script setup>
