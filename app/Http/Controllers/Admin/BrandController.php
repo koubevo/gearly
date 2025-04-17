@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use Illuminate\Http\Request;
 
 class BrandController extends Controller
@@ -12,7 +13,9 @@ class BrandController extends Controller
      */
     public function index()
     {
-        //
+        return inertia('Admin/Brand/Index', [
+            'brands' => \App\Models\Brand::orderBy('name')->get(),
+        ]);
     }
 
     /**
@@ -28,7 +31,17 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        Brand::create([
+            'name' => $request->name,
+            'logo' => "default.png",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
     }
 
     /**
