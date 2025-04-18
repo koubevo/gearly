@@ -78,25 +78,26 @@
       <Divider class="md:w-full my-4"/>
 
       <div class="flex flex-col items-center">
-        <div class="flex mx-auto mb-4" @mouseleave="resetHover">
+        <div class="flex mx-auto mb-4">
           <template v-for="star in 5" :key="star">
-            {{ selectedRating }}
-            <StarIcon 
-              v-if="hoveredRating !== null ? star <= hoveredRating : star <= selectedRating" 
-              @mouseover="hoverRating(star)" 
+            <div
+              @click="setRating(star)"
+              @mouseover="hoverRating(star)"
               @mouseleave="resetHover"
-              @click="setRating(star)" 
-              class="text-primary-900 w-10 h-10 cursor-pointer"
-            />
-            <StarOutlineIcon 
-              v-else 
-              @mouseover="hoverRating(star)" 
-              @mouseleave="resetHover"
-              @click="setRating(star)" 
-              class="text-gray-300 w-10 h-10 cursor-pointer"
-            />
+              class="cursor-pointer"
+            >
+              <StarIcon 
+                v-if="hoveredRating !== null ? star <= hoveredRating : star <= selectedRating" 
+                class="text-primary-900 w-10 h-10"
+              />
+              <StarOutlineIcon 
+                v-else 
+                class="text-gray-300 w-10 h-10"
+              />
+            </div>
           </template>
         </div>
+
 
         <div class="mb-4 w-full">
           <FormTextArea v-model="comment" :labelName="$t('chat.verbal_rating')" name="verbal" />
