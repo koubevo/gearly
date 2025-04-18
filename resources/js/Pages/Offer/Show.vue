@@ -26,7 +26,16 @@
                         v-if="offer.delivery_detail" />
                 </div>
                 <div class="mt-6">
-                    <BoldNormalText v-if="seller.id !== user.id">{{ $t('common.interest') }}</BoldNormalText>
+                    <Link :href="route('chat.show', { offer: offer.id, buyer: user.id })" v-if="seller.id !== user.id">
+                        <BoldNormalText>
+                            <QuestionMarkCircleIcon class="w-5 h-5 inline-block align-text-bottom stroke-[2]" />
+                            {{ $t('common.interest') }}
+                        </BoldNormalText>
+                    </Link>
+                    <BoldNormalText v-if="seller.id === user.id && offer.statusNumber === 1">
+                            <QuestionMarkCircleIcon class="w-5 h-5 inline-block align-text-bottom stroke-[2]" />
+                            {{ $t('common.want_to_sell') }}
+                    </BoldNormalText>
                 </div>
             </section>
             <Link :href="seller.id === user.id ? '/profile' : route('user.show', { user: seller.id })">
@@ -91,6 +100,8 @@ import OfferUserDetail from '@/Components/User/OfferUserDetail.vue';
 import ConditionLike from '@/Components/Offer/ConditionLike.vue';
 import { Head } from '@inertiajs/vue3';
 import BoldNormalText from '@/Components/Text/BoldNormalText.vue';
+import { QuestionMarkCircleIcon } from '@heroicons/vue/24/outline';
+
 
 onMounted(() => {
     window.scrollTo(0, 0);

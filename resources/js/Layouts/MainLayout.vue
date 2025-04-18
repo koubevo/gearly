@@ -10,7 +10,7 @@
                         <MagnifyingGlassIcon class="w-5 h-5 stroke-[2.5]" />
                     </Link>
                     <Button @click="openModal" :class="user ? '' : 'hidden sm:block'">
-                      <QuestionMarkCircleIcon class="w-5 h-5" />
+                      <QuestionMarkCircleIcon class="w-5 h-5 stroke-[2]" />
                     </Button>
                 </div>
                 <div class="flex gap-3 md:gap-5" v-if="user">
