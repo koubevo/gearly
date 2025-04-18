@@ -4,8 +4,7 @@
         <InfoSection :seller="seller" :offer="offer" :buyer="buyer" :rating="rating" :name="name" :userId="userId" class="mb-4 flex-shrink-0"/>
         <ChatSection ref="chatSectionRef" :seller="seller" :offer="offer" :buyer="buyer" class="mb-4 flex-grow overflow-auto"/>
         <section class="flex items-center justify-between gap-2 flex-shrink-0">
-            <button class="primary-button-chat-style-disabled" v-if="chatSectionRef?.messagesCount <= 2 && offer.user_id === currentUser.id && offer.statusNumber === 1" :title="$t('chat.send_at_least')">{{ $t('chat.sell') }}</button>
-            <button class="primary-button-chat-style" v-if="chatSectionRef?.messagesCount > 2 && offer.user_id === currentUser.id && offer.statusNumber === 1" @click="openModal">{{ $t('chat.sell') }}</button>
+            <button class="primary-button-chat-style" v-if="offer.user_id === currentUser.id && offer.statusNumber === 1" @click="openModal">{{ $t('chat.sell') }}</button>
             <button class="primary-button-chat-style" v-if="offer.is_buyer && offer.statusNumber === 2" @click="openModal">{{ $t('chat.receive') }}</button>
             <button class="secondary-button-chat-style" v-if="offer.user_id === currentUser.id && offer.statusNumber === 2" @click="openModal">{{ $t('chat.cancel') }}</button>
             <button class="primary-button-chat-style" v-if="offer.statusNumber === 3 && ableToRate" @click="openModal">{{ $t('chat.rate') }}</button>
@@ -13,7 +12,7 @@
             <button @click="sendMessage" class="mx-2"><PaperAirplaneIcon class="w-5 h-5 stroke-[2]"/></button>
         </section>
     </section>
-    <Modal :show="modal" @close="closeModal" v-if="chatSectionRef?.messagesCount > 2 && offer.user_id === currentUser.id && offer.statusNumber === 1">
+    <Modal :show="modal" @close="closeModal" v-if="offer.user_id === currentUser.id && offer.statusNumber === 1">
       <div class="p-6">
           <div class="flex justify-between items-end mb-2">
             <Heading2>{{ $t('chat.do_you_want_to_sell') }} <span class="text-primary-900">{{ offer.name }}</span> {{ $t('chat.to_user') }} <span class="text-primary-900">{{ buyer.name }}</span>?</Heading2>
@@ -82,14 +81,16 @@
         <div class="flex mx-auto mb-4" @mouseleave="resetHover">
           <template v-for="star in 5" :key="star">
             <StarIcon 
-              v-if="star <= (hoveredRating || selectedRating)" 
+              v-if="hoveredRating !== null ? star <= hoveredRating : star <= selectedRating" 
               @mouseover="hoverRating(star)" 
+              @mouseleave="resetHover"
               @click="setRating(star)" 
               class="text-primary-900 w-10 h-10 cursor-pointer"
             />
             <StarOutlineIcon 
               v-else 
               @mouseover="hoverRating(star)" 
+              @mouseleave="resetHover"
               @click="setRating(star)" 
               class="text-gray-300 w-10 h-10 cursor-pointer"
             />

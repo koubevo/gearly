@@ -75,6 +75,28 @@
             <Divider class="my-4 md:w-full" />        
             <div class="mb-4">
                 <div class="flex items-center justify-between cursor-pointer select-none"
+                      @click="showRating = !showRating">
+                    <Heading3 class="cursor-pointer" @click="showRating = !showRating">
+                      {{ $t('help.how_to_rate') }}
+                    </Heading3>
+                    <ChevronDownIcon
+                        class="w-5 h-5"
+                        :class="{ 'rotate-180': showRating }" />
+                </div>
+              <div v-if="showRating">
+                <ol class="list-decimal ml-5 my-2">
+                  <li v-if="!user"><NormalText v-html="$t('help.login_first')" /></li>
+                  <li><NormalText v-html="$t('help.how_to_chat_text_1')" /></li>
+                  <li><NormalText v-html="$t('help.how_to_chat_text_2')" /></li>
+                  <li><NormalText v-html="$t('help.how_to_chat_text_3')" /></li>
+                  <li><NormalText v-html="$t('help.how_to_chat_text_4')" /></li>
+                  <li><NormalText v-html="$t('help.how_to_chat_text_5')" /></li>
+                </ol>
+              </div>
+            </div>
+            <Divider class="my-4 md:w-full" />        
+            <div class="mb-4">
+                <div class="flex items-center justify-between cursor-pointer select-none"
                       @click="showGearly = !showGearly">
                     <Heading3 class="cursor-pointer" @click="showGearly = !showGearly">
                       {{ $t('help.what_is_gearly') }}
@@ -105,4 +127,5 @@ const showBuy = ref(false)
 const showSell = ref(false)
 const showChat = ref(false)
 const showGearly = ref(false)
+const showRating = ref(false)
 </script>

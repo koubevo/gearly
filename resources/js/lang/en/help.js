@@ -27,5 +27,12 @@ export default {
     full_help: "Full help",
     what_is_gearly: "What is Gearly?",
     what_is_gearly_text_1: "Gearly is the first baseball and softball marketplace in Europe. You can sell and buy any equipment, such as bats, gloves, balls, helmets, and more. Gearly is completely free. The project was created as part of Vojtěch Koubek's bachelor's thesis at the University of Economics in Prague.",
+    how_to_rate: "How to rate someone?",
+    how_to_rate_text_1: "<strong>Successfully complete the purchase or sale</strong> - To rate a user, the transaction must be completed. This means that the seller marks the product as sold and the buyer confirms its receipt.",
+    how_to_rate_text_2: "<strong>Open the chat</strong> - After successfully completing the transaction, a new <strong>Rate</strong> button will appear in the chat between you and the other party (buyer or seller).",
+    how_to_rate_text_3: "<strong>Vyber hodnocení</strong> - Klikni na tlačítko <strong>Ohodnotit</strong>, vyber počet hvězdiček (1 až 5) a napiš krátké hodnocení, které pomůže ostatním uživatelům lépe poznat spolehlivost uživatele.",
+    how_to_rate_text_4: "<strong>View ratings</strong> - You can see other users' ratings on their profiles, and your own ratings (the ones you've received) will be neatly displayed on your profile.",
+    how_to_rate_text_5: "<strong>Take ratings as a general guideline – even a user with five stars can disappoint sometimes.</strong>",
+
 };
   

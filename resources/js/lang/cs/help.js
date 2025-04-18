@@ -27,5 +27,11 @@ export default {
     full_help: "Celá nápověda",
     what_is_gearly: "Co je to Gearly?",
     what_is_gearly_text_1: "Gearly je první baseballový a softballový bazar v Evropě. Můžeš zde prodávat a nakupovat jakékoliv vybavení, jako jsou pálky, rukavice, míče, helmy a další. Gearly je zcela zdarma. Projekt vznikl v rámci bakalářské práce Vojtěcha Koubka na Vysoké škole ekonomické v Praze.",
+    how_to_rate: "Jak někoho ohodnotit?",
+    how_to_rate_text_1: "<strong>Dokonči úspěšně nákup nebo prodej</strong> - Aby bylo možné uživatele ohodnotit, musí být transakce dokončena. To znamená, že prodejce označí produkt jako prodáný a kupující potvrdí jeho převzetí.",
+    how_to_rate_text_2: "<strong>Otevři chat</strong> - Po úspěšném dokončení obchodu se v chatu mezi tebou a druhou stranou (kupujícím nebo prodejcem) objeví nové tlačítko <strong>Ohodnotit</strong>.",
+    how_to_rate_text_3: "<strong>Vyber hodnocení</strong> - Klikni na tlačítko <strong>Ohodnotit</strong>, vyber počet hvězdiček (1 až 5) a napiš krátké hodnocení, které pomůže ostatním uživatelům lépe poznat spolehlivost uživatele.",
+    how_to_rate_text_4: "<strong>Prohlížej hodnocení</strong> - Hodnocení ostatních uvidíš na jejich profilu, svoje (ty které jsi obdržel/a) pak přehledně na tom svém.",
+    how_to_rate_text_5: "<strong>Hodnocení ber spíš jako orientační vodítko – i uživatel s pěti hvězdičkami může občas zklamat.</strong>",
 };
   

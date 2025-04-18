@@ -11,6 +11,6 @@ export default {
     city: "Město pobytu",
     register: "Registrovat se",
     already_have_an_account: "Již máš účet? Přihlaš se zde!",
-    accept: "Registrací souhlasíš s našimi podmínkami a zásadami ochrany osobních údajů.",
+    accept: "Registrací souhlasíš se zásadami zpracování osobních údajů.",
 };
   
