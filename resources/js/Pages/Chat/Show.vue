@@ -81,14 +81,16 @@
         <div class="flex mx-auto mb-4" @mouseleave="resetHover">
           <template v-for="star in 5" :key="star">
             <StarIcon 
-              v-if="star <= (hoveredRating || selectedRating)" 
+              v-if="hoveredRating !== null ? star <= hoveredRating : star <= selectedRating" 
               @mouseover="hoverRating(star)" 
+              @mouseleave="resetHover"
               @click="setRating(star)" 
               class="text-primary-900 w-10 h-10 cursor-pointer"
             />
             <StarOutlineIcon 
               v-else 
               @mouseover="hoverRating(star)" 
+              @mouseleave="resetHover"
               @click="setRating(star)" 
               class="text-gray-300 w-10 h-10 cursor-pointer"
             />
