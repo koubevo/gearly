@@ -26,5 +26,6 @@ export default {
     images: 'Images',
     interest: 'Interested? Contact the seller!',
     help: 'Help',
+    want_to_sell: 'Do you want to sell this item? Go to the chat with the buyer and mark offer as sold.',
   };
   

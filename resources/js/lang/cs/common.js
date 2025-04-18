@@ -26,5 +26,6 @@ export default {
     images: 'Obrázky',
     interest: 'Máš zájem? Kontaktuj prodejce!',
     help: 'Nápověda',
+    want_to_sell: 'Chceš prodat tento produkt? Jdi do chatu s kupujícím a označ nabídku jako prodanou.',
   };
   
