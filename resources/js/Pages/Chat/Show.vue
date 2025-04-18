@@ -80,6 +80,7 @@
       <div class="flex flex-col items-center">
         <div class="flex mx-auto mb-4" @mouseleave="resetHover">
           <template v-for="star in 5" :key="star">
+            {{ selectedRating }}
             <StarIcon 
               v-if="hoveredRating !== null ? star <= hoveredRating : star <= selectedRating" 
               @mouseover="hoverRating(star)" 
