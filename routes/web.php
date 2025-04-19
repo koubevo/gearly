@@ -115,7 +115,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('categories', CategoryController::class);
     Route::resource('filter-categories', FilterCategoryController::class);
     Route::resource('filters', AdminFilterController::class);
-    Route::resource('filter-mappings', FilterFcMappingController::class);
     Route::resource('delivery-options', DeliveryOptionController::class);
 });
 

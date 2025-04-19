@@ -16,6 +16,9 @@
                 <SecondaryLink :href="route('admin.filter-categories.index')" class="w-full">
                     Správa kategorií filtrů
                 </SecondaryLink>
+                <SecondaryLink :href="route('admin.filters.index')" class="w-full">
+                    Správa filtrů
+                </SecondaryLink>
             </div>
         </div>
     </div>
