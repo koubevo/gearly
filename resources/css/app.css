@@ -110,67 +110,78 @@
     @apply font-black text-primary-900;
 }
 
+.filepond--wrapper {
+    @apply border md:border-black;
+}
+
 .filepond--root {
-    @apply shadow-sm transition duration-300 bg-gray-200 md:bg-white rounded-none border md:border-black;
-    --tw-shadow: none;
-  }
-  
-  .filepond--drop-label {
-    @apply text-gray-600 text-sm bg-gray-200 md:bg-white;
-  }
-  
-  .filepond--action-button {
-    @apply text-gray-700 hover:bg-gray-300 shadow-md rounded-none;
-  }
-  
-  .filepond--image-preview-wrapper {
-    @apply rounded-none;
-  }
+  @apply shadow-sm transition duration-300 bg-gray-200 md:bg-white rounded-none mb-0 !important;
+  --tw-shadow: none;
+}
+
+.filepond--drop-label {
+  @apply text-gray-600 text-sm bg-gray-200 md:bg-white;
+}
+
+.filepond--action-button {
+  @apply text-gray-700 hover:bg-gray-300 shadow-md rounded-none;
+}
+
+.filepond--image-preview-wrapper {
+  @apply rounded-none;
+}
 
 .filepond--image-preview {
-    border-radius: 0 !important;
-  }
-  
-  .filepond--item {
-    border-radius: 0 !important;
-  }
+  border-radius: 0 !important;
+}
 
-  .filepond--panel-root {
-    @apply bg-transparent !important;
-  }
+.filepond--item {
+  border-radius: 0 !important;
+}
+.filepond--panel-root {
+  @apply bg-transparent !important;
+}
 
 .filepond--image-preview-wrapper {
     @apply rounded-none !important;
 }
 
-  .input-style {
+.filepond--image-preview-wrapper:first-of-type {
+    @apply border-2 border-green-600;
+}
+
+.filepond--credits {
+    @apply hidden
+}
+
+.input-style {
     outline: none !important;
     box-shadow: none !important;
     border: 1px black solid !important;
 }  
 
 .thumbnails-container {
-    max-width: 100%;
-    white-space: nowrap;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  
-  .thumbnails-container::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .thumbnails img {
-    transition: transform 0.2s;
-  }
-  
-  .thumbnails img {
-    min-width: 70px;
-  }
-  
-  .thumbnails img:hover {
-    transform: scale(1.1);
-  }
+  max-width: 100%;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.thumbnails-container::-webkit-scrollbar {
+  display: none;
+}
+
+.thumbnails img {
+  transition: transform 0.2s;
+}
+
+.thumbnails img {
+  min-width: 70px;
+}
+
+.thumbnails img:hover {
+  transform: scale(1.1);
+}
 
 @keyframes fadeOut {
     from {
