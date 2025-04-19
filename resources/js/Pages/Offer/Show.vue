@@ -39,7 +39,7 @@
                     <Link :href="route('login')" v-if="!user.id">
                         <BoldNormalText>
                             <QuestionMarkCircleIcon class="w-5 h-5 inline-block align-text-bottom stroke-[2]" />
-                            {{ $t('common.interest') }}
+                            {{ $t('common.want_to_buy_not_logged_in') }}
                         </BoldNormalText>
                     </Link>
                 </div>
