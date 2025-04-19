@@ -127,10 +127,6 @@
   @apply text-gray-700 hover:bg-gray-300 shadow-md rounded-none;
 }
 
-.filepond--image-preview-wrapper {
-  @apply rounded-none;
-}
-
 .filepond--image-preview {
   border-radius: 0 !important;
 }
@@ -144,10 +140,6 @@
 
 .filepond--image-preview-wrapper {
     @apply rounded-none !important;
-}
-
-.filepond--image-preview-wrapper:first-of-type {
-    @apply border-2 border-green-600;
 }
 
 .filepond--credits {
