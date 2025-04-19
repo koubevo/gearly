@@ -94,15 +94,15 @@ const filteredFilterCategories = ref([]);
 const fetchFilterOptions = async (categoryId) => {
     try {
         const selectedCategory = props.categories.find(cat => cat.id === categoryId);
-        if (selectedCategory && selectedCategory.filters?.length) {
+        if (selectedCategory && selectedCategory.filter_categories?.length) {
             const responses = await Promise.all(
-                selectedCategory.filters.map(filter =>
-                    axios.get(`/api/filters/${filter.id}`)
+                selectedCategory.filter_categories.map(filterCategory =>
+                    axios.get(route('api.filters', { filterCategoryId: filterCategory.id }))
                 )
             );
 
-            filteredFilterCategories.value = selectedCategory.filters.map((filter, index) => {
-                const fieldName = `fc${filter.id}`;
+            filteredFilterCategories.value = selectedCategory.filter_categories.map((filterCategory, index) => {
+                const fieldName = `fc${filterCategory.id}`;
 
                 if (!(fieldName in form)) {
                     form.defaults({ [fieldName]: props.filters?.[fieldName] ? Number(props.filters[fieldName]) : null });
@@ -110,7 +110,7 @@ const fetchFilterOptions = async (categoryId) => {
                 }
             
                 return {
-                    ...filter,
+                    ...filterCategory,
                     options: responses[index].data
                 };
             });
@@ -118,7 +118,7 @@ const fetchFilterOptions = async (categoryId) => {
             filteredFilterCategories.value = [];
         }
     } catch (e) {
-        console.error("err");
+        console.error("err", e);
     }
 };
 
@@ -127,7 +127,7 @@ watch(
     async (newCategory, oldCategory) => {
         if (newCategory !== oldCategory) {
             await fetchFilterOptions(newCategory);
-            const allowedKeys = filteredFilterCategories.value.map(f => `fc${f.id}`);
+            const allowedKeys = filteredFilterCategories.value.map(fc => `fc${fc.id}`);
             Object.keys(form.data()).forEach(key => {
                 if (key.startsWith('fc') && !allowedKeys.includes(key)) {
                     form[key] = null;
