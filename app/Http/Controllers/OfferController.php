@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Validation\Rules\Enum;
+use App\Enums\ConditionEnum;
+use App\Enums\SportEnum;
 use App\Helpers\LanguageHelper;
 use App\Models\Brand;
 use App\Models\Category;
@@ -135,16 +138,16 @@ class OfferController extends Controller implements HasMedia
         }
 
         $rules = [
-            'name' => 'required|string',
-            'description' => 'required|string',
+            'name' => 'required|string|min:3|max:60',
+            'description' => 'required|string|min:3|max:1000',
             'price' => 'required|numeric|min:0|max:99999|regex:/^\d{1,5}(\.\d{1,2})?$/',
             'currency' => 'required|string|in:eur,czk',
-            'condition' => 'required|in:1,2,3',
-            'sport_id' => 'required|integer|in:1,2,3',
+            'condition' => ['required', new Enum(ConditionEnum::class)],
+            'sport_id' => ['required', new Enum(SportEnum::class)],
             'category_id' => 'required|integer|min:1',
             'brand_id' => 'required|integer|min:1',
             'delivery_option_id' => 'required|integer|min:1',
-            'delivery_detail' => 'nullable|string',
+            'delivery_detail' => 'nullable|string|max:255',
             'images' => 'required|array|min:1',
             'images.*' => 'image|max:5120',
         ];
