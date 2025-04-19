@@ -248,7 +248,9 @@ const fetchFilterOptions = async (categoryId) => {
         const selectedCategory = props.categories.find(cat => cat.id === categoryId);
         if (selectedCategory) {
             const responses = await Promise.all(
-                selectedCategory.filter_categories.map(filterCategory => axios.get(`/api/filters/${filterCategory.id}`))
+                selectedCategory.filter_categories.map(filterCategory => 
+                    axios.get(route('api.filters', { filterCategoryId: filterCategory.id }))
+                )
             );
             filteredFilterCategories.value = selectedCategory.filter_categories.map((filterCategory, index) => ({
                 ...filterCategory,
