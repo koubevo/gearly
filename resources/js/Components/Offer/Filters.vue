@@ -50,7 +50,7 @@
                     <SearchInput v-model="form.search" class="w-full"/>
                 </div>
                 <div>
-                    <PrimaryButton text="Search" class="w-full md:w-auto" type="submit" />
+                    <PrimaryButton :text="$t('search.search')" class="w-full md:w-auto" type="submit" />
                 </div>
             </div>
         </form>
