@@ -111,15 +111,16 @@
 }
 
 .filepond--root {
-    @apply bg-white shadow-sm transition duration-300 rounded-none;
+    @apply shadow-sm transition duration-300 bg-gray-200 md:bg-white rounded-none border md:border-black;
+    --tw-shadow: none;
   }
   
   .filepond--drop-label {
-    @apply text-gray-600 text-sm;
+    @apply text-gray-600 text-sm bg-gray-200 md:bg-white;
   }
   
   .filepond--action-button {
-    @apply text-gray-700 bg-gray-200 hover:bg-gray-300 shadow-md rounded-none;
+    @apply text-gray-700 hover:bg-gray-300 shadow-md rounded-none;
   }
   
   .filepond--image-preview-wrapper {
@@ -133,6 +134,14 @@
   .filepond--item {
     border-radius: 0 !important;
   }
+
+  .filepond--panel-root {
+    @apply bg-transparent !important;
+  }
+
+.filepond--image-preview-wrapper {
+    @apply rounded-none !important;
+}
 
   .input-style {
     outline: none !important;
