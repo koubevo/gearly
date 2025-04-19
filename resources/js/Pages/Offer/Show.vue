@@ -26,7 +26,7 @@
                         v-if="offer.delivery_detail" />
                 </div>
                 <div class="mt-6">
-                    <Link :href="route('chat.show', { offer: offer.id, buyer: user.id })" v-if="seller.id !== user.id">
+                    <Link :href="route('chat.show', { offer: offer.id, buyer: user.id })" v-if="seller.id !== user.id && user.id">
                         <BoldNormalText>
                             <QuestionMarkCircleIcon class="w-5 h-5 inline-block align-text-bottom stroke-[2]" />
                             {{ $t('common.interest') }}
