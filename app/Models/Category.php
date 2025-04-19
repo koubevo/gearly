@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
-    public function filters(): BelongsToMany
+    public function filterCategories(): BelongsToMany
     {
         return $this->belongsToMany(FilterCategory::class, 'filter_fc_mappings', 'category_id', 'filter_category_id');
     }

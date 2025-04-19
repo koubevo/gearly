@@ -25,14 +25,19 @@ Route::get('/help', function () {
     return Inertia::render('Help/Index');
 })->name('help');
 
-Route::get('/api/filters/{categoryId}', [FilterController::class, 'getFiltersByCategory']);
-Route::get('/api/countries', [LocationController::class, 'getCountries']);
-Route::get('/api/cities', [LocationController::class, 'getCities']);
+Route::get('/api/filters/{filterCategoryId}', [FilterController::class, 'getFiltersByCategory'])
+    ->name('api.filters');
+Route::get('/api/countries', [LocationController::class, 'getCountries'])
+    ->name('api.countries');
+Route::get('/api/cities', [LocationController::class, 'getCities'])
+    ->name('api.cities');
 
 Route::post('/api/wishlist/{offer}', [WishlistController::class, 'toggle'])
+    ->name('wishlist.toggle')
     ->middleware('auth');
 
 Route::get('/api/wishlist/{offer}', [WishlistController::class, 'count'])
+    ->name('wishlist.count')
     ->middleware('auth');
 
 Route::get('/api/chat/{offer}/{buyer}', [ChatController::class, 'loadMessages'])
