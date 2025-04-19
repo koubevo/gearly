@@ -14,11 +14,18 @@
         </div>
     </form>
     <Heading2 class="mt-8 mb-4">Existující značky</Heading2>
-    <ul class="divide-y border overflow-hidden">
-        <li v-for="brand in brands" :key="brand.id" class="flex items-center justify-between px-4 py-2 hover:bg-gray-100">
-            <span>{{ brand.name }}</span>
-        </li>
-    </ul>
+    <table class="table-auto w-full border-collapse border border-gray-200 mb-8">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="border border-gray-200 px-4 py-2 text-left">Název značky</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="brand in brands" :key="brand.id" class="hover:bg-gray-100">
+                <td class="border border-gray-200 px-4 py-2">{{ brand.name }}</td>
+            </tr>
+        </tbody>
+    </table>
 </template>
 
 <script setup>

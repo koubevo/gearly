@@ -18,11 +18,20 @@
         </div>
     </form>
     <Heading2 class="mt-8 mb-4">Existující kategorie</Heading2>
-    <ul class="divide-y border overflow-hidden">
-        <li v-for="category in categories" :key="category.id" class="flex items-center justify-between px-4 py-2 hover:bg-gray-100">
-            <span>{{ category.name }}</span>
-        </li>
-    </ul>
+    <table class="table-auto w-full border-collapse border border-gray-200 mb-8">
+        <thead>
+            <tr class="bg-gray-100">
+                <th class="border border-gray-200 px-4 py-2 text-left">Název kategorie (EN)</th>
+                <th class="border border-gray-200 px-4 py-2 text-left">Název kategorie (CS)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="category in categories" :key="category.id" class="hover:bg-gray-100">
+                <td class="border border-gray-200 px-4 py-2">{{ category.name }}</td>
+                <td class="border border-gray-200 px-4 py-2">{{ category.cs }}</td>
+            </tr>
+        </tbody>
+    </table>
 
 </template>
 

@@ -43,7 +43,6 @@ class CategoryController extends Controller
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
     }
 
     /**
