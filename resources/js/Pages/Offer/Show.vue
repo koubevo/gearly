@@ -36,6 +36,12 @@
                             <QuestionMarkCircleIcon class="w-5 h-5 inline-block align-text-bottom stroke-[2]" />
                             {{ $t('common.want_to_sell') }}
                     </BoldNormalText>
+                    <Link :href="route('login')" v-if="!user.id">
+                        <BoldNormalText>
+                            <QuestionMarkCircleIcon class="w-5 h-5 inline-block align-text-bottom stroke-[2]" />
+                            {{ $t('common.interest') }}
+                        </BoldNormalText>
+                    </Link>
                 </div>
             </section>
             <Link :href="seller.id === user.id ? '/profile' : route('user.show', { user: seller.id })">

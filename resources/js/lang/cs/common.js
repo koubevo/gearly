@@ -27,5 +27,6 @@ export default {
     interest: 'Máš zájem? Kontaktuj prodejce!',
     help: 'Nápověda',
     want_to_sell: 'Chceš prodat tento produkt? Jdi do chatu s kupujícím a označ nabídku jako prodanou.',
+    want_to_buy_not_logged_in: 'Chceš koupit tento produkt? Přihlas se nebo se zaregistruj a kontaktuj prodejce.',
   };
   
