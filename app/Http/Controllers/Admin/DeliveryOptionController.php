@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DeliveryOption;
 use Illuminate\Http\Request;
 
 class DeliveryOptionController extends Controller
@@ -12,7 +13,9 @@ class DeliveryOptionController extends Controller
      */
     public function index()
     {
-        //
+        return inertia('Admin/DeliveryOption/Index', [
+            'delivery_options' => DeliveryOption::orderBy('name')->get(),
+        ]);
     }
 
     /**
@@ -28,7 +31,17 @@ class DeliveryOptionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'cs' => 'required|string|max:255',
+        ]);
+
+        DeliveryOption::create([
+            'name' => $request->name,
+            'cs' => $request->cs,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 
     /**
