@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\FilterCategory;
 use Illuminate\Http\Request;
 
 class FilterCategoryController extends Controller
@@ -12,7 +13,9 @@ class FilterCategoryController extends Controller
      */
     public function index()
     {
-        //
+        return inertia('Admin/FilterCategory/Index', [
+            'filter_categories' => FilterCategory::orderBy('name')->get(),
+        ]);
     }
 
     /**
@@ -28,7 +31,18 @@ class FilterCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'cs' => 'required|string|max:255',
+        ]);
+
+        FilterCategory::create([
+            'name' => $request->name,
+            'cs' => $request->cs,
+            'logo' => "default.png",
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 
     /**

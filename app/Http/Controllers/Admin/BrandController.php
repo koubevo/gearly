@@ -41,7 +41,6 @@ class BrandController extends Controller
             'created_at' => now(),
             'updated_at' => now(),
         ]);
-
     }
 
     /**

@@ -13,6 +13,9 @@
                 <SecondaryLink :href="route('admin.delivery-options.index')" class="w-full">
                     Správa způsobů dopravy
                 </SecondaryLink>
+                <SecondaryLink :href="route('admin.filter-categories.index')" class="w-full">
+                    Správa kategorií filtrů
+                </SecondaryLink>
             </div>
         </div>
     </div>
