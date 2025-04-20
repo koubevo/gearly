@@ -27,5 +27,6 @@ export default {
     interest: 'Interested? Contact the seller!',
     help: 'Help',
     want_to_sell: 'Do you want to sell this item? Go to the chat with the buyer and mark offer as sold.',
+    want_to_buy_not_logged_in: 'Do you want to buy this item? Log in or register and contact the seller.',
   };
   

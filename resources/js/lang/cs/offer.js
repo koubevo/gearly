@@ -1,7 +1,7 @@
 export default {
     add_new_offer: "Přidat novou nabídku",
     drop_images: "Vložte obrázky...",
-    delivery_option: "Možnost doručení",
+    delivery_option: "Způsob doručení",
     delivery_detail: "Poznámka k doručení",
     filters_description: "Filtry jsou nepovinné, ale jejich použití může pomoci, aby se vaše položka prodala rychleji. Navíc usnadňují kupujícím nalezení toho, co přesně hledají. Pokud nějaký konkrétní filtr chybí, můžete doplňující informace uvést v popisu.",
     filters_description_bold: "Filtry jsou dostupné pouze pro určité kategorie produktů.",

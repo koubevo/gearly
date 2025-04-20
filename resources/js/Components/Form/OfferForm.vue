@@ -219,8 +219,8 @@ const handleSubmit = () => {
             }
         });
     } else {
-        filteredFilterCategories.value.forEach(filter => {
-            const key = `fc${filter.id}`;
+        filteredFilterCategories.value.forEach(filterCategory => {
+            const key = `fc${filterCategory.id}`;
             if (form[key]) {
                 dataToSend.append(key, form[key]);
             }
@@ -248,10 +248,12 @@ const fetchFilterOptions = async (categoryId) => {
         const selectedCategory = props.categories.find(cat => cat.id === categoryId);
         if (selectedCategory) {
             const responses = await Promise.all(
-                selectedCategory.filters.map(filter => axios.get(`/api/filters/${filter.id}`))
+                selectedCategory.filter_categories.map(filterCategory => 
+                    axios.get(route('api.filters', { filterCategoryId: filterCategory.id }))
+                )
             );
-            filteredFilterCategories.value = selectedCategory.filters.map((filter, index) => ({
-                ...filter,
+            filteredFilterCategories.value = selectedCategory.filter_categories.map((filterCategory, index) => ({
+                ...filterCategory,
                 options: responses[index].data
             }));
         }

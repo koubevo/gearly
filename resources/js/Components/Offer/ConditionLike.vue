@@ -47,7 +47,7 @@ const toggleFavorite = async () => {
     }
 
     try {
-        const response = await axios.post(`/api/wishlist/${props.offer.id}`);
+        const response = await axios.post(route('wishlist.toggle', { id: props.offer.id }));
 
         if (response.data.status === 'added') {
             isFavorited.value = true;
