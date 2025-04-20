@@ -8,6 +8,8 @@ use Illuminate\Support\ServiceProvider;
 use App\Models\Offer;
 use App\Policies\OfferPolicy;
 use Illuminate\Support\Facades\Gate;
+use Inertia\Inertia;
+use \Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -25,17 +27,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Vite::prefetch(concurrency: 3);
-
         Gate::policy(Offer::class, OfferPolicy::class);
 
-        $availableLanguages = config('app.available_languages');
-        $preferred = request()->getPreferredLanguage($availableLanguages);
-
-        if (!session()->has('locale')) {
-            App::setLocale($preferred ?? 'en');
-            session(['locale' => $preferred ?? 'en']);
-        } else {
-            App::setLocale(session('locale'));
-        }
+        Inertia::share('locale', fn() => app()->getLocale());
     }
 }
