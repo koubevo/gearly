@@ -1,7 +1,8 @@
 <template>
     <div class="z-50 mb-6">
-        <div class="flex justify-between items-end">
-        <Heading2>{{ $t('offer.filter_offers') }}</Heading2>
+        <div class="flex justify-between items-center">
+            <Heading2>{{ $t('offer.filter_offers') }}</Heading2>
+            <Link :href="route('offer.index')" @click="closeModal"><TinyText class="underline">{{ $t('common.reset_filters') }}</TinyText></Link>
         </div>
         <Divider class="md:w-full my-4"/>
         <form @submit.prevent="handleSubmit">
@@ -59,13 +60,14 @@
 
 <script setup>
 import FormSelect from "@/Components/Form/FormSelect.vue";
-import { useForm } from '@inertiajs/vue3';
+import { useForm, Link } from '@inertiajs/vue3';
 import Heading2 from "@/Components/Text/Heading2.vue";
 import Divider from "@/Components/Search/Divider.vue";
 import SearchInput from "@/Components/Search/SearchInput.vue";
 import PrimaryButton from "../Buttons/PrimaryButton.vue";
+import TinyText from "@/Components/Text/TinyText.vue";
 import { ref, watch, onMounted } from 'vue';
-import axios from 'axios';
+import axios from 'axios'
 
 const props = defineProps({
     brands: Array,

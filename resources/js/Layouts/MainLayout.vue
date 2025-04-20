@@ -70,8 +70,8 @@
 
 <script setup>
 import { Link, usePage } from '@inertiajs/vue3';
-import { computed, ref, onMounted, onUnmounted, watch } from 'vue';
-import { MagnifyingGlassIcon, BellIcon, UserIcon, HeartIcon, ChatBubbleLeftIcon, QuestionMarkCircleIcon, ChevronDownIcon } from '@heroicons/vue/24/outline';
+import { computed, ref, onUnmounted, watch } from 'vue';
+import { MagnifyingGlassIcon, UserIcon, HeartIcon, ChatBubbleLeftIcon, QuestionMarkCircleIcon } from '@heroicons/vue/24/outline';
 import PrimaryLink from '@/Components/Buttons/PrimaryLink.vue';
 import SecondaryLink from '@/Components/Buttons/SecondaryLink.vue';
 import axios from 'axios';
