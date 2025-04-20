@@ -5,8 +5,8 @@
                 <div class="w-10 flex-shrink-0"><img :src="chat.offer.thumbnail_url" alt="Offer image" class="w-full object-cover object-center scale-150 card-image" ></div>
                 <div class="flex-1 ps-4">
                     <div class="grid">
-                        <div class="flex flex-col md:flex-row gap-2">
-                            <div class="inline-flex items-center">
+                        <div class="flex flex-col md:flex-row">
+                            <div class="inline-flex items-center me-2">
                                 <Condition :condition="chat.offer.status" :conditionNumber="chat.offer.statusNumber" :type="'status'" />
                             </div>
                             <BoldNormalText>{{ chat.offer.name }}</BoldNormalText>

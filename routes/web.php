@@ -1,5 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\BrandController;
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\DeliveryOptionController;
+use App\Http\Controllers\Admin\FilterCategoryController;
+use App\Http\Controllers\Admin\FilterFcMappingController;
+use App\Http\Controllers\Admin\FilterController as AdminFilterController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FilterController;
 use App\Http\Controllers\LandingPageController;
@@ -100,6 +107,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+Route::get('/admin', function () {
+    return Inertia::render('Admin/Index');
+})
+    ->middleware(['auth', 'admin'])
+    ->name('admin.index');
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('brands', BrandController::class);
+    Route::resource('categories', CategoryController::class);
+    Route::resource('filter-categories', FilterCategoryController::class);
+    Route::resource('filters', AdminFilterController::class);
+    Route::resource('delivery-options', DeliveryOptionController::class);
 });
 
 Route::resource('user', UserController::class)

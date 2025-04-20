@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class FilterCategory extends Model
 {
+    protected $fillable = [
+        'name',
+        'cs'
+    ];
+
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'filter_fc_mappings', 'filter_category_id', 'category_id');
