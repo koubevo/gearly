@@ -13,7 +13,7 @@ class FilterController extends Controller
     {
         $langColumn = LanguageHelper::getLangColumn();
         $filters = Filter::where('filter_category_id', $filterCategoryId)
-            ->select('id', "$langColumn as name", 'cs')
+            ->select('id', "$langColumn as name")
             ->get();
 
         return response()->json($filters);
