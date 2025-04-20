@@ -1,5 +1,6 @@
 <template>
     <Head title="Správa značek" />
+    <BackButton />
     <Heading1 class="mb-8">Správa značek</Heading1>
     <Heading2 class="mb-4">Přidat novou značku</Heading2>
     <form @submit.prevent="handleSubmit">
@@ -33,10 +34,10 @@ import { Head } from '@inertiajs/vue3';
 import Heading1 from '@/Components/Text/Heading1.vue';
 import FormInput from '@/Components/Form/FormInput.vue';
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
+import BackButton from '@/Components/Admin/BackButton.vue';
 import { useForm } from '@inertiajs/vue3';
 import Heading2 from '@/Components/Text/Heading2.vue';
 import { ref } from 'vue';
-
 
 const form = useForm({
     name: "",

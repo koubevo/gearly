@@ -1,5 +1,6 @@
 <template>
     <Head title="Správa způsobů dopravy" />
+    <BackButton />
     <Heading1 class="mb-8">Správa způsobů dopravy</Heading1>
     <Heading2 class="mb-4">Přidat nový způsob dopravy</Heading2>
     <form @submit.prevent="handleSubmit">
@@ -42,6 +43,7 @@ import FormInput from '@/Components/Form/FormInput.vue';
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import { useForm } from '@inertiajs/vue3';
 import Heading2 from '@/Components/Text/Heading2.vue';
+import BackButton from '@/Components/Admin/BackButton.vue';
 
 
 const form = useForm({

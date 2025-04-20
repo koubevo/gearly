@@ -1,5 +1,6 @@
 <template>
     <Head title="Správa kategorií" />
+    <BackButton />
     <Heading1 class="mb-8">Správa kategorií</Heading1>
     <Heading2 class="mb-4">Přidat novou kategorii</Heading2>
     <form @submit.prevent="handleSubmit">
@@ -43,6 +44,7 @@ import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import { useForm } from '@inertiajs/vue3';
 import Heading2 from '@/Components/Text/Heading2.vue';
 import BoldNormalText from '@/Components/Text/BoldNormalText.vue';
+import BackButton from '@/Components/Admin/BackButton.vue';
 
 
 const form = useForm({
