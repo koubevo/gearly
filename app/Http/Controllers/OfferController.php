@@ -201,7 +201,7 @@ class OfferController extends Controller implements HasMedia
             }
         }
 
-        return redirect()->route('offer.show', $offer->id)->with('success', 'Offer created successfully.');
+        return redirect()->route('offer.show', $offer->id)->with('success', __('messages.offer_created'));
     }
 
     /**
@@ -308,7 +308,7 @@ class OfferController extends Controller implements HasMedia
         $offer->update($validatedData);
 
         return redirect()->route('offer.show', $offer)
-            ->with('success', 'Offer was updated.');
+            ->with('success', __('messages.offer_updated'));
     }
 
     /**
@@ -324,7 +324,7 @@ class OfferController extends Controller implements HasMedia
         $offer->deleteOrFail();
 
         return redirect()->route('profile.show')
-            ->with('success', 'Offer was removed.');
+            ->with('success', __('messages.offer_deleted'));
     }
 
     public function uploadTempImages(Request $request)

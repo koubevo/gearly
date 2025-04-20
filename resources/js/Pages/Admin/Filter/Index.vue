@@ -1,5 +1,6 @@
 <template>
     <Head title="Správa filtrů" />
+    <BackButton />
     <Heading1 class="mb-8">Správa filtrů</Heading1>
     <Heading2 class="mb-4">Přidat nový filtr</Heading2>
     <form @submit.prevent="handleSubmit">
@@ -47,6 +48,7 @@ import Heading1 from '@/Components/Text/Heading1.vue';
 import FormInput from '@/Components/Form/FormInput.vue';
 import FormSelect from '@/Components/Form/FormSelect.vue';
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
+import BackButton from '@/Components/Admin/BackButton.vue';
 import { useForm } from '@inertiajs/vue3';
 import Heading2 from '@/Components/Text/Heading2.vue';
 

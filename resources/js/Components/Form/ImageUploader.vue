@@ -12,6 +12,7 @@
       image-resize-target-width="1024"
       image-resize-target-height="1024"
       image-resize-mode="contain"
+      v-bind:required="true"
       @updatefiles="handleFileUpdate"
       @reorderfiles="handleFileUpdate"
     />

@@ -96,6 +96,11 @@
                 <div class="col-span-12">
                     <RequiredFieldsNote />
                 </div>
+                <div class="col-span-12" v-if="form.errors && Object.keys(form.errors).length">
+                    <BoldNormalText class="text-red-600">
+                        {{ $t('common.fields_filled_not_correctly') }}
+                    </BoldNormalText>
+                </div>
                 <div class="col-span-12">
                     <PrimaryButton type="submit"
                         :text="isUploading ? $t('common.uploading') : (isEditMode ? $t('offer.edit_offer') : $t('offer.add_offer'))"
