@@ -43,6 +43,8 @@ class FilterCategoryController extends Controller
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        return redirect()->back()->with('success', __('messages.success'));
     }
 
     /**

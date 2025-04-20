@@ -96,7 +96,7 @@ class ProfileController extends Controller
         $user->update($validatedData);
 
         return redirect()->route('profile.show')
-            ->with('success', 'Profile was updated.')
+            ->with('success', __('messages.profile_updated'))
             ->with('forceRefresh', true);
     }
 
@@ -118,6 +118,6 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return Redirect::to('/')->with('success', __('messages.profile_deleted'));
     }
 }
