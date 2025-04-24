@@ -90,8 +90,8 @@
                   <li><NormalText v-html="$t('help.how_to_rate_text_2')" /></li>
                   <li><NormalText v-html="$t('help.how_to_rate_text_3')" /></li>
                   <li><NormalText v-html="$t('help.how_to_rate_text_4')" /></li>
-                  <li><NormalText v-html="$t('help.how_to_rate_text_5')" /></li>
-                </ol>
+                </ol>                
+                <BoldNormalText class="text-primary-900">{{ $t('help.how_to_rate_text_5') }}</BoldNormalText>
               </div>
             </div>
             <Divider class="my-4 md:w-full" />        

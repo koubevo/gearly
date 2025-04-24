@@ -14,7 +14,7 @@
           <div class="flex justify-between items-end">
             <Heading2>{{ $t('user.ratings') }}</Heading2>
             <button class="text-gray-500 hover:text-black" @click="closeModal">&times;</button>
-          </div>
+          </div>        
           <Divider class="md:w-full my-4"/>
           <div class="flex flex-row gap-2 overflow-x-auto py-2">
             <div class="grid px-2 min-w-[250px] md:min-w-[300px]" v-for="receivedRating in receivedRatings" :key="receivedRating.id">
@@ -35,6 +35,8 @@ import Rating from '@/Components/User/Rating.vue';
 import Modal from "@/Components/Modal.vue";
 import Divider from "@/Components/Search/Divider.vue";
 import Heading2 from "@/Components/Text/Heading2.vue";
+import BoldNormalText from '@/Components/Text/BoldNormalText.vue';
+import { QuestionMarkCircleIcon } from '@heroicons/vue/24/outline';
 import { ref } from 'vue';
 
 defineProps({

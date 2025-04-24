@@ -30,8 +30,9 @@ export default {
     how_to_rate: "How to rate someone?",
     how_to_rate_text_1: "<strong>Successfully complete the purchase or sale</strong> - To rate a user, the transaction must be completed. This means that the seller marks the product as sold and the buyer confirms its receipt.",
     how_to_rate_text_2: "<strong>Open the chat</strong> - After successfully completing the transaction, a new <strong>Rate</strong> button will appear in the chat between you and the other party (buyer or seller).",
-    how_to_rate_text_3: "<strong>Vyber hodnocení</strong> - Klikni na tlačítko <strong>Ohodnotit</strong>, vyber počet hvězdiček (1 až 5) a napiš krátké hodnocení, které pomůže ostatním uživatelům lépe poznat spolehlivost uživatele.",
+    how_to_rate_text_3: "<strong>Select a rating</strong> - Click the <strong>Rate</strong> button, choose the number of stars (1 to 5), and write a short review that helps other users better understand the reliability of the user.",
     how_to_rate_text_4: "<strong>View ratings</strong> - You can see other users' ratings on their profiles, and your own ratings (the ones you've received) will be neatly displayed on your profile.",
-    how_to_rate_text_5: "<strong>Take ratings as a general guideline – even a user with five stars can disappoint sometimes.</strong>",
+    how_to_rate_text_5: "Take ratings as a general guideline – even a user with five stars can disappoint sometimes.",
+    want_to_rate: "Do you want to rate this user? Complete the transaction and rate each other in the chat.",
 };
   
