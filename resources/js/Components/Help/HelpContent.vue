@@ -86,11 +86,11 @@
               <div v-if="showRating">
                 <ol class="list-decimal ml-5 my-2">
                   <li v-if="!user"><NormalText v-html="$t('help.login_first')" /></li>
-                  <li><NormalText v-html="$t('help.how_to_chat_text_1')" /></li>
-                  <li><NormalText v-html="$t('help.how_to_chat_text_2')" /></li>
-                  <li><NormalText v-html="$t('help.how_to_chat_text_3')" /></li>
-                  <li><NormalText v-html="$t('help.how_to_chat_text_4')" /></li>
-                  <li><NormalText v-html="$t('help.how_to_chat_text_5')" /></li>
+                  <li><NormalText v-html="$t('help.how_to_rate_text_1')" /></li>
+                  <li><NormalText v-html="$t('help.how_to_rate_text_2')" /></li>
+                  <li><NormalText v-html="$t('help.how_to_rate_text_3')" /></li>
+                  <li><NormalText v-html="$t('help.how_to_rate_text_4')" /></li>
+                  <li><NormalText v-html="$t('help.how_to_rate_text_5')" /></li>
                 </ol>
               </div>
             </div>

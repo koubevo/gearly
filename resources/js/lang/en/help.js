@@ -33,6 +33,5 @@ export default {
     how_to_rate_text_3: "<strong>Vyber hodnocení</strong> - Klikni na tlačítko <strong>Ohodnotit</strong>, vyber počet hvězdiček (1 až 5) a napiš krátké hodnocení, které pomůže ostatním uživatelům lépe poznat spolehlivost uživatele.",
     how_to_rate_text_4: "<strong>View ratings</strong> - You can see other users' ratings on their profiles, and your own ratings (the ones you've received) will be neatly displayed on your profile.",
     how_to_rate_text_5: "<strong>Take ratings as a general guideline – even a user with five stars can disappoint sometimes.</strong>",
-
 };
   
