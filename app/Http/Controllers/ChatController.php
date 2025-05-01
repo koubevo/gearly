@@ -31,7 +31,8 @@ class ChatController extends Controller
             ->get()
             ->groupBy(fn($message) => $message->offer_id . '-' . $message->buyer_id)
             ->map(fn($group) => $group->first())
-            ->values();
+            ->values()
+            ->filter(fn($message) => $message->buyer !== null && $message->offer !== null && $message->offer->seller !== null);
 
         $chats = $latestMessages->map(function ($message) use ($user) {
             $unreadCount = Message::where('offer_id', $message->offer->id)
@@ -50,7 +51,7 @@ class ChatController extends Controller
                     'statusNumber' => $message->offer->status,
                     'thumbnail_url' => $message->offer->getFirstMediaUrl('images', 'thumb'),
                 ],
-                'buyer_name' => optional($message->buyer)->name,
+                'buyer_name' => $message->buyer->name,
                 'buyer_id' => $message->buyer->id,
                 'seller_name' => $message->offer->seller->name,
                 'seller_id' => $message->offer->seller->id,
