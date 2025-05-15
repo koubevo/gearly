@@ -4,8 +4,8 @@
         <Rating class="mb-1" :rating="rating"/>
         <SmallText v-if="soldOffersCount > 0" class="mb-1">{{ $t('common.already_sold_offers') }}: {{ soldOffersCount }}</SmallText>
         <TinyText class="mb-0.5">
-            <span v-if="seller.last_login_at">{{ $t('user.last_login') }} {{ seller.last_login_at }} | </span>
             {{ seller.location }}
+            <span v-if="seller.last_login_at"> | {{ $t('user.last_login') }} {{ seller.last_login_at }}</span>
         </TinyText>
     </section>
 </template>

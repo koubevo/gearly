@@ -8,8 +8,8 @@
         </button>
         <SmallText v-if="soldOffersCount > 0" class="mb-1">{{ $t('common.already_sold_offers') }}: {{ soldOffersCount }}</SmallText>
         <TinyText class="mb-0.5">
-            <span v-if="user.last_login_at">{{ $t('user.last_login') }} {{ user.last_login_at }} | </span>
             {{ user.location }}
+            <span v-if="user.last_login_at"> | {{ $t('user.last_login') }} {{ user.last_login_at }}</span>
         </TinyText>
     </section>
     <Modal :show="modal" @close="closeModal" v-if="receivedRatings.length > 0">
