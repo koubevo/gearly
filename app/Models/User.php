@@ -27,6 +27,10 @@ class User extends Authenticatable
         'last_login_at',
     ];
 
+    protected $casts = [
+        'last_login_at' => 'datetime',
+    ];
+
     /**
      * The attributes that should be hidden for serialization.
      *

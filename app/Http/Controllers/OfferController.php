@@ -234,7 +234,10 @@ class OfferController extends Controller implements HasMedia
                 'favorited_by_user' => $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false,
             ],
             'soldOffersCount' => $offer->seller->offers()->sold()->count(),
-            'seller' => $offer->seller,
+            'seller' => [
+                ...$offer->seller->toArray(),
+                'last_login_at' => $offer->seller->last_login_at?->diffForHumans(),
+            ],
             'category' => $offer->category,
             'brand' => $offer->brand,
             'deliveryOption' => $offer->deliveryOption,

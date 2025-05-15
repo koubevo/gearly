@@ -17,6 +17,7 @@ export default {
     current_password: "Současné heslo",
     new_password: "Nové heslo",
     confirm_password: "Potvrzení nového hesla",
+    last_login: "Poslední přihlášení:",
     delete_account_info: "Jakmile je váš účet smazán, budou všechny jeho zdroje a data trvale smazány. Před smazáním účtu si stáhněte všechna data nebo informace, které si přejete zachovat.",
     are_you_sure: "Jste si jisti, že chcete svůj účet smazat?",
     delete_info_two: "Jakmile je váš účet smazán, budou všechny jeho zdroje a data trvale smazány. Zadejte, prosím, své heslo, abyste potvrdili, že chcete svůj účet trvale smazat.",
