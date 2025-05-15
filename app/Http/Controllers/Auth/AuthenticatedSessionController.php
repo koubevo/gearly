@@ -32,6 +32,9 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
         $request->session()->regenerate();
 
+        $user = $request->user();
+        $user->update(['last_login_at' => now()]);
+
         $redirectUrl = $request->query('redirect', route('landingPage', absolute: false));
 
         return redirect()->intended($redirectUrl)->with('restart', true);
