@@ -67,7 +67,10 @@ class UserController extends Controller
             ->toArray();
 
         return inertia('User/Show', [
-            'user' => $user,
+            'user' => [
+                ...$user->toArray(),
+                'last_login_at' => $user->last_login_at?->diffForHumans(),
+            ],
             'activeOffers' => $activeOffers,
             'soldOffers' => $soldOffers,
             'soldOffersCount' => $soldOffersCount,

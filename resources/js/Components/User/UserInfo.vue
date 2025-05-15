@@ -7,7 +7,10 @@
             <Rating :rating="rating" class="mb-1"/>
         </button>
         <SmallText v-if="soldOffersCount > 0" class="mb-1">{{ $t('common.already_sold_offers') }}: {{ soldOffersCount }}</SmallText>
-        <TinyText :text="user.location" class="mb-0.5"/>
+        <TinyText class="mb-0.5">
+            <span v-if="user.last_login_at">{{ $t('user.last_login') }} {{ user.last_login_at }} | </span>
+            {{ user.location }}
+        </TinyText>
     </section>
     <Modal :show="modal" @close="closeModal" v-if="receivedRatings.length > 0">
         <div class="p-6">

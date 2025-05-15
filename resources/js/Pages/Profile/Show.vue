@@ -21,10 +21,10 @@ const props = defineProps({
     soldOffers: Array ?? [],
     soldOffersCount: Number,
     rating: Object,
-    receivedRatings: Array
+    receivedRatings: Array,
+    user: Object
 });
 
-const user = page.props.auth?.user;
 
 const modal = ref(false);
 const activeSection = ref('profile'); 
