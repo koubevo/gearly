@@ -3,7 +3,10 @@
         <Heading3 class="mb-2">{{ seller.name }} <span v-if="seller.team">({{ seller.team }})</span></Heading3>
         <Rating class="mb-1" :rating="rating"/>
         <SmallText v-if="soldOffersCount > 0" class="mb-1">{{ $t('common.already_sold_offers') }}: {{ soldOffersCount }}</SmallText>
-        <TinyText :text="seller.location" class="mb-0.5"/>
+        <TinyText class="mb-0.5">
+            {{ seller.location }}
+            <span v-if="seller.last_login_at"> | {{ $t('user.last_login') }} {{ seller.last_login_at }}</span>
+        </TinyText>
     </section>
 </template>
 
