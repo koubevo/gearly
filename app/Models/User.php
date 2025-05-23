@@ -25,6 +25,8 @@ class User extends Authenticatable
         'location',
         'lang',
         'last_login_at',
+        'notifications_inactive',
+        'notifications_new_messages',
     ];
 
     protected $casts = [

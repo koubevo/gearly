@@ -21,5 +21,11 @@ export default {
     delete_account_info: "Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.",
     are_you_sure: "Are you sure you want to delete your account?",
     delete_info_two: "Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.",
+    notifications: "Notifications",
+    update_notifications_preferences: "Update notifications preferences",
+    enabled: "Enabled",
+    disabled: "Disabled",
+    inactive_notifications: "Email notifications when inactive",
+    notifications_text: "We recommend keeping notifications enabled to stay informed about important events.",
 };
   

@@ -21,5 +21,11 @@ export default {
     delete_account_info: "Jakmile je váš účet smazán, budou všechny jeho zdroje a data trvale smazány. Před smazáním účtu si stáhněte všechna data nebo informace, které si přejete zachovat.",
     are_you_sure: "Jste si jisti, že chcete svůj účet smazat?",
     delete_info_two: "Jakmile je váš účet smazán, budou všechny jeho zdroje a data trvale smazány. Zadejte, prosím, své heslo, abyste potvrdili, že chcete svůj účet trvale smazat.",
+    notifications: "Notifikace",
+    update_notifications_preferences: "Aktualizovat preference notifikací",
+    enabled: "Povoleno",
+    disabled: "Zakázáno",
+    inactive_notifications: "E-mailové notifikace při neaktivitě",
+    notifications_text: "Doporučujeme nechat notifikace zapnuté, abys byl/a informován/a o důležitých událostech.",
 };
   
