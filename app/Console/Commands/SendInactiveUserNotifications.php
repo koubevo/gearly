@@ -14,7 +14,9 @@ class SendInactiveUserNotifications extends Command
 
     public function handle(): void
     {
-        $users = User::where('last_login_at', '<', now()->subDays(10))->get();
+        $users = User::where('last_login_at', '<', now()->subDays(10))
+            ->where('notifications_inactive', true)
+            ->get();
 
         if ($users->isEmpty()) {
             $this->info('Žádní neaktivní uživatelé nebyli nalezeni.');
