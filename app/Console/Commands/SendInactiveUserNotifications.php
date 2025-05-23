@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Mail;
 class SendInactiveUserNotifications extends Command
 {
     protected $signature = 'notifications:send-inactive-users';
-    protected $description = 'Odesílá e-maily uživatelům, kteří se déle než 10 dní nepřihlásili.';
+    protected $description = 'Sends mails for inactive users - 10 days.';
 
     public function handle(): void
     {
