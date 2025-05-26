@@ -232,6 +232,7 @@ class OfferController extends Controller implements HasMedia
                 'statusNumber' => $offer->status,
                 'favorites_count' => $offer->favorites()->count(),
                 'favorited_by_user' => $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false,
+                'updated_at' => $offer->updated_at?->diffForHumans(),
             ],
             'soldOffersCount' => $offer->seller->offers()->sold()->count(),
             'seller' => [

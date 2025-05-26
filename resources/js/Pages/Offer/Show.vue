@@ -10,6 +10,7 @@
                 <Heading1 :text="offer.name" class="mb-3" />
                 <Price :price="offer.price" :currency="offer.currency" />
                 <ConditionLike :offer="offer" class="mt-2" />
+                <TinyText class="mt-2 text-[10.3px]">{{ $t('offer.last_update') }}: {{ offer.updated_at }}</TinyText>
             </section>
             <section class="grid mb-6">
                 <NormalText class="mb-4 pe-2">{{ offer.description }}</NormalText>
@@ -107,6 +108,7 @@ import ConditionLike from '@/Components/Offer/ConditionLike.vue';
 import { Head } from '@inertiajs/vue3';
 import BoldNormalText from '@/Components/Text/BoldNormalText.vue';
 import { QuestionMarkCircleIcon } from '@heroicons/vue/24/outline';
+import TinyText from '@/Components/Text/TinyText.vue';
 
 
 onMounted(() => {
