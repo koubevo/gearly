@@ -23,6 +23,7 @@ class LandingPageController extends Controller
 
         $mostActiveBrandId = Offer::select('brand_id')
             ->active()
+            ->where('brand_id', '!=', 61)
             ->groupBy('brand_id')
             ->orderByRaw('COUNT(*) DESC')
             ->limit(1)
@@ -99,6 +100,7 @@ class LandingPageController extends Controller
         $topBrands = Offer::select('brand_id', 'brands.name', \DB::raw('COUNT(*) as offer_count'))
             ->join('brands', 'offers.brand_id', '=', 'brands.id')
             ->active()
+            ->where('brand_id', '!=', 61)
             ->groupBy('brand_id', 'brands.name')
             ->orderByRaw('COUNT(*) DESC')
             ->limit(4)
