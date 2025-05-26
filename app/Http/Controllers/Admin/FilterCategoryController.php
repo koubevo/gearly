@@ -39,7 +39,7 @@ class FilterCategoryController extends Controller
         FilterCategory::create([
             'name' => $request->name,
             'cs' => $request->cs,
-            'logo' => "default.png",
+            'logo' => "ball.svg",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
