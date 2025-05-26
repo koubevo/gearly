@@ -1,6 +1,6 @@
 <template>
     <span class=" flex align-middle items-center">
-       <Condition :condition="offer.condition" :type="'condition'" :conditionNumber="offer.conditionNumber" class="me-2"/>
+       <Condition :condition="offer.condition" :type="'condition'" :conditionNumber="offer.conditionNumber" class="me-2" v-if="offer.statusNumber === 1"/>
        <Condition :condition="offer.status" :type="'status'" :conditionNumber="offer.statusNumber" class="me-2"/>
        <button 
             :disabled="user?.id === offer.user_id"

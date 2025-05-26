@@ -37,7 +37,6 @@ class Offer extends Model implements HasMedia
     protected $hidden = [
         'buyer_id',
         'deleted_at',
-        'updated_at',
     ];
 
     public function seller(): BelongsTo

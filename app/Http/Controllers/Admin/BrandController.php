@@ -37,7 +37,7 @@ class BrandController extends Controller
 
         Brand::create([
             'name' => $request->name,
-            'logo' => "default.png",
+            'logo' => "ball.svg",
             'created_at' => now(),
             'updated_at' => now(),
         ]);
