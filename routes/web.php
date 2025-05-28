@@ -55,12 +55,6 @@ Route::post('/api/chat/{offer}/{buyer}', [ChatController::class, 'sendMessage'])
     ->name('chat.send')
     ->middleware('auth');
 
-Route::get('/logtest', function () {
-    \Illuminate\Support\Facades\Log::info('🧪 Test logu');
-    return 'ok';
-});
-
-
 Route::post('/api/chat/{offer}/{buyer}/read', [ChatController::class, 'markAsRead'])
     ->name('chat.read')
     ->middleware('auth');
