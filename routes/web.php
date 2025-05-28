@@ -54,7 +54,8 @@ Route::get('/api/chat/{offer}/{buyer}', [ChatController::class, 'loadMessages'])
 Route::post('chat/{offer}/{buyer}', function () {
     Log::info('📥 Route hit - testing only.');
     return response()->json(['ok' => true]);
-})->middleware('auth:sanctum');
+})->middleware('auth:sanctum')
+    ->name('chat.send');
 
 Route::post('/api/chat/{offer}/{buyer}/read', [ChatController::class, 'markAsRead'])
     ->name('chat.read')
