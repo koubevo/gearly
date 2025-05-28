@@ -10,7 +10,6 @@ use App\Models\User;
 use App\Notifications\MessageSent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
@@ -154,44 +153,30 @@ class ChatController extends Controller
 
     public function sendMessage(Request $request, Offer $offer, User $buyer)
     {
-        try {
-            Log::info('sendMessage START');
-            Log::info('Auth user:', ['id' => optional(Auth::user())->id]);
-            Log::info('Offer:', ['id' => $offer->id]);
-            Log::info('Buyer:', ['id' => $buyer->id]);
-            Log::info('Message:', ['value' => $request->input('message')]);
+        $user = Auth::user();
+        $receiver_id = $user->id == $buyer->id ? $offer->user_id : $buyer->id;
 
-            $user = Auth::user();
-            $receiver_id = $user->id == $buyer->id ? $offer->user_id : $buyer->id;
-
-            if (!($buyer->id === $user->id || $offer->user_id === $user->id)) {
-                abort(403, 'You are not allowed to access this page.');
-            }
-
-            $message = $offer->messages()->create([
-                'seller_id' => $offer->user_id,
-                'buyer_id' => $buyer->id,
-                'author_id' => $user->id,
-                'receiver_id' => $receiver_id,
-                'offer_id' => $offer->id,
-                'type_id' => $request->type_id,
-                'message' => $request->validate([
-                    'message' => 'required|string|max:255',
-                ])['message'],
-            ]);
-
-            /*$message->receiver->notify(
-                new MessageSent($offer, $message)
-            );*/
-
-            broadcast(new \App\Events\MessageSent($message));
-
-        } catch (\Throwable $e) {
-            Log::error('sendMessage ERROR: ' . $e->getMessage());
-            Log::error($e->getTraceAsString());
-            return response()->json(['error' => 'Internal error'], 500);
+        if (!($buyer->id === $user->id || $offer->user_id === $user->id)) {
+            abort(403, 'You are not allowed to access this page.');
         }
 
+        $message = $offer->messages()->create([
+            'seller_id' => $offer->user_id,
+            'buyer_id' => $buyer->id,
+            'author_id' => $user->id,
+            'receiver_id' => $receiver_id,
+            'offer_id' => $offer->id,
+            'type_id' => $request->type_id,
+            'message' => $request->validate([
+                'message' => 'required|string|max:255',
+            ])['message'],
+        ]);
+
+        /*$message->receiver->notify(
+            new MessageSent($offer, $message)
+        );*/
+
+        broadcast(new \App\Events\MessageSent($message));
     }
 
     public function markAsRead(Offer $offer, User $buyer)
