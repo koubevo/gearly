@@ -163,29 +163,16 @@ const props = defineProps({
 const ableToRate = ref(props.ableToRate);
 
 const sendMessage = () => {
-    if (message.value.trim() !== '') {
-        axios.post(route('chat.send', { offer: props.offer, buyer: props.buyer }), {
+    if(message.value.trim() !== '') {
+        axios.post(route('chat.send', {offer: props.offer, buyer: props.buyer}), {
             message: message.value,
             type_id: 1
         })
         .then(() => {
             message.value = '';
-        })
-        .catch(error => {
-            console.error('❌ sendMessage error', error);
-            if (error.response) {
-                console.error('📄 Response data:', error.response.data);
-                console.error('📄 Response status:', error.response.status);
-                console.error('📄 Response headers:', error.response.headers);
-            } else if (error.request) {
-                console.error('📡 No response received:', error.request);
-            } else {
-                console.error('⚠️ Error during setup:', error.message);
-            }
         });
     }
 };
-
 
 const sellOffer = () => {
     axios.post(route('offer.sell', {offer: props.offer, buyer: props.buyer}))
