@@ -1,10 +1,10 @@
 <template>
     <Link :href="route('offer.show', offer.id)">
-        <div class="bg-white shadow-gray-300 shadow-lg h-full">
+        <div class="bg-white shadow-gray-300 h-full">
             <div>
                 <img :src="offer.thumbnail_url" :alt="offer.name" class="card-image" loading="lazy">
             </div>  
-            <div class="p-2 flex flex-col gap-2"> 
+            <div class="py-2 flex flex-col gap-2"> 
                 <div class="flex align-top items-start">
                     <ConditionLike :offer="offer"/>
                 </div>
