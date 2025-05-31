@@ -13,7 +13,7 @@
                 <TinyText class="mt-2 text-[10.3px]">{{ $t('offer.last_update') }}: {{ offer.updated_at }}</TinyText>
             </section>
             <section class="grid mb-6">
-                <NormalText class="mb-4 pe-2">{{ offer.description }}</NormalText>
+                <NormalText class="mb-4 pe-2 overflow-anywhere">{{ offer.description }}</NormalText>
                 <div class="flex flex-col gap-x-2 gap-y-0.5 text-sm mb-6">
                     <OfferDetail :detail="$t('common.brand')" :detailValue="brand.name" />
                     <OfferDetail :detail="'Sport'" :detailValue="offer.sport" />
