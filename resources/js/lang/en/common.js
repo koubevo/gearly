@@ -30,5 +30,8 @@ export default {
     want_to_buy_not_logged_in: 'Do you want to buy this item? Log in or register and contact the seller.',
     reset_filters: 'Reset filters',
     fields_filled_not_correctly: 'Some fields are not filled correctly.',
+    all_offers: 'All offers',
+    show_all_offers: 'Show All Offers',
+    explore_now: 'Explore now',
   };
   

@@ -14,6 +14,7 @@ class FilterController extends Controller
         $langColumn = LanguageHelper::getLangColumn();
         $filters = Filter::where('filter_category_id', $filterCategoryId)
             ->select('id', "$langColumn as name")
+            ->orderBy($langColumn)
             ->get();
 
         return response()->json($filters);
