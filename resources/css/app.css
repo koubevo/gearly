@@ -175,6 +175,10 @@
   transform: scale(1.1);
 }
 
+.overflow-anywhere {
+  overflow-wrap: anywhere;
+}
+
 @keyframes fadeOut {
     from {
         opacity: 1;
