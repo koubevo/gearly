@@ -183,7 +183,7 @@ class ChatController extends Controller
         broadcast(new \App\Events\MessageSent($message));
 
         // Send email notification if the user has notifications enabled
-        if ($user->notifications_new_message) {
+        if ($message->receiver->notifications_new_message) {
             $alreadySent = EmailLog::where('sender_id', $user->id)
                 ->where('receiver_id', $receiver_id)
                 ->where('offer_id', $offer->id)
