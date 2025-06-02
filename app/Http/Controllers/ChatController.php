@@ -188,7 +188,7 @@ class ChatController extends Controller
                 ->where('receiver_id', $receiver_id)
                 ->where('offer_id', $offer->id)
                 ->where('type', 1)
-                ->where('sent_at', '>=', now()->subMinutes(1))
+                ->where('sent_at', '>=', now()->subMinutes(5))
                 ->exists();
 
             if (!$alreadySent) {
