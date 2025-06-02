@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NewMessageMail;
 use App\Models\EmailLog;
+use App\Services\MessageNotificationService;
 
 
 class ChatController extends Controller
@@ -182,32 +183,7 @@ class ChatController extends Controller
 
         broadcast(new \App\Events\MessageSent($message));
 
-        // Send email notification if the user has notifications enabled
-        if ($message->receiver->notifications_new_message) {
-            $alreadySent = EmailLog::where('sender_id', $user->id)
-                ->where('receiver_id', $receiver_id)
-                ->where('offer_id', $offer->id)
-                ->where('type', 1)
-                ->where('sent_at', '>=', now()->subMinutes(5))
-                ->exists();
-
-            if (!$alreadySent) {
-                Mail::to($message->receiver->email)->send(new NewMessageMail(
-                    senderName: $user->name,
-                    offerName: $offer->name,
-                    chatUrl: route('chat.show', ['offer' => $offer->id, 'buyer' => $buyer->id]),
-                    messageText: $message->message,
-                ));
-
-                EmailLog::create([
-                    'receiver_id' => $receiver_id,
-                    'sender_id' => $user->id,
-                    'offer_id' => $offer->id,
-                    'type' => 1,
-                    'sent_at' => now(),
-                ]);
-            }
-        }
+        MessageNotificationService::notifyNewMessage($message, $user, $offer, $buyer);
     }
 
     public function markAsRead(Offer $offer, User $buyer)
