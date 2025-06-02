@@ -97,7 +97,7 @@ const closeModal = () => {
             </div>
             
             <div v-show="activeSection === 'notifications'">
-                <NotificationsForm @close-modal="closeModal" />
+                <NotificationsForm @close-modal="closeModal" :user="user" />
             </div>
 
             <div v-show="activeSection === 'delete'">

@@ -27,5 +27,6 @@ export default {
     disabled: "Disabled",
     inactive_notifications: "Email notifications when inactive",
     notifications_text: "We recommend keeping notifications enabled to stay informed about important events.",
+    new_message_notification: "New message notification",
 };
   

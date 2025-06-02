@@ -73,8 +73,12 @@ class ProfileController extends Controller
 
         return inertia('Profile/Show', [
             'user' => [
-                ...$user->toArray(),
+                ...$user->attributesToArray(),
                 'last_login_at' => $user->last_login_at?->diffForHumans(),
+                'notifications_inactive' => $user->notifications_inactive,
+                'notifications_new_messages' => $user->notifications_new_messages,
+                'notifications_new_message' => $user->notifications_new_message,
+                'notifications_closure_reminder' => $user->notifications_closure_reminder,
             ],
             'activeOffers' => $activeOffers,
             'soldOffers' => $soldOffers,
