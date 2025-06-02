@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('receiver_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('sender_id')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('offer_id')->nullable()->constrained('offers')->nullOnDelete();
-            $table->integer('type')->comment('1 = new message, 2 = closure reminder, 3 = new messages, 4 = inactive user');
+            $table->integer('type')->comment('1 = new message, 2 = closure reminder, 3 = new messages, 4 = inactive user, 5 = sell offer, 6 = receive offer, 7 = new rating, 8 = receive offer (wishlist)');
             $table->timestamp('sent_at');
             $table->timestamps();
         });
