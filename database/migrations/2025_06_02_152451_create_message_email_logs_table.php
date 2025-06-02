@@ -12,10 +12,10 @@ return new class extends Migration {
     {
         Schema::create('email_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('receiver_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('sender_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('offer_id')->constrained('offers')->onDelete('cascade');
-            $table->integer('type')->comment('1 = new message, 2 = closure reminder');
+            $table->foreignId('receiver_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('sender_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('offer_id')->nullable()->constrained('offers')->nullOnDelete();
+            $table->integer('type')->comment('1 = new message, 2 = closure reminder, 3 = new messages, 4 = inactive user');
             $table->timestamp('sent_at');
             $table->timestamps();
         });
