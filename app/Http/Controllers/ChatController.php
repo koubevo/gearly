@@ -7,13 +7,9 @@ use App\Models\Message;
 use App\Models\Offer;
 use App\Models\Rating;
 use App\Models\User;
-use App\Notifications\MessageSent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\NewMessageMail;
-use App\Models\EmailLog;
-use App\Services\MessageNotificationService;
+use App\Jobs\ProcessNewMessageEmailNotification;
 
 
 class ChatController extends Controller
@@ -183,7 +179,7 @@ class ChatController extends Controller
 
         broadcast(new \App\Events\MessageSent($message));
 
-        MessageNotificationService::notifyNewMessage($message, $user, $offer, $buyer);
+        ProcessNewMessageEmailNotification::dispatch($message, $user, $offer, $buyer);
     }
 
     public function markAsRead(Offer $offer, User $buyer)
