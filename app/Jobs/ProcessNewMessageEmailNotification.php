@@ -30,13 +30,11 @@ class ProcessNewMessageEmailNotification implements ShouldQueue
      */
     public function handle(): void
     {
-        \Log::info('📤 JOB STARTED', ['message_id' => $this->message->id]);
         MessageNotificationService::notifyNewMessage(
             message: $this->message,
             user: $this->user,
             offer: $this->offer,
             buyer: $this->buyer
         );
-        \Log::info('✅ JOB FINISHED');
     }
 }
