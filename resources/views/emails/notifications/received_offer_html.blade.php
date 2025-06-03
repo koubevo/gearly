@@ -36,10 +36,6 @@
             <p style="color:#ffffff;font-size:12px;margin:0;">
                 © {{ date('Y') }} Gearly.eu – Baseball & Softball Bazar
             </p>
-            <p style="color:#ffffff;font-size:12px;margin:8px 0 0;">
-                Nechceš dostávat e-mailová upozornění? Změň to v <a href="{{ route('profile.show') }}"
-                    style="color:#1D9E1D;text-decoration:underline;">nastavení profilu</a>.
-            </p>
         </div>
 
     </div>
