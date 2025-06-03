@@ -6,4 +6,5 @@ return [
     'profile_updated' => 'Profile updated successfully.',
     'profile_deleted' => 'Profile deleted successfully.',
     'success' => 'Success',
+    'notifications_updated' => 'Notification settings updated successfully.',
 ];

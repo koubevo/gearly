@@ -127,4 +127,21 @@ class ProfileController extends Controller
 
         return Redirect::to('/')->with('success', __('messages.profile_deleted'));
     }
+
+    public function updateNofitications(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+        $validatedData = $request->validate([
+            'notifications_inactive' => ['boolean'],
+            'notifications_new_messages' => ['boolean'],
+            'notifications_new_message' => ['boolean'],
+            'notifications_closure_reminder' => ['boolean'],
+        ]);
+
+        $user->update($validatedData);
+
+        return redirect()->route('profile.show')
+            ->with('success', __('messages.notifications_updated'))
+            ->with('forceRefresh', true);
+    }
 }
