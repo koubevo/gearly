@@ -31,7 +31,7 @@ class ChatActionMail extends Mailable
         $subject = match ($this->actionType) {
             5 => 'Byla ti prodána nabídka!',
             6 => 'Tvoje nabídka byla vyzvednuta!',
-            7 => 'Dostal jsi hodnocení!',
+            7 => 'Někdo ti udělil hodnocení!',
         };
 
         return new Envelope(
