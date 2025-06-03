@@ -1,5 +1,5 @@
 <template>
-    <span :class="['uppercase font-medium inline-block px-2 p-0.5 leading-tight align-middle', conditionClass]" v-if="(conditionNumber !== 1 && conditionNumber !== 4 && conditionNumber !== 5 && type === 'status') || type === 'condition'">  
+    <span :class="['uppercase font-medium inline-block px-2 p-0.5 leading-tight align-middle me-2', conditionClass]" v-if="(conditionNumber !== 1 && conditionNumber !== 4 && conditionNumber !== 5 && type === 'status') || type === 'condition'">  
       {{ condition }}
     </span>
 </template>

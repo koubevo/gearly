@@ -19,7 +19,7 @@ const form = useForm({
 const emit = defineEmits(['close-modal']);
 
 const updateNotifications = () => {
-    form.patch(route('profile.update'), {
+    form.patch(route('profile.updateNotifications'), {
         preserveScroll: true,
         onSuccess: () => {
             window.location.reload(true);

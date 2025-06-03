@@ -7,12 +7,13 @@ use App\Models\Rating;
 use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
+use App\Services\MessageNotificationService;
 
 class RatingController extends Controller
 {
     public function store(Request $request)
     {
-        $offer = Offer::find($request->offer_id);
+        $offer = Offer::findOrFail($request->offer_id);
         $user = Auth::user();
 
         if ($offer->status != 3) {
@@ -64,6 +65,14 @@ class RatingController extends Controller
             'cs' => $meesageContentCs,
             'stars' => $rating->stars,
         ]);
+
+        MessageNotificationService::notifyChatAction(
+            message: $message,
+            user: $user,
+            offer: $offer,
+            buyer: User::findOrFail((int) $offer->buyer_id),
+            actionType: 7
+        );
 
         broadcast(new \App\Events\MessageSent($message));
 

@@ -6,4 +6,5 @@ return [
     'profile_updated' => 'Profil byl úspěšně aktualizován.',
     'profile_deleted' => 'Profil byl úspěšně smazán.',
     'success' => 'Úspěch',
+    'notifications_updated' => 'Nastavení notifikací bylo úspěšně aktualizováno.',
 ];
