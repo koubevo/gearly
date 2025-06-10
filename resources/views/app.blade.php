@@ -8,6 +8,10 @@
 
     <link rel="icon" href="{{ asset('storage/favicon.ico') }}" type="image/x-icon">
 
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url()->current() }}">
+
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -27,7 +31,7 @@
     <!-- Open Graph -->
     <meta property="og:title" content="Gearly – bazar pro baseball a softball">
     <meta property="og:description" content="Najdi nebo prodej vybavení pro baseball a softball snadno a rychle.">
-    <meta property="og:image" content="{{ asset('storage/imgs/bg_green.png') }}">
+    <meta property="og:image" content="https://gearly.eu/storage/imgs/bg_green.png">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:type" content="website">
 
@@ -35,7 +39,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Gearly – bazar pro baseball a softball">
     <meta name="twitter:description" content="Najdi nebo prodej vybavení pro baseball a softball snadno a rychle.">
-    <meta name="twitter:image" content="{{ asset('storage/imgs/bg_green.png') }}">
+    <meta name="twitter:image" content="https://gearly.eu/storage/imgs/bg_green.png">
 
     <!-- Scripts -->
     @routes
