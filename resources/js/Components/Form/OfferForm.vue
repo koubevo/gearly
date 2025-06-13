@@ -2,7 +2,7 @@
     <form @submit.prevent="handleSubmit">
         <div class="max-w-5xl mx-auto mb-3">
             <Heading1 class="mb-4"
-                v-html="isEditMode ? $t('offer.edit_offer') + ' <span class=\'text-primary-900\'>' + form.name + '</span>' : $t('offer.add_new_offer')" />
+                :text="isEditMode ? $t('offer.edit_offer') + ' ' + form.name : $t('offer.add_new_offer')" />
             <div v-if="freeLimitExceeded && !isEditMode" class="bg-red-600 p-3 mb-4">
                 <BoldNormalText class="text-white">{{ $t('offer.limit_message', { limit: limit }) }}</BoldNormalText>
             </div>
