@@ -16,10 +16,21 @@
                 <div class="flex gap-3 md:gap-5" v-if="user">
                     <Link :href="route('offer.create')">
                         <div class="relative w-6 h-6 mt-0.5">
-                            <svg class="w-full h-full stroke-[3]" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path stroke="#1D9E1D" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="3" d="M12 4v16m-8-8h16" />
+                            <svg class="w-full h-full stroke-[3]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <linearGradient id="animatedGradient" x1="-100%" y1="0%" x2="200%" y2="0%">
+                                        <stop offset="0%" stop-color="#1D9E1D">
+                                            <animate attributeName="offset" values="-1;2" keyTimes="0;1" dur="10s" repeatCount="indefinite"/>
+                                        </stop>
+                                        <stop offset="50%" stop-color="black">
+                                            <animate attributeName="offset" values="-0.5;2.5" keyTimes="0;1" dur="10s" repeatCount="indefinite"/>
+                                        </stop>
+                                        <stop offset="100%" stop-color="#1D9E1D">
+                                            <animate attributeName="offset" values="0;3" keyTimes="0;1" dur="10s" repeatCount="indefinite"/>
+                                        </stop>
+                                    </linearGradient>
+                                </defs>
+                                <path stroke="url(#animatedGradient)" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M12 4v16m-8-8h16"/>
                             </svg>
                         </div>
                     </Link>
