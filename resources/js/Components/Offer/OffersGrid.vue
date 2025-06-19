@@ -13,7 +13,7 @@
     </section>    
     
     <Divider class="md:w-full mb-4"/>
-    <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-8" v-if="offersList.length">
+    <section class="offers-grid" v-if="offersList.length">
       <Card v-for="offer in offersList" :key="offer.id" :offer="offer" />
     </section>
 
