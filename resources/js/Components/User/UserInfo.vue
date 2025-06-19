@@ -1,6 +1,10 @@
 <template>
     <section class="mb-2 flex gap-4 items-center">
-        <Heading1>{{ user.name }}</Heading1>
+        <Heading2 class="flex items-center gap-1">
+            {{ user.name }}
+            <VerifiedBadge v-if="user.gearly_verified" />
+            <PremiumBadge v-if="user.is_premium" />
+        </Heading2>
     </section>
     <section class="mb-4">
         <button @click="openModal" :disabled="receivedRatings.length === 0">
@@ -31,16 +35,15 @@
 </template>
 
 <script setup>
-import Heading1 from '@/Components/Text/Heading1.vue'
 import TinyText from '@/Components/Text/TinyText.vue'
 import SmallText from '@/Components/Text/SmallText.vue'
 import Rating from '@/Components/User/Rating.vue';
 import Modal from "@/Components/Modal.vue";
 import Divider from "@/Components/Search/Divider.vue";
 import Heading2 from "@/Components/Text/Heading2.vue";
-import BoldNormalText from '@/Components/Text/BoldNormalText.vue';
-import { QuestionMarkCircleIcon } from '@heroicons/vue/24/outline';
 import { ref } from 'vue';
+import VerifiedBadge from '@/Components/User/VerifiedBadge.vue';
+import PremiumBadge from '@/Components/User/PremiumBadge.vue';
 
 defineProps({
     user: Object,

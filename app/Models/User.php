@@ -60,6 +60,10 @@ class User extends Authenticatable
         ];
     }
 
+    protected $appends = [
+        'is_premium',
+    ];
+
     public function offers(): HasMany
     {
         return $this->hasMany(Offer::class, 'user_id');
@@ -121,5 +125,10 @@ class User extends Authenticatable
             ->selectRaw('ROUND(AVG(stars), 1) as stars, COUNT(id) as count')
             ->first()
             ->toArray();
+    }
+
+    public function getIsPremiumAttribute(): bool
+    {
+        return $this->premium_ends_at?->isFuture() ?? false;
     }
 }

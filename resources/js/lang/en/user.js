@@ -3,6 +3,8 @@ export default {
     sold_offers: "Sold offers",
     user_has_no_offers: "User has no active or sold offers",
     ratings: "Ratings",
+    premium_user: "Premium user",
+    verified_user: "Verified user",
     your_profile: "Your profile",
     logout: "Logout",
     edit_profile: "Edit profile",

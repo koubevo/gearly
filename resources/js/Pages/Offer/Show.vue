@@ -46,7 +46,7 @@
                 </div>
             </section>
             <Link :href="seller.id === user.id ? '/profile' : route('user.show', { user: seller.id })">
-            <OfferUserDetail :seller="seller" :soldOffersCount="soldOffersCount" :rating="rating" />
+                <OfferUserDetail :seller="seller" :soldOffersCount="soldOffersCount" :rating="rating" />
             </Link>
 
             <div v-if="seller.id !== user.id && offer.statusNumber === 1">

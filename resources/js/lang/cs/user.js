@@ -3,6 +3,8 @@ export default {
     sold_offers: "Prodané nabídky",
     user_has_no_offers: "Uživatel nenabízí žádné aktivní nebo nemá žádné prodané nabídky",
     ratings: "Hodnocení",
+    premium_user: "Premium uživatel",
+    verified_user: "Ověřený uživatel",
     your_profile: "Tvůj profil",    
     logout: "Odhlásit se",
     edit_profile: "Upravit profil",
