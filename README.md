@@ -68,7 +68,7 @@ Gearly is part of my personal and professional growth in **full-stack developmen
 
 If you would like to discuss this project or potential collaboration, feel free to connect:
 
-- [LinkedIn](www.linkedin.com/in/vojtěch-koubek-559981243)  
+- [LinkedIn](https://linkedin.com/in/vojtěch-koubek-559981243)  
 - [gearly.eu](https://gearly.eu)
 
 ---
