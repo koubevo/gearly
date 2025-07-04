@@ -77,6 +77,7 @@
         </div>
         <slot></slot>
     </main>
+    <Footer v-if="showFooter" />
 </template>
 
 <script setup>
@@ -90,6 +91,7 @@ import Modal from '@/Components/Modal.vue';
 import Heading2 from '@/Components/Text/Heading2.vue';
 import HelpContent from '@/Components/Help/HelpContent.vue';
 import TinyText from '@/Components/Text/TinyText.vue';
+import Footer from '@/Components/LandingPage/Footer.vue';
 
 const page = usePage();
 const user = computed(() => page.props.auth?.user);
@@ -133,4 +135,10 @@ const openModal = () => {
 const closeModal = () => {
     helpModal.value = false;
 };
+
+const currentPath = computed(() => page.url)
+
+const showFooter = computed(() => currentPath.value === '/')
+
+console.log(currentPath.value)
 </script>

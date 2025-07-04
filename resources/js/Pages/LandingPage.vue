@@ -21,8 +21,6 @@
     <OffersSection v-if="baseballGear.length > 2" :offers="baseballGear" :heading="$t('landing.baseball_gear')" :link="route('offer.index', {sport: 2})"/>
 
     <OffersSection v-if="softballGear.length > 2" :offers="softballGear" :heading="$t('landing.softball_gear')" :link="route('offer.index', {sport: 3})"/>
-
-    <Footer></Footer>
 </template>
 
 <script setup>
@@ -31,7 +29,6 @@ import OffersSection from '@/Components/LandingPage/OffersSection.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
-import Footer from '@/Components/LandingPage/Footer.vue';
 
 const page = usePage();
 const user = computed(() => page.props.auth?.user);
