@@ -30,5 +30,11 @@ export default {
     want_to_buy_not_logged_in: 'Chceš koupit tento produkt? Přihlas se nebo se zaregistruj a kontaktuj prodejce.',
     reset_filters: 'Resetovat filtry',
     fields_filled_not_correctly: 'Některá pole nejsou správně vyplněna.',
+    app: 'Aplikace',
+    about: 'O nás',
+    contact: 'Kontakt',
+    blog: 'Blog',
+    changelog: 'Changelog',
+    about_app: 'O aplikaci',
   };
   
