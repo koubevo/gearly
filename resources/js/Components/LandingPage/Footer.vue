@@ -69,7 +69,9 @@
                 </a>
             </div>
             <div class="text-white self-center">
-            <Link>EN</Link> / <Link>CZ</Link>
+            <!-- 
+                <Link>EN</Link> / <Link>CZ</Link>
+            -->
             </div>
         </div>
     </section>

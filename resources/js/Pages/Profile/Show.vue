@@ -76,7 +76,7 @@ const closeModal = () => {
                         <NormalText>{{ $t('user.delete_account') }}</NormalText>
                     </button>
                 </div>
-                <button class="text-gray-500 hover:text-black" @click="closeModal">&times;</button>
+                <button class="text-gray-700 hover:text-black" @click="closeModal">&times;</button>
             </div>
 
             <Divider class="md:w-full my-4"/>

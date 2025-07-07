@@ -34,7 +34,7 @@
       <div class="p-6">
           <div class="flex justify-between items-end">
             <Heading2>{{ $t('offer.sort_offers') }}</Heading2>
-            <button class="text-gray-500 hover:text-black" @click="closeModal">&times;</button>
+            <button class="text-gray-700 hover:text-black" @click="closeModal">&times;</button>
           </div>
           <Divider class="md:w-full my-4"/>
           <div class="flex flex-col md:flex-row gap-2">
