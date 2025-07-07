@@ -186,6 +186,10 @@
     font-weight: 800;
 }
 
+.overflow-anywhere {
+  overflow-wrap: anywhere;
+}
+
 @keyframes fadeOut {
     from {
         opacity: 1;

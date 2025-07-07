@@ -2,6 +2,19 @@
     <Head :title="$t('landing.home')" />
 
     <OffersSection :offers="newArrivals" :heading="$t('landing.new_arrivals')" :link="route('offer.index')"/>
+
+    <HighlightSection 
+        :heading="$t('common.show_all_offers')" 
+        :link-text="$t('common.explore_now')" 
+        :link="route('offer.index')" 
+        image="/storage/imgs/landingPageHero.png" 
+        :alt-text="$t('common.explore_now')"/>
+
+    <div class="bg-white border-black border-2 p-1 mb-4 sm:hidden" v-if="!user">
+      <Link class="flex items-center justify-center w-full" :href="route('help')">
+        <TinyText class="text-center font-bold">{{ $t('help.do_you_need_help') }}</TinyText>
+      </Link>
+    </div>
     
     <OffersSection 
         v-if="brandWithMostActiveOffers.length > 2" 
@@ -25,6 +38,7 @@
 
 <script setup>
 import BrandsSection from '@/Components/LandingPage/BrandsSection.vue';
+import HighlightSection from '@/Components/LandingPage/HighlightSection.vue';
 import OffersSection from '@/Components/LandingPage/OffersSection.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';

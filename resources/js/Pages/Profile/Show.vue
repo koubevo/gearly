@@ -2,6 +2,7 @@
 import DeleteUserForm from './Partials/DeleteUserForm.vue';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm.vue';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm.vue';
+import NotificationsForm from './Partials/NotificationsForm.vue';
 import { usePage } from '@inertiajs/vue3';
 import Divider from '@/Components/Search/Divider.vue';
 import UserOffers from '@/Components/User/UserOffers.vue';
@@ -70,6 +71,12 @@ const closeModal = () => {
                         <NormalText>{{ $t('user.password') }}</NormalText>
                     </button>
                     <button 
+                        @click="activeSection = 'notifications'" 
+                        :class="{'text-green-600 font-bold border-b-2 border-green-600': activeSection === 'notifications'}"
+                        class="pb-1">
+                        <NormalText>{{ $t('user.notifications') }}</NormalText>
+                    </button>
+                    <button 
                         @click="activeSection = 'delete'" 
                         :class="{'text-green-600 font-bold border-b-2 border-green-600': activeSection === 'delete'}"
                         class="pb-1">
@@ -87,6 +94,10 @@ const closeModal = () => {
 
             <div v-show="activeSection === 'password'">
                 <UpdatePasswordForm @close-modal="closeModal" />
+            </div>
+            
+            <div v-show="activeSection === 'notifications'">
+                <NotificationsForm @close-modal="closeModal" :user="user" />
             </div>
 
             <div v-show="activeSection === 'delete'">

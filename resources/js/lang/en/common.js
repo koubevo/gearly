@@ -35,6 +35,9 @@ export default {
     contact: 'Contact',
     blog: 'Blog',
     changelog: 'Changelog',
-    about_app: 'About the app'
+    about_app: 'About the app',
+    all_offers: 'All offers',
+    show_all_offers: 'Show All Offers',
+    explore_now: 'Explore now',
   };
   

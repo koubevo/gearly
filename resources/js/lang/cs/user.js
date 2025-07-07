@@ -24,5 +24,12 @@ export default {
     are_you_sure: "Jste si jisti, že chcete svůj účet smazat?",
     delete_info_two: "Jakmile je váš účet smazán, budou všechny jeho zdroje a data trvale smazány. Zadejte, prosím, své heslo, abyste potvrdili, že chcete svůj účet trvale smazat.",
     on_gearly_since: "Na Gearly od",
+    notifications: "Notifikace",
+    update_notifications_preferences: "Aktualizovat nastavení notifikací",
+    enabled: "Zapnuto",
+    disabled: "Vypnuto",
+    inactive_notifications: "E-mailové notifikace při neaktivitě",
+    notifications_text: "Doporučujeme nechat notifikace zapnuté, abys byl/a informován/a o důležitých událostech.",
+    new_message_notification: "Notifikace o nové zprávě",
 };
   

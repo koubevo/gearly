@@ -36,5 +36,8 @@ export default {
     blog: 'Blog',
     changelog: 'Changelog',
     about_app: 'O aplikaci',
-  };
+    all_offers: 'Všechny nabídky',
+    show_all_offers: 'Zobrazit všechny nabídky',
+    explore_now: 'Zobrazit více',
+};
   

@@ -13,6 +13,7 @@ use App\Models\FilterCategory;
 use App\Models\Offer;
 use App\Models\OfferFilter;
 use App\Models\Rating;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Storage;
@@ -20,6 +21,7 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\HasMedia;
 use \Illuminate\Support\Facades\Auth;
+use App\Services\MessageNotificationService;
 
 class OfferController extends Controller implements HasMedia
 {
@@ -362,6 +364,14 @@ class OfferController extends Controller implements HasMedia
             'cs' => 'Nabídka byla prodána uživateli ' . $request->buyer['name'] . '.',
         ]);
 
+        MessageNotificationService::notifyChatAction(
+            message: $message,
+            user: $user,
+            offer: $offer,
+            buyer: User::findOrFail((int) $offer->buyer_id),
+            actionType: 5
+        );
+
         broadcast(new \App\Events\MessageSent($message));
     }
 
@@ -389,6 +399,14 @@ class OfferController extends Controller implements HasMedia
             'message' => 'Offer was received. Now you can rate each other.',
             'cs' => 'Nabídka byla přijata. Nyní si můžete navzájem udělit hodnocení.',
         ]);
+
+        MessageNotificationService::notifyChatAction(
+            message: $message,
+            user: $user,
+            offer: $offer,
+            buyer: User::findOrFail((int) $offer->buyer_id),
+            actionType: 6
+        );
 
         broadcast(new \App\Events\MessageSent($message));
     }

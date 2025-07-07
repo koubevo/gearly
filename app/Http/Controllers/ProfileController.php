@@ -73,8 +73,12 @@ class ProfileController extends Controller
 
         return inertia('Profile/Show', [
             'user' => [
-                ...$user->toArray(),
+                ...$user->attributesToArray(),
                 'last_login_at' => $user->last_login_at?->diffForHumans(),
+                'notifications_inactive' => $user->notifications_inactive,
+                'notifications_new_messages' => $user->notifications_new_messages,
+                'notifications_new_message' => $user->notifications_new_message,
+                'notifications_closure_reminder' => $user->notifications_closure_reminder,
             ],
             'activeOffers' => $activeOffers,
             'soldOffers' => $soldOffers,
@@ -122,5 +126,22 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/')->with('success', __('messages.profile_deleted'));
+    }
+
+    public function updateNofitications(Request $request): RedirectResponse
+    {
+        $user = Auth::user();
+        $validatedData = $request->validate([
+            'notifications_inactive' => ['boolean'],
+            'notifications_new_messages' => ['boolean'],
+            'notifications_new_message' => ['boolean'],
+            'notifications_closure_reminder' => ['boolean'],
+        ]);
+
+        $user->update($validatedData);
+
+        return redirect()->route('profile.show')
+            ->with('success', __('messages.notifications_updated'))
+            ->with('forceRefresh', true);
     }
 }

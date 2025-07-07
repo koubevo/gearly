@@ -25,6 +25,10 @@ class User extends Authenticatable
         'location',
         'lang',
         'last_login_at',
+        'notifications_inactive',
+        'notifications_new_messages',
+        'notifications_new_message',
+        'notifications_closure_reminder',
     ];
 
     protected $casts = [
@@ -44,6 +48,10 @@ class User extends Authenticatable
         'premium_ends_at',
         'role',
         'updated_at',
+        'notifications_inactive',
+        'notifications_new_messages',
+        'notifications_new_message',
+        'notifications_closure_reminder',
     ];
 
     /**
