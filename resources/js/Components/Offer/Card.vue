@@ -1,10 +1,10 @@
 <template>
     <Link :href="route('offer.show', offer.id)">
-        <div class="bg-white shadow-gray-300 shadow-lg h-full">
+        <div class="bg-white h-full">
             <div>
                 <img :src="offer.thumbnail_url" :alt="offer.name" class="card-image" loading="lazy">
             </div>  
-            <div class="p-2 flex flex-col gap-2"> 
+            <div class="py-2 flex flex-col gap-2"> 
                 <div class="flex align-top items-start">
                     <ConditionLike :offer="offer"/>
                 </div>
@@ -19,15 +19,13 @@
 </template>
 
 <script setup>
-import { Link } from '@inertiajs/vue3';
-import PriceCard from '@/Components/Offer/PriceCard.vue';
-import Heading3 from '@/Components/Text/Heading3.vue';
-import SmallText from '@/Components/Text/SmallText.vue';
-import ConditionLike from '@/Components/Offer/ConditionLike.vue';
+    import { Link } from '@inertiajs/vue3';
+    import PriceCard from '@/Components/Offer/PriceCard.vue';
+    import Heading3 from '@/Components/Text/Heading3.vue';
+    import SmallText from '@/Components/Text/SmallText.vue';
+    import ConditionLike from '@/Components/Offer/ConditionLike.vue';
 
-const props = defineProps({
-  offer: Object
-});
-
-
+    const props = defineProps({
+      offer: Object
+    });
 </script>

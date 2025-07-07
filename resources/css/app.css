@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@200..800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -173,6 +175,15 @@
 
 .thumbnails img:hover {
   transform: scale(1.1);
+}
+
+.offers-grid { 
+    @apply grid grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-4
+}
+
+.oxanium {
+    font-family: 'Oxanium', sans-serif;
+    font-weight: 800;
 }
 
 .overflow-anywhere {

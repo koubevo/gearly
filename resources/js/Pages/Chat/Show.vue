@@ -1,7 +1,7 @@
 <template>
-  <Head :title="$t('chat.chat_with') + ' ' + name" />
+  <Head :title="$t('chat.chat_with') + ' ' + userInfo.name" />
   <section class="flex flex-col max-w-5xl pb-[env(safe-area-inset-bottom)] h-[calc(100dvh-100px)] mx-auto">
-        <InfoSection :seller="seller" :offer="offer" :buyer="buyer" :rating="rating" :name="name" :userId="userId" class="mb-4 flex-shrink-0"/>
+        <InfoSection :seller="seller" :offer="offer" :buyer="buyer" :rating="rating" :userInfo="userInfo" class="mb-4 flex-shrink-0"/>
         <ChatSection ref="chatSectionRef" :seller="seller" :offer="offer" :buyer="buyer" class="mb-4 flex-grow overflow-auto"/>
         <section class="flex items-center justify-between gap-2 flex-shrink-0">
             <button class="primary-button-chat-style" v-if="offer.user_id === currentUser.id && offer.statusNumber === 1" @click="openModal">{{ $t('chat.sell') }}</button>
@@ -222,12 +222,10 @@ const closeModal = () => {
     modal.value = false;
 };
 
-let name, userId;
+let userInfo;
 if (currentUser.id === props.buyer.id) {
-    userId = props.seller.id;
-    name = props.seller.name;
+    userInfo = props.seller;
 } else {
-    userId = props.buyer.id;
-    name = props.buyer.name;
+    userInfo = props.buyer;
 }
 </script>

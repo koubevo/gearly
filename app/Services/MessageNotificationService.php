@@ -52,30 +52,29 @@ class MessageNotificationService
      */
     public static function notifyChatAction(Message $message, User $user, Offer $offer, User $buyer, int $actionType): void
     {
-        if ($message->receiver->notifications_new_message) {
-            $alreadySent = EmailLog::where('sender_id', $user->id)
-                ->where('receiver_id', $message->receiver->id)
-                ->where('offer_id', $offer->id)
-                ->where('type', $actionType)
-                ->where('sent_at', '>=', now()->subMinutes(5))
-                ->exists();
+        $alreadySent = EmailLog::where('sender_id', $user->id)
+            ->where('receiver_id', $message->receiver->id)
+            ->where('offer_id', $offer->id)
+            ->where('type', $actionType)
+            ->where('sent_at', '>=', now()->subMinutes(5))
+            ->exists();
 
-            if (!$alreadySent) {
-                Mail::to($message->receiver->email)->send(new ChatActionMail(
-                    senderName: $user->name,
-                    offerName: $offer->name,
-                    chatUrl: route('chat.show', ['offer' => $offer->id, 'buyer' => $buyer->id]),
-                    actionType: $actionType
-                ));
+        if (!$alreadySent) {
+            Mail::to($message->receiver->email)->send(new ChatActionMail(
+                senderName: $user->name,
+                offerName: $offer->name,
+                chatUrl: route('chat.show', ['offer' => $offer->id, 'buyer' => $buyer->id]),
+                actionType: $actionType
+            ));
 
-                EmailLog::create([
-                    'receiver_id' => $message->receiver->id,
-                    'sender_id' => $user->id,
-                    'offer_id' => $offer->id,
-                    'type' => $actionType,
-                    'sent_at' => now(),
-                ]);
-            }
+            EmailLog::create([
+                'receiver_id' => $message->receiver->id,
+                'sender_id' => $user->id,
+                'offer_id' => $offer->id,
+                'type' => $actionType,
+                'sent_at' => now(),
+            ]);
         }
     }
+
 }

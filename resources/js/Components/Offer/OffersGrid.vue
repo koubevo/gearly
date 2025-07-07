@@ -13,7 +13,7 @@
     </section>    
     
     <Divider class="md:w-full mb-4"/>
-    <section class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-8" v-if="offersList.length">
+    <section class="offers-grid" v-if="offersList.length">
       <Card v-for="offer in offersList" :key="offer.id" :offer="offer" />
     </section>
 
@@ -34,7 +34,7 @@
       <div class="p-6">
           <div class="flex justify-between items-end">
             <Heading2>{{ $t('offer.sort_offers') }}</Heading2>
-            <button class="text-gray-500 hover:text-black" @click="closeModal">&times;</button>
+            <button class="text-gray-700 hover:text-black" @click="closeModal">&times;</button>
           </div>
           <Divider class="md:w-full my-4"/>
           <div class="flex flex-col md:flex-row gap-2">
