@@ -34,7 +34,6 @@
     <OffersSection v-if="baseballGear.length > 2" :offers="baseballGear" :heading="$t('landing.baseball_gear')" :link="route('offer.index', {sport: 2})"/>
 
     <OffersSection v-if="softballGear.length > 2" :offers="softballGear" :heading="$t('landing.softball_gear')" :link="route('offer.index', {sport: 3})"/>
-
 </template>
 
 <script setup>

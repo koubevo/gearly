@@ -15,10 +15,13 @@
                 </div>
             </div>
         </Link>
-        <Link :href="route('user.show', {user: userId})">
+        <Link :href="route('user.show', {user: userInfo.id})">
             <div class="flex flex-col md:flex-row md:items-center md:gap-2">
-                <Heading3>{{ name }}</Heading3>
-                <Rating :rating="rating"/>
+                <Heading3 class="flex items-center gap-1">{{ userInfo.name }}
+                    <VerifiedBadge v-if="userInfo.gearly_verified" />
+                    <PremiumBadge v-if="userInfo.is_premium" />
+                    <Rating :rating="rating"/>
+                </Heading3>
             </div>
         </Link>
         <Divider class="md:w-full"/>
@@ -30,19 +33,17 @@ import Divider from '@/Components/Search/Divider.vue';
 import Heading3 from '@/Components/Text/Heading3.vue';
 import { Link } from '@inertiajs/vue3';
 import PriceCard from '@/Components/Offer/PriceCard.vue';
-import { usePage } from '@inertiajs/vue3';
 import Condition from '@/Components/Offer/Condition.vue';
-import Rating from '../User/Rating.vue';
-import TinyText from '../Text/TinyText.vue';
-
-const page = usePage();
+import Rating from '@/Components/User/Rating.vue';
+import TinyText from '@/Components/Text/TinyText.vue';
+import VerifiedBadge from '@/Components/User/VerifiedBadge.vue';
+import PremiumBadge from '@/Components/User/PremiumBadge.vue';
 
 const props = defineProps({
     buyer: Object,
     seller: Object,
     offer: Object,
     rating: Object,
-    name: String,
-    userId: Number
+    userInfo: Object
 });
 </script>

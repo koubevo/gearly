@@ -1,6 +1,6 @@
 <template>
     <div class="w-full my-0.5 flex flex-col justify-center">
-        <Link class="text-left w-full" :href="route('chat.show', {offer: chat.offer.id, buyer: chat.buyer_id})">
+        <Link class="text-left w-full" :href="route('chat.show', {offer: chat.offer.id, buyer: chat.buyer.id})">
             <div class="p-3 w-full flex flex-row justify-between items-center gap-2">
                 <div class="w-10 flex-shrink-0"><img :src="chat.offer.thumbnail_url" alt="Offer image" class="w-full object-cover object-center scale-150 card-image" ></div>
                 <div class="flex-1 ps-4">
@@ -11,8 +11,11 @@
                             </div>
                             <BoldNormalText>{{ chat.offer.name }}</BoldNormalText>
                         </div>
-                        <SmallText v-if="chat.buyer_id !== user.id">{{ chat.buyer_name }}</SmallText>
-                        <SmallText v-else>{{ chat.seller_name }}</SmallText>
+                        <SmallText class="flex items-center gap-1">
+                            {{ chatUser.name }}
+                            <VerifiedBadge v-if="chatUser.gearly_verified" />
+                            <PremiumBadge v-if="chatUser.is_premium" />
+                        </SmallText>
                         <TinyText>{{ chat.last_message_time }}</TinyText>
                     </div>
                 </div>
@@ -39,10 +42,20 @@ import PriceCard from '@/Components/Offer/PriceCard.vue';
 import SmallText from '@/Components/Text/SmallText.vue';
 import Condition from '@/Components/Offer/Condition.vue';
 import TinyText from '../Text/TinyText.vue';
+import { computed } from 'vue';
+import VerifiedBadge from '@/Components/User/VerifiedBadge.vue';
+import PremiumBadge from '@/Components/User/PremiumBadge.vue';
 
 const user = usePage().props.auth.user ?? {};
 
-defineProps({
+const props = defineProps({
     chat: Object
-})
+});
+
+const chatUser = computed(() => {
+    if (props.chat.buyer.id === user.id) {
+        return props.chat.seller;
+    }
+    return props.chat.buyer;
+});
 </script>
