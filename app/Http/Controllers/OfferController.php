@@ -6,6 +6,8 @@ use Illuminate\Validation\Rules\Enum;
 use App\Enums\ConditionEnum;
 use App\Enums\SportEnum;
 use App\Helpers\LanguageHelper;
+use App\Http\Requests\StoreOfferRequest;
+use App\Http\Requests\UpdateOfferRequest;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\DeliveryOption;
@@ -127,47 +129,17 @@ class OfferController extends Controller implements HasMedia
      * Store a newly created resource in storage.
      * @param Request $request
      */
-    public function store(Request $request)
+    public function store(StoreOfferRequest $request)
     {
         $user = Auth::user();
-
-        $maxFreeActiveOffers = self::MAX_FREE_ACTIVE_OFFERS;
         $activeOffersCount = $user->offers()->where('status', 1)->count();
 
-        if (!$user->hasPremium() && $activeOffersCount >= $maxFreeActiveOffers) {
+        if (!$user->hasPremium() && $activeOffersCount >= self::MAX_FREE_ACTIVE_OFFERS) {
             return redirect()->route('offer.index')
                 ->withErrors(['error' => 'For now you can have only 5 active offers.']);
         }
 
-        $rules = [
-            'name' => 'required|string|min:3|max:60',
-            'description' => 'required|string|min:3|max:1000',
-            'price' => 'required|numeric|min:0|max:99999|regex:/^\d{1,5}(\.\d{1,2})?$/',
-            'currency' => 'required|string|in:eur,czk',
-            'condition' => ['required', new Enum(ConditionEnum::class)],
-            'sport_id' => ['required', new Enum(SportEnum::class)],
-            'category_id' => 'required|integer|min:1',
-            'brand_id' => 'required|integer|min:1',
-            'delivery_option_id' => 'required|integer|min:1',
-            'delivery_detail' => 'nullable|string|max:255',
-            'images' => 'required|array|min:1',
-            'images.*' => 'image|max:5120',
-        ];
-
-        $filterRules = collect($request->all())
-            ->filter(fn($value, $key) => str_starts_with($key, 'fc'))
-            ->mapWithKeys(fn($value, $key) => [$key => 'nullable|integer'])
-            ->toArray();
-
-        $rules = array_merge($rules, $filterRules);
-
-        $messages = [
-            'images.*.image' => 'Každý soubor musí být obrázek.',
-            'images.*.max' => 'Maximální velikost obrázku je 5 MB.',
-            'images.required' => 'Musíš nahrát alespoň jeden obrázek.',
-        ];
-
-        $validated = $request->validate($rules, $messages);
+        $validated = $request->validated();
         $validated['user_id'] = Auth::id();
 
         $offer = Offer::create($validated);
@@ -290,28 +262,9 @@ class OfferController extends Controller implements HasMedia
      * @param Request $request
      * @param Offer $offer
      */
-    public function update(Request $request, Offer $offer)
+    public function update(UpdateOfferRequest $request, Offer $offer)
     {
-        $this->authorize('update', $offer);
-
-        $validatedData = $request->validate([
-            'name' => 'required|string|min:3|max:60',
-            'description' => 'required|string|min:3|max:1000',
-            'price' => 'required|regex:/^\d+(\.\d{1,2})?$/|min:0|max:99999',
-            'currency' => 'required|string|in:eur,czk',
-            'condition' => ['required', new Enum(ConditionEnum::class)],
-            'sport_id' => ['required', new Enum(SportEnum::class)],
-            'category_id' => 'required|integer|min:1',
-            'brand_id' => 'required|integer|min:1',
-            'delivery_option_id' => 'required|integer|min:1',
-            'delivery_detail' => 'nullable|string|max:255',
-        ]);
-
-        if ($validatedData['delivery_detail'] === 'null') {
-            $validatedData['delivery_detail'] = '';
-        }
-
-        $offer->update($validatedData);
+        $offer->update($request->validated());
 
         return redirect()->route('offer.show', $offer)
             ->with('success', __('messages.offer_updated'));
