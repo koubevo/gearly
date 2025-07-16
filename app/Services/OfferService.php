@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Models\Offer;
 use App\Models\OfferFilter;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
+use \Illuminate\Pagination\LengthAwarePaginator;
 
 class OfferService
 {
@@ -62,5 +64,33 @@ class OfferService
         }
 
         return $offer;
+    }
+    public function getPaginatedOffers(int $lenght, array $filters, Collection $dynamicFilters, User|null $user = null): LengthAwarePaginator
+    {
+        return Offer::with('brand')
+            ->filter($filters)
+            ->when($dynamicFilters->isNotEmpty(), function ($query) use ($dynamicFilters) {
+                foreach ($dynamicFilters as $key => $value) {
+                    $query->whereHas('offerFilters', function ($q) use ($value) {
+                        $q->where('filter_id', $value);
+                    });
+                }
+            })
+            ->active()
+            ->sort($filters['order'] ?? null)
+            ->paginate($lenght)
+            ->withQueryString()
+            ->through(function ($offer) use ($user) {
+                return [
+                    ...$offer->toArray(),
+                    'thumbnail_url' => $offer->getFirstMediaUrl('images', 'thumb'),
+                    'favorites_count' => $offer->favorites()->count(),
+                    'favorited_by_user' => $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false,
+                    'condition' => $offer->getConditionEnum()?->label(),
+                    'conditionNumber' => $offer->condition,
+                    'status' => $offer->getStatusEnum()?->label(),
+                    'statusNumber' => $offer->status,
+                ];
+            });
     }
 }

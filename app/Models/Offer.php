@@ -17,7 +17,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Offer extends Model implements HasMedia
 {
     use InteractsWithMedia, SoftDeletes;
-    const MAX_FREE_ACTIVE_OFFERS = 5;
+    public const MAX_FREE_ACTIVE_OFFERS = 5;
 
     protected $fillable = [
         'user_id',
@@ -38,6 +38,16 @@ class Offer extends Model implements HasMedia
     protected $hidden = [
         'buyer_id',
         'deleted_at',
+    ];
+
+    public const AVAILABLE_FILTERS = [
+        'category',
+        'brand',
+        'sport',
+        'condition',
+        'price',
+        'search',
+        'order',
     ];
 
     public function seller(): BelongsTo

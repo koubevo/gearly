@@ -25,6 +25,7 @@ use Spatie\MediaLibrary\HasMedia;
 use \Illuminate\Support\Facades\Auth;
 use App\Services\MessageNotificationService;
 use \App\Services\OfferService;
+use App\ViewModels\OfferIndexViewModel;
 
 class OfferController extends Controller implements HasMedia
 {
@@ -46,63 +47,23 @@ class OfferController extends Controller implements HasMedia
 
     public function index(Request $request)
     {
-        $langColumn = LanguageHelper::getLangColumn();
-        $filters = $request->only([
-            'category',
-            'brand',
-            'sport',
-            'condition',
-            'price',
-            'search',
-            'order',
-        ]);
+        $filters = $request->only(Offer::AVAILABLE_FILTERS);
 
         $dynamicFilters = collect($request->all())
             ->filter(fn($value, $key) => str_starts_with($key, 'fc') && $value !== null);
 
-
-        $user = Auth::user() ?? null;
-        $offers = Offer::with('brand')
-            ->filter($filters)
-            ->when($dynamicFilters->isNotEmpty(), function ($query) use ($dynamicFilters) {
-                foreach ($dynamicFilters as $key => $value) {
-                    $query->whereHas('offerFilters', function ($q) use ($value) {
-                        $q->where('filter_id', $value);
-                    });
-                }
-            })
-            ->active()
-            ->sort($filters['order'] ?? null)
-            ->paginate(12)
-            ->withQueryString()
-            ->through(function ($offer) use ($user) {
-                return [
-                    ...$offer->toArray(),
-                    'thumbnail_url' => $offer->getFirstMediaUrl('images', 'thumb'),
-                    'favorites_count' => $offer->favorites()->count(),
-                    'favorited_by_user' => $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false,
-                    'condition' => $offer->getConditionEnum()?->label(),
-                    'conditionNumber' => $offer->condition,
-                    'status' => $offer->getStatusEnum()?->label(),
-                    'statusNumber' => $offer->status,
-                ];
-            });
+        $offers = $this->offerService->getPaginatedOffers(12, $filters, $dynamicFilters, Auth::user() ?? null);
 
         if ($request->wantsJson()) {
             return response()->json($offers);
         }
 
-        return inertia('Offer/Index', [
-            'offers' => $offers,
-            'categories' => Category::with([
-                'filterCategories' => fn($q) => $q->select('filter_categories.id', "{$langColumn} as name")
-            ])->select('id', "{$langColumn} as name")->orderBy($langColumn, 'asc')->get(),
-            'brands' => Brand::select('id', 'name')->orderBy('name', 'asc')->get(),
-            'filters' => [
-                ...$filters,
-                ...$dynamicFilters->toArray(),
-            ],
-        ]);
+        return inertia('Offer/Index', OfferIndexViewModel::data(
+            $offers,
+            $filters,
+            $dynamicFilters,
+            LanguageHelper::getLangColumn()
+        ));
     }
 
     /**
