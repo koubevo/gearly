@@ -17,6 +17,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Offer extends Model implements HasMedia
 {
     use InteractsWithMedia, SoftDeletes;
+    const MAX_FREE_ACTIVE_OFFERS = 5;
 
     protected $fillable = [
         'user_id',

@@ -24,12 +24,18 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\HasMedia;
 use \Illuminate\Support\Facades\Auth;
 use App\Services\MessageNotificationService;
+use \App\Services\OfferService;
 
 class OfferController extends Controller implements HasMedia
 {
     use AuthorizesRequests, InteractsWithMedia;
 
-    const MAX_FREE_ACTIVE_OFFERS = 5;
+    protected $offerService;
+
+    public function __construct(OfferService $offerService)
+    {
+        $this->offerService = $offerService;
+    }
 
     /**
      * Display a listing of the resource.
@@ -119,8 +125,8 @@ class OfferController extends Controller implements HasMedia
             'brands' => $brands,
             'categories' => $categories,
             'deliveryOptions' => $deliveryOptions,
-            'freeLimitExceeded' => !$user->hasPremium() && $activeOffersCount >= self::MAX_FREE_ACTIVE_OFFERS,
-            'limit' => self::MAX_FREE_ACTIVE_OFFERS,
+            'freeLimitExceeded' => !$user->hasPremium() && $activeOffersCount >= Offer::MAX_FREE_ACTIVE_OFFERS,
+            'limit' => Offer::MAX_FREE_ACTIVE_OFFERS,
             'lang' => $langColumn
         ]);
     }
@@ -131,51 +137,15 @@ class OfferController extends Controller implements HasMedia
      */
     public function store(StoreOfferRequest $request)
     {
-        $user = Auth::user();
-        $activeOffersCount = $user->offers()->where('status', 1)->count();
-
-        if (!$user->hasPremium() && $activeOffersCount >= self::MAX_FREE_ACTIVE_OFFERS) {
+        try {
+            $offer = $this->offerService->createOffer(Auth::user(), $request->validated(), $request->file('images'));
+        } catch (\Exception $e) {
             return redirect()->route('offer.index')
-                ->withErrors(['error' => 'For now you can have only 5 active offers.']);
+                ->withErrors(['error' => __('messages.offer_create_not_allowed')]); //TODO: translation
         }
 
-        $validated = $request->validated();
-        $validated['user_id'] = Auth::id();
-
-        $offer = Offer::create($validated);
-
-        //TODO: check if filters corespond to category
-        foreach ($validated as $key => $value) {
-            if (str_starts_with($key, 'fc')) {
-                $filterCategoryId = str_replace('fc', '', $key);
-                $filterId = $value;
-
-                OfferFilter::create([
-                    'offer_id' => $offer->id,
-                    'filter_category_id' => $filterCategoryId,
-                    'filter_id' => $filterId,
-                ]);
-            }
-        }
-
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $randomString = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 8);
-
-                $extension = $image->getClientOriginalExtension();
-
-                $fileName = "gearly-{$offer->id}-{$randomString}.{$extension}";
-
-                $media = $offer->addMedia($image)
-                    ->usingFileName($fileName)
-                    ->withResponsiveImages()
-                    ->toMediaCollection('images', 'media');
-
-                //TODO: main image can be deleted 
-            }
-        }
-
-        return redirect()->route('offer.show', $offer->id)->with('success', __('messages.offer_created'));
+        return redirect()->route('offer.show', $offer->id)
+            ->with('success', __('messages.offer_created'));
     }
 
     /**
@@ -375,7 +345,7 @@ class OfferController extends Controller implements HasMedia
             abort(403, 'You are not allowed to access this page.');
         }
 
-        $maxFreeActiveOffers = self::MAX_FREE_ACTIVE_OFFERS;
+        $maxFreeActiveOffers = Offer::MAX_FREE_ACTIVE_OFFERS;
         $activeOffersCount = $user->offers()->where('status', 1)->count();
 
         if (!$user->hasPremium() && $activeOffersCount >= $maxFreeActiveOffers) {
