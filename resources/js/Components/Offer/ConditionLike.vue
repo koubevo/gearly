@@ -71,9 +71,9 @@ import Heading2 from "@/Components/Text/Heading2.vue";
 import Divider from "@/Components/Search/Divider.vue";
 import TinyText from '@/Components/Text/TinyText.vue';
 import SecondaryButton from "@/Components/Buttons/SecondaryButton.vue";
-import FbIcon from '@/Components/icons/FbIcon.vue';
-import XIcon from '@/Components/icons/XIcon.vue';
-import WhatsAppIcon from '@/Components/icons/WaIcon.vue';
+import FbIcon from '@/Components/Icons/FbIcon.vue';
+import XIcon from '@/Components/Icons/XIcon.vue';
+import WhatsAppIcon from '@/Components/Icons/WaIcon.vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
