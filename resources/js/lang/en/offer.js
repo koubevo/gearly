@@ -27,6 +27,6 @@ export default {
     share: "Share",
     copy_link: "Copy link",
     copied: "Copied",
-    found: "Look what I found on gearly.eu"
+    found: "Look what I found on Gearly"
 };
   

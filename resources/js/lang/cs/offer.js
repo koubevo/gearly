@@ -27,6 +27,6 @@ export default {
     share: "Sdílet",
     copy_link: "Zkopírovat odkaz",
     copied: "Zkopírováno",
-    found: "Dívej, co jsem našel na gearly.eu"
+    found: "Dívej, co jsem našel na Gearly",
 };
   
