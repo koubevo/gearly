@@ -19,5 +19,14 @@ export default {
     delete_offer: "Smazat nabídku",
     filter_offers: "Filtrovat nabídky",
     last_update: "Poslední aktualizace",
+    share_offer: "Sdílet nabídku",
+    share_description: "Sdílejte nabídku s přáteli nebo ve skupinách.",
+    share_on_facebook: "Sdílet na Facebooku",
+    share_on_twitter: "Sdílet na Twitteru",
+    share_on_whatsapp: "Sdílet na WhatsAppu",
+    share: "Sdílet",
+    copy_link: "Zkopírovat odkaz",
+    copied: "Zkopírováno",
+    found: "Dívej, co jsem našel na Gearly",
 };
   
