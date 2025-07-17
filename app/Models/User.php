@@ -18,6 +18,10 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+
+    private const ROLE_ADMIN = 1;
+    private const ROLE_USER = 0;
+
     protected $fillable = [
         'name',
         'email',
@@ -142,6 +146,6 @@ class User extends Authenticatable
 
     public function getIsAdminAttribute(): bool
     {
-        return $this->role === 1;
+        return $this->role === self::ROLE_ADMIN;
     }
 }

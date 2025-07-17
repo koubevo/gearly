@@ -54,12 +54,12 @@
         <div class="flex justify-between items-end">
             <div class="flex gap-2 align-middle">
                 <a href="https://www.instagram.com/gearly.eu/" target="_blank">
-                    <span class="bg-white w-8 h-8 flex items-center justify-center">
+                    <span class="bg-white w-8 h-8 flex items-center justify-center" aria-label="Instagram">
                         <IgIcon/>
                     </span>
                 </a>
                 <a href="https://x.com/gearly" target="_blank">
-                    <span class="bg-white w-8 h-8 flex items-center justify-center">
+                    <span class="bg-white w-8 h-8 flex items-center justify-center" aria-label="X/Twitter">
                         <XIcon/>
                     </span>
                 </a>
@@ -81,7 +81,5 @@ import BoldNormalText from '@/Components/Text/BoldNormalText.vue';
 import SmallText from '@/Components/Text/SmallText.vue';
 import IgIcon from '@/Components/Icons/IgIcon.vue';
 import XIcon from '@/Components/Icons/XIcon.vue';
-//import { InstagramIcon } from '@heroicons/vue/24/outline';
-
 
 </script>
