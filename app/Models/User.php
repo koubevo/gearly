@@ -46,7 +46,6 @@ class User extends Authenticatable
         'email',
         'email_verified_at',
         'premium_ends_at',
-        'role',
         'updated_at',
         'notifications_inactive',
         'notifications_new_messages',
@@ -70,6 +69,7 @@ class User extends Authenticatable
 
     protected $appends = [
         'is_premium',
+        'is_admin',
     ];
 
     public function offers(): HasMany
@@ -138,5 +138,10 @@ class User extends Authenticatable
     public function getIsPremiumAttribute(): bool
     {
         return $this->premium_ends_at?->isFuture() ?? false;
+    }
+
+    public function getIsAdminAttribute(): bool
+    {
+        return $this->role === 1;
     }
 }
