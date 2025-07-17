@@ -19,5 +19,14 @@ export default {
     delete_offer: "Delete offer",
     filter_offers: "Filter offers",
     last_update: "Last update",
+    share_offer: "Share offer",
+    share_description: "Share the offer with friends or in groups.",
+    share_on_facebook: "Share on Facebook",
+    share_on_twitter: "Share on Twitter",
+    share_on_whatsapp: "Share on WhatsApp",
+    share: "Share",
+    copy_link: "Copy link",
+    copied: "Copied",
+    found: "Look what I found on gearly.eu"
 };
   
