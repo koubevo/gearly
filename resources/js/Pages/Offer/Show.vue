@@ -9,7 +9,7 @@
             <section class="grid mb-6">
                 <Heading1 :text="offer.name" class="mb-3" />
                 <Price :price="offer.price" :currency="offer.currency" />
-                <ConditionLike :offer="offer" class="mt-2" />
+                <ConditionLike :offer="offer" :detailView="true" class="mt-2" />
                 <TinyText class="mt-2 text-[10.3px]">{{ $t('offer.last_update') }}: {{ offer.updated_at }}</TinyText>
             </section>
             <section class="grid mb-6">

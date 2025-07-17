@@ -46,12 +46,15 @@ class User extends Authenticatable
         'email',
         'email_verified_at',
         'premium_ends_at',
-        'role',
         'updated_at',
         'notifications_inactive',
         'notifications_new_messages',
         'notifications_new_message',
         'notifications_closure_reminder',
+    ];
+
+    protected $appends = [
+        'is_admin',
     ];
 
     /**
@@ -129,5 +132,10 @@ class User extends Authenticatable
             ->selectRaw('ROUND(AVG(stars), 1) as stars, COUNT(id) as count')
             ->first()
             ->toArray();
+    }
+
+    public function getIsAdminAttribute(): bool
+    {
+        return $this->role === 1;
     }
 }
