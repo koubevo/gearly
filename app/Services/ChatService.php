@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Services;
+use App\Helpers\LanguageHelper;
 use App\Models\Message;
 use App\Models\Offer;
 use App\Models\Rating;
@@ -79,5 +80,26 @@ class ChatService
     public function getAverageRatingOfSecondUser(Offer $offer, User $user, User $buyer)
     {
         return $user->id == $offer->user_id ? $buyer->getRating() : $offer->seller->getRating();
+    }
+
+    public function getMessages(Offer $offer, User $user, User $buyer): Collection
+    {
+        $langColumn = LanguageHelper::getLangColumnForMessages();
+
+        return $offer->messages()
+            ->where(function ($query) use ($user) {
+                $query->where('seller_id', $user->id)
+                    ->orWhere('buyer_id', $user->id);
+            })
+            ->where('offer_id', $offer->id)
+            ->where('buyer_id', $buyer->id)
+            ->get()
+            ->map(function ($message) use ($langColumn) {
+                $message->created_at_formatted = $message->created_at->diffForHumans();
+                if (!empty($message->$langColumn)) {
+                    $message->message = $message->$langColumn;
+                }
+                return $message;
+            });
     }
 }

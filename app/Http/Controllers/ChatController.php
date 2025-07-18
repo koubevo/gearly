@@ -75,32 +75,17 @@ class ChatController extends Controller
     public function loadMessages(Offer $offer, User $buyer)
     {
         $user = Auth::user();
-        $langColumn = LanguageHelper::getLangColumnForMessages();
 
+        //TODO: policy
         if (!($buyer->id === $user->id || $offer->user_id === $user->id)) {
-            abort(403, 'You are not allowed to access this page.');
+            abort(403, __('messages.offer_create_not_allowed'));
         }
 
-        $messages = $offer->messages()
-            ->where(function ($query) use ($user) {
-                $query->where('seller_id', $user->id)
-                    ->orWhere('buyer_id', $user->id);
-            })
-            ->where('offer_id', $offer->id)
-            ->where('buyer_id', $buyer->id)
-            ->get()
-            ->map(function ($message) use ($langColumn) {
-                $message->created_at_formatted = $message->created_at->diffForHumans();
-                if (!empty($message->$langColumn)) {
-                    $message->message = $message->$langColumn;
-                }
-                return $message;
-            });
+        $messages = $this->chatService->getMessages($offer, $user, $buyer);
 
         return response()->json([
             'messages' => $messages,
         ]);
-
     }
 
     public function sendMessage(Request $request, Offer $offer, User $buyer)
