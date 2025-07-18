@@ -65,6 +65,7 @@ class OfferService
 
         return $offer;
     }
+
     public function getPaginatedOffers(int $lenght, array $filters, Collection $dynamicFilters, User|null $user = null): LengthAwarePaginator
     {
         return Offer::with('brand')
@@ -92,5 +93,16 @@ class OfferService
                     'statusNumber' => $offer->status,
                 ];
             });
+    }
+
+    public function getOfferDetail(Offer $offer, User|null $user = null, string $langColumn): Offer
+    {
+        return $offer->load([
+            'seller',
+            'category:id,' . $langColumn . ' as name',
+            'deliveryOption:id,' . $langColumn . ' as name',
+            'offerFilters.filterCategory:id,' . $langColumn . ' as name',
+            'offerFilters.filter:id,' . $langColumn . ' as name',
+        ]);
     }
 }
