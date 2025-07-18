@@ -7,4 +7,5 @@ return [
     'profile_deleted' => 'Profile deleted successfully.',
     'success' => 'Success',
     'notifications_updated' => 'Notification settings updated successfully.',
+    'sold_message' => 'Offer was sold to :buyerName.',
 ];

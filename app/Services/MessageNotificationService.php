@@ -50,9 +50,9 @@ class MessageNotificationService
      * @param int $actionType 5 = sell offer, 6 = receive offer, 7 = rating
      * @return void
      */
-    public static function notifyChatAction(Message $message, User $user, Offer $offer, User $buyer, int $actionType): void
+    public static function notifyChatAction(Message $message, Offer $offer, User $buyer, int $actionType): void
     {
-        $alreadySent = EmailLog::where('sender_id', $user->id)
+        $alreadySent = EmailLog::where('sender_id', $message->author->id)
             ->where('receiver_id', $message->receiver->id)
             ->where('offer_id', $offer->id)
             ->where('type', $actionType)
@@ -61,7 +61,7 @@ class MessageNotificationService
 
         if (!$alreadySent) {
             Mail::to($message->receiver->email)->send(new ChatActionMail(
-                senderName: $user->name,
+                senderName: $message->author->name,
                 offerName: $offer->name,
                 chatUrl: route('chat.show', ['offer' => $offer->id, 'buyer' => $buyer->id]),
                 actionType: $actionType
@@ -69,7 +69,7 @@ class MessageNotificationService
 
             EmailLog::create([
                 'receiver_id' => $message->receiver->id,
-                'sender_id' => $user->id,
+                'sender_id' => $message->author->id,
                 'offer_id' => $offer->id,
                 'type' => $actionType,
                 'sent_at' => now(),

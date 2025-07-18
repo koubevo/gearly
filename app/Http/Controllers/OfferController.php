@@ -18,6 +18,7 @@ use Spatie\MediaLibrary\HasMedia;
 use \Illuminate\Support\Facades\Auth;
 use App\Services\MessageNotificationService;
 use \App\Services\OfferService;
+use App\Services\OfferTransactionService;
 use App\ViewModels\OfferIndexViewModel;
 use App\ViewModels\OfferCreateViewModel;
 use App\ViewModels\OfferShowViewModel;
@@ -28,10 +29,12 @@ class OfferController extends Controller implements HasMedia
     use AuthorizesRequests, InteractsWithMedia;
 
     protected $offerService;
+    protected $offerTransactionService;
 
-    public function __construct(OfferService $offerService)
+    public function __construct(OfferService $offerService, OfferTransactionService $offerTransactionService)
     {
         $this->offerService = $offerService;
+        $this->offerTransactionService = $offerTransactionService;
     }
 
     /**
@@ -154,38 +157,14 @@ class OfferController extends Controller implements HasMedia
         return response()->json(['path' => Storage::url($path)]);
     }
 
-    public function sellOffer(Request $request, Offer $offer)
+    public function sellOffer(Request $request, Offer $offer): void
     {
-        $user = Auth::user();
         $this->authorize('update', $offer);
 
-        $offer->buyer_id = $request->buyer['id'];
-        $offer->status = 2;
-        $offer->save();
-
-        $message = $offer->messages()->create([
-            'seller_id' => $user->id,
-            'buyer_id' => $request->buyer['id'],
-            'author_id' => $user->id,
-            'receiver_id' => $request->buyer['id'],
-            'offer_id' => $offer->id,
-            'type_id' => 2,
-            'message' => 'Offer was sold to ' . $request->buyer['name'] . '.',
-            'cs' => 'Nabídka byla prodána uživateli ' . $request->buyer['name'] . '.',
-        ]);
-
-        MessageNotificationService::notifyChatAction(
-            message: $message,
-            user: $user,
-            offer: $offer,
-            buyer: User::findOrFail((int) $offer->buyer_id),
-            actionType: 5
-        );
-
-        broadcast(new \App\Events\MessageSent($message));
+        $this->offerTransactionService->sellOffer($request, $offer);
     }
 
-    public function receiveOffer(Request $request, Offer $offer)
+    public function receiveOffer(Request $request, Offer $offer): void
     {
         $user = Auth::user();
         if ($user->id !== $offer->buyer_id) {
@@ -199,26 +178,26 @@ class OfferController extends Controller implements HasMedia
         $offer->status = 3;
         $offer->save();
 
-        $message = $offer->messages()->create([
-            'seller_id' => $offer->user_id,
-            'buyer_id' => $user->id,
-            'author_id' => $user->id,
-            'receiver_id' => $offer->user_id,
-            'offer_id' => $offer->id,
-            'type_id' => 3,
-            'message' => 'Offer was received. Now you can rate each other.',
-            'cs' => 'Nabídka byla přijata. Nyní si můžete navzájem udělit hodnocení.',
-        ]);
-
-        MessageNotificationService::notifyChatAction(
-            message: $message,
-            user: $user,
-            offer: $offer,
-            buyer: User::findOrFail((int) $offer->buyer_id),
-            actionType: 6
-        );
-
-        broadcast(new \App\Events\MessageSent($message));
+        //$message = $offer->messages()->create([
+        //    'seller_id' => $offer->user_id,
+        //    'buyer_id' => $user->id,
+        //    'author_id' => $user->id,
+        //    'receiver_id' => $offer->user_id,
+        //    'offer_id' => $offer->id,
+        //    'type_id' => 3,
+        //    'message' => 'Offer was received. Now you can rate each other.',
+        //    'cs' => 'Nabídka byla přijata. Nyní si můžete navzájem udělit hodnocení.',
+        //]);
+//
+        //MessageNotificationService::notifyChatAction(
+        //    message: $message,
+        //    user: $user,
+        //    offer: $offer,
+        //    buyer: User::findOrFail((int) $offer->buyer_id),
+        //    actionType: 6
+        //);
+//
+        //broadcast(new \App\Events\MessageSent($message));
     }
 
     public function cancelOffer(Request $request, Offer $offer)
@@ -245,17 +224,17 @@ class OfferController extends Controller implements HasMedia
         $offer->status = 1;
         $offer->save();
 
-        $message = $offer->messages()->create([
-            'seller_id' => $offer->user_id,
-            'buyer_id' => $buyerId,
-            'author_id' => $offer->user_id,
-            'receiver_id' => $buyerId,
-            'offer_id' => $offer->id,
-            'type_id' => 5,
-            'message' => 'The sale was canceled by the seller.',
-            'cs' => 'Prodej byl zrušen prodejcem.',
-        ]);
-
-        broadcast(new \App\Events\MessageSent($message));
+        //$message = $offer->messages()->create([
+        //    'seller_id' => $offer->user_id,
+        //    'buyer_id' => $buyerId,
+        //    'author_id' => $offer->user_id,
+        //    'receiver_id' => $buyerId,
+        //    'offer_id' => $offer->id,
+        //    'type_id' => 5,
+        //    'message' => 'The sale was canceled by the seller.',
+        //    'cs' => 'Prodej byl zrušen prodejcem.',
+        //]);
+//
+        //broadcast(new \App\Events\MessageSent($message));
     }
 }

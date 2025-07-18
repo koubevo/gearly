@@ -7,4 +7,5 @@ return [
     'profile_deleted' => 'Profil byl úspěšně smazán.',
     'success' => 'Úspěch',
     'notifications_updated' => 'Nastavení notifikací bylo úspěšně aktualizováno.',
+    'sold_message' => 'Nabídka byla prodána uživateli :buyerName.',
 ];
