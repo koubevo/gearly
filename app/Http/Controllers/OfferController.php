@@ -166,38 +166,13 @@ class OfferController extends Controller implements HasMedia
 
     public function receiveOffer(Request $request, Offer $offer): void
     {
+        //TODO: policy
         $user = Auth::user();
         if ($user->id !== $offer->buyer_id) {
             abort(403, 'You are not allowed to access this page.');
         }
 
-        if ($offer->status !== 2) {
-            abort(403, 'You are not allowed to access this page.');
-        }
-
-        $offer->status = 3;
-        $offer->save();
-
-        //$message = $offer->messages()->create([
-        //    'seller_id' => $offer->user_id,
-        //    'buyer_id' => $user->id,
-        //    'author_id' => $user->id,
-        //    'receiver_id' => $offer->user_id,
-        //    'offer_id' => $offer->id,
-        //    'type_id' => 3,
-        //    'message' => 'Offer was received. Now you can rate each other.',
-        //    'cs' => 'Nabídka byla přijata. Nyní si můžete navzájem udělit hodnocení.',
-        //]);
-//
-        //MessageNotificationService::notifyChatAction(
-        //    message: $message,
-        //    user: $user,
-        //    offer: $offer,
-        //    buyer: User::findOrFail((int) $offer->buyer_id),
-        //    actionType: 6
-        //);
-//
-        //broadcast(new \App\Events\MessageSent($message));
+        $this->offerTransactionService->receiveOffer($request, $offer);
     }
 
     public function cancelOffer(Request $request, Offer $offer)

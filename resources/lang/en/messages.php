@@ -8,4 +8,6 @@ return [
     'success' => 'Success',
     'notifications_updated' => 'Notification settings updated successfully.',
     'sold_message' => 'Offer was sold to :buyerName.',
+    'received_offer' => 'Offer was received. You can now rate each other.',
+    'not_allowed' => 'You are not allowed to access this page.',
 ];

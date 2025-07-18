@@ -32,4 +32,17 @@ class OfferTransactionService
         // send message
         $this->messageService->sendActionMessage($offer, MessageType::Sold);
     }
+
+    public function receiveOffer(Request $request, Offer $offer): void
+    {
+        if ($offer->status !== 2) {
+            abort(403, __('messages.not_allowed'));
+        }
+
+        $offer->status = 3;
+        $offer->save();
+
+        $this->messageService->sendActionMessage($offer, MessageType::Received);
+    }
+
 }

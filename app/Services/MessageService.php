@@ -59,6 +59,25 @@ class MessageService
         );
     }
 
+    public function createReceivedMessage(
+        Offer $offer,
+        int $sellerId,
+        int $buyerId,
+        int $authorId,
+        int $receiverId
+    ): Message {
+        return $this->createMessage(
+            $offer,
+            $sellerId,
+            $buyerId,
+            $authorId,
+            $receiverId,
+            MessageType::Received,
+            __('messages.offer_received', locale: 'en'),
+            __('messages.offer_received', locale: 'cs')
+        );
+    }
+
     private function sendMessage(Message $message): void
     {
         broadcast(new \App\Events\MessageSent($message));
@@ -81,12 +100,23 @@ class MessageService
                     $offer->buyer->name
                 );
                 break;
+            case MessageType::Received:
+                $author = $offer->buyer;
+                $receiver = $offer->seller;
+                $actiontype = 6; // TODO: enum, receive offer
+                $message = $this->createReceivedMessage(
+                    $offer,
+                    $offer->seller->id,
+                    $offer->buyer->id,
+                    $offer->buyer->id,
+                    $offer->seller->id
+                );
 
             default:
                 throw new \Exception('Unsupported message type');
         }
 
-        //notify
+        // notify
         //MessageNotificationService::notifyChatAction(
         //    $message,
         //    $offer,
@@ -94,7 +124,7 @@ class MessageService
         //    $actiontype
         //);
 
-        //send
+        // send message
         $this->sendMessage($message);
     }
 
