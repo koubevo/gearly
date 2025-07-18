@@ -12,7 +12,7 @@ enum NotificationType: int
     public function label(): string
     {
         return match ($this) {
-            self::NewMessage => 'New Message',
+            self::Normal => 'New Message',
             self::Sold => 'Sell Offer',
             self::Received => 'Receive Offer',
             self::Rating => 'Rating',
