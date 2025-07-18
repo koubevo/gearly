@@ -168,48 +168,27 @@ class OfferController extends Controller implements HasMedia
     {
         //TODO: policy
         $user = Auth::user();
-        if ($user->id !== $offer->buyer_id) {
-            abort(403, 'You are not allowed to access this page.');
+        if ($user->id !== $offer->buyer_id || $offer->status !== 2) {
+            abort(403, __('messages.not_allowed'));
         }
 
-        $this->offerTransactionService->receiveOffer($request, $offer);
+        $this->offerTransactionService->receiveOffer($offer);
     }
 
     public function cancelOffer(Request $request, Offer $offer)
     {
         $user = Auth::user();
-        if ($user->id !== $offer->user_id) {
-            abort(403, 'You are not allowed to access this page.');
+        if ($user->id !== $offer->user_id || $offer->status !== 2) {
+            abort(403, __('messages.not_allowed'));
         }
 
-        if ($offer->status !== 2) {
-            abort(403, 'You are not allowed to access this page.');
-        }
-
-        $maxFreeActiveOffers = Offer::MAX_FREE_ACTIVE_OFFERS;
         $activeOffersCount = $user->offers()->where('status', 1)->count();
 
-        if (!$user->hasPremium() && $activeOffersCount >= $maxFreeActiveOffers) {
+        if (!$user->hasPremium() && $activeOffersCount >= Offer::MAX_FREE_ACTIVE_OFFERS) {
             return redirect()->route('offer.index')
-                ->withErrors(['error' => 'For now you can have only 5 active offers.']);
+                ->withErrors(['error' => __('messages.max_free_active_offers', ['limit' => Offer::MAX_FREE_ACTIVE_OFFERS])]);
         }
 
-        $buyerId = $offer->buyer_id;
-        $offer->buyer_id = null;
-        $offer->status = 1;
-        $offer->save();
-
-        //$message = $offer->messages()->create([
-        //    'seller_id' => $offer->user_id,
-        //    'buyer_id' => $buyerId,
-        //    'author_id' => $offer->user_id,
-        //    'receiver_id' => $buyerId,
-        //    'offer_id' => $offer->id,
-        //    'type_id' => 5,
-        //    'message' => 'The sale was canceled by the seller.',
-        //    'cs' => 'Prodej byl zrušen prodejcem.',
-        //]);
-//
-        //broadcast(new \App\Events\MessageSent($message));
+        $this->offerTransactionService->cancelOffer($offer);
     }
 }

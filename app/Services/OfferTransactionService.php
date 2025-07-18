@@ -24,25 +24,27 @@ class OfferTransactionService
 
     public function sellOffer(Request $request, Offer $offer): void
     {
-        // change offer status
         $offer->buyer_id = $request->buyer['id'];
         $offer->status = StatusEnum::Sold;
         $offer->save();
 
-        // send message
         $this->messageService->sendActionMessage($offer, MessageType::Sold);
     }
 
-    public function receiveOffer(Request $request, Offer $offer): void
+    public function receiveOffer(Offer $offer): void
     {
-        if ($offer->status !== 2) {
-            abort(403, __('messages.not_allowed'));
-        }
-
-        $offer->status = 3;
+        $offer->status = StatusEnum::Received;
         $offer->save();
 
         $this->messageService->sendActionMessage($offer, MessageType::Received);
     }
 
+    public function cancelOffer(Offer $offer): void
+    {
+        $offer->buyer_id = null;
+        $offer->status = StatusEnum::Active;
+        $offer->save();
+
+        $this->messageService->sendActionMessage($offer, MessageType::Cancelled);
+    }
 }

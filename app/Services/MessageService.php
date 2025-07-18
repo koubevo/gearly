@@ -78,6 +78,25 @@ class MessageService
         );
     }
 
+    public function createCancelledMessage(
+        Offer $offer,
+        int $sellerId,
+        int $buyerId,
+        int $authorId,
+        int $receiverId
+    ): Message {
+        return $this->createMessage(
+            $offer,
+            $sellerId,
+            $buyerId,
+            $authorId,
+            $receiverId,
+            MessageType::Cancelled,
+            __('messages.offer_cancelled', locale: 'en'),
+            __('messages.offer_cancelled', locale: 'cs')
+        );
+    }
+
     private function sendMessage(Message $message): void
     {
         broadcast(new \App\Events\MessageSent($message));
@@ -111,12 +130,20 @@ class MessageService
                     $offer->buyer->id,
                     $offer->seller->id
                 );
-
+                break;
+            case MessageType::Cancelled:
+                $message = $this->createCancelledMessage(
+                    $offer,
+                    $offer->seller->id,
+                    $offer->buyer->id,
+                    $offer->buyer->id,
+                    $offer->seller->id
+                );
             default:
                 throw new \Exception('Unsupported message type');
         }
 
-        // notify
+        // notify only in sell/receive
         //MessageNotificationService::notifyChatAction(
         //    $message,
         //    $offer,
