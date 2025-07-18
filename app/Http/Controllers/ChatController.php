@@ -7,118 +7,69 @@ use App\Models\Message;
 use App\Models\Offer;
 use App\Models\Rating;
 use App\Models\User;
+use App\Services\RatingService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Jobs\ProcessNewMessageEmailNotification;
-
+use App\Services\ChatService;
+use App\ViewModels\ChatShowViewModel;
 
 class ChatController extends Controller
 {
+    protected $chatService;
+    protected $ratingService;
+
+    public function __construct(ChatService $chatService, RatingService $ratingService)
+    {
+        $this->chatService = $chatService;
+        $this->ratingService = $ratingService;
+    }
+
     public function index()
     {
-        $user = Auth::user();
-
-        $latestMessages = Message::with(['offer.seller', 'buyer'])
-            ->where(function ($query) use ($user) {
-                $query->where('buyer_id', $user->id)
-                    ->orWhereHas('offer', function ($subQuery) use ($user) {
-                        $subQuery->where('user_id', $user->id);
-                    });
-            })
-            ->whereHas('offer', function ($query) {
-                $query->whereIn('status', [1, 2, 3]);
-            })
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->groupBy(fn($message) => $message->offer_id . '-' . $message->buyer_id)
-            ->map(fn($group) => $group->first())
-            ->values()
-            ->filter(fn($message) => $message->buyer !== null && $message->offer !== null && $message->offer->seller !== null);
-
-        $chats = $latestMessages->map(function ($message) use ($user) {
-            $unreadCount = Message::where('offer_id', $message->offer->id)
-                ->where('buyer_id', $message->buyer->id)
-                ->where('receiver_id', $user->id)
-                ->whereNull('read_at')
-                ->count();
-
-            return [
-                'offer' => [
-                    'id' => $message->offer->id,
-                    'name' => $message->offer->name,
-                    'price' => $message->offer->price,
-                    'currency' => $message->offer->currency,
-                    'status' => $message->offer->getStatusEnum()?->label(),
-                    'statusNumber' => $message->offer->status,
-                    'thumbnail_url' => $message->offer->getFirstMediaUrl('images', 'thumb'),
-                ],
-                'buyer_name' => $message->buyer->name,
-                'buyer_id' => $message->buyer->id,
-                'seller_name' => $message->offer->seller->name,
-                'seller_id' => $message->offer->seller->id,
-                'last_message' => $message->message,
-                'last_message_time' => $message->created_at->diffForHumans(),
-                'unread_count' => $unreadCount,
-            ];
-        });
-
         return inertia('Chat/Index', [
-            'chats' => $chats
+            'chats' => $this->chatService->getChats(),
         ]);
     }
 
 
     public function show(Offer $offer, User $buyer)
     {
+        //TODO: policy
         $user = Auth::user();
-        $langColumn = LanguageHelper::getLangColumnForMessages();
+        $langColumn = LanguageHelper::getLangColumn();
 
         if (!($buyer->id === $user->id || $offer->user_id === $user->id)) {
-            abort(403, 'You are not allowed to access this page.');
+            abort(403, __('messages.offer_create_not_allowed'));
         }
 
-        $messagesCount = $offer->messages()
-            ->where('seller_id', $offer->user_id)
-            ->where('buyer_id', $buyer->id)
-            ->where('offer_id', $offer->id)
-            ->count();
+        $messagesCount = $this->chatService->getMessagesCount($offer, $buyer);
 
         // If there are no messages and the user is the seller, he is not allowed to access the chat
         if ($messagesCount == 0 && $user->id == $offer->user_id) {
-            abort(403, 'You are not allowed to access this page.');
+            abort(403, __('messages.offer_create_not_allowed'));
         }
 
         // If there are no messages and the user is the buyer, he is not allowed to access the chat if the offer is not active
         if ($messagesCount == 0 && $offer->status !== 1) {
-            abort(403, 'You are not allowed to access this page.');
+            abort(403, __('messages.offer_create_not_allowed'));
         }
 
         $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
-
         $offer->statusNumber = $offer->status;
         $offer->status = $offer->getStatusEnum()?->label();
         $offer->is_buyer = $buyer->id === $user->id;
-
-        $ratingExists = Rating::where('offer_id', $offer->id)
-            ->where('user_id', $user->id)
-            ->first();
-
-        $averageRating = $user->id == $offer->user_id ? $buyer->getRating() : $offer->seller->getRating();
+        $offer->delivery_option_name = $offer->deliveryOption->$langColumn;
 
         $this->markAsRead($offer, $buyer);
 
-        $deliveryOptionLangColumn = LanguageHelper::getLangColumn();
-        $deliveryOption = \App\Models\DeliveryOption::find($offer->delivery_option_id);
-        $offer->delivery_option = $deliveryOption->$deliveryOptionLangColumn;
-
-        return inertia('Chat/Show', [
-            'seller' => $offer->seller,
-            'buyer' => $buyer,
-            'offer' => $offer,
-            'thumbnail_url' => $offer->thumbnail_url,
-            'rating' => $averageRating,
-            'ableToRate' => $offer->statusNumber === 3 && !$ratingExists,
-        ]);
+        return inertia('Chat/Show', ChatShowViewModel::data(
+            $offer,
+            $buyer,
+            $user,
+            $this->chatService,
+            $this->ratingService
+        ));
     }
 
     public function loadMessages(Offer $offer, User $buyer)

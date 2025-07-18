@@ -82,7 +82,7 @@ class OfferController extends Controller implements HasMedia
             $offer = $this->offerService->createOffer(Auth::user(), $request->validated(), $request->file('images'));
         } catch (\Exception $e) {
             return redirect()->route('offer.index')
-                ->withErrors(['error' => __('messages.offer_create_not_allowed')]); //TODO: translation
+                ->withErrors(['error' => __('messages.offer_create_not_allowed')]);
         }
 
         return redirect()->route('offer.show', $offer->id)
