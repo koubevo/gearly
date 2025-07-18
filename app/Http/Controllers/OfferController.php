@@ -21,6 +21,7 @@ use \App\Services\OfferService;
 use App\ViewModels\OfferIndexViewModel;
 use App\ViewModels\OfferCreateViewModel;
 use App\ViewModels\OfferShowViewModel;
+use App\ViewModels\OfferEditViewModel;
 
 class OfferController extends Controller implements HasMedia
 {
@@ -109,21 +110,10 @@ class OfferController extends Controller implements HasMedia
     {
         $this->authorize('update', $offer);
 
-        $langColumn = LanguageHelper::getLangColumn();
-
-        $brands = Brand::select('id', 'name')->orderBy('name', 'asc')->get();
-        $deliveryOptions = DeliveryOption::select('id', "$langColumn as name")->get();
-        $categories = Category::with('filterCategories')
-            ->select('id', "$langColumn as name", 'logo', 'created_at', 'updated_at')
-            ->orderBy('name', 'asc')
-            ->get();
-
-        return inertia('Offer/Edit', [
-            'offer' => $offer,
-            'brands' => $brands,
-            'categories' => $categories,
-            'deliveryOptions' => $deliveryOptions
-        ]);
+        return inertia('Offer/Edit', OfferEditViewModel::data(
+            $offer,
+            LanguageHelper::getLangColumn()
+        ));
     }
 
     /**
