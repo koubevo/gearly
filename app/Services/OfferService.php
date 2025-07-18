@@ -105,4 +105,11 @@ class OfferService
             'offerFilters.filter:id,' . $langColumn . ' as name',
         ]);
     }
+
+    public function deleteOffer(Offer $offer): void
+    {
+        $offer->status = 5;
+        $offer->save();
+        $offer->deleteOrFail();
+    }
 }

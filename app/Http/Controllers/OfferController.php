@@ -137,9 +137,7 @@ class OfferController extends Controller implements HasMedia
     {
         $this->authorize('delete', $offer);
 
-        $offer->status = 5;
-        $offer->save();
-        $offer->deleteOrFail();
+        $this->offerService->deleteOffer($offer);
 
         return redirect()->route('profile.show')
             ->with('success', __('messages.offer_deleted'));
