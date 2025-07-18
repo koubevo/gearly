@@ -2,30 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Validation\Rules\Enum;
-use App\Enums\ConditionEnum;
-use App\Enums\SportEnum;
 use App\Helpers\LanguageHelper;
 use App\Http\Requests\StoreOfferRequest;
 use App\Http\Requests\UpdateOfferRequest;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\DeliveryOption;
-use App\Models\FilterCategory;
 use App\Models\Offer;
-use App\Models\OfferFilter;
-use App\Models\Rating;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Storage;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\HasMedia;
 use \Illuminate\Support\Facades\Auth;
 use App\Services\MessageNotificationService;
 use \App\Services\OfferService;
 use App\ViewModels\OfferIndexViewModel;
+use App\ViewModels\OfferCreateViewModel;
 
 class OfferController extends Controller implements HasMedia
 {
@@ -71,25 +65,10 @@ class OfferController extends Controller implements HasMedia
      */
     public function create()
     {
-        $user = Auth::user();
-        $langColumn = LanguageHelper::getLangColumn();
-
-        $brands = Brand::select('id', 'name')->orderBy('name', 'asc')->get();
-        $deliveryOptions = DeliveryOption::select('id', "$langColumn as name")->get();
-        $categories = Category::with('filterCategories')
-            ->select('id', "$langColumn as name", 'logo', 'created_at', 'updated_at')
-            ->orderBy('name', 'asc')
-            ->get();
-        $activeOffersCount = $user->offers()->where('status', 1)->count();
-
-        return inertia('Offer/Create', [
-            'brands' => $brands,
-            'categories' => $categories,
-            'deliveryOptions' => $deliveryOptions,
-            'freeLimitExceeded' => !$user->hasPremium() && $activeOffersCount >= Offer::MAX_FREE_ACTIVE_OFFERS,
-            'limit' => Offer::MAX_FREE_ACTIVE_OFFERS,
-            'lang' => $langColumn
-        ]);
+        return inertia('Offer/Create', OfferCreateViewModel::data(
+            Auth::user(),
+            LanguageHelper::getLangColumn()
+        ));
     }
 
     /**
