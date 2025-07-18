@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Helpers\LanguageHelper;
 use App\Models\Message;
 use App\Models\Offer;
-use App\Models\Rating;
 use App\Models\User;
 use App\Services\RatingService;
+use App\Services\MessageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Jobs\ProcessNewMessageEmailNotification;
@@ -18,11 +18,13 @@ class ChatController extends Controller
 {
     protected $chatService;
     protected $ratingService;
+    protected $messageService;
 
-    public function __construct(ChatService $chatService, RatingService $ratingService)
+    public function __construct(ChatService $chatService, RatingService $ratingService, MessageService $messageService)
     {
         $this->chatService = $chatService;
         $this->ratingService = $ratingService;
+        $this->messageService = $messageService;
     }
 
     public function index()
@@ -31,7 +33,6 @@ class ChatController extends Controller
             'chats' => $this->chatService->getChats(),
         ]);
     }
-
 
     public function show(Offer $offer, User $buyer)
     {
@@ -61,7 +62,7 @@ class ChatController extends Controller
         $offer->is_buyer = $buyer->id === $user->id;
         $offer->delivery_option_name = $offer->deliveryOption->$langColumn;
 
-        $this->markAsRead($offer, $buyer);
+        $this->chatService->markAsRead($offer, $buyer);
 
         return inertia('Chat/Show', ChatShowViewModel::data(
             $offer,
@@ -93,59 +94,27 @@ class ChatController extends Controller
         $user = Auth::user();
         $receiver_id = $user->id == $buyer->id ? $offer->user_id : $buyer->id;
 
+        //TODO: policy
         if (!($buyer->id === $user->id || $offer->user_id === $user->id)) {
-            abort(403, 'You are not allowed to access this page.');
+            abort(403, __('messages.offer_create_not_allowed'));
         }
 
-        $message = $offer->messages()->create([
-            'seller_id' => $offer->user_id,
-            'buyer_id' => $buyer->id,
-            'author_id' => $user->id,
-            'receiver_id' => $receiver_id,
-            'offer_id' => $offer->id,
-            'type_id' => $request->type_id,
-            'message' => $request->validate([
+        $this->messageService->sendNormalMessage(
+            $offer,
+            $user,
+            $buyer,
+            $receiver_id,
+            $request->validate([
                 'message' => 'required|string|max:255',
-            ])['message'],
-        ]);
-
-        /*$message->receiver->notify(
-            new MessageSent($offer, $message)
-        );*/
-
-        broadcast(new \App\Events\MessageSent($message));
-
-        ProcessNewMessageEmailNotification::dispatch($message, $user, $offer, $buyer);
-    }
-
-    public function markAsRead(Offer $offer, User $buyer)
-    {
-        $user = Auth::user();
-
-        if (!($buyer->id === $user->id || $offer->user_id === $user->id)) {
-            abort(403, 'You are not allowed to access this page.');
-        }
-
-        Message::where('offer_id', $offer->id)
-            ->where('buyer_id', $buyer->id)
-            ->where('receiver_id', $user->id)
-            ->whereNull('read_at')
-            ->update(['read_at' => now()]);
+            ])['message']
+        );
     }
 
     public function unreadChatsCount()
     {
         $user = Auth::user();
 
-        $unreadChatsCount = Message::where('receiver_id', $user->id)
-            ->whereNull('read_at')
-            ->whereHas('offer', function ($query) {
-                $query->whereIn('status', [1, 2, 3]);
-            })
-            ->selectRaw('offer_id, buyer_id')
-            ->groupBy('offer_id', 'buyer_id')
-            ->get()
-            ->count();
+        $unreadChatsCount = $this->chatService->getUnreadChatsCount($user);
 
         return response()->json([
             'unreadChatsCount' => $unreadChatsCount,

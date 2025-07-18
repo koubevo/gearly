@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\MessageType;
 use App\Enums\NotificationType;
+use App\Jobs\ProcessNewMessageEmailNotification;
 use App\Models\Message;
 use App\Models\Offer;
 use App\Models\User;
@@ -26,7 +27,7 @@ class MessageService
         int $receiverId,
         MessageType $type,
         string $message,
-        string $messageCs
+        string|null $messageCs
     ): Message {
         return $offer->messages()->create([
             'seller_id' => $sellerId,
@@ -40,7 +41,27 @@ class MessageService
         ]);
     }
 
-    public function createSoldMessage(
+    private function createNormalMessage(
+        Offer $offer,
+        int $sellerId,
+        int $buyerId,
+        int $authorId,
+        int $receiverId,
+        string $message
+    ): Message {
+        return $this->createMessage(
+            $offer,
+            $sellerId,
+            $buyerId,
+            $authorId,
+            $receiverId,
+            MessageType::Normal,
+            $message,
+            null
+        );
+    }
+
+    private function createSoldMessage(
         Offer $offer,
         int $sellerId,
         int $buyerId,
@@ -60,7 +81,7 @@ class MessageService
         );
     }
 
-    public function createReceivedMessage(
+    private function createReceivedMessage(
         Offer $offer,
         int $sellerId,
         int $buyerId,
@@ -79,7 +100,7 @@ class MessageService
         );
     }
 
-    public function createCancelledMessage(
+    private function createCancelledMessage(
         Offer $offer,
         int $sellerId,
         int $buyerId,
@@ -155,8 +176,19 @@ class MessageService
         $this->sendMessage($message);
     }
 
-    public function sendNormalMessage(): void
+    public function sendNormalMessage(Offer $offer, User $user, User $buyer, int $receiverId, string $messageText): void
     {
+        $message = $this->createNormalMessage(
+            $offer,
+            $offer->seller->id,
+            $buyer->id,
+            $user->id,
+            $receiverId,
+            $messageText
+        );
 
+        $this->sendMessage($message);
+
+        ProcessNewMessageEmailNotification::dispatch($message, $user, $offer, $buyer);
     }
 }

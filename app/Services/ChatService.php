@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Services;
+
+use App\Enums\StatusEnum;
 use App\Helpers\LanguageHelper;
 use App\Models\Message;
 use App\Models\Offer;
@@ -101,5 +103,34 @@ class ChatService
                 }
                 return $message;
             });
+    }
+
+    public function markAsRead(Offer $offer, User $buyer)
+    {
+        $user = Auth::user();
+
+        // TODO: policy
+        if (!($buyer->id === $user->id || $offer->user_id === $user->id)) {
+            abort(403, 'You are not allowed to access this page.');
+        }
+
+        Message::where('offer_id', $offer->id)
+            ->where('buyer_id', $buyer->id)
+            ->where('receiver_id', $user->id)
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]);
+    }
+
+    public function getUnreadChatsCount(User $user): int
+    {
+        return Message::where('receiver_id', $user->id)
+            ->whereNull('read_at')
+            ->whereHas('offer', function ($query) {
+                $query->whereIn('status', [StatusEnum::Active->value, StatusEnum::Sold->value, StatusEnum::Received->value]);
+            })
+            ->selectRaw('offer_id, buyer_id')
+            ->groupBy('offer_id', 'buyer_id')
+            ->get()
+            ->count();
     }
 }
