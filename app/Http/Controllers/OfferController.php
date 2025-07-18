@@ -164,7 +164,7 @@ class OfferController extends Controller implements HasMedia
     {
         //TODO: policy
         $user = Auth::user();
-        if ($user->id !== $offer->buyer_id || $offer->status !== StatusEnum::Sold) {
+        if ($user->id !== $offer->buyer_id || $offer->status !== StatusEnum::Sold->value) {
             abort(403, __('messages.not_allowed'));
         }
 
@@ -174,7 +174,7 @@ class OfferController extends Controller implements HasMedia
     public function cancelOffer(Request $request, Offer $offer)
     {
         $user = Auth::user();
-        if ($user->id !== $offer->user_id || $offer->status !== StatusEnum::Sold) {
+        if ($user->id !== $offer->user_id || $offer->status !== StatusEnum::Sold->value) {
             abort(403, __('messages.not_allowed'));
         }
 

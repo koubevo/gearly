@@ -41,10 +41,11 @@ class OfferTransactionService
 
     public function cancelOffer(Offer $offer): void
     {
+        $buyerId = $offer->buyer_id;
         $offer->buyer_id = null;
         $offer->status = StatusEnum::Active;
         $offer->save();
 
-        $this->messageService->sendActionMessage($offer, MessageType::Cancelled);
+        $this->messageService->sendActionMessage($offer, MessageType::Cancelled, $buyerId);
     }
 }

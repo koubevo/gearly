@@ -10,5 +10,6 @@ return [
     'sold_message' => 'Nabídka byla prodána uživateli :buyerName.',
     'received_offer' => 'Nabídka byla přijata. Nyní si můžete navzájem udělit hodnocení.',
     'not_allowed' => 'Není dovoleno provést tuto akci.',
+    'offer_cancelled' => 'Prodej byl zrušen prodejcem.',
     'max_free_active_offers' => 'For now you can have only :limit active offers.'
 ];

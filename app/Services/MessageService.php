@@ -21,7 +21,7 @@ class MessageService
     private function createMessage(
         Offer $offer,
         int $sellerId,
-        int $buyerId,
+        int|null $buyerId,
         int $authorId,
         int $receiverId,
         MessageType $type,
@@ -103,7 +103,7 @@ class MessageService
         broadcast(new \App\Events\MessageSent($message));
     }
 
-    public function sendActionMessage(Offer $offer, MessageType $messageType): void
+    public function sendActionMessage(Offer $offer, MessageType $messageType, ?int $buyerId = null): void
     {
         // create message
         switch ($messageType) {
@@ -132,10 +132,11 @@ class MessageService
                 $message = $this->createCancelledMessage(
                     $offer,
                     $offer->seller->id,
-                    $offer->buyer->id,
-                    $offer->buyer->id,
-                    $offer->seller->id
+                    $buyerId,
+                    $offer->seller->id,
+                    $buyerId
                 );
+                break;
             default:
                 throw new \Exception('Unsupported message type');
         }
