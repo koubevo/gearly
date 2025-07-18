@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\NotificationType;
 use App\Models\EmailLog;
 use App\Mail\NewMessageMail;
 use App\Mail\ChatActionMail;
@@ -47,15 +48,15 @@ class MessageNotificationService
      * @param \App\Models\User $user
      * @param \App\Models\Offer $offer
      * @param \App\Models\User $buyer
-     * @param int $actionType 5 = sell offer, 6 = receive offer, 7 = rating
+     * @param NotificationType $notificationType
      * @return void
      */
-    public static function notifyChatAction(Message $message, Offer $offer, User $buyer, int $actionType): void
+    public static function notifyChatAction(Message $message, Offer $offer, User $buyer, NotificationType $notificationType): void
     {
         $alreadySent = EmailLog::where('sender_id', $message->author->id)
             ->where('receiver_id', $message->receiver->id)
             ->where('offer_id', $offer->id)
-            ->where('type', $actionType)
+            ->where('type', $notificationType)
             ->where('sent_at', '>=', now()->subMinutes(5))
             ->exists();
 
@@ -64,14 +65,14 @@ class MessageNotificationService
                 senderName: $message->author->name,
                 offerName: $offer->name,
                 chatUrl: route('chat.show', ['offer' => $offer->id, 'buyer' => $buyer->id]),
-                actionType: $actionType
+                notificationType: $notificationType
             ));
 
             EmailLog::create([
                 'receiver_id' => $message->receiver->id,
                 'sender_id' => $message->author->id,
                 'offer_id' => $offer->id,
-                'type' => $actionType,
+                'type' => $notificationType,
                 'sent_at' => now(),
             ]);
         }

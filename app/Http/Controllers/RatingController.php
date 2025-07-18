@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\NotificationType;
 use App\Models\Offer;
 use App\Models\Rating;
 use App\Models\User;
@@ -68,10 +69,9 @@ class RatingController extends Controller
 
         MessageNotificationService::notifyChatAction(
             message: $message,
-            user: $user,
             offer: $offer,
             buyer: User::findOrFail((int) $offer->buyer_id),
-            actionType: 7
+            notificationType: NotificationType::Rating
         );
 
         broadcast(new \App\Events\MessageSent($message));

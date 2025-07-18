@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Enums\MessageType;
+use App\Enums\NotificationType;
 use App\Models\Message;
 use App\Models\Offer;
 use App\Models\User;
@@ -107,9 +108,7 @@ class MessageService
         // create message
         switch ($messageType) {
             case MessageType::Sold:
-                $author = $offer->seller;
-                $receiver = $offer->buyer;
-                $actiontype = 5; // TODO: enum, sell offer
+                $notificationType = NotificationType::Sold;
                 $message = $this->createSoldMessage(
                     $offer,
                     $offer->seller->id,
@@ -120,9 +119,7 @@ class MessageService
                 );
                 break;
             case MessageType::Received:
-                $author = $offer->buyer;
-                $receiver = $offer->seller;
-                $actiontype = 6; // TODO: enum, receive offer
+                $notificationType = NotificationType::Received;
                 $message = $this->createReceivedMessage(
                     $offer,
                     $offer->seller->id,
@@ -143,13 +140,15 @@ class MessageService
                 throw new \Exception('Unsupported message type');
         }
 
-        // notify only in sell/receive
-        //MessageNotificationService::notifyChatAction(
-        //    $message,
-        //    $offer,
-        //    $offer->buyer,
-        //    $actiontype
-        //);
+        // notify
+        if (isset($notificationType)) {
+            MessageNotificationService::notifyChatAction(
+                $message,
+                $offer,
+                $offer->buyer,
+                $notificationType
+            );
+        }
 
         // send message
         $this->sendMessage($message);
