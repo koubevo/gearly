@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\StatusEnum;
 use App\Models\User;
 use App\Models\Offer;
 use App\Models\OfferFilter;
@@ -21,7 +22,7 @@ class OfferService
 
     public function createOffer(User $user, array $validated, ?array $images = null): Offer
     {
-        $activeOffersCount = $user->offers()->where('status', 1)->count();
+        $activeOffersCount = $user->offers()->where('status', StatusEnum::Active)->count();
 
         if (!$user->hasPremium() && $activeOffersCount >= Offer::MAX_FREE_ACTIVE_OFFERS) {
             //TODO: translation
@@ -108,7 +109,7 @@ class OfferService
 
     public function deleteOffer(Offer $offer): void
     {
-        $offer->status = 5;
+        $offer->status = StatusEnum::Deleted;
         $offer->save();
         $offer->deleteOrFail();
     }
