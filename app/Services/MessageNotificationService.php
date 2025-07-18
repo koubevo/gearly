@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Carbon;
 use App\Models\User;
 use App\Models\Offer;
+use Notification;
 
 class MessageNotificationService
 {
@@ -20,7 +21,7 @@ class MessageNotificationService
             $alreadySent = EmailLog::where('sender_id', $user->id)
                 ->where('receiver_id', $message->receiver->id)
                 ->where('offer_id', $offer->id)
-                ->where('type', 1)
+                ->where('type', NotificationType::Normal->value)
                 ->where('sent_at', '>=', now()->subMinutes(5))
                 ->exists();
 
@@ -36,7 +37,7 @@ class MessageNotificationService
                     'receiver_id' => $message->receiver->id,
                     'sender_id' => $user->id,
                     'offer_id' => $offer->id,
-                    'type' => 1,
+                    'type' => NotificationType::Normal->value,
                     'sent_at' => now(),
                 ]);
             }
@@ -56,7 +57,7 @@ class MessageNotificationService
         $alreadySent = EmailLog::where('sender_id', $message->author->id)
             ->where('receiver_id', $message->receiver->id)
             ->where('offer_id', $offer->id)
-            ->where('type', $notificationType)
+            ->where('type', $notificationType->value)
             ->where('sent_at', '>=', now()->subMinutes(5))
             ->exists();
 
@@ -72,7 +73,7 @@ class MessageNotificationService
                 'receiver_id' => $message->receiver->id,
                 'sender_id' => $message->author->id,
                 'offer_id' => $offer->id,
-                'type' => $notificationType,
+                'type' => $notificationType->value,
                 'sent_at' => now(),
             ]);
         }

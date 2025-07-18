@@ -4,7 +4,7 @@ namespace App\Enums;
 
 enum NotificationType: int
 {
-    case NewMessage = 1;
+    case Normal = 1;
     case Sold = 5;
     case Received = 6;
     case Rating = 7;
