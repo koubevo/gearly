@@ -2,21 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\StatusEnum;
 use App\Helpers\LanguageHelper;
 use App\Http\Requests\StoreOfferRequest;
 use App\Http\Requests\UpdateOfferRequest;
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\DeliveryOption;
 use App\Models\Offer;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Storage;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\HasMedia;
 use \Illuminate\Support\Facades\Auth;
-use App\Services\MessageNotificationService;
 use \App\Services\OfferService;
 use App\Services\OfferTransactionService;
 use App\ViewModels\OfferIndexViewModel;
@@ -168,7 +164,7 @@ class OfferController extends Controller implements HasMedia
     {
         //TODO: policy
         $user = Auth::user();
-        if ($user->id !== $offer->buyer_id || $offer->status !== 2) {
+        if ($user->id !== $offer->buyer_id || $offer->status !== StatusEnum::Sold) {
             abort(403, __('messages.not_allowed'));
         }
 
@@ -178,7 +174,7 @@ class OfferController extends Controller implements HasMedia
     public function cancelOffer(Request $request, Offer $offer)
     {
         $user = Auth::user();
-        if ($user->id !== $offer->user_id || $offer->status !== 2) {
+        if ($user->id !== $offer->user_id || $offer->status !== StatusEnum::Sold) {
             abort(403, __('messages.not_allowed'));
         }
 
