@@ -66,6 +66,15 @@ class ChatController extends Controller
     }
 
 
+    /**
+     * Displays the chat details and related information for a specific offer and buyer.
+     *
+     * Authorizes access for the buyer or the offer's seller, ensures chat eligibility, augments offer details, marks messages as read, and returns the chat view with seller, buyer, offer data, thumbnail, average rating, and rating eligibility.
+     *
+     * @param Offer $offer The offer associated with the chat.
+     * @param User $buyer The buyer involved in the chat.
+     * @return \Inertia\Response The rendered chat details view.
+     */
     public function show(Offer $offer, User $buyer)
     {
         $user = Auth::user();
