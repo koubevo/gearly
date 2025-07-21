@@ -1,11 +1,9 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DeliveryOptionController;
 use App\Http\Controllers\Admin\FilterCategoryController;
-use App\Http\Controllers\Admin\FilterFcMappingController;
 use App\Http\Controllers\Admin\FilterController as AdminFilterController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\FilterController;
@@ -17,114 +15,122 @@ use App\Http\Controllers\RatingController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WishlistController;
-use App\Models\User;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', [LandingPageController::class, 'index'])->name('landingPage');
+// Public Routes
+Route::group([], function () {
+    Route::get('/', [LandingPageController::class, 'index'])->name('landingPage');
 
-Route::get('/privacy', function () {
-    return Inertia::render('Conditions/Privacy');
-})->name('privacy');
+    Route::get('/privacy', function () {
+        return Inertia::render('Conditions/Privacy');
+    })->name('privacy');
 
-Route::get('/help', function () {
-    return Inertia::render('Help/Index');
-})->name('help');
+    Route::get('/help', function () {
+        return Inertia::render('Help/Index');
+    })->name('help');
 
-Route::get('/api/filters/{filterCategoryId}', [FilterController::class, 'getFiltersByCategory'])
-    ->name('api.filters');
-Route::get('/api/countries', [LocationController::class, 'getCountries'])
-    ->name('api.countries');
-Route::get('/api/cities', [LocationController::class, 'getCities'])
-    ->name('api.cities');
+    Route::get('offer', [OfferController::class, 'index'])
+        ->name('offer.index');
+    Route::get('offer/{offer}', [OfferController::class, 'show'])
+        ->name('offer.show')
+        ->where('offer', '[0-9]+');
 
-Route::post('/api/wishlist/{offer}', [WishlistController::class, 'toggle'])
-    ->name('wishlist.toggle')
-    ->middleware('auth');
+    Route::resource('user', UserController::class)
+        ->only(['show']);
 
-Route::get('/api/wishlist/{offer}', [WishlistController::class, 'count'])
-    ->name('wishlist.count')
-    ->middleware('auth');
-
-Route::get('/api/chat/{offer}/{buyer}', [ChatController::class, 'loadMessages'])
-    ->name('chat.load')
-    ->middleware('auth');
-
-Route::post('/api/chat/{offer}/{buyer}', [ChatController::class, 'sendMessage'])
-    ->name('chat.send')
-    ->middleware('auth');
-
-Route::post('/api/chat/{offer}/{buyer}/read', [ChatController::class, 'markAsRead'])
-    ->name('chat.read')
-    ->middleware('auth');
-
-Route::get('/api/chat/unreadChatsCount', [ChatController::class, 'unreadChatsCount'])
-    ->name('chat.unreadChatsCount')
-    ->middleware('auth');
-
-Route::post('/api/rating', [RatingController::class, 'store'])
-    ->middleware('auth')
-    ->name('rating.store');
-
-Route::post('/imgs/upload-temp', [OfferController::class, 'uploadTempImages'])
-    ->middleware('auth');
-
-Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index')
-    ->middleware('auth');
-
-Route::get('/chat/{offer}/{buyer}', [ChatController::class, 'show'])
-    ->name('chat.show')
-    ->middleware('auth');
-
-Route::get('/chat', [ChatController::class, 'index'])
-    ->name('chat.index')
-    ->middleware('auth');
-
-Route::resource('search', SearchController::class)
-    ->only(['index']);
-
-Route::resource('offer', OfferController::class)
-    ->only(['create', 'store', 'edit', 'update', 'destroy'])
-    ->middleware('auth');
-
-Route::resource('offer', OfferController::class)
-    ->only(['index', 'show']);
-
-Route::post('/offers/{offer}/sell', [OfferController::class, 'sellOffer'])
-    ->middleware('auth')
-    ->name('offer.sell');
-
-Route::post('/offers/{offer}/receive', [OfferController::class, 'receiveOffer'])
-    ->middleware('auth')
-    ->name('offer.receive');
-
-Route::post('/offers/{offer}/cancel', [OfferController::class, 'cancelOffer'])
-    ->middleware('auth')
-    ->name('offer.cancel');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::patch('/profile/notifications', [ProfileController::class, 'updateNofitications'])->name('profile.updateNotifications');
+    Route::resource('search', SearchController::class)
+        ->only(['index']);
 });
 
-Route::get('/admin', function () {
-    return Inertia::render('Admin/Index');
-})
-    ->middleware(['auth', 'admin'])
-    ->name('admin.index');
+// Authenticated Routes
+Route::group(['middleware' => ['auth']], function () {
 
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::resource('brands', BrandController::class);
-    Route::resource('categories', CategoryController::class);
-    Route::resource('filter-categories', FilterCategoryController::class);
-    Route::resource('filters', AdminFilterController::class);
-    Route::resource('delivery-options', DeliveryOptionController::class);
+    // Offers
+    Route::resource('offer', OfferController::class)
+        ->only(['create', 'store', 'edit', 'update', 'destroy']);
+    Route::post('/offers/{offer}/sell', [OfferController::class, 'sellOffer'])
+        ->name('offer.sell');
+    Route::post('/offers/{offer}/receive', [OfferController::class, 'receiveOffer'])
+        ->name('offer.receive');
+    Route::post('/offers/{offer}/cancel', [OfferController::class, 'cancelOffer'])
+        ->name('offer.cancel');
+
+    // Profile
+    Route::get('/profile', [ProfileController::class, 'show'])
+        ->name('profile.show');
+    Route::patch('/profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])
+        ->name('profile.destroy');
+    Route::patch('/profile/notifications', [ProfileController::class, 'updateNofitications'])
+        ->name('profile.updateNotifications');
+
+    // Chat
+    Route::get('/chat/{offer}/{buyer}', [ChatController::class, 'show'])
+        ->name('chat.show');
+    Route::get('/chat', [ChatController::class, 'index'])
+        ->name('chat.index');
+
+    Route::post('/imgs/upload-temp', [OfferController::class, 'uploadTempImages']);
+
+    Route::get('/wishlist', [WishlistController::class, 'index'])
+        ->name('wishlist.index');
 });
 
-Route::resource('user', UserController::class)
-    ->only(['show']);
+
+// API Routes
+Route::prefix('api')->group(function () {
+
+    // Public API Routes
+    Route::get('filters/{filterCategoryId}', [FilterController::class, 'getFiltersByCategory'])
+        ->name('api.filters');
+    Route::get('countries', [LocationController::class, 'getCountries'])
+        ->name('api.countries');
+    Route::get('cities', [LocationController::class, 'getCities'])
+        ->name('api.cities');
+
+    // Authenticated API Routes    
+    Route::middleware('auth')->group(function () {
+
+        // Wishlist
+        Route::post('wishlist/{offer}', [WishlistController::class, 'toggle'])
+            ->name('wishlist.toggle');
+        Route::get('wishlist/{offer}', [WishlistController::class, 'count'])
+            ->name('wishlist.count');
+
+        // Chat    
+        Route::get('chat/{offer}/{buyer}', [ChatController::class, 'loadMessages'])
+            ->name('chat.load');
+        Route::post('chat/{offer}/{buyer}', [ChatController::class, 'sendMessage'])
+            ->name('chat.send');
+        Route::post('chat/{offer}/{buyer}/read', [ChatController::class, 'markAsRead'])
+            ->name('chat.read');
+        Route::get('chat/unreadChatsCount', [ChatController::class, 'unreadChatsCount'])
+            ->name('chat.unreadChatsCount');
+
+        // Rating    
+        Route::post('rating', [RatingController::class, 'store'])
+            ->name('rating.store');
+    });
+});
+
+// Admin Routes
+Route::middleware(['auth', 'admin'])
+    ->prefix('admin')
+    ->as('admin.')
+    ->group(
+        function () {
+            Route::get('/', function () {
+                return Inertia::render('Admin/Index');
+            })->name('index');
+
+            Route::resource('brands', BrandController::class);
+            Route::resource('categories', CategoryController::class);
+            Route::resource('filter-categories', FilterCategoryController::class);
+            Route::resource('filters', AdminFilterController::class);
+            Route::resource('delivery-options', DeliveryOptionController::class);
+        }
+    );
 
 require __DIR__ . '/auth.php';
