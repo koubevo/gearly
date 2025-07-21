@@ -30,8 +30,11 @@ Route::group([], function () {
         return Inertia::render('Help/Index');
     })->name('help');
 
-    Route::resource('offer', OfferController::class)
-        ->only(['index', 'show']);
+    Route::get('offer', [OfferController::class, 'index'])
+        ->name('offer.index');
+    Route::get('offer/{offer}', [OfferController::class, 'show'])
+        ->name('offer.show')
+        ->where('offer', '[0-9]+');
 
     Route::resource('user', UserController::class)
         ->only(['show']);
