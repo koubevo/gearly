@@ -115,7 +115,7 @@ class ChatController extends Controller
             'offer' => $offer,
             'thumbnail_url' => $offer->thumbnail_url,
             'rating' => $averageRating,
-            'ableToRate' => $offer->statusNumber === 3 && !$ratingExists,
+            'ableToRate' => $offer->statusNumber === 3 && !$ratingExists && ($offer->buyer_id === $user->id || $offer->seller->id === $user->id),
         ]);
     }
 
