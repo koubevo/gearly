@@ -26,6 +26,7 @@ class OfferController extends Controller implements HasMedia
 
     protected $offerService;
     protected $offerTransactionService;
+    private const PAGINATED_OFFERS_LIMIT = 12;
 
     public function __construct(OfferService $offerService, OfferTransactionService $offerTransactionService)
     {
@@ -47,7 +48,7 @@ class OfferController extends Controller implements HasMedia
         $dynamicFilters = collect($request->all())
             ->filter(fn($value, $key) => str_starts_with($key, 'fc') && $value !== null);
 
-        $offers = $this->offerService->getPaginatedOffers(12, $filters, $dynamicFilters, Auth::user() ?? null);
+        $offers = $this->offerService->getPaginatedOffers(self::PAGINATED_OFFERS_LIMIT, $filters, $dynamicFilters);
 
         if ($request->wantsJson()) {
             return response()->json($offers);

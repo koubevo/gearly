@@ -68,11 +68,12 @@ class OfferService
         return $offer;
     }
 
-    public function getPaginatedOffers(int $lenght, array $filters, Collection $dynamicFilters, User|null $user = null): LengthAwarePaginator
+    public function getPaginatedOffers(int $lenght, array $filters = [], ?Collection $dynamicFilters = null): LengthAwarePaginator
     {
+        $user = Auth::user() ?? null;
         return Offer::with('brand')
             ->filter($filters)
-            ->when($dynamicFilters->isNotEmpty(), function ($query) use ($dynamicFilters) {
+            ->when(!empty($dynamicFilters), function ($query) use ($dynamicFilters) {
                 foreach ($dynamicFilters as $key => $value) {
                     $query->whereHas('offerFilters', function ($q) use ($value) {
                         $q->where('filter_id', $value);

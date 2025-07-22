@@ -38,12 +38,15 @@
     <OffersSection v-if="baseballGear.length > 2" :offers="baseballGear" :heading="$t('landing.baseball_gear')" :link="route('offer.index', {sport: 2})"/>
 
     <OffersSection v-if="softballGear.length > 2" :offers="softballGear" :heading="$t('landing.softball_gear')" :link="route('offer.index', {sport: 3})"/>
+
+    <LandingPageOffersGrid :offers="allOffers"/>
 </template>
 
 <script setup>
 import BrandsSection from '@/Components/LandingPage/BrandsSection.vue';
 import HighlightSection from '@/Components/LandingPage/HighlightSection.vue';
 import OffersSection from '@/Components/LandingPage/OffersSection.vue';
+import LandingPageOffersGrid from '@/Components/LandingPage/LandingPageOffersGrid.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
@@ -60,5 +63,6 @@ defineProps({
     softballGear: Array ?? [],
     favorites: Array ?? [],
     topBrands: Array ?? [],
+    allOffers: Object ?? [],
 });
 </script>

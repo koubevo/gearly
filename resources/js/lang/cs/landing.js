@@ -1,3 +1,5 @@
+import { all } from "axios";
+
 export default {
     home: "Domů",
     new_arrivals: "Novinky",
@@ -9,5 +11,6 @@ export default {
     check_all: "Mrkni na vše",
     favorites: "Z tvého wishlistu",
     top_brands: "Top značky",
+    all_offers: "Všechny nabídky",
   };
   
