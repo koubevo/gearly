@@ -1,6 +1,13 @@
 <template>
     <section class="border-s-gray-900 border-4 border-e-0 border-y-0 p-2">
-        <Heading3 class="mb-2">{{ seller.name }} <span v-if="seller.team">({{ seller.team }})</span></Heading3>
+        <Heading3 class="mb-2 flex items-center gap-1">
+            {{ seller.name }}
+            <VerifiedBadge v-if="seller.gearly_verified" />
+            <PremiumBadge v-if="seller.is_premium" />
+            <span v-if="seller.team">
+                ({{ seller.team }})
+            </span>
+        </Heading3>
         <Rating class="mb-1" :rating="rating"/>
         <SmallText v-if="soldOffersCount > 0" class="mb-1">{{ $t('common.already_sold_offers') }}: {{ soldOffersCount }}</SmallText>
         <TinyText class="mb-0.5">
@@ -15,6 +22,8 @@ import Heading3 from '@/Components/Text/Heading3.vue'
 import TinyText from '@/Components/Text/TinyText.vue'
 import SmallText from '@/Components/Text/SmallText.vue'
 import Rating from '@/Components/User/Rating.vue';
+import VerifiedBadge from '@/Components/User/VerifiedBadge.vue';
+import PremiumBadge from '@/Components/User/PremiumBadge.vue';  
 
 defineProps({
     seller: Object,

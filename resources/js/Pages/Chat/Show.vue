@@ -1,7 +1,7 @@
 <template>
-  <Head :title="$t('chat.chat_with') + ' ' + name" />
+  <Head :title="$t('chat.chat_with') + ' ' + userInfo.name" />
   <section class="flex flex-col max-w-5xl pb-[env(safe-area-inset-bottom)] h-[calc(100dvh-100px)] mx-auto">
-        <InfoSection :seller="seller" :offer="offer" :buyer="buyer" :rating="rating" :name="name" :userId="userId" class="mb-4 flex-shrink-0"/>
+        <InfoSection :seller="seller" :offer="offer" :buyer="buyer" :rating="rating" :userInfo="userInfo" class="mb-4 flex-shrink-0"/>
         <ChatSection ref="chatSectionRef" :seller="seller" :offer="offer" :buyer="buyer" class="mb-4 flex-grow overflow-auto"/>
         <section class="flex items-center justify-between gap-2 flex-shrink-0">
             <button class="primary-button-chat-style" v-if="offer.user_id === currentUser.id && offer.statusNumber === 1" @click="openModal">{{ $t('chat.sell') }}</button>
@@ -68,7 +68,7 @@
   <Modal :show="modal" @close="closeModal" v-if="offer.statusNumber === 3 && ableToRate">
     <div class="p-6">
       <div class="flex justify-between items-end mb-2">
-        <Heading2>{{ $t('chat.give_us_opinion') }} <span class="text-primary-900">{{ name }}</span>.</Heading2>
+        <Heading2>{{ $t('chat.give_us_opinion') }} <span class="text-primary-900">{{ userInfo.name }}</span>.</Heading2>
       </div>
       <div>
             <TinyText>
@@ -202,7 +202,7 @@ const cancelOffer = () => {
 const rateUser = () => {
     axios.post(route('rating.store'), {
         offer_id: props.offer.id,
-        rated_user_id: userId,
+        rated_user_id: userInfo.userId,
         stars: selectedRating.value,
         comment: comment.value ?? ''
     })
@@ -222,12 +222,10 @@ const closeModal = () => {
     modal.value = false;
 };
 
-let name, userId;
+let userInfo;
 if (currentUser.id === props.buyer.id) {
-    userId = props.seller.id;
-    name = props.seller.name;
+    userInfo = props.seller;
 } else {
-    userId = props.buyer.id;
-    name = props.buyer.name;
+    userInfo = props.buyer;
 }
 </script>

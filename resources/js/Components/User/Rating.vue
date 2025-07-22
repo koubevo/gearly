@@ -12,7 +12,7 @@
         <StarOutlineIcon v-else class="text-gray-300 w-6 h-6" />
       </template>
     </div>
-    <span class="ml-2 text-gray-600" v-if="rating.count">{{ rating.stars }} ({{ rating.count }}x)</span>
+    <span class="ml-2 text-gray-700" v-if="rating.count">{{ rating.stars }} ({{ rating.count }}x)</span>
   </div>
 </template>
 
