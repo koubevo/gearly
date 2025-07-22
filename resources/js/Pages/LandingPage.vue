@@ -15,6 +15,12 @@
         <TinyText class="text-center font-bold">{{ $t('help.do_you_need_help') }}</TinyText>
       </Link>
     </div>
+
+    <OffersSection 
+        v-if="favorites.length > 0" 
+        :offers="favorites" 
+        :heading="$t('landing.favorites')" 
+        :link="route('wishlist.index')"/>
     
     <OffersSection 
         v-if="brandWithMostActiveOffers.length > 2" 
@@ -26,8 +32,6 @@
     <OffersSection v-if="baseballBats.length > 2" :offers="baseballBats" :heading="$t('landing.baseball_bats')" :link="route('offer.index', {category: 1, sport: 2})"/>
 
     <BrandsSection v-if="topBrands.length" :brands="topBrands" :heading="$t('landing.top_brands')" :link="route('offer.index', {brand: 1})"/>
-
-    <OffersSection v-if="baseballBats.length > 2" :offers="baseballBats" :heading="$t('landing.baseball_bats')" :link="route('offer.index', {category: 1, sport: 2})"/>
 
     <OffersSection v-if="softballBats.length > 2" :offers="softballBats" :heading="$t('landing.softball_bats')" :link="route('offer.index', {category: 1, sport: 3})"/>
 
