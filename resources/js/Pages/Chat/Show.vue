@@ -68,7 +68,7 @@
   <Modal :show="modal" @close="closeModal" v-if="offer.statusNumber === 3 && ableToRate">
     <div class="p-6">
       <div class="flex justify-between items-end mb-2">
-        <Heading2>{{ $t('chat.give_us_opinion') }} <span class="text-primary-900">{{ name }}</span>.</Heading2>
+        <Heading2>{{ $t('chat.give_us_opinion') }} <span class="text-primary-900">{{ userInfo.name }}</span>.</Heading2>
       </div>
       <div>
             <TinyText>
@@ -202,7 +202,7 @@ const cancelOffer = () => {
 const rateUser = () => {
     axios.post(route('rating.store'), {
         offer_id: props.offer.id,
-        rated_user_id: userId,
+        rated_user_id: userInfo.userId,
         stars: selectedRating.value,
         comment: comment.value ?? ''
     })
