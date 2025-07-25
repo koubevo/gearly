@@ -11,5 +11,6 @@ return [
     'offer_received' => 'Offer was received. You can now rate each other.',
     'not_allowed' => 'You are not allowed to access this page.',
     'offer_cancelled' => 'The sale was cancelled by the seller.',
-    'max_free_active_offers' => 'For now you can have only :limit active offers.'
+    'max_free_active_offers' => 'For now you can have only :limit active offers.',
+    'rating_message' => ':user rated :ratedUser with :stars stars.',
 ];

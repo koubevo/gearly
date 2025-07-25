@@ -8,6 +8,7 @@ use App\Jobs\ProcessNewMessageEmailNotification;
 use App\Models\Message;
 use App\Models\Offer;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class MessageService
 {
@@ -119,12 +120,32 @@ class MessageService
         );
     }
 
+    private function createRatingMessage(
+        Offer $offer,
+        int $sellerId,
+        int $buyerId,
+        int $authorId,
+        int $receiverId,
+        int $stars
+    ): Message {
+        return $this->createMessage(
+            $offer,
+            $sellerId,
+            $buyerId,
+            $authorId,
+            $receiverId,
+            MessageType::Rating,
+            __('messages.rating_message', ['user' => User::find($authorId)->name, 'ratedUser' => User::find($receiverId)->name, 'stars' => $stars], 'en'),
+            __('messages.rating_message', ['user' => User::find($authorId)->name, 'ratedUser' => User::find($receiverId)->name, 'stars' => $stars], 'cs')
+        );
+    }
+
     private function sendMessage(Message $message): void
     {
         broadcast(new \App\Events\MessageSent($message));
     }
 
-    public function sendActionMessage(Offer $offer, MessageType $messageType, ?int $buyerId = null): void
+    public function sendActionMessage(Offer $offer, MessageType $messageType, ?int $buyerId = null, ?int $ratedUserId = null, ?int $stars = null): void
     {
         // create message
         switch ($messageType) {
@@ -134,7 +155,7 @@ class MessageService
                     $offer,
                     $offer->seller->id,
                     $offer->buyer->id,
-                    $offer->seller->id,
+                    Auth::user()->id,
                     $offer->buyer->id,
                     $offer->buyer->name
                 );
@@ -145,7 +166,7 @@ class MessageService
                     $offer,
                     $offer->seller->id,
                     $offer->buyer->id,
-                    $offer->buyer->id,
+                    Auth::user()->id,
                     $offer->seller->id
                 );
                 break;
@@ -154,8 +175,19 @@ class MessageService
                     $offer,
                     $offer->seller->id,
                     $buyerId,
-                    $offer->seller->id,
+                    Auth::user()->id,
                     $buyerId
+                );
+                break;
+            case MessageType::Rating:
+                $notificationType = NotificationType::Rating;
+                $message = $this->createRatingMessage(
+                    $offer,
+                    $offer->seller->id,
+                    $offer->buyer->id,
+                    Auth::user()->id,
+                    $ratedUserId,
+                    $stars
                 );
                 break;
             default:

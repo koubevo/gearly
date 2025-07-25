@@ -59,10 +59,14 @@ class ChatService
                     'statusNumber' => $message->offer->status,
                     'thumbnail_url' => $message->offer->getFirstMediaUrl('images', 'thumb'),
                 ],
-                'buyer_name' => $message->buyer->name,
-                'buyer_id' => $message->buyer->id,
-                'seller_name' => $message->offer->seller->name,
-                'seller_id' => $message->offer->seller->id,
+                'buyer' => [
+                    'name' => $message->buyer->name,
+                    'id' => $message->buyer->id,
+                ],
+                'seller' => [
+                    'name' => $message->offer->seller->name,
+                    'id' => $message->offer->seller->id,
+                ],
                 'last_message' => $message->message,
                 'last_message_time' => $message->created_at->diffForHumans(),
                 'unread_count' => $unreadCount,
