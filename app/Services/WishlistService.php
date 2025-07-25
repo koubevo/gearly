@@ -5,10 +5,14 @@ namespace App\Services;
 use App\Models\Offer;
 use App\Models\User;
 use App\Models\Favorite;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Collection;
+use App\ViewModels\WishlistOfferViewModel;
 
 class WishlistService
 {
+    private const STATUS_ADDED = 'added';
+    private const STATUS_DELETED = 'deleted';
+
     /**
      * Create a new class instance.
      */
@@ -27,14 +31,14 @@ class WishlistService
             Favorite::where('user_id', $user->id)
                 ->where('offer_id', $offer->id)
                 ->delete();
-            return 'deleted';
+            return self::STATUS_DELETED;
         } else {
             Favorite::create([
                 'user_id' => $user->id,
                 'offer_id' => $offer->id,
                 'created_at' => now(),
             ]);
-            return 'added';
+            return self::STATUS_ADDED;
         }
     }
 
@@ -55,14 +59,7 @@ class WishlistService
                 ->take(1), 'desc')
             ->get()
             ->map(function ($offer) use ($user) {
-                $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
-                $offer->favorites_count = $offer->favorites()->count();
-                $offer->favorited_by_user = $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false;
-                $offer->conditionNumber = $offer->condition;
-                $offer->condition = $offer->getConditionEnum()?->label();
-                $offer->statusNumber = $offer->status;
-                $offer->status = $offer->getStatusEnum()?->label();
-                return $offer;
+                return WishlistOfferViewModel::fromOffer($offer, $user);
             });
     }
 }

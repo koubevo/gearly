@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Favorite;
 use App\Models\Offer;
 use Illuminate\Support\Facades\Auth;
 use App\Services\WishlistService;
@@ -14,6 +13,7 @@ class WishlistController extends Controller
     ) {
         // Constructor logic if needed
     }
+
     public function toggle(Offer $offer)
     {
         return response()->json([
