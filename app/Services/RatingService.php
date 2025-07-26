@@ -91,4 +91,16 @@ class RatingService
         $totalRating = $ratings->sum('rating');
         return $totalRating / $ratings->count();
     }
+
+    public function getReceivedRatingsByUser(User $user): array
+    {
+        return $user->receivedRatings()
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($rating) {
+                $rating->created_at_formatted = $rating->created_at->diffForHumans();
+                return $rating;
+            })
+            ->toArray();
+    }
 }

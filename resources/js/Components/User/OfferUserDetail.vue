@@ -9,7 +9,7 @@
             </span>
         </Heading3>
         <Rating class="mb-1" :rating="rating"/>
-        <SmallText v-if="soldOffersCount > 0" class="mb-1">{{ $t('common.already_sold_offers') }}: {{ soldOffersCount }}</SmallText>
+        <SmallText v-if="soldOffersCount > 0" class="mb-1">{{ $t('common.already_sold_and_bought_offers') }}: {{ soldOffersCount }}</SmallText>
         <TinyText class="mb-0.5">
             {{ seller.location }}
             <span v-if="seller.last_login_at"> | {{ $t('user.last_login') }} {{ seller.last_login_at }}</span>

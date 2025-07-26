@@ -14,7 +14,7 @@ export default {
     loading: "Načítání",
     we_found_no_offers: "Nenašli jsme žádné nabídky",
     try_searching_for_something_else: "Zkuste odeberat filtry nebo hledat něco jiného",
-    already_sold_offers: "Již prodané nabídky",
+    already_sold_and_bought_offers: "Již uskutečněné nákupy",
     chat_with_seller: "Kontaktovat prodejce",
     edit: 'Upravit',
     delete: 'Smazat',

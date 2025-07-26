@@ -10,7 +10,7 @@
         <button @click="openModal" :disabled="receivedRatings.length === 0">
             <Rating :rating="rating" class="mb-1"/>
         </button>
-        <SmallText v-if="soldOffersCount > 0" class="mb-1">{{ $t('common.already_sold_offers') }}: {{ soldOffersCount }}</SmallText>
+        <SmallText v-if="soldOffersCount > 0" class="mb-1">{{ $t('common.already_sold_and_bought_offers') }}: {{ soldOffersCount }}</SmallText>
         <TinyText class="mb-0.5">
             {{ user.location }}
             <span v-if="user.last_login_at"> | {{ $t('user.last_login') }} {{ user.last_login_at }}</span>

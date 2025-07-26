@@ -14,7 +14,7 @@ export default {
     loading: "Loading",
     we_found_no_offers: "We found no offers",
     try_searching_for_something_else: "Try removing some filters or searching for something else",
-    already_sold_offers: "Already sold offers",
+    already_sold_and_bought_offers: "Purchases already made",
     chat_with_seller: "Contact seller",
     edit: 'Edit',
     delete: 'Delete',

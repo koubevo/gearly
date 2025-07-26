@@ -2,74 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Inertia\Inertia;
 use Inertia\Response;
+use App\Services\UserService;
+use App\Services\RatingService;
 
 class ProfileController extends Controller
 {
+    public function __construct(protected UserService $userService, protected RatingService $ratingService)
+    {
+    }
     /**
      * Display the user's profile form.
      */
     public function show(Request $request): Response
     {
         $user = Auth::user();
-
-        $activeOffers = $user->offers()
-            ->with('brand')
-            ->active()
-            ->orderBy('created_at', 'desc')
-            ->paginate(12)
-            ->withQueryString()
-            ->through(function ($offer) use ($user) {
-                return [
-                    ...$offer->toArray(),
-                    'thumbnail_url' => $offer->getFirstMediaUrl('images', 'thumb'),
-                    'favorites_count' => $offer->favorites()->count(),
-                    'favorited_by_user' => $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false,
-                    'condition' => $offer->getConditionEnum()?->label(),
-                    'conditionNumber' => $offer->condition,
-                    'status' => $offer->getStatusEnum()?->label(),
-                    'statusNumber' => $offer->status,
-                ];
-            })
-            ->items();
-
-        $soldOffers = $user->offers()
-            ->with('brand')
-            ->sold()
-            ->orderBy('created_at', 'desc')
-            ->paginate(12)
-            ->withQueryString()
-            ->through(function ($offer) use ($user) {
-                return [
-                    ...$offer->toArray(),
-                    'thumbnail_url' => $offer->getFirstMediaUrl('images', 'thumb'),
-                    'favorites_count' => $offer->favorites()->count(),
-                    'favorited_by_user' => $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false,
-                    'condition' => $offer->getConditionEnum()?->label(),
-                    'conditionNumber' => $offer->condition,
-                    'status' => $offer->getStatusEnum()?->label(),
-                    'statusNumber' => $offer->status,
-                ];
-            })
-            ->items();
-
-        $soldOffersCount = $user->offers()->sold()->count();
-
-        $receivedRatings = $user->receivedRatings()
-            ->orderBy('created_at', 'desc')
-            ->get()
-            ->map(function ($rating) {
-                $rating->created_at_formatted = $rating->created_at->diffForHumans();
-                return $rating;
-            })
-            ->toArray();
 
         return inertia('Profile/Show', [
             'user' => [
@@ -80,11 +32,11 @@ class ProfileController extends Controller
                 'notifications_new_message' => $user->notifications_new_message,
                 'notifications_closure_reminder' => $user->notifications_closure_reminder,
             ],
-            'activeOffers' => $activeOffers,
-            'soldOffers' => $soldOffers,
-            'soldOffersCount' => $soldOffersCount,
+            'activeOffers' => $this->userService->getActiveOffers($user),
+            'soldOffers' => $this->userService->getSoldOffers($user),
+            'soldOffersCount' => $this->userService->getSoldAndBoughtOffersCount($user),
             'rating' => $user->getRating(),
-            'receivedRatings' => $receivedRatings,
+            'receivedRatings' => $this->ratingService->getReceivedRatingsByUser($user),
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
         ]);
