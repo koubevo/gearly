@@ -120,4 +120,9 @@ class ChatController extends Controller
             'unreadChatsCount' => $unreadChatsCount,
         ]);
     }
+
+    public function markAsRead(Offer $offer, User $buyer): void
+    {
+        $this->chatService->markAsRead($offer, $buyer);
+    }
 }

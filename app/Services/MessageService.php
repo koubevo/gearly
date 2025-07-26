@@ -28,7 +28,8 @@ class MessageService
         int $receiverId,
         MessageType $type,
         string $message,
-        string|null $messageCs
+        string|null $messageCs = null,
+        int|null $stars = null
     ): Message {
         return $offer->messages()->create([
             'seller_id' => $sellerId,
@@ -39,6 +40,7 @@ class MessageService
             'type_id' => $type,
             'message' => $message,
             'cs' => $messageCs,
+            'stars' => $stars
         ]);
     }
 
@@ -136,7 +138,8 @@ class MessageService
             $receiverId,
             MessageType::Rating,
             __('messages.rating_message', ['user' => User::find($authorId)->name, 'ratedUser' => User::find($receiverId)->name, 'stars' => $stars], 'en'),
-            __('messages.rating_message', ['user' => User::find($authorId)->name, 'ratedUser' => User::find($receiverId)->name, 'stars' => $stars], 'cs')
+            __('messages.rating_message', ['user' => User::find($authorId)->name, 'ratedUser' => User::find($receiverId)->name, 'stars' => $stars], 'cs'),
+            $stars
         );
     }
 
