@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Enums\StatusEnum;
-use App\Helpers\LanguageHelper;
 use App\Models\User;
 use App\Models\Offer;
 use App\Models\OfferFilter;
@@ -16,16 +15,14 @@ class OfferService
     /**
      * Create a new class instance.
      */
-    public function __construct()
+    public function __construct(protected OfferFormService $offerFormService)
     {
 
     }
 
     public function createOffer(User $user, array $validated, ?array $images = null): Offer
     {
-        $activeOffersCount = $user->offers()->where('status', StatusEnum::Active)->count();
-
-        if (!$user->hasPremium() && $activeOffersCount >= Offer::MAX_FREE_ACTIVE_OFFERS) {
+        if ($this->offerFormService->isOfferLimitExceeded($user)) {
             //TODO: translation
             throw new \Exception('For now you can have only 5 active offers.');
         }
@@ -34,6 +31,14 @@ class OfferService
 
         $offer = Offer::create($validated);
 
+        $this->attachFilters($offer, $validated);
+        $this->processImages($offer, $images);
+
+        return $offer;
+    }
+
+    private function attachFilters(Offer $offer, array $validated): void
+    {
         //TODO: check if filters corespond to category
         foreach ($validated as $key => $value) {
             if (str_starts_with($key, 'fc')) {
@@ -47,7 +52,10 @@ class OfferService
                 ]);
             }
         }
+    }
 
+    private function processImages(Offer $offer, ?array $images = null): void
+    {
         if ($images) {
             foreach ($images as $image) {
                 $randomString = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 8);
@@ -64,8 +72,6 @@ class OfferService
                 //TODO: main image can be deleted 
             }
         }
-
-        return $offer;
     }
 
     public function getPaginatedOffers(int $lenght, array $filters = [], ?Collection $dynamicFilters = null): LengthAwarePaginator
@@ -98,7 +104,7 @@ class OfferService
             });
     }
 
-    public function getOfferDetail(Offer $offer, User|null $user = null, string $langColumn): Offer
+    public function getOfferDetail(Offer $offer, string $langColumn): Offer
     {
         return $offer->load([
             'seller',

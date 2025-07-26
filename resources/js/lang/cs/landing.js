@@ -1,5 +1,3 @@
-import { all } from "axios";
-
 export default {
     home: "Domů",
     new_arrivals: "Novinky",

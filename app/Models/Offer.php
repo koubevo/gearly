@@ -40,6 +40,10 @@ class Offer extends Model implements HasMedia
         'deleted_at',
     ];
 
+    protected $appends = [
+        'thumbnail_url',
+    ];
+
     public const AVAILABLE_FILTERS = [
         'category',
         'brand',
@@ -167,13 +171,12 @@ class Offer extends Model implements HasMedia
 
     public function scopeActive(Builder $query): Builder
     {
-        return $query->where('status', 1);
+        return $query->where('status', StatusEnum::Active->value);
     }
 
     public function scopeSold(Builder $query): Builder
     {
         return $query->where('status', StatusEnum::Received->value);
-        ;
     }
 
     public function scopeMostRecent(Builder $query): Builder
@@ -231,5 +234,10 @@ class Offer extends Model implements HasMedia
             'status' => $this->getStatusEnum()?->label(),
             'statusNumber' => $this->status,
         ];
+    }
+
+    public function getThumbnailUrlAttribute(): string
+    {
+        return $this->getFirstMediaUrl('images', 'thumb');
     }
 }

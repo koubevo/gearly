@@ -30,7 +30,7 @@ class StoreOfferRequest extends FormRequest
         $rules = [
             'name' => 'required|string|min:3|max:60',
             'description' => 'required|string|min:3|max:1000',
-            'price' => 'required|numeric|min:0|max:99999|regex:/^\d{1,5}(\.\d{1,2})?$/',
+            'price' => 'required|numeric|min:0|max:99999|decimal:0,2',
             'currency' => 'required|string|in:eur,czk',
             'condition' => ['required', new Enum(ConditionEnum::class)],
             'sport_id' => ['required', new Enum(SportEnum::class)],
@@ -42,10 +42,12 @@ class StoreOfferRequest extends FormRequest
             'images.*' => 'image|max:5120',
         ];
 
-        $filterRules = collect(request()->input())
-            ->filter(fn($value, $key) => str_starts_with($key, 'fc'))
-            ->mapWithKeys(fn($value, $key) => [$key => 'nullable|integer'])
-            ->toArray();
+        $filterRules = [];
+        foreach (array_keys(request()->input()) as $key) {
+            if (str_starts_with($key, 'fc')) {
+                $filterRules[$key] = 'nullable|integer';
+            }
+        }
 
         return array_merge($rules, $filterRules);
     }

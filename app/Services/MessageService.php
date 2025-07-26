@@ -130,6 +130,8 @@ class MessageService
         int $receiverId,
         int $stars
     ): Message {
+        $author = User::find($authorId);
+        $ratedUser = User::find($receiverId);
         return $this->createMessage(
             $offer,
             $sellerId,
@@ -137,8 +139,8 @@ class MessageService
             $authorId,
             $receiverId,
             MessageType::Rating,
-            __('messages.rating_message', ['user' => User::find($authorId)->name, 'ratedUser' => User::find($receiverId)->name, 'stars' => $stars], 'en'),
-            __('messages.rating_message', ['user' => User::find($authorId)->name, 'ratedUser' => User::find($receiverId)->name, 'stars' => $stars], 'cs'),
+            __('messages.rating_message', ['user' => $author->name, 'ratedUser' => $ratedUser->name, 'stars' => $stars], 'en'),
+            __('messages.rating_message', ['user' => $author->name, 'ratedUser' => $ratedUser->name, 'stars' => $stars], 'cs'),
             $stars
         );
     }

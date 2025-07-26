@@ -27,7 +27,7 @@ class RatingService
 
         // TODO translations
         // TODO policy
-        if ($offer->status != StatusEnum::Received->value) {
+        if ($offer->status !== StatusEnum::Received->value) {
             return response()->json(['error' => 'You can rate only received offers.'], 403);
         }
 
@@ -39,6 +39,7 @@ class RatingService
             return response()->json(['error' => 'You have already rated this offer.'], 403);
         }
 
+        //TODO validation class
         $request->validate([
             'offer_id' => 'required|exists:offers,id',
             'stars' => 'required|integer|min:1|max:5',
@@ -82,13 +83,13 @@ class RatingService
 
     public function getAverageRating(User $user): float
     {
-        $ratings = Rating::where('user_id', $user->id)->get();
+        $ratings = Rating::where('rated_user_id', $user->id)->get();
 
         if ($ratings->isEmpty()) {
             return 0.0;
         }
 
-        $totalRating = $ratings->sum('rating');
+        $totalRating = $ratings->sum('stars');
         return $totalRating / $ratings->count();
     }
 

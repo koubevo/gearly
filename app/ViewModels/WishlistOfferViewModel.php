@@ -22,11 +22,12 @@ class WishlistOfferViewModel
      */
     public static function fromOffer(Offer $offer, ?User $user = null): array
     {
+        $favorites = $offer->favorites();
         return [
             ...$offer->toArray(),
             'thumbnail_url' => $offer->getFirstMediaUrl('images', 'thumb'),
-            'favorites_count' => $offer->favorites()->count(),
-            'favorited_by_user' => $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false,
+            'favorites_count' => $favorites->count(),
+            'favorited_by_user' => $user ? $favorites->where('user_id', $user->id)->exists() : false,
             'conditionNumber' => $offer->condition,
             'condition' => $offer->getConditionEnum()?->label(),
             'statusNumber' => $offer->status,

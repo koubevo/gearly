@@ -52,7 +52,7 @@ const props = defineProps({
 });
 
 const chatUser = computed(() => {
-    if (props.chat.buyer_id === user.id) {
+    if (props.chat.buyer.id === user.id) {
         return props.chat.seller;
     }
     return props.chat.buyer;

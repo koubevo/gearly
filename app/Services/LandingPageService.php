@@ -15,7 +15,7 @@ use App\ViewModels\LandingPageOfferModel;
 
 class LandingPageService
 {
-    public User|null $user;
+    private User|null $user;
     public const OFFERS_LIMIT = 4;
     public const OTHERS_BRAND_ID = 61;
     public const BATS_CATEGORY_ID = 1;
@@ -116,7 +116,7 @@ class LandingPageService
         return Offer::select('brand_id', 'brands.name', DB::raw('COUNT(*) as offer_count'))
             ->join('brands', 'offers.brand_id', '=', 'brands.id')
             ->active()
-            ->where('brand_id', '!=', 61)
+            ->where('brand_id', '!=', self::OTHERS_BRAND_ID)
             ->groupBy('brand_id', 'brands.name')
             ->orderByRaw('COUNT(*) DESC')
             ->limit(self::OFFERS_LIMIT)
@@ -126,7 +126,7 @@ class LandingPageService
                     'brand_id' => $offer->brand_id,
                     'brand_name' => $offer->name,
                     'offer_count' => $offer->offer_count,
-                    'logo' => Brand::find($offer->brand_id)->logo,
+                    'logo' => Brand::find($offer->brand_id)->logo ?? null,
                 ];
             });
     }

@@ -28,7 +28,7 @@ class ChatShowViewModel
             'offer' => $offer,
             'thumbnail_url' => $offer->thumbnail_url,
             'rating' => $averageRating,
-            'ableToRate' => $offer->statusNumber === 3 && !$ratingExists && ($offer->buyer_id === $user->id || $offer->seller->id === $user->id),
+            'ableToRate' => $chatService->canUserRateOffer($offer, $user, $ratingExists),
         ];
     }
 }

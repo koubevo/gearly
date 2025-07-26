@@ -28,10 +28,10 @@ class UpdateOfferRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'name' => 'required|string|min:3|max:60',
             'description' => 'required|string|min:3|max:1000',
-            'price' => 'required|regex:/^\d+(\.\d{1,2})?$/|min:0|max:99999',
+            +'price' => 'required|numeric|min:0|max:99999|regex:/^\d{1,5}(\.\d{1,2})?$/',
             'currency' => 'required|string|in:eur,czk',
             'condition' => ['required', new Enum(ConditionEnum::class)],
             'sport_id' => ['required', new Enum(SportEnum::class)],
@@ -40,6 +40,18 @@ class UpdateOfferRequest extends FormRequest
             'delivery_option_id' => 'required|integer|min:1',
             'delivery_detail' => 'nullable|string|max:255',
         ];
+
+        //TODO try 
+        /*foreach (\App\Models\FilterCategory::pluck('id') as $catId) {
+            $rules["fc{$catId}"] = [
+                'nullable',
+                'integer',
+                "exists:filter_categories,id",
+                "exists:filters,id,filter_category_id,{$catId}",
+            ];
+        }*/
+
+        return $rules;
     }
 
     protected function prepareForValidation()

@@ -25,7 +25,7 @@ class OfferTransactionService
     public function sellOffer(Request $request, Offer $offer): void
     {
         $offer->buyer_id = $request->buyer['id'];
-        $offer->status = StatusEnum::Sold;
+        $offer->status = StatusEnum::Sold->value;
         $offer->save();
 
         $this->messageService->sendActionMessage($offer, MessageType::Sold);
@@ -33,7 +33,7 @@ class OfferTransactionService
 
     public function receiveOffer(Offer $offer): void
     {
-        $offer->status = StatusEnum::Received;
+        $offer->status = StatusEnum::Received->value;
         $offer->save();
 
         $this->messageService->sendActionMessage($offer, MessageType::Received);
@@ -43,7 +43,7 @@ class OfferTransactionService
     {
         $buyerId = $offer->buyer_id;
         $offer->buyer_id = null;
-        $offer->status = StatusEnum::Active;
+        $offer->status = StatusEnum::Active->value;
         $offer->save();
 
         $this->messageService->sendActionMessage($offer, MessageType::Cancelled, $buyerId);

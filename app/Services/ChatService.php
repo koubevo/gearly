@@ -33,7 +33,7 @@ class ChatService
                     });
             })
             ->whereHas('offer', function ($query) {
-                $query->whereIn('status', [1, 2, 3]);
+                $query->whereIn('status', [StatusEnum::Active->value, StatusEnum::Sold->value, StatusEnum::Received->value]);
             })
             ->orderBy('created_at', 'desc')
             ->get()
@@ -136,5 +136,10 @@ class ChatService
             ->groupBy('offer_id', 'buyer_id')
             ->get()
             ->count();
+    }
+
+    public function canUserRateOffer(Offer $offer, User $user, bool $ratingExists): bool
+    {
+        return $offer->statusNumber === StatusEnum::Received->value && !$ratingExists && ($offer->buyer_id === $user->id || $offer->seller->id === $user->id);
     }
 }

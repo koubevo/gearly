@@ -15,7 +15,7 @@ class SearchController extends Controller
 
     }
 
-    public function index(Request $request)
+    public function index()
     {
         return inertia('Search/Index', [
             'categories' => $this->searchService->getCategories(),

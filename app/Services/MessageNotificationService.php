@@ -8,10 +8,8 @@ use App\Mail\NewMessageMail;
 use App\Mail\ChatActionMail;
 use App\Models\Message;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Carbon;
 use App\Models\User;
 use App\Models\Offer;
-use Notification;
 
 class MessageNotificationService
 {

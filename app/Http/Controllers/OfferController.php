@@ -7,6 +7,7 @@ use App\Helpers\LanguageHelper;
 use App\Http\Requests\StoreOfferRequest;
 use App\Http\Requests\UpdateOfferRequest;
 use App\Models\Offer;
+use App\Services\OfferFormService;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Storage;
@@ -23,15 +24,10 @@ use App\ViewModels\OfferEditViewModel;
 class OfferController extends Controller implements HasMedia
 {
     use AuthorizesRequests, InteractsWithMedia;
-
-    protected $offerService;
-    protected $offerTransactionService;
     private const PAGINATED_OFFERS_LIMIT = 12;
 
-    public function __construct(OfferService $offerService, OfferTransactionService $offerTransactionService)
+    public function __construct(protected OfferService $offerService, protected OfferTransactionService $offerTransactionService, protected OfferFormService $offerFormService)
     {
-        $this->offerService = $offerService;
-        $this->offerTransactionService = $offerTransactionService;
     }
 
     /**
@@ -58,7 +54,8 @@ class OfferController extends Controller implements HasMedia
             $offers,
             $filters,
             $dynamicFilters,
-            LanguageHelper::getLangColumn()
+            LanguageHelper::getLangColumn(),
+            $this->offerFormService
         ));
     }
 
@@ -69,7 +66,8 @@ class OfferController extends Controller implements HasMedia
     {
         return inertia('Offer/Create', OfferCreateViewModel::data(
             Auth::user(),
-            LanguageHelper::getLangColumn()
+            LanguageHelper::getLangColumn(),
+            $this->offerFormService
         ));
     }
 
@@ -112,7 +110,8 @@ class OfferController extends Controller implements HasMedia
 
         return inertia('Offer/Edit', OfferEditViewModel::data(
             $offer,
-            LanguageHelper::getLangColumn()
+            LanguageHelper::getLangColumn(),
+            $this->offerFormService
         ));
     }
 
@@ -161,7 +160,7 @@ class OfferController extends Controller implements HasMedia
         $this->offerTransactionService->sellOffer($request, $offer);
     }
 
-    public function receiveOffer(Request $request, Offer $offer): void
+    public function receiveOffer(Offer $offer): void
     {
         //TODO: policy
         $user = Auth::user();

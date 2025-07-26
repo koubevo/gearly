@@ -55,7 +55,7 @@ class UserService
         })->sold()->count();
     }
 
-    public function transformOffer(Offer $offer, User $user): array
+    public function transformOffer(Offer $offer, ?User $user): array
     {
         return [
             ...$offer->toArray(),

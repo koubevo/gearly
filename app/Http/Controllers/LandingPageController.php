@@ -20,7 +20,7 @@ class LandingPageController extends Controller
 
     public function index(Request $request)
     {
-        if (request()->wantsJson()) {
+        if ($request->wantsJson()) {
             return response()->json($this->offerService->getPaginatedOffers(self::PAGINATED_OFFERS_LIMIT));
         }
 

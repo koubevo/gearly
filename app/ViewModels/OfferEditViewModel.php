@@ -6,6 +6,7 @@ use App\Models\Offer;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\DeliveryOption;
+use App\Services\OfferFormService;
 
 class OfferEditViewModel
 {
@@ -17,20 +18,13 @@ class OfferEditViewModel
         //
     }
 
-    public static function data(Offer $offer, string $langColumn): array
+    public static function data(Offer $offer, string $langColumn, OfferFormService $offerFormService): array
     {
-        $brands = Brand::select('id', 'name')->orderBy('name', 'asc')->get();
-        $deliveryOptions = DeliveryOption::select('id', "$langColumn as name")->get();
-        $categories = Category::with('filterCategories')
-            ->select('id', "$langColumn as name", 'logo', 'created_at', 'updated_at')
-            ->orderBy('name', 'asc')
-            ->get();
-
         return [
             'offer' => $offer,
-            'brands' => $brands,
-            'categories' => $categories,
-            'deliveryOptions' => $deliveryOptions,
+            'brands' => $offerFormService->getBrands(),
+            'categories' => $offerFormService->getCategories($langColumn),
+            'deliveryOptions' => $offerFormService->getDeliveryOptions($langColumn),
         ];
     }
 }
