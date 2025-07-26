@@ -50,6 +50,11 @@ class Offer extends Model implements HasMedia
         'order',
     ];
 
+    /**
+     * Defines the relationship to the user who is selling the offer.
+     *
+     * @return BelongsTo
+     */
     public function seller(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -170,12 +175,24 @@ class Offer extends Model implements HasMedia
         return $query->where('status', 1);
     }
 
+    /**
+     * Limits the query to offers with a status of "Received".
+     *
+     * @param Builder $query The Eloquent query builder.
+     * @return Builder The modified query builder with the sold status filter applied.
+     */
     public function scopeSold(Builder $query): Builder
     {
         return $query->where('status', StatusEnum::Received->value);
         ;
     }
 
+    /**
+     * Orders the query results by creation date in descending order.
+     *
+     * @param Builder $query The query builder instance.
+     * @return Builder The modified query builder.
+     */
     public function scopeMostRecent(Builder $query): Builder
     {
         return $query->orderBy('created_at', 'desc');

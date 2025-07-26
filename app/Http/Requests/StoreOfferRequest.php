@@ -13,7 +13,9 @@ use Illuminate\Validation\Rules\Enum;
 class StoreOfferRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Allows all users to make this request.
+     *
+     * @return bool Always returns true.
      */
     public function authorize(): bool
     {
@@ -21,9 +23,11 @@ class StoreOfferRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Returns the validation rules for storing an offer request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * Defines validation constraints for offer fields such as name, description, price, currency, condition, sport, category, brand, delivery option, delivery details, and images. Also dynamically adds nullable integer validation for any input keys starting with "fc".
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string> The array of validation rules for the request fields.
      */
     public function rules(): array
     {
@@ -51,9 +55,9 @@ class StoreOfferRequest extends FormRequest
     }
 
     /**
-     * Get the error messages for the defined validation rules.
+     * Returns custom error messages for image validation failures.
      *
-     * @return array<string, string>
+     * @return array<string, string> An array mapping validation rule keys to custom error messages for image fields.
      */
     public function messages(): array
     {

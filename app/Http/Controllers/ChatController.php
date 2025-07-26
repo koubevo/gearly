@@ -20,6 +20,13 @@ class ChatController extends Controller
     protected $ratingService;
     protected $messageService;
 
+    /**
+     * Initializes the ChatController with required service dependencies.
+     *
+     * @param ChatService $chatService Service for chat-related operations.
+     * @param RatingService $ratingService Service for handling ratings.
+     * @param MessageService $messageService Service for managing messages.
+     */
     public function __construct(ChatService $chatService, RatingService $ratingService, MessageService $messageService)
     {
         $this->chatService = $chatService;
@@ -27,6 +34,11 @@ class ChatController extends Controller
         $this->messageService = $messageService;
     }
 
+    /**
+     * Displays the chat index page with a list of the user's chats.
+     *
+     * @return \Inertia\Response
+     */
     public function index()
     {
         return inertia('Chat/Index', [
@@ -34,6 +46,15 @@ class ChatController extends Controller
         ]);
     }
 
+    /**
+     * Displays the chat view for a specific offer and buyer, enforcing access restrictions.
+     *
+     * Only the buyer or the offer's seller can access the chat. Access is denied if there are no messages and the user is the seller, or if there are no messages and the offer is not active. The method prepares offer details, marks the chat as read, and returns the chat view with relevant data.
+     *
+     * @param Offer $offer The offer associated with the chat.
+     * @param User $buyer The buyer involved in the chat.
+     * @return \Inertia\Response The rendered chat view.
+     */
     public function show(Offer $offer, User $buyer)
     {
         //TODO: policy
@@ -73,6 +94,15 @@ class ChatController extends Controller
         ));
     }
 
+    /**
+     * Returns the messages for a chat between the authenticated user and the specified buyer for a given offer.
+     *
+     * Access is restricted to the buyer or the seller of the offer. Responds with a JSON object containing the chat messages.
+     *
+     * @param Offer $offer The offer associated with the chat.
+     * @param User $buyer The buyer participating in the chat.
+     * @return \Illuminate\Http\JsonResponse JSON response containing the chat messages.
+     */
     public function loadMessages(Offer $offer, User $buyer)
     {
         $user = Auth::user();
@@ -89,6 +119,15 @@ class ChatController extends Controller
         ]);
     }
 
+    /**
+     * Sends a chat message from the authenticated user to the other participant in the offer's chat.
+     *
+     * Validates the message content and ensures that only the buyer or the offer's seller can send messages in the chat.
+     *
+     * @param Request $request The HTTP request containing the message content.
+     * @param Offer $offer The offer associated with the chat.
+     * @param User $buyer The buyer participating in the chat.
+     */
     public function sendMessage(Request $request, Offer $offer, User $buyer)
     {
         $user = Auth::user();
@@ -110,6 +149,11 @@ class ChatController extends Controller
         );
     }
 
+    /**
+     * Returns the number of unread chats for the authenticated user as a JSON response.
+     *
+     * @return \Illuminate\Http\JsonResponse JSON response containing the unread chats count.
+     */
     public function unreadChatsCount()
     {
         $user = Auth::user();
@@ -121,6 +165,11 @@ class ChatController extends Controller
         ]);
     }
 
+    /**
+     * Marks the chat between the specified offer and buyer as read.
+     *
+     * This updates the chat's read status for the given offer and buyer.
+     */
     public function markAsRead(Offer $offer, User $buyer): void
     {
         $this->chatService->markAsRead($offer, $buyer);

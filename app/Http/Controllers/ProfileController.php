@@ -13,11 +13,19 @@ use App\Services\RatingService;
 
 class ProfileController extends Controller
 {
+    /**
+     * Initializes the ProfileController with user and rating service dependencies.
+     *
+     * @param UserService $userService Service for user-related operations.
+     * @param RatingService $ratingService Service for handling user ratings.
+     */
     public function __construct(protected UserService $userService, protected RatingService $ratingService)
     {
     }
     /**
-     * Display the user's profile form.
+     * Displays the authenticated user's profile page with related offers, ratings, and notification settings.
+     *
+     * @return Response The Inertia response rendering the profile view with user data and related information.
      */
     public function show(Request $request): Response
     {

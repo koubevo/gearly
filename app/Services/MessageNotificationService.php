@@ -15,6 +15,16 @@ use Notification;
 
 class MessageNotificationService
 {
+    /**
+     * Sends a new message email notification to the receiver if enabled and not recently sent.
+     *
+     * Checks if the receiver has enabled new message notifications and ensures that a similar notification has not been sent within the last 5 minutes. If eligible, sends an email about the new message and logs the notification to prevent duplicates.
+     *
+     * @param Message $message The message triggering the notification.
+     * @param User $user The sender of the message.
+     * @param Offer $offer The related offer.
+     * @param User $buyer The buyer involved in the chat.
+     */
     public static function notifyNewMessage(Message $message, User $user, Offer $offer, User $buyer): void
     {
         if ($message->receiver->notifications_new_message) {
@@ -45,12 +55,14 @@ class MessageNotificationService
     }
 
     /**
-     * @param \App\Models\Message $message
-     * @param \App\Models\User $user
-     * @param \App\Models\Offer $offer
-     * @param \App\Models\User $buyer
-     * @param NotificationType $notificationType
-     * @return void
+     * Sends a chat action email notification to the message receiver if a similar notification has not been sent within the last 5 minutes.
+     *
+     * Prevents duplicate notifications by checking recent logs, and records the notification after sending.
+     *
+     * @param \App\Models\Message $message The message instance related to the chat action.
+     * @param \App\Models\Offer $offer The offer associated with the chat.
+     * @param \App\Models\User $buyer The buyer involved in the chat.
+     * @param NotificationType $notificationType The type of chat action notification to send.
      */
     public static function notifyChatAction(Message $message, Offer $offer, User $buyer, NotificationType $notificationType): void
     {

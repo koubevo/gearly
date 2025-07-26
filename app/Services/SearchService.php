@@ -10,7 +10,7 @@ use Illuminate\Support\Collection;
 class SearchService
 {
     /**
-     * Create a new class instance.
+     * Initializes a new instance of the SearchService class.
      */
     public function __construct()
     {
@@ -18,8 +18,11 @@ class SearchService
     }
 
     /**
-     * Retrieve all categories with or without active offers.
-     * @return Collection
+     * Retrieves all categories with their ID, language-specific name, logo, and a count of active offers.
+     *
+     * The name column is selected based on the current language setting. Each category includes a count of related offers that are currently active. Results are ordered alphabetically by name.
+     *
+     * @return Collection A collection of categories with active offer counts.
      */
     public function getCategories(): Collection
     {
@@ -36,8 +39,11 @@ class SearchService
     }
 
     /**
-     * Retrieve all brands with active offers.
-     * @return Collection
+     * Retrieves all brands that have at least one active offer.
+     *
+     * Returns a collection of brands, each including a count of their active offers, filtered to only those with at least one active offer and ordered alphabetically by name.
+     *
+     * @return Collection Collection of brands with active offers and their offer counts.
      */
     public function getBrands(): Collection
     {

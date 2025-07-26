@@ -13,14 +13,25 @@ use \Illuminate\Pagination\LengthAwarePaginator;
 
 class OfferService
 {
-    /**
-     * Create a new class instance.
+    /****
+     * Initializes a new instance of the OfferService class.
      */
     public function __construct()
     {
 
     }
 
+    /**
+     * Creates a new offer for a user, associates filters, and attaches optional images.
+     *
+     * Enforces a limit on the number of active offers for non-premium users. Associates filter categories and filters based on validated input keys, and attaches provided images to the offer's media collection with unique filenames.
+     *
+     * @param User $user The user creating the offer.
+     * @param array $validated Validated offer data, including filter associations.
+     * @param array|null $images Optional array of image files to attach to the offer.
+     * @return Offer The newly created offer instance.
+     * @throws \Exception If the user exceeds the maximum number of active free offers.
+     */
     public function createOffer(User $user, array $validated, ?array $images = null): Offer
     {
         $activeOffersCount = $user->offers()->where('status', StatusEnum::Active)->count();
@@ -68,6 +79,16 @@ class OfferService
         return $offer;
     }
 
+    /**
+     * Retrieves a paginated list of active offers with applied static and dynamic filters.
+     *
+     * Each offer in the result includes additional metadata such as thumbnail URL, favorites count, user-specific favorited status, and labels for condition and status enums.
+     *
+     * @param int $lenght The number of offers per page.
+     * @param array $filters Optional static filters and sorting options.
+     * @param Collection|null $dynamicFilters Optional dynamic filter IDs to further filter offers.
+     * @return LengthAwarePaginator Paginated offers with enriched metadata.
+     */
     public function getPaginatedOffers(int $lenght, array $filters = [], ?Collection $dynamicFilters = null): LengthAwarePaginator
     {
         $user = Auth::user() ?? null;
@@ -98,6 +119,14 @@ class OfferService
             });
     }
 
+    /**
+     * Loads detailed relationships for the specified offer, including seller, category, delivery option, and filters with localized names.
+     *
+     * @param Offer $offer The offer to retrieve details for.
+     * @param User|null $user Optional user context (unused in this method).
+     * @param string $langColumn The database column name for localized fields.
+     * @return Offer The offer with loaded related data.
+     */
     public function getOfferDetail(Offer $offer, User|null $user = null, string $langColumn): Offer
     {
         return $offer->load([
@@ -109,6 +138,13 @@ class OfferService
         ]);
     }
 
+    /**
+     * Permanently deletes an offer after marking its status as deleted.
+     *
+     * Updates the offer's status to deleted, saves the change, and then performs a hard delete.
+     *
+     * @param Offer $offer The offer to be deleted.
+     */
     public function deleteOffer(Offer $offer): void
     {
         $offer->status = StatusEnum::Deleted;

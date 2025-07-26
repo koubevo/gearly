@@ -7,14 +7,23 @@ use App\Models\User;
 
 class OfferShowViewModel
 {
-    /**
-     * Create a new class instance.
+    /****
+     * Initializes a new instance of the OfferShowViewModel class.
      */
     public function __construct()
     {
         //
     }
 
+    /**
+     * Compiles and returns a detailed array of information about a given offer and user.
+     *
+     * The returned array includes the offer's attributes with computed labels for sport, condition, and status, counts of favorites, whether the user has favorited the offer, and a human-readable update time. It also provides the seller's data with last login time, the count of sold offers, the seller's rating, related category, brand, delivery option, mapped image URLs, and associated filters with their categories and names.
+     *
+     * @param Offer $offer The offer to display.
+     * @param User $user The user viewing the offer.
+     * @return array An associative array containing offer details, seller information, related entities, images, and filters.
+     */
     public static function data(Offer $offer, User $user): array
     {
         return [

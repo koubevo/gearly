@@ -13,7 +13,9 @@ use Illuminate\Validation\Rules\Enum;
 class UpdateOfferRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Checks if the authenticated user is authorized to update the specified offer.
+     *
+     * @return bool True if the user can update the offer; otherwise, false.
      */
     public function authorize(): bool
     {
@@ -22,9 +24,11 @@ class UpdateOfferRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Returns the validation rules for updating an offer.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * The rules enforce required fields, data types, value ranges, and enum constraints for offer attributes such as name, description, price, currency, condition, sport, category, brand, delivery option, and delivery detail.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string> The validation rules for the request data.
      */
     public function rules(): array
     {
@@ -42,6 +46,9 @@ class UpdateOfferRequest extends FormRequest
         ];
     }
 
+    /**
+     * Normalizes the 'delivery_detail' input by converting null or 'null' values to an empty string before validation.
+     */
     protected function prepareForValidation()
     {
         if (request()->has('delivery_detail') && (request()->input('delivery_detail') === 'null' || request()->input('delivery_detail') === null)) {

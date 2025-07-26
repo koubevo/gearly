@@ -19,6 +19,14 @@ class ChatActionMail extends Mailable
     public string $chatUrl;
     public NotificationType $notificationType;
 
+    /**
+     * Initializes a new ChatActionMail instance with sender, offer, chat URL, and notification type.
+     *
+     * @param string $senderName The name of the user who initiated the chat action.
+     * @param string $offerName The name of the offer related to the chat action.
+     * @param string $chatUrl The URL to the chat conversation.
+     * @param NotificationType $notificationType The type of notification to be sent.
+     */
     public function __construct(string $senderName, string $offerName, string $chatUrl, NotificationType $notificationType)
     {
         $this->senderName = $senderName;
@@ -27,6 +35,11 @@ class ChatActionMail extends Mailable
         $this->notificationType = $notificationType;
     }
 
+    /**
+     * Creates an email envelope with a subject based on the notification type.
+     *
+     * @return Envelope The envelope containing the subject line for the email.
+     */
     public function envelope(): Envelope
     {
         // TODO: translation
@@ -41,6 +54,13 @@ class ChatActionMail extends Mailable
         );
     }
 
+    /**
+     * Returns the email content configuration based on the notification type.
+     *
+     * Selects the appropriate Blade view template for the email according to the notification type (sold, received, or rating).
+     *
+     * @return Content The content object specifying the email view template.
+     */
     public function content(): Content
     {
         $view = match ($this->notificationType) {
