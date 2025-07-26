@@ -14,13 +14,23 @@ class WishlistService
     private const STATUS_DELETED = 'deleted';
 
     /**
-     * Create a new class instance.
+     * Initializes a new instance of the WishlistService class.
      */
     public function __construct()
     {
 
     }
 
+    /**
+     * Toggles the favorite status of an offer for a user.
+     *
+     * If the offer is already favorited by the user, it removes the favorite and returns 'deleted'.
+     * If not, it adds the offer to the user's favorites and returns 'added'.
+     *
+     * @param Offer $offer The offer to be toggled in the user's favorites.
+     * @param User $user The user whose favorites are being modified.
+     * @return string The resulting status: 'added' or 'deleted'.
+     */
     public function toggleFavorite(Offer $offer, User $user): string
     {
         $exists = Favorite::where('user_id', $user->id)
@@ -42,11 +52,25 @@ class WishlistService
         }
     }
 
+    /**
+     * Returns the number of times the specified offer has been added to user favorites.
+     *
+     * @param Offer $offer The offer for which to count favorites.
+     * @return int The total count of favorites for the offer.
+     */
     public function getFavoritesCount(Offer $offer): int
     {
         return Favorite::where('offer_id', $offer->id)->count();
     }
 
+    /**
+     * Retrieves a collection of offers favorited by the specified user, ordered by the most recent favorite date.
+     *
+     * Each offer is mapped to a WishlistOfferViewModel instance for presentation.
+     *
+     * @param User $user The user whose favorite offers are to be retrieved.
+     * @return Collection A collection of WishlistOfferViewModel instances representing the user's favorite offers.
+     */
     public function getUserFavorites(User $user): Collection
     {
         return Offer::whereHas('favorites', function ($query) use ($user) {

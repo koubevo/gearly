@@ -13,14 +13,21 @@ use Illuminate\Support\Facades\Auth;
 
 class ChatService
 {
-    /**
-     * Create a new class instance.
+    /****
+     * Initializes a new instance of the ChatService class.
      */
     public function __construct()
     {
         //
     }
 
+    /**
+     * Retrieves a collection of chat summaries for the authenticated user.
+     *
+     * Each chat summary includes offer details, buyer and seller information, the latest message content and time, and the count of unread messages for the user. Only chats involving the user as buyer or seller and linked to offers with specific statuses are included.
+     *
+     * @return \Illuminate\Support\Collection A collection of chat summaries grouped by offer and buyer.
+     */
     public function getChats(): Collection
     {
         $user = Auth::user();
@@ -74,6 +81,13 @@ class ChatService
         });
     }
 
+    /**
+     * Returns the total number of messages exchanged between the offer owner and the specified buyer for a given offer.
+     *
+     * @param Offer $offer The offer associated with the chat.
+     * @param User $buyer The buyer involved in the chat.
+     * @return int The count of messages for the offer and buyer.
+     */
     public function getMessagesCount(Offer $offer, User $buyer): int
     {
         return $offer->messages()
@@ -83,11 +97,31 @@ class ChatService
             ->count();
     }
 
+    /**
+     * Returns the rating of the other participant in a chat for a given offer.
+     *
+     * If the provided user is the offer owner (seller), returns the buyer's rating; otherwise, returns the seller's rating.
+     *
+     * @param Offer $offer The offer associated with the chat.
+     * @param User $user The user whose counterpart's rating is requested.
+     * @param User $buyer The buyer involved in the chat.
+     * @return mixed The rating of the other participant.
+     */
     public function getAverageRatingOfSecondUser(Offer $offer, User $user, User $buyer)
     {
         return $user->id == $offer->user_id ? $buyer->getRating() : $offer->seller->getRating();
     }
 
+    /**
+     * Retrieves all messages for a given offer and buyer, including only those where the specified user is either the seller or buyer.
+     *
+     * The returned collection includes each message with a human-readable creation time and, if available, the message content localized to the user's language preference.
+     *
+     * @param Offer $offer The offer associated with the chat.
+     * @param User $user The user requesting the messages (must be either the seller or buyer).
+     * @param User $buyer The buyer involved in the chat.
+     * @return Collection The collection of messages with formatted timestamps and localized content.
+     */
     public function getMessages(Offer $offer, User $user, User $buyer): Collection
     {
         $langColumn = LanguageHelper::getLangColumnForMessages();
@@ -109,6 +143,11 @@ class ChatService
             });
     }
 
+    /**
+     * Marks all unread messages as read for the authenticated user in a specific chat between an offer and a buyer.
+     *
+     * Aborts with a 403 error if the authenticated user is neither the buyer nor the offer owner.
+     */
     public function markAsRead(Offer $offer, User $buyer)
     {
         $user = Auth::user();
@@ -125,6 +164,14 @@ class ChatService
             ->update(['read_at' => now()]);
     }
 
+    /**
+     * Returns the number of distinct chats with unread messages for the specified user.
+     *
+     * Only includes chats linked to offers with statuses Active, Sold, or Received.
+     *
+     * @param User $user The user for whom to count unread chats.
+     * @return int The count of chats with unread messages.
+     */
     public function getUnreadChatsCount(User $user): int
     {
         return Message::where('receiver_id', $user->id)

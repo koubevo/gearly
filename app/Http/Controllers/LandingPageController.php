@@ -11,6 +11,12 @@ use App\Models\Offer;
 class LandingPageController extends Controller
 {
     private const PAGINATED_OFFERS_LIMIT = 8;
+    /**
+     * Initializes the controller with landing page and offer services.
+     *
+     * @param LandingPageService $landingPageService Service for retrieving landing page data.
+     * @param OfferService $offerService Service for retrieving offer data.
+     */
     public function __construct(
         protected LandingPageService $landingPageService,
         protected OfferService $offerService
@@ -18,6 +24,14 @@ class LandingPageController extends Controller
 
     }
 
+    /**
+     * Handles landing page requests, returning either a JSON response with paginated offers or rendering the landing page view with relevant data.
+     *
+     * If the request expects JSON, returns paginated offers. Otherwise, renders the landing page with new arrivals, top brands, category-specific bats and gear, favorites, and the brand with the most active offers.
+     *
+     * @param Request $request The incoming HTTP request.
+     * @return \Illuminate\Http\JsonResponse|\Inertia\Response
+     */
     public function index(Request $request)
     {
         if (request()->wantsJson()) {

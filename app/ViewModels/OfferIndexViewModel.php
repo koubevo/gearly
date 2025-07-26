@@ -10,13 +10,22 @@ use \Illuminate\Pagination\LengthAwarePaginator;
 class OfferIndexViewModel
 {
     /**
-     * Create a new class instance.
+     * Initializes a new instance of the OfferIndexViewModel class.
      */
     public function __construct()
     {
         //
     }
 
+    /**
+     * Prepares and returns an array of data for offer-related views, including paginated offers, localized categories with filter categories, brands, and combined filters.
+     *
+     * @param LengthAwarePaginator $offers Paginated offer data.
+     * @param array $filters Predefined static filters.
+     * @param Collection $dynamicFilters Additional dynamic filters.
+     * @param string $langColumn The column name for localized category names.
+     * @return array Associative array containing offers, categories, brands, and filters.
+     */
     public static function data(LengthAwarePaginator $offers, array $filters, Collection $dynamicFilters, string $langColumn): array
     {
         return [

@@ -9,6 +9,11 @@ enum NotificationType: int
     case Received = 6;
     case Rating = 7;
 
+    /**
+     * Returns the display label for the notification type.
+     *
+     * @return string The label corresponding to the enum case.
+     */
     public function label(): string
     {
         return match ($this) {

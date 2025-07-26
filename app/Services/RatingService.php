@@ -14,13 +14,20 @@ use App\Services\MessageService;
 class RatingService
 {
     /**
-     * Create a new class instance.
+     * Initializes the RatingService with a MessageService dependency.
+     *
+     * @param MessageService $messageService The service used for sending messages related to ratings.
      */
     public function __construct(protected MessageService $messageService)
     {
         //
     }
 
+    /**
+     * Creates a new rating for a given offer by the authenticated user.
+     *
+     * Validates that the offer is in the correct status, the user is authorized, and no duplicate rating exists. On success, creates the rating, sends a notification message, and returns the created rating with a 201 status. Returns a JSON error response with appropriate status code if validation fails or creation is unsuccessful.
+     */
     public function createRating(Offer $offer, Request $request)
     {
         $user = Auth::user();
@@ -73,6 +80,13 @@ class RatingService
         return response()->json($rating, 201);
     }
 
+    /**
+     * Determines whether the specified user has already submitted a rating for the given offer.
+     *
+     * @param Offer $offer The offer to check for an existing rating.
+     * @param User $user The user whose rating existence is being verified.
+     * @return bool True if a rating by the user for the offer exists; otherwise, false.
+     */
     public function ratingExists(Offer $offer, User $user): bool
     {
         return Rating::where('offer_id', $offer->id)
@@ -80,6 +94,12 @@ class RatingService
             ->exists();
     }
 
+    /**
+     * Calculates the average rating received by a user.
+     *
+     * @param User $user The user whose average rating is to be calculated.
+     * @return float The average rating value, or 0.0 if the user has no ratings.
+     */
     public function getAverageRating(User $user): float
     {
         $ratings = Rating::where('user_id', $user->id)->get();
@@ -92,6 +112,14 @@ class RatingService
         return $totalRating / $ratings->count();
     }
 
+    /**
+     * Retrieves all ratings received by the specified user, ordered by most recent.
+     *
+     * Each rating includes a human-readable formatted creation date in the `created_at_formatted` field.
+     *
+     * @param User $user The user whose received ratings are to be fetched.
+     * @return array An array of ratings with formatted creation dates.
+     */
     public function getReceivedRatingsByUser(User $user): array
     {
         return $user->receivedRatings()

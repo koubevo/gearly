@@ -9,14 +9,23 @@ use App\Models\DeliveryOption;
 
 class OfferEditViewModel
 {
-    /**
-     * Create a new class instance.
+    /****
+     * Initializes a new instance of the OfferEditViewModel class.
      */
     public function __construct()
     {
         //
     }
 
+    /**
+     * Prepares and returns data required for editing an offer.
+     *
+     * Retrieves the specified offer, a list of brands, delivery options with localized names, and categories with their related filter categories, all formatted for use in an offer editing context.
+     *
+     * @param Offer $offer The offer to be edited.
+     * @param string $langColumn The name of the language-specific column to use for localized fields.
+     * @return array Associative array containing the offer, brands, categories, and delivery options.
+     */
     public static function data(Offer $offer, string $langColumn): array
     {
         $brands = Brand::select('id', 'name')->orderBy('name', 'asc')->get();
