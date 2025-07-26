@@ -13,14 +13,6 @@ use Illuminate\Support\Facades\Auth;
 
 class ChatService
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
     public function getChats(): Collection
     {
         $user = Auth::user();

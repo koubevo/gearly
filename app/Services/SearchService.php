@@ -10,14 +10,6 @@ use Illuminate\Support\Collection;
 class SearchService
 {
     /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Retrieve all categories with or without active offers.
      * @return Collection
      */

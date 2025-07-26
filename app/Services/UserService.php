@@ -8,14 +8,6 @@ use App\Models\Offer;
 class UserService
 {
     /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Get paginated active offers for a user.
      * @param User $user
      * @return array
@@ -26,7 +18,6 @@ class UserService
             ->with('brand')
             ->active()
             ->orderBy('created_at', 'desc')
-            ->paginate(12)
             ->withQueryString()
             ->through(fn($offer) => $this->transformOffer($offer, $user))
             ->items();

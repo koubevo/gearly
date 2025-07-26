@@ -13,14 +13,6 @@ class WishlistService
     private const STATUS_ADDED = 'added';
     private const STATUS_DELETED = 'deleted';
 
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-
-    }
-
     public function toggleFavorite(Offer $offer, User $user): string
     {
         $exists = Favorite::where('user_id', $user->id)

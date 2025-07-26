@@ -24,12 +24,7 @@ import Heading2 from "@/Components/Text/Heading2.vue";
 import { watch } from "vue";
 
 const props = defineProps({
-  offers: Object,
-  categories: Array,
-  brands: Array,
-  sports: Array,
-  conditions: Array,
-  filters: Array
+  offers: Object
 });
 
 const initialOffers = props.offers?.data || [];
@@ -52,7 +47,6 @@ const loadMore = async () => {
   loading.value = true;
 
   try {
-    console.log("Loading more offers from:", nextPageUrl.value);
     const response = await axios.get(nextPageUrl.value);
     offersList.value.push(...response.data.data);
     nextPageUrl.value = response.data.next_page_url;

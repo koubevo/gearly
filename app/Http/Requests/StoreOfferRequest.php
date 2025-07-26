@@ -59,6 +59,7 @@ class StoreOfferRequest extends FormRequest
      */
     public function messages(): array
     {
+        //TODO translations
         return [
             'images.*.image' => 'Každý soubor musí být obrázek.',
             'images.*.max' => 'Maximální velikost obrázku je 5 MB.',

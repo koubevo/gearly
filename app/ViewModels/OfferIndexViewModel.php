@@ -10,14 +10,6 @@ use \Illuminate\Pagination\LengthAwarePaginator;
 
 class OfferIndexViewModel
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
     public static function data(LengthAwarePaginator $offers, array $filters, Collection $dynamicFilters, string $langColumn, OfferFormService $offerFormService): array
     {
         return [

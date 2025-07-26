@@ -10,14 +10,6 @@ use App\Services\OfferFormService;
 
 class OfferEditViewModel
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
     public static function data(Offer $offer, string $langColumn, OfferFormService $offerFormService): array
     {
         return [

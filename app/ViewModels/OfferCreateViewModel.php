@@ -8,14 +8,6 @@ use App\Services\OfferFormService;
 
 class OfferCreateViewModel
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
     public static function data(User $user, string $langColumn, OfferFormService $offerFormService): array
     {
         return [

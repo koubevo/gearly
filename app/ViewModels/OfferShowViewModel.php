@@ -7,14 +7,6 @@ use App\Models\User;
 
 class OfferShowViewModel
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
     public static function data(Offer $offer, User $user): array
     {
         return [

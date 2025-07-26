@@ -8,14 +8,6 @@ use App\Models\User;
 class WishlistOfferViewModel
 {
     /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * @param Offer $offer
      * @param User $user
      * @return array<string, mixed>

@@ -12,12 +12,8 @@ use \Illuminate\Pagination\LengthAwarePaginator;
 
 class OfferService
 {
-    /**
-     * Create a new class instance.
-     */
     public function __construct(protected OfferFormService $offerFormService)
     {
-
     }
 
     public function createOffer(User $user, array $validated, ?array $images = null): Offer

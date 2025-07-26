@@ -6,14 +6,6 @@ use App\Models\User;
 
 class LandingPageOfferModel
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
     public static function fromModel(Offer $offer, ?User $user = null): array
     {
         return [

@@ -9,14 +9,6 @@ use App\Services\RatingService;
 
 class ChatShowViewModel
 {
-
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-    }
-
     public static function data(Offer $offer, User $buyer, User $user, ChatService $chatService, RatingService $ratingService): array
     {
         $ratingExists = $ratingService->ratingExists($offer, $user);
