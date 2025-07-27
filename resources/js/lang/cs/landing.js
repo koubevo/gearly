@@ -9,5 +9,6 @@ export default {
     check_all: "Mrkni na vše",
     favorites: "Z tvého wishlistu",
     top_brands: "Top značky",
+    all_offers: "Všechny nabídky",
   };
   

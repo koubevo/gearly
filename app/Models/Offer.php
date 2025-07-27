@@ -17,6 +17,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class Offer extends Model implements HasMedia
 {
     use InteractsWithMedia, SoftDeletes;
+    public const MAX_FREE_ACTIVE_OFFERS = 5;
 
     protected $fillable = [
         'user_id',
@@ -37,6 +38,20 @@ class Offer extends Model implements HasMedia
     protected $hidden = [
         'buyer_id',
         'deleted_at',
+    ];
+
+    protected $appends = [
+        'thumbnail_url',
+    ];
+
+    public const AVAILABLE_FILTERS = [
+        'category',
+        'brand',
+        'sport',
+        'condition',
+        'price',
+        'search',
+        'order',
     ];
 
     public function seller(): BelongsTo
@@ -156,13 +171,12 @@ class Offer extends Model implements HasMedia
 
     public function scopeActive(Builder $query): Builder
     {
-        return $query->where('status', 1);
+        return $query->where('status', StatusEnum::Active->value);
     }
 
     public function scopeSold(Builder $query): Builder
     {
-        return $query->where('status', 2)
-            ->orWhere('status', 3);
+        return $query->where('status', StatusEnum::Received->value);
     }
 
     public function scopeMostRecent(Builder $query): Builder
@@ -220,5 +234,10 @@ class Offer extends Model implements HasMedia
             'status' => $this->getStatusEnum()?->label(),
             'statusNumber' => $this->status,
         ];
+    }
+
+    public function getThumbnailUrlAttribute(): string
+    {
+        return $this->getFirstMediaUrl('images', 'thumb');
     }
 }

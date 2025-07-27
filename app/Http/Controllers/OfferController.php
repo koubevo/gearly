@@ -2,32 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Validation\Rules\Enum;
-use App\Enums\ConditionEnum;
-use App\Enums\SportEnum;
+use App\Enums\StatusEnum;
 use App\Helpers\LanguageHelper;
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\DeliveryOption;
-use App\Models\FilterCategory;
+use App\Http\Requests\StoreOfferRequest;
+use App\Http\Requests\UpdateOfferRequest;
 use App\Models\Offer;
-use App\Models\OfferFilter;
-use App\Models\Rating;
-use App\Models\User;
+use App\Services\OfferFormService;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Storage;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\HasMedia;
 use \Illuminate\Support\Facades\Auth;
-use App\Services\MessageNotificationService;
+use \App\Services\OfferService;
+use App\Services\OfferTransactionService;
+use App\ViewModels\OfferIndexViewModel;
+use App\ViewModels\OfferCreateViewModel;
+use App\ViewModels\OfferShowViewModel;
+use App\ViewModels\OfferEditViewModel;
 
 class OfferController extends Controller implements HasMedia
 {
     use AuthorizesRequests, InteractsWithMedia;
+    private const PAGINATED_OFFERS_LIMIT = 12;
 
-    const MAX_FREE_ACTIVE_OFFERS = 5;
+    public function __construct(protected OfferService $offerService, protected OfferTransactionService $offerTransactionService, protected OfferFormService $offerFormService)
+    {
+    }
 
     /**
      * Display a listing of the resource.
@@ -38,63 +39,24 @@ class OfferController extends Controller implements HasMedia
 
     public function index(Request $request)
     {
-        $langColumn = LanguageHelper::getLangColumn();
-        $filters = $request->only([
-            'category',
-            'brand',
-            'sport',
-            'condition',
-            'price',
-            'search',
-            'order',
-        ]);
+        $filters = $request->only(Offer::AVAILABLE_FILTERS);
 
         $dynamicFilters = collect($request->all())
             ->filter(fn($value, $key) => str_starts_with($key, 'fc') && $value !== null);
 
-
-        $user = Auth::user() ?? null;
-        $offers = Offer::with('brand')
-            ->filter($filters)
-            ->when($dynamicFilters->isNotEmpty(), function ($query) use ($dynamicFilters) {
-                foreach ($dynamicFilters as $key => $value) {
-                    $query->whereHas('offerFilters', function ($q) use ($value) {
-                        $q->where('filter_id', $value);
-                    });
-                }
-            })
-            ->active()
-            ->sort($filters['order'] ?? null)
-            ->paginate(12)
-            ->withQueryString()
-            ->through(function ($offer) use ($user) {
-                return [
-                    ...$offer->toArray(),
-                    'thumbnail_url' => $offer->getFirstMediaUrl('images', 'thumb'),
-                    'favorites_count' => $offer->favorites()->count(),
-                    'favorited_by_user' => $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false,
-                    'condition' => $offer->getConditionEnum()?->label(),
-                    'conditionNumber' => $offer->condition,
-                    'status' => $offer->getStatusEnum()?->label(),
-                    'statusNumber' => $offer->status,
-                ];
-            });
+        $offers = $this->offerService->getPaginatedOffers(self::PAGINATED_OFFERS_LIMIT, $filters, $dynamicFilters);
 
         if ($request->wantsJson()) {
             return response()->json($offers);
         }
 
-        return inertia('Offer/Index', [
-            'offers' => $offers,
-            'categories' => Category::with([
-                'filterCategories' => fn($q) => $q->select('filter_categories.id', "{$langColumn} as name")
-            ])->select('id', "{$langColumn} as name")->orderBy($langColumn, 'asc')->get(),
-            'brands' => Brand::select('id', 'name')->orderBy('name', 'asc')->get(),
-            'filters' => [
-                ...$filters,
-                ...$dynamicFilters->toArray(),
-            ],
-        ]);
+        return inertia('Offer/Index', OfferIndexViewModel::data(
+            $offers,
+            $filters,
+            $dynamicFilters,
+            LanguageHelper::getLangColumn(),
+            $this->offerFormService
+        ));
     }
 
     /**
@@ -102,162 +64,40 @@ class OfferController extends Controller implements HasMedia
      */
     public function create()
     {
-        $user = Auth::user();
-        $langColumn = LanguageHelper::getLangColumn();
-
-        $brands = Brand::select('id', 'name')->orderBy('name', 'asc')->get();
-        $deliveryOptions = DeliveryOption::select('id', "$langColumn as name")->get();
-        $categories = Category::with('filterCategories')
-            ->select('id', "$langColumn as name", 'logo', 'created_at', 'updated_at')
-            ->orderBy('name', 'asc')
-            ->get();
-        $activeOffersCount = $user->offers()->where('status', 1)->count();
-
-        return inertia('Offer/Create', [
-            'brands' => $brands,
-            'categories' => $categories,
-            'deliveryOptions' => $deliveryOptions,
-            'freeLimitExceeded' => !$user->hasPremium() && $activeOffersCount >= self::MAX_FREE_ACTIVE_OFFERS,
-            'limit' => self::MAX_FREE_ACTIVE_OFFERS,
-            'lang' => $langColumn
-        ]);
+        return inertia('Offer/Create', OfferCreateViewModel::data(
+            Auth::user(),
+            LanguageHelper::getLangColumn(),
+            $this->offerFormService
+        ));
     }
 
     /**
      * Store a newly created resource in storage.
      * @param Request $request
      */
-    public function store(Request $request)
+    public function store(StoreOfferRequest $request)
     {
-        $user = Auth::user();
-
-        $maxFreeActiveOffers = self::MAX_FREE_ACTIVE_OFFERS;
-        $activeOffersCount = $user->offers()->where('status', 1)->count();
-
-        if (!$user->hasPremium() && $activeOffersCount >= $maxFreeActiveOffers) {
+        try {
+            $offer = $this->offerService->createOffer(Auth::user(), $request->validated(), $request->file('images'));
+        } catch (\Exception $e) {
             return redirect()->route('offer.index')
-                ->withErrors(['error' => 'For now you can have only 5 active offers.']);
+                ->withErrors(['error' => __('messages.offer_create_not_allowed')]);
         }
 
-        $rules = [
-            'name' => 'required|string|min:3|max:60',
-            'description' => 'required|string|min:3|max:1000',
-            'price' => 'required|numeric|min:0|max:99999|regex:/^\d{1,5}(\.\d{1,2})?$/',
-            'currency' => 'required|string|in:eur,czk',
-            'condition' => ['required', new Enum(ConditionEnum::class)],
-            'sport_id' => ['required', new Enum(SportEnum::class)],
-            'category_id' => 'required|integer|min:1',
-            'brand_id' => 'required|integer|min:1',
-            'delivery_option_id' => 'required|integer|min:1',
-            'delivery_detail' => 'nullable|string|max:255',
-            'images' => 'required|array|min:1',
-            'images.*' => 'image|max:5120',
-        ];
-
-        $filterRules = collect($request->all())
-            ->filter(fn($value, $key) => str_starts_with($key, 'fc'))
-            ->mapWithKeys(fn($value, $key) => [$key => 'nullable|integer'])
-            ->toArray();
-
-        $rules = array_merge($rules, $filterRules);
-
-        $messages = [
-            'images.*.image' => 'Každý soubor musí být obrázek.',
-            'images.*.max' => 'Maximální velikost obrázku je 5 MB.',
-            'images.required' => 'Musíš nahrát alespoň jeden obrázek.',
-        ];
-
-        $validated = $request->validate($rules, $messages);
-        $validated['user_id'] = Auth::id();
-
-        $offer = Offer::create($validated);
-
-        //TODO: check if filters corespond to category
-        foreach ($validated as $key => $value) {
-            if (str_starts_with($key, 'fc')) {
-                $filterCategoryId = str_replace('fc', '', $key);
-                $filterId = $value;
-
-                OfferFilter::create([
-                    'offer_id' => $offer->id,
-                    'filter_category_id' => $filterCategoryId,
-                    'filter_id' => $filterId,
-                ]);
-            }
-        }
-
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $randomString = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 8);
-
-                $extension = $image->getClientOriginalExtension();
-
-                $fileName = "gearly-{$offer->id}-{$randomString}.{$extension}";
-
-                $media = $offer->addMedia($image)
-                    ->usingFileName($fileName)
-                    ->withResponsiveImages()
-                    ->toMediaCollection('images', 'media');
-
-                //TODO: main image can be deleted 
-            }
-        }
-
-        return redirect()->route('offer.show', $offer->id)->with('success', __('messages.offer_created'));
+        return redirect()->route('offer.show', $offer->id)
+            ->with('success', __('messages.offer_created'));
     }
 
     /**
      * Display the specified resource.
      * @param Offer $offer
      */
-
     public function show(Offer $offer)
     {
-        $user = Auth::user();
-        $langColumn = LanguageHelper::getLangColumn();
-
-        $offer->load([
-            'seller',
-            'category:id,' . $langColumn . ' as name',
-            'deliveryOption:id,' . $langColumn . ' as name',
-            'offerFilters.filterCategory:id,' . $langColumn . ' as name',
-            'offerFilters.filter:id,' . $langColumn . ' as name',
-        ]);
-
-        return inertia('Offer/Show', [
-            'offer' => [
-                ...$offer->toArray(),
-                'sport' => $offer->getSportEnum()?->label(),
-                'condition' => $offer->getConditionEnum()?->label(),
-                'conditionNumber' => $offer->condition,
-                'status' => $offer->getStatusEnum()?->label(),
-                'statusNumber' => $offer->status,
-                'favorites_count' => $offer->favorites()->count(),
-                'favorited_by_user' => $user ? $offer->favorites()->where('user_id', $user->id)->exists() : false,
-                'updated_at' => $offer->updated_at?->diffForHumans(),
-            ],
-            'soldOffersCount' => $offer->seller->offers()->sold()->count(),
-            'seller' => [
-                ...$offer->seller->toArray(),
-                'last_login_at' => $offer->seller->last_login_at?->diffForHumans(),
-            ],
-            'category' => $offer->category,
-            'brand' => $offer->brand,
-            'deliveryOption' => $offer->deliveryOption,
-            'rating' => $offer->seller->getRating(),
-            'images' => $offer->getMedia('images')->map(fn($image) => [
-                'medium' => $image->getUrl('medium'),
-                'thumb' => $image->getUrl('thumb'),
-            ]),
-            'filters' => $offer->offerFilters->map(fn($filter) => [
-                'id' => $filter->id,
-                'offer_id' => $filter->offer_id,
-                'filter_id' => $filter->filter_id,
-                'filter_category_id' => $filter->filter_category_id,
-                'filter_category_name' => $filter->filterCategory?->name,
-                'filter_name' => $filter->filter?->name,
-            ]),
-        ]);
+        return inertia('Offer/Show', OfferShowViewModel::data(
+            $offer,
+            Auth::user()
+        ));
     }
 
     /**
@@ -268,21 +108,11 @@ class OfferController extends Controller implements HasMedia
     {
         $this->authorize('update', $offer);
 
-        $langColumn = LanguageHelper::getLangColumn();
-
-        $brands = Brand::select('id', 'name')->orderBy('name', 'asc')->get();
-        $deliveryOptions = DeliveryOption::select('id', "$langColumn as name")->get();
-        $categories = Category::with('filterCategories')
-            ->select('id', "$langColumn as name", 'logo', 'created_at', 'updated_at')
-            ->orderBy('name', 'asc')
-            ->get();
-
-        return inertia('Offer/Edit', [
-            'offer' => $offer,
-            'brands' => $brands,
-            'categories' => $categories,
-            'deliveryOptions' => $deliveryOptions
-        ]);
+        return inertia('Offer/Edit', OfferEditViewModel::data(
+            $offer,
+            LanguageHelper::getLangColumn(),
+            $this->offerFormService
+        ));
     }
 
     /**
@@ -290,28 +120,9 @@ class OfferController extends Controller implements HasMedia
      * @param Request $request
      * @param Offer $offer
      */
-    public function update(Request $request, Offer $offer)
+    public function update(UpdateOfferRequest $request, Offer $offer)
     {
-        $this->authorize('update', $offer);
-
-        $validatedData = $request->validate([
-            'name' => 'required|string|min:3|max:60',
-            'description' => 'required|string|min:3|max:1000',
-            'price' => 'required|regex:/^\d+(\.\d{1,2})?$/|min:0|max:99999',
-            'currency' => 'required|string|in:eur,czk',
-            'condition' => ['required', new Enum(ConditionEnum::class)],
-            'sport_id' => ['required', new Enum(SportEnum::class)],
-            'category_id' => 'required|integer|min:1',
-            'brand_id' => 'required|integer|min:1',
-            'delivery_option_id' => 'required|integer|min:1',
-            'delivery_detail' => 'nullable|string|max:255',
-        ]);
-
-        if ($validatedData['delivery_detail'] === 'null') {
-            $validatedData['delivery_detail'] = '';
-        }
-
-        $offer->update($validatedData);
+        $offer->update($request->validated());
 
         return redirect()->route('offer.show', $offer)
             ->with('success', __('messages.offer_updated'));
@@ -325,9 +136,7 @@ class OfferController extends Controller implements HasMedia
     {
         $this->authorize('delete', $offer);
 
-        $offer->status = 5;
-        $offer->save();
-        $offer->deleteOrFail();
+        $this->offerService->deleteOffer($offer);
 
         return redirect()->route('profile.show')
             ->with('success', __('messages.offer_deleted'));
@@ -344,108 +153,39 @@ class OfferController extends Controller implements HasMedia
         return response()->json(['path' => Storage::url($path)]);
     }
 
-    public function sellOffer(Request $request, Offer $offer)
+    public function sellOffer(Request $request, Offer $offer): void
     {
-        $user = Auth::user();
         $this->authorize('update', $offer);
 
-        $offer->buyer_id = $request->buyer['id'];
-        $offer->status = 2;
-        $offer->save();
-
-        $message = $offer->messages()->create([
-            'seller_id' => $user->id,
-            'buyer_id' => $request->buyer['id'],
-            'author_id' => $user->id,
-            'receiver_id' => $request->buyer['id'],
-            'offer_id' => $offer->id,
-            'type_id' => 2,
-            'message' => 'Offer was sold to ' . $request->buyer['name'] . '.',
-            'cs' => 'Nabídka byla prodána uživateli ' . $request->buyer['name'] . '.',
-        ]);
-
-        MessageNotificationService::notifyChatAction(
-            message: $message,
-            user: $user,
-            offer: $offer,
-            buyer: User::findOrFail((int) $offer->buyer_id),
-            actionType: 5
-        );
-
-        broadcast(new \App\Events\MessageSent($message));
+        $this->offerTransactionService->sellOffer($request, $offer);
     }
 
-    public function receiveOffer(Request $request, Offer $offer)
+    public function receiveOffer(Offer $offer): void
     {
+        //TODO: policy
         $user = Auth::user();
-        if ($user->id !== $offer->buyer_id) {
-            abort(403, 'You are not allowed to access this page.');
+        if ($user->id !== $offer->buyer_id || $offer->status !== StatusEnum::Sold->value) {
+            abort(403, __('messages.not_allowed'));
         }
 
-        if ($offer->status !== 2) {
-            abort(403, 'You are not allowed to access this page.');
-        }
-
-        $offer->status = 3;
-        $offer->save();
-
-        $message = $offer->messages()->create([
-            'seller_id' => $offer->user_id,
-            'buyer_id' => $user->id,
-            'author_id' => $user->id,
-            'receiver_id' => $offer->user_id,
-            'offer_id' => $offer->id,
-            'type_id' => 3,
-            'message' => 'Offer was received. Now you can rate each other.',
-            'cs' => 'Nabídka byla přijata. Nyní si můžete navzájem udělit hodnocení.',
-        ]);
-
-        MessageNotificationService::notifyChatAction(
-            message: $message,
-            user: $user,
-            offer: $offer,
-            buyer: User::findOrFail((int) $offer->buyer_id),
-            actionType: 6
-        );
-
-        broadcast(new \App\Events\MessageSent($message));
+        $this->offerTransactionService->receiveOffer($offer);
     }
 
-    public function cancelOffer(Request $request, Offer $offer)
+    public function cancelOffer(Offer $offer)
     {
+        //TODO: policy
         $user = Auth::user();
-        if ($user->id !== $offer->user_id) {
-            abort(403, 'You are not allowed to access this page.');
+        if ($user->id !== $offer->user_id || $offer->status !== StatusEnum::Sold->value) {
+            abort(403, __('messages.not_allowed'));
         }
 
-        if ($offer->status !== 2) {
-            abort(403, 'You are not allowed to access this page.');
-        }
-
-        $maxFreeActiveOffers = self::MAX_FREE_ACTIVE_OFFERS;
         $activeOffersCount = $user->offers()->where('status', 1)->count();
 
-        if (!$user->hasPremium() && $activeOffersCount >= $maxFreeActiveOffers) {
+        if (!$user->hasPremium() && $activeOffersCount >= Offer::MAX_FREE_ACTIVE_OFFERS) {
             return redirect()->route('offer.index')
-                ->withErrors(['error' => 'For now you can have only 5 active offers.']);
+                ->withErrors(['error' => __('messages.max_free_active_offers', ['limit' => Offer::MAX_FREE_ACTIVE_OFFERS])]);
         }
 
-        $buyerId = $offer->buyer_id;
-        $offer->buyer_id = null;
-        $offer->status = 1;
-        $offer->save();
-
-        $message = $offer->messages()->create([
-            'seller_id' => $offer->user_id,
-            'buyer_id' => $buyerId,
-            'author_id' => $offer->user_id,
-            'receiver_id' => $buyerId,
-            'offer_id' => $offer->id,
-            'type_id' => 5,
-            'message' => 'The sale was canceled by the seller.',
-            'cs' => 'Prodej byl zrušen prodejcem.',
-        ]);
-
-        broadcast(new \App\Events\MessageSent($message));
+        $this->offerTransactionService->cancelOffer($offer);
     }
 }

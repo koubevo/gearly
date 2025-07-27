@@ -15,6 +15,12 @@
         <TinyText class="text-center font-bold">{{ $t('help.do_you_need_help') }}</TinyText>
       </Link>
     </div>
+
+    <OffersSection 
+        v-if="favorites.length > 0" 
+        :offers="favorites" 
+        :heading="$t('landing.favorites')" 
+        :link="route('wishlist.index')"/>
     
     <OffersSection 
         v-if="brandWithMostActiveOffers.length > 2" 
@@ -27,19 +33,20 @@
 
     <BrandsSection v-if="topBrands.length" :brands="topBrands" :heading="$t('landing.top_brands')" :link="route('offer.index', {brand: 1})"/>
 
-    <OffersSection v-if="baseballBats.length > 2" :offers="baseballBats" :heading="$t('landing.baseball_bats')" :link="route('offer.index', {category: 1, sport: 2})"/>
-
     <OffersSection v-if="softballBats.length > 2" :offers="softballBats" :heading="$t('landing.softball_bats')" :link="route('offer.index', {category: 1, sport: 3})"/>
 
     <OffersSection v-if="baseballGear.length > 2" :offers="baseballGear" :heading="$t('landing.baseball_gear')" :link="route('offer.index', {sport: 2})"/>
 
     <OffersSection v-if="softballGear.length > 2" :offers="softballGear" :heading="$t('landing.softball_gear')" :link="route('offer.index', {sport: 3})"/>
+
+    <LandingPageOffersGrid :offers="allOffers"/>
 </template>
 
 <script setup>
 import BrandsSection from '@/Components/LandingPage/BrandsSection.vue';
 import HighlightSection from '@/Components/LandingPage/HighlightSection.vue';
 import OffersSection from '@/Components/LandingPage/OffersSection.vue';
+import LandingPageOffersGrid from '@/Components/LandingPage/LandingPageOffersGrid.vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
@@ -56,5 +63,6 @@ defineProps({
     softballGear: Array ?? [],
     favorites: Array ?? [],
     topBrands: Array ?? [],
+    allOffers: Object ?? [],
 });
 </script>
