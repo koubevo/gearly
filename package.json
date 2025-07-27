@@ -4,7 +4,7 @@
     "scripts": {
       "build": "vite build && vite build --ssr",
       "dev": "vite",
-      "fix:eslint": "eslint --ext .js, .vue resources/js/ --fix",
+      "fix:eslint": "eslint --ext .js,.vue resources/js/ --fix",
       "artisan:serve": "php artisan serve",
       "npm:dev": "npm run dev",
       "docker:up": "docker compose up -d",

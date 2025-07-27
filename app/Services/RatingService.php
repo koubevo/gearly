@@ -47,12 +47,13 @@ class RatingService
             $ratedUser = User::find($offer->user_id);
         }
 
-        $request->merge([
+        $rating = Rating::create([
+            'offer_id' => $request->input('offer_id'),
+            'stars' => $request->input('stars'),
+            'comment' => $request->input('comment'),
             'user_id' => $user->id,
-            'rated_user_id' => $ratedUser->id,
+            'rated_user_id' => $ratedUser->id
         ]);
-
-        $rating = Rating::create($request->all());
 
         if (!$rating) {
             return response()->json(['error' => 'Failed to create rating.'], 500);
@@ -78,14 +79,7 @@ class RatingService
 
     public function getAverageRating(User $user): float
     {
-        $ratings = Rating::where('rated_user_id', $user->id)->get();
-
-        if ($ratings->isEmpty()) {
-            return 0.0;
-        }
-
-        $totalRating = $ratings->sum('stars');
-        return $totalRating / $ratings->count();
+        return Rating::where('rated_user_id', $user->id)->avg('stars') ?? 0.0;
     }
 
     public function getReceivedRatingsByUser(User $user): array

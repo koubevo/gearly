@@ -63,6 +63,6 @@ defineProps({
     softballGear: Array ?? [],
     favorites: Array ?? [],
     topBrands: Array ?? [],
-    allOffers: Object ?? [],
+    allOffers: Object ?? {},
 });
 </script>

@@ -11,7 +11,6 @@ class WishlistController extends Controller
     public function __construct(
         protected WishlistService $wishlistService
     ) {
-        // Constructor logic if needed
     }
 
     public function toggle(Offer $offer)

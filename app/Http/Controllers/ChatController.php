@@ -10,21 +10,14 @@ use App\Services\RatingService;
 use App\Services\MessageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Jobs\ProcessNewMessageEmailNotification;
 use App\Services\ChatService;
 use App\ViewModels\ChatShowViewModel;
 
 class ChatController extends Controller
 {
-    protected $chatService;
-    protected $ratingService;
-    protected $messageService;
 
-    public function __construct(ChatService $chatService, RatingService $ratingService, MessageService $messageService)
+    public function __construct(protected ChatService $chatService, protected RatingService $ratingService, protected MessageService $messageService)
     {
-        $this->chatService = $chatService;
-        $this->ratingService = $ratingService;
-        $this->messageService = $messageService;
     }
 
     public function index()
@@ -56,7 +49,6 @@ class ChatController extends Controller
             abort(403, __('messages.offer_create_not_allowed'));
         }
 
-        $offer->thumbnail_url = $offer->getFirstMediaUrl('images', 'thumb');
         $offer->statusNumber = $offer->status;
         $offer->status = $offer->getStatusEnum()?->label();
         $offer->is_buyer = $buyer->id === $user->id;

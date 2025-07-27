@@ -131,12 +131,6 @@ class Offer extends Model implements HasMedia
             ->nonQueued();
     }
 
-    public function getThumbnailUrl()
-    {
-        $media = $this->getFirstMedia('images');
-        return $media ? $media->getUrl('thumb') : null;
-    }
-
     public function scopeFilter($query, array $filters)
     {
         return $query->when(

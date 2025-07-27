@@ -113,11 +113,11 @@ class LandingPageService
 
     public function getTopBrands(): Collection
     {
-        return Offer::select('brand_id', 'brands.name', DB::raw('COUNT(*) as offer_count'))
+        return Offer::select('brand_id', 'brands.name', 'brands.logo', DB::raw('COUNT(*) as offer_count'))
             ->join('brands', 'offers.brand_id', '=', 'brands.id')
             ->active()
             ->where('brand_id', '!=', self::OTHERS_BRAND_ID)
-            ->groupBy('brand_id', 'brands.name')
+            ->groupBy('brand_id', 'brands.name', 'brands.logo')
             ->orderByRaw('COUNT(*) DESC')
             ->limit(self::OFFERS_LIMIT)
             ->get()
@@ -126,7 +126,7 @@ class LandingPageService
                     'brand_id' => $offer->brand_id,
                     'brand_name' => $offer->name,
                     'offer_count' => $offer->offer_count,
-                    'logo' => Brand::find($offer->brand_id)->logo ?? null,
+                    'logo' => $offer->logo,
                 ];
             });
     }
