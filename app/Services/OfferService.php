@@ -54,7 +54,7 @@ class OfferService
     {
         if ($images) {
             foreach ($images as $image) {
-                $randomString = substr(str_shuffle('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 8);
+                $randomString = \Illuminate\Support\Str::random(8);
 
                 $extension = $image->getClientOriginalExtension();
 
@@ -70,7 +70,7 @@ class OfferService
         }
     }
 
-    public function getPaginatedOffers(int $lenght, array $filters = [], ?Collection $dynamicFilters = null): LengthAwarePaginator
+    public function getPaginatedOffers(int $length, array $filters = [], ?Collection $dynamicFilters = null): LengthAwarePaginator
     {
         $user = Auth::user() ?? null;
         return Offer::with('brand')
@@ -84,7 +84,7 @@ class OfferService
             })
             ->active()
             ->sort($filters['order'] ?? null)
-            ->paginate($lenght)
+            ->paginate($length)
             ->withQueryString()
             ->through(function ($offer) use ($user) {
                 return [

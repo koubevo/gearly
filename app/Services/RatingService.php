@@ -13,14 +13,9 @@ use App\Services\MessageService;
 
 class RatingService
 {
-    /**
-     * Create a new class instance.
-     */
     public function __construct(protected MessageService $messageService)
     {
-        //
     }
-
     public function createRating(Offer $offer, Request $request)
     {
         $user = Auth::user();

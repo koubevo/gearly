@@ -12,14 +12,6 @@ use Illuminate\Support\Facades\Auth;
 
 class MessageService
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
     private function createMessage(
         Offer $offer,
         int $sellerId,

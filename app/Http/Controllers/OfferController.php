@@ -171,7 +171,7 @@ class OfferController extends Controller implements HasMedia
         $this->offerTransactionService->receiveOffer($offer);
     }
 
-    public function cancelOffer(Request $request, Offer $offer)
+    public function cancelOffer(Offer $offer)
     {
         //TODO: policy
         $user = Auth::user();

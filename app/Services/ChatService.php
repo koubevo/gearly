@@ -132,6 +132,6 @@ class ChatService
 
     public function canUserRateOffer(Offer $offer, User $user, bool $ratingExists): bool
     {
-        return $offer->statusNumber === StatusEnum::Received->value && !$ratingExists && ($offer->buyer_id === $user->id || $offer->seller->id === $user->id);
+        return $offer->status === StatusEnum::Received->value && !$ratingExists && ($offer->buyer_id === $user->id || $offer->seller->id === $user->id);
     }
 }

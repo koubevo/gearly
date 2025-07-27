@@ -12,14 +12,6 @@ use Illuminate\Support\Collection;
 
 class OfferFormService
 {
-    /**
-     * Create a new class instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
     public function getBrands(): Collection
     {
         return Brand::select('id', 'name')->orderBy('name', 'asc')->get();
