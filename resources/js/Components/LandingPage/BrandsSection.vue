@@ -6,23 +6,17 @@
                 <Brand v-for="brand in brands" :brand="brand" class="h-full"/>
             </div>
         </div>
-        <div>
-            <UserOffersGrid :offers="offers"/>
-        </div>
     </section>
 </template>
 
 <script setup>
 import Heading2 from '@/Components/Text/Heading2.vue';
-import { Link } from '@inertiajs/vue3';
-import UserOffersGrid from '@/Components/Offer/UserOffersGrid.vue';
 import Brand from '@/Components/LandingPage/Brand.vue';
 
 defineProps({
     brands: {
         type: Array ?? [],
     },
-    heading: String,
-    link: String,
+    heading: String
 });
 </script>

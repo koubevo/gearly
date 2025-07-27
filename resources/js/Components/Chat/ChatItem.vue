@@ -36,7 +36,6 @@
 <script setup>
 import { Link, usePage } from '@inertiajs/vue3';
 import Divider from '@/Components/Search/Divider.vue';
-import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import BoldNormalText from '@/Components/Text/BoldNormalText.vue';
 import PriceCard from '@/Components/Offer/PriceCard.vue';
 import SmallText from '@/Components/Text/SmallText.vue';

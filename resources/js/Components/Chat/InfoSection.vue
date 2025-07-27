@@ -11,7 +11,7 @@
                         <Heading3>{{ offer.name }}</Heading3>
                     </div>
                     <PriceCard :price="offer.price" :currency="offer.currency"/>
-                    <TinyText>{{ offer.delivery_option }}</TinyText>
+                    <TinyText>{{ offer.delivery_option_name }}</TinyText>
                 </div>
             </div>
         </Link>

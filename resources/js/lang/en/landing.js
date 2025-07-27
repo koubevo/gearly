@@ -9,5 +9,6 @@ export default {
     check_all: "Check all",
     favorites: "From your wishlist",
     top_brands: "Top Brands",
+    all_offers: "All Offers",
   };
   

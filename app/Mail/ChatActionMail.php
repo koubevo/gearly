@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Enums\NotificationType;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -16,22 +17,23 @@ class ChatActionMail extends Mailable
     public string $senderName;
     public string $offerName;
     public string $chatUrl;
-    public int $actionType;
+    public NotificationType $notificationType;
 
-    public function __construct(string $senderName, string $offerName, string $chatUrl, int $actionType)
+    public function __construct(string $senderName, string $offerName, string $chatUrl, NotificationType $notificationType)
     {
         $this->senderName = $senderName;
         $this->offerName = $offerName;
         $this->chatUrl = $chatUrl;
-        $this->actionType = $actionType;
+        $this->notificationType = $notificationType;
     }
 
     public function envelope(): Envelope
     {
-        $subject = match ($this->actionType) {
-            5 => 'Byla ti prodána nabídka!',
-            6 => 'Tvoje nabídka byla vyzvednuta!',
-            7 => 'Někdo ti udělil hodnocení!',
+        // TODO: translation
+        $subject = match ($this->notificationType) {
+            NotificationType::Sold => 'Byla ti prodána nabídka!',
+            NotificationType::Received => 'Tvoje nabídka byla vyzvednuta!',
+            NotificationType::Rating => 'Někdo ti udělil hodnocení!',
         };
 
         return new Envelope(
@@ -41,10 +43,10 @@ class ChatActionMail extends Mailable
 
     public function content(): Content
     {
-        $view = match ($this->actionType) {
-            5 => 'emails.notifications.sold_offer_html',
-            6 => 'emails.notifications.received_offer_html',
-            7 => 'emails.notifications.rating_html',
+        $view = match ($this->notificationType) {
+            NotificationType::Sold => 'emails.notifications.sold_offer_html',
+            NotificationType::Received => 'emails.notifications.received_offer_html',
+            NotificationType::Rating => 'emails.notifications.rating_html',
         };
 
         return new Content(view: $view);
