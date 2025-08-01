@@ -1,0 +1,40 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Brand;
+use App\Models\Category;
+use App\Models\DeliveryOption;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Offer>
+ */
+class OfferFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'user_id' => User::factory()->create()->id,
+            'name' => $this->faker->sentence(3),
+            'description' => $this->faker->paragraph,
+            'price' => $this->faker->randomFloat(2, 1, 1000),
+            'currency' => $this->faker->currencyCode,
+            'condition' => $this->faker->numberBetween(1, 5),
+            'sport_id' => $this->faker->randomNumber(2),
+            'delivery_option_id' => DeliveryOption::factory()->create()->id,
+            'category_id' => Category::factory()->create()->id,
+            'brand_id' => Brand::factory()->create()->id,
+            'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'updated_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
+            'deleted_at' => $this->faker->optional()->dateTimeBetween('-1 year', 'now'),
+            'status' => $this->faker->numberBetween(0, 1),
+        ];
+    }
+}
