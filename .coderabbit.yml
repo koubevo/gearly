@@ -1,5 +1,0 @@
-# .coderabbit.yml
-pull_request:
-  branches:
-    - main
-    - dev
