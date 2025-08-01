@@ -19,7 +19,7 @@ class CategoryFactory extends Factory
         return [
             'name' => $this->faker->word(),
             'cs' => $this->faker->word(),
-            'logo' => $this->faker->word(),
+            'logo' => $this->faker->filePath(),
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'updated_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];

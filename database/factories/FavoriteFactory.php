@@ -18,12 +18,9 @@ class FavoriteFactory extends Factory
      */
     public function definition(): array
     {
-        $user = User::factory()->create();
-        $offer = Offer::factory()->create();
-
         return [
-            'user_id' => $user->id,
-            'offer_id' => $offer->id,
+            'user_id' => User::factory(),
+            'offer_id' => Offer::factory(),
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
         ];
     }

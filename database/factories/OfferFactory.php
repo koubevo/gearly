@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\SportEnum;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\DeliveryOption;
@@ -27,7 +28,7 @@ class OfferFactory extends Factory
             'price' => $this->faker->randomFloat(2, 1, 1000),
             'currency' => $this->faker->currencyCode,
             'condition' => $this->faker->numberBetween(1, 5),
-            'sport_id' => $this->faker->randomNumber(2),
+            'sport_id' => $this->faker->randomElement(SportEnum::cases())->value,
             'delivery_option_id' => DeliveryOption::factory()->create()->id,
             'category_id' => Category::factory()->create()->id,
             'brand_id' => Brand::factory()->create()->id,

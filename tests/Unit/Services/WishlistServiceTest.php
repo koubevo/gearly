@@ -39,10 +39,9 @@ class WishlistServiceTest extends TestCase
 
     public function test_toggle_favorite_remove_favorite_if_exists(): void
     {
-        Favorite::create([
+        Favorite::factory()->create([
             'user_id' => $this->user->id,
             'offer_id' => $this->offer->id,
-            'created_at' => now()
         ]);
 
         $result = $this->wishlistService->toggleFavorite($this->offer, $this->user);
@@ -56,7 +55,7 @@ class WishlistServiceTest extends TestCase
 
     public function test_get_favorites_count_returns_correct_number(): void
     {
-        $offer = Offer::factory()->create(['user_id' => $this->user->id]);
+        $offer = Offer::factory()->create();
 
         Favorite::factory()->count(3)->create(['offer_id' => $offer->id]);
 
