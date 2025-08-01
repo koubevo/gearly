@@ -18,9 +18,10 @@ class UserService
             ->with('brand')
             ->active()
             ->orderBy('created_at', 'desc')
-            ->withQueryString()
-            ->through(fn($offer) => $this->transformOffer($offer, $user))
-            ->items();
+            ->get()
+            ->map(function ($offer) use ($user) {
+                return $this->transformOffer($offer, $user);
+            })->all();
     }
 
     public function getSoldOffers(User $user): array
@@ -32,10 +33,10 @@ class UserService
                     ->orWhere('buyer_id', $user->id);
             })
             ->orderBy('created_at', 'desc')
-            ->paginate(12)
-            ->withQueryString()
-            ->through(fn($offer) => $this->transformOffer($offer, $user))
-            ->items();
+            ->get()
+            ->map(function ($offer) use ($user) {
+                return $this->transformOffer($offer, $user);
+            })->all();
     }
 
     public function getSoldAndBoughtOffersCount(User $user): int

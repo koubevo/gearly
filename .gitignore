@@ -26,6 +26,7 @@ Homestead.json
 /.vagrant
 .phpunit.result.cache
 docker-compose.yml
+.env.*
 
 ### Vue ###
 # gitignore template for Vue.js projects
