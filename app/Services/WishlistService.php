@@ -10,8 +10,8 @@ use App\ViewModels\WishlistOfferViewModel;
 
 class WishlistService
 {
-    private const STATUS_ADDED = 'added';
-    private const STATUS_DELETED = 'deleted';
+    public const STATUS_ADDED = 'added';
+    public const STATUS_DELETED = 'deleted';
 
     public function toggleFavorite(Offer $offer, User $user): string
     {
