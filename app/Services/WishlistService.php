@@ -41,14 +41,13 @@ class WishlistService
 
     public function getUserFavorites(User $user): Collection
     {
-        return Offer::whereHas('favorites', function ($query) use ($user) {
-            $query->where('user_id', $user->id);
-        })
+        return Offer::query()
+            ->join('favorites', 'offers.id', '=', 'favorites.offer_id')
+            ->where('favorites.user_id', $user->id)
             ->with('brand')
-            ->orderBy(Favorite::select('created_at')
-                ->whereColumn('favorites.offer_id', 'offers.id')
-                ->latest()
-                ->take(1), 'desc')
+            ->select('offers.*')
+            ->active() //TODO: in the future should be removed
+            ->orderBy('favorites.created_at', 'desc')
             ->get()
             ->map(function ($offer) use ($user) {
                 return WishlistOfferViewModel::fromOffer($offer, $user);
