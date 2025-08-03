@@ -96,7 +96,7 @@ class OfferController extends Controller implements HasMedia
     {
         return inertia('Offer/Show', OfferShowViewModel::data(
             $offer,
-            Auth::user()
+            Auth::user() ?? null
         ));
     }
 

@@ -36,7 +36,7 @@ class OfferFactory extends Factory
             'brand_id' => Brand::factory(),
             'created_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'updated_at' => $this->faker->dateTimeBetween('-1 year', 'now'),
-            'status' => $this->faker->numberBetween(StatusEnum::Active->value),
+            'status' => StatusEnum::Active->value,
         ];
     }
 }

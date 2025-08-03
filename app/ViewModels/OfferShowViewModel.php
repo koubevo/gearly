@@ -7,7 +7,7 @@ use App\Models\User;
 
 class OfferShowViewModel
 {
-    public static function data(Offer $offer, User $user): array
+    public static function data(Offer $offer, User|null $user = null): array
     {
         return [
             'offer' => [

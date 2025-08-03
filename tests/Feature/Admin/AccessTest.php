@@ -4,10 +4,12 @@ namespace Tests\Feature\Admin;
 
 use Tests\TestCase;
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 class AccessTest extends TestCase
 {
+    use RefreshDatabase;
 
     protected User $admin;
     protected User $normalUser;
