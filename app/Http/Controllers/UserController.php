@@ -27,7 +27,7 @@ class UserController extends Controller
                 'last_login_at' => $user->last_login_at?->diffForHumans(),
             ],
             'activeOffers' => $this->userService->getActiveOffers($user),
-            'soldOffers' => $this->userService->getSoldOffers($user),
+            'soldOffers' => $this->userService->getSoldReceivedOffers($user),
             'soldOffersCount' => $this->userService->getSoldAndBoughtOffersCount($user),
             'rating' => $user->getRating(),
             'receivedRatings' => $this->ratingService->getReceivedRatingsByUser($user),

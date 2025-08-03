@@ -33,7 +33,7 @@ class ProfileController extends Controller
                 'notifications_closure_reminder' => $user->notifications_closure_reminder,
             ],
             'activeOffers' => $this->userService->getActiveOffers($user),
-            'soldOffers' => $this->userService->getSoldOffers($user),
+            'soldOffers' => $this->userService->getSoldReceivedOffers($user),
             'soldOffersCount' => $this->userService->getSoldAndBoughtOffersCount($user),
             'rating' => $user->getRating(),
             'receivedRatings' => $this->ratingService->getReceivedRatingsByUser($user),

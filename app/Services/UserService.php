@@ -24,13 +24,12 @@ class UserService
             })->all();
     }
 
-    public function getSoldOffers(User $user): array
+    public function getSoldReceivedOffers(User $user): array
     {
         return Offer::with('brand')
             ->sold()
             ->where(function ($query) use ($user) {
-                $query->where('user_id', $user->id)
-                    ->orWhere('buyer_id', $user->id);
+                $query->where('user_id', $user->id);
             })
             ->orderBy('created_at', 'desc')
             ->get()
