@@ -37,11 +37,12 @@ class AccessTest extends TestCase
     }
 
     #[DataProvider('adminPagesProvider')]
-    public function test_anonymous_user_can_not_access_admin_pages($url): void
+    public function test_guest_user_can_not_access_admin_pages($url): void
     {
         $response = $this->get($url);
 
         $response->assertStatus(302);
+        $response->assertRedirect('/login');
     }
 
     public static function adminPagesProvider()
